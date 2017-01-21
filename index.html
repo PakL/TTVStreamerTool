@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>TTVStreamerTool</title>
+
+		<link rel="stylesheet" type="text/css" href="res/style.css">
+	</head>
+	<body>
+		<button id="starttwitchauth">Login via Twitch</button>
+
+		<script type="application/javascript">
+			const TwitchTv = require('../mod/twitchtv')
+
+			let twitchapi = new TwitchTv({
+				clientid: '11vhuxdssb9pc3s2uqpa7s3s0252hyk',
+				redirecturi: 'http://localhost:8086/',
+				scope: [
+					'channel_check_subscription',
+					'channel_editor',
+					'channel_read',
+					'channel_stream',
+					'channel_subscriptions',
+					'chat_login'
+				]
+			})
+		</script>
+		<script type="application/javascript" src="lib/auth.js"></script>
+	</body>
+</html>

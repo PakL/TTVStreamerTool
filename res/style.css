@@ -1,0 +1,16 @@
+html, body {
+	background-color: #fff;
+	color: #000;
+	font-family: Sans-serif;
+	font-size: 14px;
+}
+
+#starttwitchauth {
+	border: 0;
+	color: #fff;
+	background-color: #6441a4;
+	padding: 5px;
+	font-size: 1em;
+	cursor: pointer;
+	box-shadow: 0px 0px 5px rgba(0,0,0, 0.4);
+}
