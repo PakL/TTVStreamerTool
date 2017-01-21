@@ -23,7 +23,18 @@ class TwitchTv {
 				"&client_id=" + this.clientid +
 				"&redirect_uri=" + encodeURIComponent(this.redirecturi) +
 				"&scope=" + this.scope.join('+') +
-				"&state=" + state;
+				"&state=" + state +
+				"&force_verify=true";
+	}
+
+	verifyState(state) {
+		var i = this.validstates.indexOf(state)
+		if(i >= 0) {
+			this.validstates.splice(i, 1)
+			return true
+		}
+
+		return false
 	}
 
 }
