@@ -1,13 +1,41 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8">
+		<meta charset="utf-8" />
 		<title>TTVStreamerTool</title>
 
-		<link rel="stylesheet" type="text/css" href="res/style.css">
+		<link rel="stylesheet" type="text/css" href="res/style.css" />
 	</head>
 	<body>
-		<button id="starttwitchauth">Login via Twitch</button>
+		<chat />
+
+		<div id="actionstream">
+			<div class="action follow">
+				<span class="nickname">pakLweb</span>
+				<span class="message">started following this channel</span>
+				<span class="when">just now</span>
+			</div>
+			<div class="action host">
+				<span class="nickname">pakLweb</span>
+				<span class="message">started hosting you with 12 viewers</span>
+				<span class="when">4 minutes ago</span>
+			</div>
+		</div>
+
+
+		<modal id="logindialog">
+			<h3>Willkommen beim TTVStreamerTool</h3>
+			Um mit diesem Programm überhaupt irgendetwas anzufangen brauchst du natürlich einen Twitch-Kanal. Mit diesem kannst du dich dann hier anmelden.<br>
+			Dann kann dieses Programm überhaupt erst etwas machen.
+			<div style="text-align:center;margin-top:10px;">
+				<button id="starttwitchauth" onclick="auth()">Einloggen via Twitch</button>
+			</div>
+		</modal>
+
+		<script type="riot/tag" src="res/tags/chat.tag"></script>
+		<script type="riot/tag" src="res/tags/modal.tag"></script>
+		<script type="application/javascript" src="node_modules/riot/riot%2Bcompiler.min.js"></script>
+
 
 		<script type="application/javascript">
 			const TwitchTv = require('./mod/twitchtv')
@@ -16,6 +44,7 @@
 				clientid: '11vhuxdssb9pc3s2uqpa7s3s0252hyk',
 				redirecturi: 'http://localhost:8086/',
 				scope: [
+					'user_read',
 					'channel_check_subscription',
 					'channel_editor',
 					'channel_read',
