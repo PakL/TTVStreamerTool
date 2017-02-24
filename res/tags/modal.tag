@@ -27,6 +27,7 @@
 			padding: 20px;
 			background-color: #ffffff;
 			max-width: 500px;
+			color: #444444;
 		}
 	</style>
 

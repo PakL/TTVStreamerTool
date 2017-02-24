@@ -7,21 +7,39 @@
 		<link rel="stylesheet" type="text/css" href="res/style.css" />
 	</head>
 	<body>
-		<chat />
-
-		<div id="actionstream">
-			<div class="action follow">
-				<span class="nickname">pakLweb</span>
-				<span class="message">started following this channel</span>
-				<span class="when">just now</span>
+		<div id="contents">
+			<div id="content_cockpit">
+				<table id="cockpit_table">
+					<tbody>
+						<tr>
+							<td colspan="2" id="channel_status_column">
+								<input type="text" id="channel_status" placeholder="Stream Status">
+								<input type="text" id="channel_game" placeholder="Stream Spiel">
+							</td>
+							<td colspan="2">
+							</td>
+						</tr>
+						<tr>
+							<td id="chat_column" colspan="2"><chat id="channelchat"></chat></td>
+							<td id="chat_users_column" rowspan="2"><userlist id="channeluser"></userlist></td>
+							<td id="cockpit_action_stream" rowspan="2"></td>
+						</tr>
+						<tr>
+							<td id="chat_message_column">
+								<input type="text" id="chat_message" placeholder="Nachricht schreiben...">
+							</td>
+							<td>
+								☺
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
-			<div class="action host">
-				<span class="nickname">pakLweb</span>
-				<span class="message">started hosting you with 12 viewers</span>
-				<span class="when">4 minutes ago</span>
+
+			<div id="content_follows">
+				<channellist id="myfollows"></channellist>
 			</div>
 		</div>
-
 
 		<modal id="logindialog">
 			<h3>Willkommen beim TTVStreamerTool</h3>
@@ -32,13 +50,19 @@
 			</div>
 		</modal>
 
+		<script type="riot/tag" src="res/tags/message.tag"></script>
 		<script type="riot/tag" src="res/tags/chat.tag"></script>
+		<script type="riot/tag" src="res/tags/userlist.tag"></script>
 		<script type="riot/tag" src="res/tags/modal.tag"></script>
+		<script type="riot/tag" src="res/tags/channel.tag"></script>
+		<script type="riot/tag" src="res/tags/channellist.tag"></script>
 		<script type="application/javascript" src="node_modules/riot/riot%2Bcompiler.min.js"></script>
 
 
 		<script type="application/javascript">
 			const TwitchTv = require('./mod/twitchtv')
+			const {shell, remote} = require('electron')
+			const {Menu, MenuItem} = remote
 
 			let twitchapi = new TwitchTv({
 				clientid: '11vhuxdssb9pc3s2uqpa7s3s0252hyk',
@@ -53,7 +77,19 @@
 					'chat_login'
 				]
 			})
+			let twitchchat = null
+
+			let openLinkExternal = function(url) {
+				shell.openExternal(url)
+			}
 		</script>
+		<script type="application/javascript" src="lib/menu.js"></script>
+		<script type="application/javascript" src="lib/errormsg.js"></script>
+		<script type="application/javascript" src="lib/loading.js"></script>
+		<script type="application/javascript" src="lib/chathelper.js"></script>
+		<script type="application/javascript" src="lib/chat.js"></script>
+		<script type="application/javascript" src="lib/cockpit.js"></script>
+		<script type="application/javascript" src="lib/follows.js"></script>
 		<script type="application/javascript" src="lib/auth.js"></script>
 	</body>
 </html>
