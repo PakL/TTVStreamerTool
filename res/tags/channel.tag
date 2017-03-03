@@ -1,6 +1,6 @@
 <channel>
 	<img src={ opts.chnl.logo } alt="" />
-	<a class="channelname">{ opts.chnl.name }</a>
+	<a class="channelname">{ opts.chnl.display_name }</a>
 
 	<style>
 		channel {

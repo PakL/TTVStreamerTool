@@ -1,5 +1,5 @@
 <userlist>
-	<div class="userlist_user" each={ users }>
+	<div class="userlist_user" each={ users } no-reorder>
 		<span class="userlist_badges"><raw content={ badges } /></span>
 		<span class="userlist_name" style="color:{ color }">{ name }</span>
 	</div>
@@ -8,7 +8,22 @@
 		userlist {
 			display: block;
 			height: 100%;
-			overflow: auto;
+			overflow-y: auto;
+			overflow-x: hidden;
+		}
+		
+		userlist > div {
+			margin: 3px 10px;
+			line-height: 18px;
+			
+			white-space: nowrap;
+		}
+		userlist > div img {
+			display: inline-block;
+			height: 18px;
+			margin: 1px 3px 1px 0;
+			min-width: 18px;
+			vertical-align: middle;
 		}
 	</style>
 	<script>
@@ -16,81 +31,69 @@
 
 		this.users = []
 
-		isGoodYIQ(hexcolor) {
-			if(hexcolor.length > 6) hexcolor = hexcolor.substr(hexcolor.length-6, 6)
-			else if(hexcolor.length < 6) return
-
-			var r = parseInt(hexcolor.substr(0, 2), 16)
-			var g = parseInt(hexcolor.substr(2, 2), 16)
-			var b = parseInt(hexcolor.substr(4, 2), 16)
-			var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000
-			return (yiq >= 80) ? true : false
+		findentry(username) {
+			for(var i = 0; i < self.users.length; i++) {
+				if(self.users[i].user == username) {
+					return i
+				}
+			}
+			return -1
 		}
-
-		makeColorLighter(hexcolor) {
-			if(hexcolor.length > 6) hexcolor = hexcolor.substr(hexcolor.length-6, 6)
-			else if(hexcolor.length < 6) return
-
-			var r = (parseInt(hexcolor.substr(0, 2), 16) + 100).toString(16)
-			var g = (parseInt(hexcolor.substr(2, 2), 16) + 100).toString(16)
-			var b = (parseInt(hexcolor.substr(4, 2), 16) + 100).toString(16)
-			if(r.length > 2) r = 'ff'
-			if(g.length > 2) g = 'ff'
-			if(b.length > 2) b = 'ff'
-			return '#' + r + g + b
+		sortat(user) {
+			for(var i = 0; i < self.users.length; i++) {
+				if(self.users[i].user == user.user) {
+					return -1
+				}
+				if(self.users[i].sort < user.sort) return i
+				if(self.users[i].sort == user.sort && self.users[i].user.localeCompare(user.user) > 0) return i
+			}
+			return self.users.length
 		}
 
 		joinusr(user) {
-			if(!self.updateusr(user)) {
-				self.users.push(user)
+			var index = self.findentry(user.user)
+			if(index >= 0) {
+				if(user.user != user.name && self.users[index].name != user.name) {
+					self.users[index].name = user.name
+				}
+				if(self.users[index].badges != user.badges) {
+					self.users[index].badges = user.badges
+				}
+				if(self.users[index].color != user.color) {
+					self.users[index].color = user.color
+				}
+				if(self.users[index].sort < user.sort) {
+					self.users[index].sort = user.sort
+				} else {
+					self.users[index].sort++
+				}
+				user = self.users[index]
+				self.users.splice(index, 1)
 			}
 
-			self.users.sort(function(a, b){
-				if(a.sort > b.sort) return -1
-				else if(a.sort < b.sort) return 1
-
-				return a.user.localeCompare(b.user)
-			})
+			var nindex = self.sortat(user)
+			self.users.splice(nindex, 0, user)
 			self.update()
 		}
-		updateusr(user) {
-			if(!self.isGoodYIQ(user.color)) {
-				user.color = self.makeColorLighter(user.color)
-			}
-			for(var i = 0; i < self.users.length; i++) {
-				if(self.users[i].user == user.user) {
-					var changes = false
-					if(user.user != user.name && self.users[i].name != user.name) {
-						self.users[i].name = user.name
-						changes = true
-					}
-					if(self.users[i].sort <= user.sort) {
-						self.users[i].sort = user.sort
-						self.users[i].badges = user.badges
-						changes = true
-					}
-					if(self.users[i].color != user.color) {
-						self.users[i].color = user.color
-						changes = true
-					}
-
-					return true
-				}
-			}
-			return false
-		}
 		partusr(username) {
-			var index = -1
-			for(var i = 0; i < self.users.length; i++) {
-				if(self.users[i].user == username) {
-					index = i
-					break
-				}
-			}
+			var index = self.findentry(user.user)
 			if(index >= 0) {
 				self.users.splice(index, 1)
-				self.update()
 			}
+			self.update()
+		}
+
+		clearUsers() {
+			self.users = []
+		}
+
+		getUserColor(username) {
+			for(var i = 0; i < self.users.length; i++) {
+				if(self.users[i].user == username) {
+					return self.users[i].color
+				}
+			}
+			return getColor(username)
 		}
 	</script>
 </userlist>

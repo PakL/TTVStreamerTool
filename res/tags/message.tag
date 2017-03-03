@@ -10,6 +10,11 @@
 			line-height: 1.5em;
 			margin: 5px 0;
 		}
+		message.important {
+			background-color: #000000;
+			padding-top: 3px;
+			padding-bottom: 3px;
+		}
 		message > .timestamp {
 			color: #777;
 		}
@@ -31,6 +36,7 @@
 		message > .msg {
 			overflow-wrap: break-word;
 			word-wrap: break-word;
+			word-break: break-word;
 		}
 		message > .msg:before {
 			content: " ";
@@ -60,41 +66,22 @@
 		this.on("mount", () => self.realformat() )
 		this.on("updated", () => self.realformat() )
 
-		isGoodYIQ(hexcolor) {
-			if(hexcolor.length > 6) hexcolor = hexcolor.substr(hexcolor.length-6, 6)
-			else if(hexcolor.length < 6) return
-
-			var r = parseInt(hexcolor.substr(0, 2), 16)
-			var g = parseInt(hexcolor.substr(2, 2), 16)
-			var b = parseInt(hexcolor.substr(4, 2), 16)
-			var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000
-			return (yiq >= 80) ? true : false
-		}
-
-		makeColorLighter(hexcolor) {
-			if(hexcolor.length > 6) hexcolor = hexcolor.substr(hexcolor.length-6, 6)
-			else if(hexcolor.length < 6) return
-
-			var r = (parseInt(hexcolor.substr(0, 2), 16) + 100).toString(16)
-			var g = (parseInt(hexcolor.substr(2, 2), 16) + 100).toString(16)
-			var b = (parseInt(hexcolor.substr(4, 2), 16) + 100).toString(16)
-			if(r.length > 2) r = 'ff'
-			if(g.length > 2) g = 'ff'
-			if(b.length > 2) b = 'ff'
-			return '#' + r + g + b
-		}
 
 		realformat() {
 			self.refs.msg.innerHTML = self.opts.msg.message_html
 			self.refs.badges.innerHTML = self.opts.msg.badges_html
-		
-			if(!self.isGoodYIQ(self.opts.msg.color)) {
-				self.opts.msg.color = self.makeColorLighter(self.opts.msg.color)
-			}
+
 			self.refs.nickname.style.color = self.opts.msg.color
-			if(self.opts.msg.action) {
+			if(self.opts.msg.type > 0) {
 				self.refs.nickname.classList.add('action')
 				self.refs.msg.style.color = self.opts.msg.color
+			}
+			if(self.opts.msg.type == 2) {
+				self.root.classList.add('important')
+				self.refs.nickname.style.display = 'none'
+			}
+			if(self.opts.msg.type == 3) {
+				self.root.classList.add('important')
 			}
 
 			var links = self.root.querySelectorAll('a')

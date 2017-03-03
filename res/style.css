@@ -1,8 +1,19 @@
+::-webkit-scrollbar {
+	width: 10px;
+}
+::-webkit-scrollbar-thumb {
+	background: #141414;
+	border-radius: 5px;
+}
+::-webkit-scrollbar-track-piece {
+	background-color: #1e1e1e;
+}
+
 html, body {
 	background-color: #1e1e1e;
 	color: #d3d3d3;
 	font-family: Sans-serif;
-	font-size: 16px;
+	font-size: 14px;
 	margin: 0;
 	padding: 0;
 	width: 100%;
@@ -24,6 +35,14 @@ h3 {
 	font-size: 1.1em;
 }
 
+input {
+	font-family: Sans-serif;
+	font-size: 14px;
+	background-color: #141414;
+	color: #d3d3d3;
+	border: 1px solid #000000;
+}
+
 #starttwitchauth {
 	border: 0;
 	color: #fff;
@@ -41,6 +60,14 @@ h3 {
 #contents > div {
 	display: none;
 	height: 100%;
+}
+
+#openchannel_input {
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	padding: 5px 0;
+	margin-bottom: 10px;
 }
 
 #cockpit_table {
@@ -66,4 +93,7 @@ h3 {
 #chat_column {
 	width: 50%;
 	vertical-align: bottom;
+}
+#chat_users_column {
+	width: 15%;
 }

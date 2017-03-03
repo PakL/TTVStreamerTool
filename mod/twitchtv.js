@@ -149,6 +149,12 @@ class TwitchTv {
 		}
 	}
 
+	getUserByName(username, callback) {
+		if(typeof(username) != 'string' || typeof(callback) != 'function') return
+		username = username.toLowerCase()
+		this.requestAPI('/kraken/users', { login: username }, false, callback)
+	}
+
 	getUserFollows(userid, options, callback) {
 		if(typeof(callback) != 'function' || (typeof(userid) != 'string' && typeof(userid) != 'number')) return
 		userid = userid.toString()
@@ -195,6 +201,63 @@ class TwitchTv {
 		}
 	}
 
+	getChannelFollowers(channelid, options, callback) {
+		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' && typeof(channelid) != 'number')) return
+		channelid = channelid.toString()
+		if(channelid.length == 0) {
+			if(this.channelid.length > 0) channelid = this.channelid
+			else {
+				const self = this
+				this.getChannel((res, err) => {
+					if(res != null && res.hasOwnProperty('_id')) {
+						self.channelid = res._id
+						self.getChannelFollowers('', options, callback)
+					} else {
+						callback(res, err)
+					}
+				})
+				return
+			}
+		}
+		var uri = '/kraken/channels/' + channelid + '/follows'
+		var opt = {}
+		if(typeof(options) == 'object') {
+			if(options.hasOwnProperty('limit') && typeof(options.limit) == 'number') opt.limit = options.limit
+			if(options.hasOwnProperty('offset') && typeof(options.offset) == 'number') opt.offset = options.offset
+			if(options.hasOwnProperty('cursor') && typeof(options.cursor) == 'string') opt.cursor = options.cursor
+			if(options.hasOwnProperty('direction') && (options.direction == 'asc' || options.direction == 'desc')) opt.direction = options.direction
+		}
+		this.requestAPI(uri, opt, false, callback)
+	}
+
+	getChannelSubscribers(channelid, options, callback) {
+		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' && typeof(channelid) != 'number')) return
+		channelid = channelid.toString()
+		if(channelid.length == 0) {
+			if(this.channelid.length > 0) channelid = this.channelid
+			else {
+				const self = this
+				this.getChannel((res, err) => {
+					if(res != null && res.hasOwnProperty('_id')) {
+						self.channelid = res._id
+						self.getChannelSubscribers('', options, callback)
+					} else {
+						callback(res, err)
+					}
+				})
+				return
+			}
+		}
+		var uri = '/kraken/channels/' + channelid + '/subscriptions'
+		var opt = {}
+		if(typeof(options) == 'object') {
+			if(options.hasOwnProperty('limit') && typeof(options.limit) == 'number') opt.limit = options.limit
+			if(options.hasOwnProperty('offset') && typeof(options.offset) == 'number') opt.offset = options.offset
+			if(options.hasOwnProperty('direction') && (options.direction == 'asc' || options.direction == 'desc')) opt.direction = options.direction
+		}
+		this.requestAPI(uri, opt, false, callback)
+	}
+
 	/*********************************************
 	 * Chat
 	 *********************************************/
@@ -206,7 +269,7 @@ class TwitchTv {
 		}
 	}
 
-	// Undocumented but better
+	// Undocumented and slow but better
 	getChatBadgeSetsByChannel(channelid, callback) {
 		const self = this
 		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' && typeof(channelid) != 'number')) return
@@ -236,6 +299,35 @@ class TwitchTv {
 		} else {
 			this.requestAPI('https://badges.twitch.tv/v1/badges/global/display', null, false, callback)
 		}
+	}
+	
+	/*********************************************
+	 * Streams
+	 *********************************************/
+	getStreamByUser(channelid, options, callback) {
+		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' && typeof(channelid) != 'number')) return
+		channelid = channelid.toString()
+		if(channelid.length == 0) {
+			if(this.channelid.length > 0) channelid = this.channelid
+			else {
+				const self = this
+				this.getChannel((res, err) => {
+					if(res != null && res.hasOwnProperty('_id')) {
+						self.channelid = res._id
+						self.getStreamByUser('', options, callback)
+					} else {
+						callback(res, err)
+					}
+				})
+				return
+			}
+		}
+		var uri = '/kraken/streams/' + channelid
+		var opt = {}
+		if(typeof(options) == 'object') {
+			if(options.hasOwnProperty('stream_type') && (options.stream_type == 'live' || options.stream_type == 'playlist' || options.stream_type == 'all')) opt.stream_type = options.stream_type
+		}
+		this.requestAPI(uri, opt, false, callback)
 	}
 }
 

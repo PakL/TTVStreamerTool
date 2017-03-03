@@ -7,6 +7,20 @@
 			height: 100%;
 			overflow: auto;
 		}
+		@keyframes messageMoveIn {
+			0% {
+				transform: translateX(-100%);
+			}
+			100% {
+				transform: translateX(0);
+			}
+		}
+		chat > message {
+			animation-name: messageMoveIn;
+			animation-iteration-count: 1;
+			animation-timing-function: ease-out;
+			animation-duration: 0.1s;
+		}
 	</style>
 	<script>
 		const self = this
@@ -19,10 +33,14 @@
 
 		})
 
+		this.on('updated', () => {
+			self.root.scrollTop = self.root.scrollHeight
+		})
+
 		addmessage(message) {
 			self.messages.push(message)
 			self.update()
-			self.root.scrollTop = self.root.scrollHeight
+			
 		}
 		clearmessages() {
 			self.messages = []

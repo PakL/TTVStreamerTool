@@ -16,20 +16,17 @@
 								<input type="text" id="channel_status" placeholder="Stream Status">
 								<input type="text" id="channel_game" placeholder="Stream Spiel">
 							</td>
-							<td colspan="2">
+							<td>
 							</td>
 						</tr>
 						<tr>
 							<td id="chat_column" colspan="2"><chat id="channelchat"></chat></td>
 							<td id="chat_users_column" rowspan="2"><userlist id="channeluser"></userlist></td>
-							<td id="cockpit_action_stream" rowspan="2"></td>
+							<td id="cockpit_action_stream" rowspan="2"><actionstream id="channelactions"></actionstream></td>
 						</tr>
 						<tr>
 							<td id="chat_message_column">
 								<input type="text" id="chat_message" placeholder="Nachricht schreiben...">
-							</td>
-							<td>
-								☺
 							</td>
 						</tr>
 					</tbody>
@@ -37,6 +34,7 @@
 			</div>
 
 			<div id="content_follows">
+				<input type="text" id="openchannel_input" placeholder="Kanalname eingeben und Enter drücken">
 				<channellist id="myfollows"></channellist>
 			</div>
 		</div>
@@ -50,9 +48,12 @@
 			</div>
 		</modal>
 
+		<script type="riot/tag" src="res/tags/raw.tag"></script>
+
 		<script type="riot/tag" src="res/tags/message.tag"></script>
 		<script type="riot/tag" src="res/tags/chat.tag"></script>
 		<script type="riot/tag" src="res/tags/userlist.tag"></script>
+		<script type="riot/tag" src="res/tags/actionstream.tag"></script>
 		<script type="riot/tag" src="res/tags/modal.tag"></script>
 		<script type="riot/tag" src="res/tags/channel.tag"></script>
 		<script type="riot/tag" src="res/tags/channellist.tag"></script>

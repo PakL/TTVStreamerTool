@@ -103,11 +103,11 @@ class TwitchChat extends events.EventEmitter {
 		for(var i = 0; i < tags.length; i++) {
 			var sp = tags[i].split('=', 2);
 			if(sp.length < 2) continue;
-			var unescape = sp[1].replace(/[^\\]\\:/g, ';');
-			unescape = unescape.replace(/[^\\]\\s/g, ' ');
-			unescape = unescape.replace(/[^\\]\\r/g, '\r');
-			unescape = unescape.replace(/[^\\]\\n/g, '\n');
-			unescape = unescape.replace(/[^\\]\\\\/g, '\\');
+			var unescape = sp[1].replace(/(^|[^\\])\\:/g, (match, m1) => { return m1 +';' });
+			unescape = unescape.replace(/(^|[^\\])\\s/g, (match, m1) => { return m1 +' ' });
+			unescape = unescape.replace(/(^|[^\\])\\r/g, (match, m1) => { return m1 +'\r' });
+			unescape = unescape.replace(/(^|[^\\])\\n/g, (match, m1) => { return m1 +'\n' });
+			unescape = unescape.replace(/(^|[^\\])\\\\/g, (match, m1) => { return m1 +'\\' });
 			ntags[sp[0]] = unescape;
 		}
 		tags = ntags;
@@ -230,10 +230,15 @@ class TwitchChat extends events.EventEmitter {
 					this.emit("notice", channel, msg, tags)
 				}
 				break
-			// USERNOTICE sends you your own tags in this channel
+			// USERNOTICE sends subscriptions
 			case (action == 'USERNOTICE'):
 				var channel = attach
-				this.emit('usernotice', channel, tags)
+				var messageIndex = msg.indexOf(':')
+				var message = ''
+				if(messageIndex >= 0) {
+					message = msg.substr(messageIndex+1)
+				}
+				this.emit('usernotice', channel, tags, message)
 				break
 			// CLEARCHAT is sent if a moderator is clearing the chat or timeouted/banned a user
 			case (action == 'CLEARCHAT'):
