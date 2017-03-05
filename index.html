@@ -5,55 +5,59 @@
 		<title>TTVStreamerTool</title>
 
 		<link rel="stylesheet" type="text/css" href="res/style.css" />
+		<script type="application/javascript">
+			var __language = window.localStorage.getItem('language')
+			if(__language == null) {
+				__language = 'en'
+			}
+			const i18n = require('i18n-nodejs')(__language, './../../language.json')
+		</script>
 	</head>
 	<body>
 		<div id="contents">
 			<div id="content_cockpit">
-				<table id="cockpit_table">
-					<tbody>
-						<tr>
-							<td colspan="2" id="channel_status_column">
-								<input type="text" id="channel_status" placeholder="Stream Status">
-								<input type="text" id="channel_game" placeholder="Stream Spiel">
-							</td>
-							<td>
-							</td>
-						</tr>
-						<tr>
-							<td id="chat_column" colspan="2"><chat id="channelchat"></chat></td>
-							<td id="chat_users_column" rowspan="2"><userlist id="channeluser"></userlist></td>
-							<td id="cockpit_action_stream" rowspan="2"><actionstream id="channelactions"></actionstream></td>
-						</tr>
-						<tr>
-							<td id="chat_message_column">
-								<input type="text" id="chat_message" placeholder="Nachricht schreiben...">
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<div id="channel_status_column">
+					<script type="application/javascript">document.write(`<input type="text" id="channel_status" placeholder="${i18n.__('Stream status')}">`)</script>
+					<script type="application/javascript">document.write(`<input type="text" id="channel_game" placeholder="${i18n.__('Stream game')}">`)</script>
+					<autocomplete id="ac_channel_game"></autocomplete>
+				</div>
+				<div id="channel_viewers_column">
+					<viewerplotter id="channel_viewers"></viewerplotter>
+				</div>
+
+				<div id="chat_column"><chat id="channelchat"></chat></div>
+				<div id="chat_users_column" rowspan="2"><userlist id="channeluser"></userlist></div>
+				<div id="cockpit_action_stream" rowspan="2"><actionstream id="channelactions"></actionstream></div>
+				
+				<div id="chat_message_column">
+					<div style="padding: 0 5px"><script type="application/javascript">document.write(`<input type="text" id="chat_message" placeholder="${i18n.__('Write a message...')}">`)</script></div>
+					<autocomplete id="ac_message_usernames"></autocomplete>
+				</div>
 			</div>
 
 			<div id="content_follows">
-				<input type="text" id="openchannel_input" placeholder="Kanalname eingeben und Enter drücken">
+				<script type="application/javascript">document.write(`<input type="text" id="openchannel_input" placeholder="${i18n.__('Type channel name and press Enter')}">`)</script>
 				<channellist id="myfollows"></channellist>
 			</div>
 		</div>
 
 		<modal id="logindialog">
-			<h3>Willkommen beim TTVStreamerTool</h3>
-			Um mit diesem Programm überhaupt irgendetwas anzufangen brauchst du natürlich einen Twitch-Kanal. Mit diesem kannst du dich dann hier anmelden.<br>
-			Dann kann dieses Programm überhaupt erst etwas machen.
+			<h3><script type="application/javascript">document.write(i18n.__('Welcome to TTVStreamerTool'))</script></h3>
+			<script type="application/javascript">document.write(i18n.__('To use this program you gonna need a Twitch channel. You can login via Twitch here.'))</script><br>
+			<script type="application/javascript">document.write(i18n.__('Only then the program is able to to something.'))</script>
 			<div style="text-align:center;margin-top:10px;">
-				<button id="starttwitchauth" onclick="auth()">Einloggen via Twitch</button>
+				<button id="starttwitchauth" onclick="auth()"><script type="application/javascript">document.write(i18n.__('Login via Twitch'))</script></button>
 			</div>
 		</modal>
 
 		<script type="riot/tag" src="res/tags/raw.tag"></script>
 
+		<script type="riot/tag" src="res/tags/autocomplete.tag"></script>
 		<script type="riot/tag" src="res/tags/message.tag"></script>
 		<script type="riot/tag" src="res/tags/chat.tag"></script>
 		<script type="riot/tag" src="res/tags/userlist.tag"></script>
 		<script type="riot/tag" src="res/tags/actionstream.tag"></script>
+		<script type="riot/tag" src="res/tags/viewerplotter.tag"></script>
 		<script type="riot/tag" src="res/tags/modal.tag"></script>
 		<script type="riot/tag" src="res/tags/channel.tag"></script>
 		<script type="riot/tag" src="res/tags/channellist.tag"></script>

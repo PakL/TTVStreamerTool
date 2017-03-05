@@ -1,0 +1,160 @@
+{
+	"File": {
+		"de": "Datei"
+	},
+	"Restart": {
+		"de": "Neustarten"
+	},
+	"DevTools": {},
+	"Quit": {
+		"de": "Beenden"
+	},
+	"Change channel": {
+		"de": "Kanal wechseln"
+	},
+	"Logout": {
+		"de": "Ausloggen"
+	},
+	"Settings": {
+		"de": "Einstellungen"
+	},
+	"Language": {
+		"de": "Sprache"
+	},
+
+	"Stream status": {
+		"de": "Stream Status"
+	},
+	"Stream game": {
+		"de": "Stream Spiel"
+	},
+	"Write a message...": {
+		"de": "Eine Nachricht schreiben..."
+	},
+	"Type channel name and press Enter": {
+		"de": "Kanalname eingeben und Enter drücken"
+	},
+	"Welcome to TTVStreamerTool": {
+		"de": "Willkommen beim TTVStreamerTool"
+	},
+	"To use this program you gonna need a Twitch channel. You can login via Twitch here.": {
+		"de": "Um mit diesem Programm überhaupt irgendetwas anzufangen brauchst du natürlich einen Twitch-Kanal. Mit diesem kannst du dich dann hier anmelden."
+	},
+	"Only then the program is able to to something.": {
+		"de": "Dann kann dieses Programm überhaupt erst etwas machen."
+	},
+	"Login via Twitch": {
+		"de": "Einloggen via Twitch"
+	},
+	"Logged in": {
+		"de": "Eingeloggt"
+	},
+	"Invalid token": {
+		"de": "Ungültiger Token"
+	},
+	"Canceled by user": {
+		"de": "Abgebrochen von Benutzer"
+	},
+	"Connected to chat in channel {{channel}}": {
+		"de": "Verbunden mit Chat in Kanal {{channel}}"
+	},
+	"subscribed for the {{months}}. month in a row!": {
+		"de": "hat zum {{months}}. Monat in Folge subscribed!"
+	},
+	"was banned from the channel.": {
+		"de": "wurde vom Kanal verbannt."
+	},
+	"There was no reason given.": {
+		"de": "Es wurde kein Grund angegeben."
+	},
+	"was timeouted for {{duration}} {{seconds||duration}}": {
+		"de": "wurde für {{duration}} {{seconds||duration}} ruhig gestellt."
+	},
+	"seconds": {
+		"en": {
+			"0": "second",
+			"1": "seconds"
+		},
+		"de": {
+			"0": "Sekunde",
+			"1": "Sekunden"
+		}
+	},
+	"minutes": {
+		"en": {
+			"0": "minute",
+			"1": "minutes"
+		},
+		"de": {
+			"0": "Minute",
+			"1": "Minuten"
+		}
+	},
+	"is hosting the channel": {
+		"de": "hostet den Kanal"
+	},
+	"is hosting the channel with {{viewernum}} {{viewers||viewernum}}": {
+		"de": "hostet den Kanal mit {{viewernum}} {{viewers||viewernum}}"
+	},
+	"viewers": {
+		"en": {
+			"0": "viewer",
+			"1": "viewers"
+		},
+		"de": {
+			"0": "Zuschauer",
+			"1": "Zuschauer"
+		}
+	},
+	"mm.dd.yyyy hh:MMtt": {
+		"de": "dd.mm.yyyy HH:MM"
+	},
+	"hh:MMtt": {
+		"de": "HH:MM"
+	},
+	"You need to leave the current channel first": {
+		"de": "Du musst zuerst den aktuellen Channel verlassen"
+	},
+	"No channel with this name was found.": {
+		"de": "Keinen Kanal mit diesem Namen gefunden."
+	},
+	"Channel is now offline": {
+		"de": "Kanal ist jetzt offline"
+	},
+	"Channel is now online": {
+		"de": "Kanal ist jetzt offline"
+	},
+	"is following this channel now": {
+		"de": "folgt dem Kanal jetzt"
+	},
+	"subscribed to this channel": {
+		"de": "hat dem Kanal subscribed"
+	},
+	"Unkown error": {
+		"de": "Unbekannter Fehler"
+	},
+	"Load more": {
+		"de": "Mehr laden"
+	},
+	"Message was deleted": {
+		"de": "Nachricht wurde gelöscht"
+	},
+	"Please wait...": {
+		"de": "Bitte warten..."
+	},
+	"Show localized display names": {
+		"de": "Zeige lokalisierte Benutzernamen"
+	},
+	"Clear messages": {
+		"de": "Nachrichten löschen"
+	},
+	"Ban": {
+		"de": "Verbannen"
+	},
+	"for {{sec}} {{seconds||sec}}": {
+		"de": "für {{sec}} {{seconds||sec}}"
+	},
+	"for {{min}} {{minutes||min}}": {
+		"de": "für {{min}} {{minutes||min}}"
+	}
+}

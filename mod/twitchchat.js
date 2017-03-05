@@ -138,11 +138,22 @@ class TwitchChat extends events.EventEmitter {
 					var actionprefix = new RegExp('^ ?\x01ACTION ')
 					var to = params[0]
 					var msg = attach.substr(attach.indexOf(' :')+2)
-					if(msg.match(actionprefix)) {
-						msg = msg.replace(actionprefix, '')
-						this.emit('action', prefix, prefix.user, to, msg, tags)
+					if(prefix.user == 'jtv') {
+						if(msg.match(/is now hosting/)) {
+							var viewers = 0
+							var match = msg.match(/(^| )([0-9]+)(\.| |$)/)
+							if(match != null) {
+								viewers = parseInt(match[2])
+							}
+							this.emit('hostingyou', to, viewers, msg)
+						}
 					} else {
-						this.emit('message', prefix, prefix.user, to, msg, tags)
+						if(msg.match(actionprefix)) {
+							msg = msg.replace(actionprefix, '')
+							this.emit('action', prefix, prefix.user, to, msg, tags)
+						} else {
+							this.emit('message', prefix, prefix.user, to, msg, tags)
+						}
 					}
 				}
 				break
@@ -246,10 +257,10 @@ class TwitchChat extends events.EventEmitter {
 					var args = attach.split(' :', 2)
 					var channel = args[0]
 					var user = args[1]
-					this.emit('clearuser', channel, user)
+					this.emit('clearuser', channel, user, tags)
 				} else {
 					var channel = attach;
-					this.emit('clearchat', channel)
+					this.emit('clearchat', channel, tags)
 				}
 				break
 

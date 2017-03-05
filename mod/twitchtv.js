@@ -62,13 +62,18 @@ class TwitchTv {
 		return (this.token.length > 0)
 	}
 
-
-	requestAPI(uri, query, authNeeded, callback) {
+	requestAPI(uri, query, authNeeded, postdata, callback) {
 		const self = this
 		if(typeof(authNeeded) != 'boolean') authNeeded = false
 		if(typeof(query) != 'object' || query == null) query = {}
 
+		if(typeof(postdata) == 'function') {
+			callback = postdata
+			postdata = {}
+		}
 		if(typeof(uri) != 'string' || typeof(callback) != 'function') return
+
+		if(Object.keys(postdata).length > 0) authNeeded = true
 
 		let querystr = ''
 		for(var key in query) {
@@ -88,6 +93,11 @@ class TwitchTv {
 		if(authNeeded) {
 			headers['Authorization'] = 'OAuth ' + self.token
 		}
+		var poststr = ''
+		if(Object.keys(postdata).length > 0) {
+			poststr = JSON.stringify(postdata)
+			headers['Content-Type'] = 'application/json'
+		}
 
 		console.log(`Request for ${uri} started... authNeeded:${authNeeded}`)
 
@@ -98,8 +108,8 @@ class TwitchTv {
 			uri = parsedurl.path
 		}
 
-		https.request({
-			'method': 'GET',
+		var req = https.request({
+			'method': (Object.keys(postdata).length > 0 ? 'PUT' : 'GET'),
 			'host': overridehost,
 			'path': uri,
 			'headers': headers
@@ -127,9 +137,13 @@ class TwitchTv {
 				}
 				callback(parsed, error)
 			})
-		}).on('error', (e) => {
+		})
+		req.on('error', (e) => {
 			callback(null, new Error(`API request failed for ${uri} with message ${e.message}`))
-		}).end()
+		})
+		if(poststr.length > 0)
+			req.write(poststr)
+		req.end()
 	}
 
 	/*********************************************
@@ -201,6 +215,22 @@ class TwitchTv {
 		}
 	}
 
+	updateChannel(channelid, options, callback) {
+		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' && typeof(channelid) != 'number')) return
+		channelid = channelid.toString()
+
+		var opt = {}
+		if(typeof(options) == 'object') {
+			if(options.hasOwnProperty('status') && typeof(options.status) == 'string') opt.status = options.status
+			if(options.hasOwnProperty('game') && typeof(options.game) == 'string') opt.game = options.game
+			if(options.hasOwnProperty('delay') && typeof(options.delay) == 'string') opt.delay = options.delay
+			if(options.hasOwnProperty('channel_feed_enabled') && typeof(options.channel_feed_enabled) == 'boolean') opt.channel_feed_enabled = options.channel_feed_enabled
+		}
+		if(Object.keys(opt).length <= 0) return
+
+		this.requestAPI('/kraken/channels/' + channelid, null, true, {channel: opt}, callback)
+	}
+
 	getChannelFollowers(channelid, options, callback) {
 		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' && typeof(channelid) != 'number')) return
 		channelid = channelid.toString()
@@ -255,7 +285,7 @@ class TwitchTv {
 			if(options.hasOwnProperty('offset') && typeof(options.offset) == 'number') opt.offset = options.offset
 			if(options.hasOwnProperty('direction') && (options.direction == 'asc' || options.direction == 'desc')) opt.direction = options.direction
 		}
-		this.requestAPI(uri, opt, false, callback)
+		this.requestAPI(uri, opt, true, callback)
 	}
 
 	/*********************************************
@@ -326,6 +356,19 @@ class TwitchTv {
 		var opt = {}
 		if(typeof(options) == 'object') {
 			if(options.hasOwnProperty('stream_type') && (options.stream_type == 'live' || options.stream_type == 'playlist' || options.stream_type == 'all')) opt.stream_type = options.stream_type
+		}
+		this.requestAPI(uri, opt, false, callback)
+	}
+
+	/*********************************************
+	 * Search
+	 *********************************************/
+	searchGames(query, options, callback) {
+		if(typeof(callback) != 'function' || typeof(query) != 'string' || query.length < 3) return
+		var uri = '/kraken/search/games'
+		var opt = { query: query }
+		if(typeof(options) == 'object') {
+			if(options.hasOwnProperty('live') && (options.live == 'true' || options.live == 'false')) opt.live = options.live
 		}
 		this.requestAPI(uri, opt, false, callback)
 	}

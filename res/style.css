@@ -70,30 +70,54 @@ input {
 	margin-bottom: 10px;
 }
 
-#cockpit_table {
-	width: 100%;
-	height: 100%;
-	empty-cells: show;
-	border-spacing: 0;
-}
-
-#cockpit_table input {
+#channel_status_column input, #chat_message_column input {
 	box-sizing: border-box;
 	width: 100%;
 	padding: 5px 0;
 }
 
 #channel_status_column {
+	position: absolute;
+	top: 0;
+	left: 0;
 	height: 65px;
+	width: 50%;
 }
-#chat_message_column {
-	height: 35px;
+#channel_viewers_column {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	height: 65px;
+	width: 50%
 }
 
 #chat_column {
+	position: absolute;
+	top: 65px;
+	left: 0;
 	width: 50%;
-	vertical-align: bottom;
+	height: calc(100% - 100px);
 }
 #chat_users_column {
-	width: 15%;
+	position: absolute;
+	top: 65px;
+	left: 50%;
+	background: #303030;
+	width: 20%;
+	height: calc(100% - 65px);
+}
+#cockpit_action_stream {
+	position: absolute;
+	top: 65px;
+	left: 70%;
+	width: 30%;
+	height: calc(100% - 65px);
+}
+
+#chat_message_column {
+	position: absolute;
+	top: calc(100% - 35px);
+	left: 0;
+	height: 35px;
+	width: 50%;
 }

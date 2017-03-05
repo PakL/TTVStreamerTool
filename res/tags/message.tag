@@ -1,78 +1,106 @@
 <message>
 	<span class="timestamp" ref="timestamp">{ opts.msg.timestamp }</span>
-	<span class="badges" ref="badges"></span>
-	<span class="nickname" ref="nickname">{ opts.msg.nickname }</span>
-	<span class="msg" ref="msg">{ opts.msg.message }</span>
+	<span class="m">
+		<span class="user">
+			<span class="badges" ref="badges"></span>
+			<span class="nickname" ref="nickname" data-username="{ opts.msg.user }">{ opts.msg.nickname }</span>
+		</span>
+		<span class="msg" ref="msg">{ opts.msg.message }</span>
+	</span>
 	
 	<style>
 		message {
-			display: block;
+			display: table-row;
 			line-height: 1.5em;
-			margin: 5px 0;
 		}
 		message.important {
 			background-color: #000000;
-			padding-top: 3px;
-			padding-bottom: 3px;
 		}
-		message > .timestamp {
+		message > span {
+			display: table-cell;
+			padding: 3px 0;
+		}
+		message.important > span {
+			padding: 10px 0;
+		}
+		message .timestamp {
+			vertical-align: top;
 			color: #777;
+			padding-right: 5px;
 		}
-		message > .timestamp:before {
-			content: "[";
+		message .user {
+			display: block;
+			text-align: left;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
 		}
-		message > .timestamp:after {
-			content: "] ";
+		message .user .badges {
+			float: right;
 		}
-		message > .nickname {
-			font-weight: bold;
-		}
-		message > .nickname:after {
-			content: ":";
-		}
-		message > .nickname.action:after {
-			content: "";
-		}
-		message > .msg {
-			overflow-wrap: break-word;
-			word-wrap: break-word;
-			word-break: break-word;
-		}
-		message > .msg:before {
-			content: " ";
-		}
-		message > .msg .d {
-			color: #777;
-		}
-		message > .badges  img {
+		message .user .badges img {
 			display: inline-block;
 			height: 18px;
 			margin: 1px 3px 1px 0;
 			min-width: 18px;
 			vertical-align: middle;
 		}
-		message > .msg img {
+
+		message .user > .nickname {
+			font-weight: bold;
+		}
+		message .user > .nickname.whisper:before {
+			content: "(Whisper) ";
+		}
+
+		message .msg {
+			overflow-wrap: break-word;
+			word-wrap: break-word;
+			word-break: break-word;
+		}
+		message .msg .d {
+			color: #777;
+		}
+		message .msg img {
 			vertical-align: middle;
 			margin: -5px 0;
 			display: inline-block;
 		}
-		message > .msg a {
+		message .msg a {
 			text-decoration: underline;
+		}
+		message.deleted {
+			color: #999999 !important;
 		}
 	</style>
 	<script>
-		var self = this
+		const self = this
 
-		this.on("mount", () => self.realformat() )
+		this.on("mount", () => {
+			self.realformat()
+			self.refs.nickname.style.cursor = 'pointer'
+			self.refs.nickname.onclick = function(e) {
+				document.querySelector('#channeluser')._tag.showuseroptions(e.target.dataset.username, e.clientX, e.clientY)
+			}
+		})
 		this.on("updated", () => self.realformat() )
 
+		deleteifuser(username) {
+			if(username == self.opts.msg.user && !self.opts.msg.hasOwnProperty('old_message')) {
+				self.opts.msg.old_message = self.opts.msg.message_html
+				self.opts.msg.message_html = `&lt; ${i18n.__('Message was deleted')} &gt;`
+				self.realformat()
+				return true
+			}
+			return false
+		}
 
 		realformat() {
 			self.refs.msg.innerHTML = self.opts.msg.message_html
 			self.refs.badges.innerHTML = self.opts.msg.badges_html
 
 			self.refs.nickname.style.color = self.opts.msg.color
-			if(self.opts.msg.type > 0) {
+			if(self.opts.msg.type > 0 && self.opts.msg.type != 4) {
 				self.refs.nickname.classList.add('action')
 				self.refs.msg.style.color = self.opts.msg.color
 			}
@@ -80,8 +108,20 @@
 				self.root.classList.add('important')
 				self.refs.nickname.style.display = 'none'
 			}
-			if(self.opts.msg.type == 3) {
+			if(self.opts.msg.type == 3 || self.opts.msg.type == 4) {
 				self.root.classList.add('important')
+			}
+			if(self.opts.msg.type == 4) {
+				self.refs.nickname.classList.add('whisper')
+			}
+
+			if(self.opts.msg.hasOwnProperty('old_message')) {
+				self.root.classList.add('deleted')
+				self.refs.msg.onclick = (e) => {
+					e.preventDefault()
+					self.opts.msg.message_html = self.opts.msg.old_message
+					self.realformat()
+				}
 			}
 
 			var links = self.root.querySelectorAll('a')

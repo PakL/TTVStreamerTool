@@ -1,6 +1,6 @@
 <channellist>
 	<channel each={ chnl in channels } chnl={ chnl } />
-	<button ref="loadmore">Mehr laden</button>
+	<button ref="loadmore"></button>
 
 	<style>
 		channellist > button {
@@ -17,6 +17,10 @@
 		if(typeof(this.opts.channels) != 'undefined') {
 			this.channels = this.opts
 		}
+
+		this.on('mount', () => {
+			self.refs.loadmore.innerText = i18n.__('Load more')
+		})
 
 		this.on('updated', () => {
 			self.refs.loadmore.onclick = function() {

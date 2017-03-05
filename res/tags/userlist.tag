@@ -1,7 +1,7 @@
 <userlist>
 	<div class="userlist_user" each={ users } no-reorder>
 		<span class="userlist_badges"><raw content={ badges } /></span>
-		<span class="userlist_name" style="color:{ color }">{ name }</span>
+		<span class="userlist_name" style="color:{ color }" data-username="{ user }">{ name }</span>
 	</div>
 
 	<style>
@@ -13,10 +13,12 @@
 		}
 		
 		userlist > div {
-			margin: 3px 10px;
+			margin: 3px 5px;
 			line-height: 18px;
 			
 			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 		userlist > div img {
 			display: inline-block;
@@ -29,7 +31,62 @@
 	<script>
 		const self = this
 
+		this.toomany = false
 		this.users = []
+
+		this.on('update', () => {
+			self.users.sort(function(a, b){
+				if(a.sort > b.sort) return -1
+				else if(a.sort < b.sort) return 1
+
+				return a.user.localeCompare(b.user)
+			})
+		})
+		this.on('updated', () => {
+			var userels = self.root.querySelectorAll('.userlist_user')
+			for(var i = 0; i < userels.length; i++) {
+				userels[i].querySelector('.userlist_name').onclick = function(e) {
+					self.showuseroptions(e.target.dataset.username, e.clientX, e.clientY)
+				}
+			}
+		})
+
+		showuseroptions(username, x, y) {
+			var mt = [
+				{
+					label: username,
+					enabled: false
+				},
+				{
+					label: i18n.__('Clear messages'),
+					click() { if(openChannelObject.hasOwnProperty('name')) { twitchchat.sendmsg(openChannelObject.name, '/timeout ' + username + ' 5') } }
+				},
+				{ type: 'separator' },
+				{
+					label: i18n.__('Ban'),
+					click() { if(openChannelObject.hasOwnProperty('name')) { twitchchat.sendmsg(openChannelObject.name, '/ban ' + username) } }
+				},
+				{
+					label: i18n.__('Timeout'),
+					submenu: [
+						{
+							label: i18n.__('for {{sec}} {{seconds||sec}}', { sec: 60 }),
+							click() { if(openChannelObject.hasOwnProperty('name')) { twitchchat.sendmsg(openChannelObject.name, '/timeout ' + username + ' 60') } }
+						},
+						{
+							label: i18n.__('for {{min}} {{minutes||min}}', { min: 5 }),
+							click() { if(openChannelObject.hasOwnProperty('name')) { twitchchat.sendmsg(openChannelObject.name, '/timeout ' + username + ' ' + (60*5).toString()) } }
+						},
+						{
+							label: i18n.__('for {{min}} {{minutes||min}}', { min: 20 }),
+							click() { if(openChannelObject.hasOwnProperty('name')) { twitchchat.sendmsg(openChannelObject.name, '/timeout ' + username + ' ' + (60*20).toString()) } }
+						}
+					]
+				}
+			]
+			var menu = Menu.buildFromTemplate(mt)
+			menu.popup([null, x, y])
+		}
 
 		findentry(username) {
 			for(var i = 0; i < self.users.length; i++) {
@@ -38,6 +95,16 @@
 				}
 			}
 			return -1
+		}
+		searchuser(snipp) {
+			snipp = snipp.toLowerCase()
+			var users = []
+			for(var i = 0; i < self.users.length; i++) {
+				if(self.users[i].user.startsWith(snipp) || self.users[i].name.toLowerCase().startsWith(snipp)) {
+					users.push(self.users[i])
+				}
+			}
+			return users
 		}
 		sortat(user) {
 			for(var i = 0; i < self.users.length; i++) {
@@ -53,30 +120,29 @@
 		joinusr(user) {
 			var index = self.findentry(user.user)
 			if(index >= 0) {
-				if(user.user != user.name && self.users[index].name != user.name) {
-					self.users[index].name = user.name
+				if(!user.hasOwnProperty('nooverwrite') || !user.nooverwrite) {
+					if(user.user != user.name && self.users[index].name != user.name) {
+						self.users[index].name = user.name
+					}
+					if(self.users[index].badges != user.badges) {
+						self.users[index].badges = user.badges
+					}
+					if(self.users[index].color != user.color) {
+						self.users[index].color = user.color
+					}
+					if(self.users[index].sort < user.sort) {
+						self.users[index].sort = user.sort
+					} else {
+						self.users[index].sort++
+					}
 				}
-				if(self.users[index].badges != user.badges) {
-					self.users[index].badges = user.badges
-				}
-				if(self.users[index].color != user.color) {
-					self.users[index].color = user.color
-				}
-				if(self.users[index].sort < user.sort) {
-					self.users[index].sort = user.sort
-				} else {
-					self.users[index].sort++
-				}
-				user = self.users[index]
-				self.users.splice(index, 1)
+			} else {
+				self.users.push(user)
 			}
-
-			var nindex = self.sortat(user)
-			self.users.splice(nindex, 0, user)
 			self.update()
 		}
 		partusr(username) {
-			var index = self.findentry(user.user)
+			var index = self.findentry(username)
 			if(index >= 0) {
 				self.users.splice(index, 1)
 			}
@@ -85,6 +151,7 @@
 
 		clearUsers() {
 			self.users = []
+			self.toomany = false
 		}
 
 		getUserColor(username) {

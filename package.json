@@ -8,6 +8,8 @@
 	},
 	"devDependencies": {
 		"electron": "^1.4.14",
-		"riot": "^3.0.7"
+		"riot": "^3.0.7",
+		"i18n-nodejs": "^2.0.0",
+		"dateformat": "^2.0.0"
 	}
 }
