@@ -121,3 +121,14 @@ input {
 	height: 35px;
 	width: 50%;
 }
+
+label {
+	display: block;
+	margin-bottom: 10px;
+}
+label > input {
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	padding: 5px 0;
+}

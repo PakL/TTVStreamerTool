@@ -156,5 +156,35 @@
 	},
 	"for {{min}} {{minutes||min}}": {
 		"de": "für {{min}} {{minutes||min}}"
+	},
+	"Overlay settings": {
+		"de": "Overlay-Einstellungen"
+	},
+	"Music Overlay": {
+		"de": "Musikoverlay"
+	},
+	"Youtube playlist id: (has to be public)": {
+		"de": "Youtube-Playlist-ID: (muss öffentlich sein)"
+	},
+	"Press Enter when finished to save": {
+		"de": "Drücke Enter wenn Fertig um zu Speichern"
+	},
+	"Default volume": {
+		"de": "Standardlautstärke"
+	},
+	"Live volume control": {
+		"de": "Direkter Lautstärkeregler"
+	},
+	"Overlay URL": {
+		"de": "Overlay-URL"
+	},
+	"Add #black to the end of the URL to get black text with white borders instead of white text with black borders.": {
+		"de": "Füge #black an das Ende der URL hinzu um schwarzen Text mit weißen Rändern anstatt weißen Text mit schwarzen Rändern zu bekommen."
+	},
+	"Overlay volume control URL": {
+		"de": "Lautstärke-Kontrollen-Overlay-URL"
+	},
+	"This is a completely transparent overlay you can use in different OBS scenes to control the volume on scene changes. Change the number at the end to anything between 0 (mute) to 100 (way to loud).": {
+		"de": "Dies ist ein komplett transparentes Overlay das du in verschieden OBS-Szenen benutzen kannst um bei Szenenwechsel die Lautstärke zu verändern. Ändere die Nummer am Ende zu etwas Beliebigem zwischen 0 (stumm) und 100 (viel zu laut)."
 	}
 }
