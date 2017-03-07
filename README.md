@@ -19,4 +19,4 @@ I'm not sure what features it's going to have, so no promises.
 You can, of course, create a script or batch to execute this command more easily.
 
 #### Important when updating source
-Make sure you execute `npm update` in case I added new node modules or updated the existing one.
+Make sure you execute `npm update` and `npm upgrade` in case I added new node modules or updated the existing one.
