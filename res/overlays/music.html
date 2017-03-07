@@ -78,7 +78,7 @@
 
 		<script type="application/javascript">
 			var tag = document.createElement('script');
-			var ready = false;
+			var ready = false; var paused = false;
 
 			tag.src = "https://www.youtube.com/iframe_api";
 			var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -126,14 +126,30 @@
 
 			var setVolume = function(vol, viacontrol) {
 				if(typeof(viacontrol) != 'boolean') viacontrol = false;
+				if(vol > 0 && paused) {
+					player.playVideo();
+					paused = false;
+				}
 				if(!viacontrol) {
 					$({v: volume}).animate({v: vol}, { duration: 1000, step: function(n){
 						player.setVolume(n);
 						ws.send('music_volume_update=' + n);
-					}, complete: function() { volume = vol }});
+					}, complete: function() { 
+						volume = vol
+						player.setVolume(volume);
+						ws.send('music_volume_update=' + n);
+						if(volume == 0) {
+							player.pauseVideo();
+							paused = true;
+						}
+					}});
 				} else {
 					volume = vol;
 					player.setVolume(volume);
+					if(volume == 0) {
+						player.pauseVideo();
+						paused = true;
+					}
 				}
 			}
 
