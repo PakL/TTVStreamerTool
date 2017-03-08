@@ -149,7 +149,7 @@ class TwitchChat extends events.EventEmitter {
 						}
 					} else {
 						if(msg.match(actionprefix)) {
-							msg = msg.replace(actionprefix, '')
+							msg = msg.replace(actionprefix, '').replace('\x01', '')
 							this.emit('action', prefix, prefix.user, to, msg, tags)
 						} else {
 							this.emit('message', prefix, prefix.user, to, msg, tags)

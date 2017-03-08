@@ -186,5 +186,32 @@
 	},
 	"This is a completely transparent overlay you can use in different OBS scenes to control the volume on scene changes. Change the number at the end to anything between 0 (mute) to 100 (way to loud).": {
 		"de": "Dies ist ein komplett transparentes Overlay das du in verschieden OBS-Szenen benutzen kannst um bei Szenenwechsel die Lautstärke zu verändern. Ändere die Nummer am Ende zu etwas Beliebigem zwischen 0 (stumm) und 100 (viel zu laut)."
+	},
+	"Add a highlighter": {
+		"de": "Highlighter hinzufügen"
+	},
+	"Word or phrase that triggers a message highlight:": {
+		"de": "Wort oder Phrase, das oder die den Highlight verursacht:"
+	},
+	"Regular expression": {
+		"de": "Regulärer Ausdruck"
+	},
+	"Case sensitive": {
+		"de": "Groß-/Kleinschreibung beachten"
+	},
+	"Save": {
+		"de": "Speichern"
+	},
+	"Cancel": {
+		"de": "Abbrechen"
+	},
+	"Are you sure you want do delete this highlight?": {
+		"de": "Bist du sicher dass du diesen Highlighter entfernen willst?"
+	},
+	"Autorecover deleted messages": {
+		"de": "Gelöschte Nachrichten automatisch wiederherstellen"
+	},
+	"Highlights": {
+		"de": "Highlights"
 	}
 }

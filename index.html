@@ -4,14 +4,15 @@
 		<meta charset="utf-8" />
 		<title>TTVStreamerTool</title>
 
-		<link rel="stylesheet" type="text/css" href="res/style.css" />
 		<script type="application/javascript">
-			var __language = window.localStorage.getItem('language')
-			if(__language == null) {
-				__language = 'en'
-			}
-			const i18n = require('i18n-nodejs')(__language, './../../language.json')
+			const TwitchTv = require('./mod/twitchtv')
+			const {shell, remote} = require('electron')
+			const {Menu, MenuItem} = remote
 		</script>
+
+		<link rel="stylesheet" type="text/css" href="res/style.css" />
+		<script type="application/javascript" src="lib/settings.js"></script>
+		<script type="application/javascript" src="lib/menu.js"></script>
 	</head>
 	<body>
 		<div id="contents">
@@ -81,6 +82,33 @@
 			</div>
 		</modal>
 
+		<modal id="highlightdialog" style="display:none;">
+			<h3><script type="application/javascript">document.write(i18n.__('Add a highlighter'))</script></h3>
+			<label>
+				<script type="application/javascript">document.write(i18n.__('Word or phrase that triggers a message highlight:'))</script>
+				<input type="text" id="highlightdialog_phrase">
+				<output id="highlightdialog_errors"></output>
+			</label>
+			<table>
+				<tr>
+					<td>
+						<label>
+							<script type="application/javascript">document.write(i18n.__('Regular expression'))</script> <a href="#" onclick="openLinkExternal('http://www.regular-expressions.info/')">(?)</a>
+							<input type="checkbox" id="highlightdialog_regex">
+						</label>
+					</td>
+					<td>
+						<label>
+							<script type="application/javascript">document.write(i18n.__('Case sensitive'))</script>
+							<input type="checkbox" id="highlightdialog_casesensitive">
+						</label>
+					</td>
+				</tr>
+			</table>
+			<button id="highlightdialog_save" onclick="saveNewHighlight()"><script type="application/javascript">document.write(i18n.__('Save'))</script></button>
+			<button id="highlightdialog_cancel" onclick="cancelNewHighlight()"><script type="application/javascript">document.write(i18n.__('Cancel'))</script></button>
+		</modal>
+
 		<script type="riot/tag" src="res/tags/raw.tag"></script>
 
 		<script type="riot/tag" src="res/tags/autocomplete.tag"></script>
@@ -96,10 +124,6 @@
 
 
 		<script type="application/javascript">
-			const TwitchTv = require('./mod/twitchtv')
-			const {shell, remote} = require('electron')
-			const {Menu, MenuItem} = remote
-
 			let twitchapi = new TwitchTv({
 				clientid: '11vhuxdssb9pc3s2uqpa7s3s0252hyk',
 				redirecturi: 'http://localhost:8086/',
@@ -118,8 +142,9 @@
 			let openLinkExternal = function(url) {
 				shell.openExternal(url)
 			}
+
+			riot.mount(document.querySelector('#highlightdialog'))
 		</script>
-		<script type="application/javascript" src="lib/menu.js"></script>
 		<script type="application/javascript" src="lib/errormsg.js"></script>
 		<script type="application/javascript" src="lib/loading.js"></script>
 		<script type="application/javascript" src="lib/chathelper.js"></script>

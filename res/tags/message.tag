@@ -16,6 +16,9 @@
 		message.important {
 			background-color: #000000;
 		}
+		message.highlight {
+			background-color: #8a1e1e;
+		}
 		message > span {
 			display: table-cell;
 			padding: 3px 0;
@@ -70,7 +73,7 @@
 			text-decoration: underline;
 		}
 		message.deleted {
-			color: #999999 !important;
+			background-color: #303030;
 		}
 	</style>
 	<script>
@@ -88,7 +91,9 @@
 		deleteifuser(username) {
 			if(username == self.opts.msg.user && !self.opts.msg.hasOwnProperty('old_message')) {
 				self.opts.msg.old_message = self.opts.msg.message_html
-				self.opts.msg.message_html = `&lt; ${i18n.__('Message was deleted')} &gt;`
+				if(__autorecovermessages != 'true') {
+					self.opts.msg.message_html = `&lt; ${i18n.__('Message was deleted')} &gt;`
+				}
 				self.realformat()
 				return true
 			}
@@ -99,8 +104,10 @@
 			self.refs.msg.innerHTML = self.opts.msg.message_html
 			self.refs.badges.innerHTML = self.opts.msg.badges_html
 
-			self.refs.nickname.style.color = self.opts.msg.color
-			if(self.opts.msg.type > 0 && self.opts.msg.type != 4) {
+			if(self.opts.msg.type != 5) {
+				self.refs.nickname.style.color = self.opts.msg.color
+			}
+			if(self.opts.msg.type > 0 && self.opts.msg.type != 4 && self.opts.msg.type != 5) {
 				self.refs.nickname.classList.add('action')
 				self.refs.msg.style.color = self.opts.msg.color
 			}
@@ -114,6 +121,9 @@
 			if(self.opts.msg.type == 4) {
 				self.refs.nickname.classList.add('whisper')
 			}
+			if(self.opts.msg.type == 5) {
+				self.root.classList.add('highlight')
+			}
 
 			if(self.opts.msg.hasOwnProperty('old_message')) {
 				self.root.classList.add('deleted')
@@ -126,7 +136,9 @@
 
 			var links = self.root.querySelectorAll('a')
 			for(var i = 0; i < links.length; i++) {
-				links[i].style.color = self.opts.msg.color
+				if(self.opts.msg.type != 5) {
+					links[i].style.color = self.opts.msg.color
+				}
 				links[i].onclick = function(e) {
 					e.preventDefault()
 					openLinkExternal(this.href)
