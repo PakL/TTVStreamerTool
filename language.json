@@ -96,6 +96,12 @@
 	"is hosting the channel with {{viewernum}} {{viewers||viewernum}}": {
 		"de": "hostet den Kanal mit {{viewernum}} {{viewers||viewernum}}"
 	},
+	"is auto hosting the channel": {
+		"de": "autohostet den Kanal"
+	},
+	"is auto hosting the channel with {{viewernum}} {{viewers||viewernum}}": {
+		"de": "autohostet den Kanal mit {{viewernum}} {{viewers||viewernum}}"
+	},
 	"viewers": {
 		"en": {
 			"0": "viewer",

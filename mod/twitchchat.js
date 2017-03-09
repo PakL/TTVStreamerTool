@@ -146,6 +146,13 @@ class TwitchChat extends events.EventEmitter {
 								viewers = parseInt(match[2])
 							}
 							this.emit('hostingyou', to, viewers, msg)
+						} else if(msg.match(/is now auto hosting/)) {
+							var viewers = 0
+							var match = msg.match(/(^| )([0-9]+)(\.| |$)/)
+							if(match != null) {
+								viewers = parseInt(match[2])
+							}
+							this.emit('autohostingyou', to, viewers, msg)
 						}
 					} else {
 						if(msg.match(actionprefix)) {
