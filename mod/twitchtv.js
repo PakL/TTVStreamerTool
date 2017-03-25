@@ -1,6 +1,7 @@
 "use strict"
 const https = require('https')
 const url = require('url')
+const zlib = require('zlib')
 
 class TwitchTv {
 
@@ -88,7 +89,8 @@ class TwitchTv {
 
 		let headers = {
 			'Accept': 'application/vnd.twitchtv.v5+json',
-			'Client-ID': self.clientid
+			'Client-ID': self.clientid,
+			'Accept-Encoding': 'gzip'
 		}
 		if(authNeeded) {
 			headers['Authorization'] = 'OAuth ' + self.token
@@ -114,17 +116,33 @@ class TwitchTv {
 			'path': uri,
 			'headers': headers
 		}, (res) => {
-			res.setEncoding('utf8')
+			let gziped = false
+			if(res.headers.hasOwnProperty('content-encoding') && res.headers['content-encoding'].toLowerCase() == 'gzip') {
+				gziped = true
+			}
 			let rawData = ''
-			res.on('data', (chunk) => { rawData += chunk })
+			let rawDataBuffer = Buffer.alloc(0)
+
+			if(!gziped)
+				res.setEncoding('utf8')
+			
+			res.on('data', (chunk) => {
+				if(gziped) {
+					rawDataBuffer = Buffer.concat([rawDataBuffer, chunk])
+				} else {
+					rawData += chunk
+				}
+			})
 			res.on('end', () => {
 				var error = null
 				let parsed = null
+				if(gziped) {
+					rawData = zlib.gunzipSync(rawDataBuffer).toString('utf8')
+				}
 				try {
 					parsed = JSON.parse(rawData)
 				} catch(e) {
 					error = e
-					return
 				}
 				if(res.statusCode != 200) {
 					error = new Error(`API request failed for ${uri} with status code ${res.statusCode}`)
