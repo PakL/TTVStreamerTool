@@ -29,6 +29,6 @@ WebsocketHelper.prototype.reconnect = function() {
 	}
 	this.connection.onclose = function() {
 		console.log('Waiting to reconnect');
-		setTimeout(function(){ self.reconnect(); }, 3000 - (new Date().getTime() % 3000));
+		setTimeout(function(){ console.log('Connecting...'); self.reconnect(); }, 3000 - (new Date().getTime() % 3000));
 	}
 }
