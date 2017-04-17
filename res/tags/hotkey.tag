@@ -16,8 +16,8 @@
 		this.hotkeycommand = this.opts.hotkey.cmd
 
 		this.on('mount', () => {
-			self.refs.lang_enter_hotkey.innerText = i18n.__('Enter Hotkey:')
-			self.refs.lang_enter_command.innerText = i18n.__('Enter command that is sent to overlays:')
+			self.refs.lang_enter_hotkey.innerText = i18n.__('Enter Hotkey')
+			self.refs.lang_enter_command.innerText = i18n.__('Enter command that is sent to overlays')
 		})
 
 		this.keyCodes = {

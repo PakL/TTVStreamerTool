@@ -219,5 +219,23 @@
 	},
 	"Highlights": {
 		"de": "Highlights"
+	},
+	"Overlay hotkeys": {
+		"de": "Overlay-Hotkeys"
+	},
+	"Add hotkey": {
+		"de": "Hotkey hinzufügen"
+	},
+	"Save hotkeys": {
+		"de": "Hotkeys speichern"
+	},
+	"Hotkeys are currently disabled. Save hotkeys to reenable them.": {
+		"de": "Hotkeys wurden verübergehend abgeschaltet. Speichere die Hotkeys um sie wieder tu aktivieren."
+	},
+	"Enter Hotkey": {
+		"de": "Hotkey eingeben"
+	},
+	"Enter command that is sent to overlays": {
+		"de": "Befehl eingeben, der an die Overlays gesendet werden soll"
 	}
 }
