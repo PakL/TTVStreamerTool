@@ -7,7 +7,7 @@
 		<script type="application/javascript">
 			const TwitchTv = require('./mod/twitchtv')
 			const {shell, remote} = require('electron')
-			const {Menu, MenuItem} = remote
+			const {Menu, MenuItem, globalShortcut} = remote
 		</script>
 
 		<link rel="stylesheet" type="text/css" href="res/style.css" />
@@ -43,32 +43,37 @@
 
 			<div id="content_overlays">
 				<div style="padding:5px;">
-				<fieldset>
-					<legend><script type="application/javascript">document.write(i18n.__('Music Overlay'))</script></legend>
-					<label>
-						<script type="application/javascript">document.write(i18n.__('Youtube playlist id: (has to be public)'))</script>
-						<input type="text" id="overlay_music_playlistid">
-						<small><script type="application/javascript">document.write(i18n.__('Press Enter when finished to save'))</script></small>
-					</label>
-					<label>
-						<script type="application/javascript">document.write(i18n.__('Default volume'))</script>
-						<input type="range" id="overlay_music_volume" min="0" max="100" step="5">
-					</label>
-					<label>
-						<script type="application/javascript">document.write(i18n.__('Live volume control'))</script>
-						<input type="range" id="overlay_music_volume_control" min="0" max="100">
-					</label>
-					<label>
-						<script type="application/javascript">document.write(i18n.__('Overlay URL'))</script>
-						<input type="text" id="overlay_music_url" readonly>
-						<small><script type="application/javascript">document.write(i18n.__('Add #black to the end of the URL to get black text with white borders instead of white text with black borders.'))</script></small>
-					</label>
-					<label>
-						<script type="application/javascript">document.write(i18n.__('Overlay volume control URL'))</script>
-						<input type="text" id="overlay_music_volume_control_url" readonly>
-						<small><script type="application/javascript">document.write(i18n.__('This is a completely transparent overlay you can use in different OBS scenes to control the volume on scene changes. Change the number at the end to anything between 0 (mute) to 100 (way to loud).'))</script></small>
-					</label>
-				</fieldset>
+					<fieldset>
+						<legend><script type="application/javascript">document.write(i18n.__('Music Overlay'))</script></legend>
+						<label>
+							<script type="application/javascript">document.write(i18n.__('Youtube playlist id: (has to be public)'))</script>
+							<input type="text" id="overlay_music_playlistid">
+							<small><script type="application/javascript">document.write(i18n.__('Press Enter when finished to save'))</script></small>
+						</label>
+						<label>
+							<script type="application/javascript">document.write(i18n.__('Default volume'))</script>
+							<input type="range" id="overlay_music_volume" min="0" max="100" step="5">
+						</label>
+						<label>
+							<script type="application/javascript">document.write(i18n.__('Live volume control'))</script>
+							<input type="range" id="overlay_music_volume_control" min="0" max="100">
+						</label>
+						<label>
+							<script type="application/javascript">document.write(i18n.__('Overlay URL'))</script>
+							<input type="text" id="overlay_music_url" readonly>
+							<small><script type="application/javascript">document.write(i18n.__('Add #black to the end of the URL to get black text with white borders instead of white text with black borders.'))</script></small>
+						</label>
+						<label>
+							<script type="application/javascript">document.write(i18n.__('Overlay volume control URL'))</script>
+							<input type="text" id="overlay_music_volume_control_url" readonly>
+							<small><script type="application/javascript">document.write(i18n.__('This is a completely transparent overlay you can use in different OBS scenes to control the volume on scene changes. Change the number at the end to anything between 0 (mute) to 100 (way to loud).'))</script></small>
+						</label>
+					</fieldset>
+					<fieldset>
+						<legend><script type="application/javascript">document.write(i18n.__('Overlay data hotkeys'))</script></legend>
+
+						<overlayhotkeys id="overlay_hotkeys"></overlayhotkeys>
+					</fieldset>
 				</div>
 			</div>
 		</div>
@@ -120,6 +125,8 @@
 		<script type="riot/tag" src="res/tags/modal.tag"></script>
 		<script type="riot/tag" src="res/tags/channel.tag"></script>
 		<script type="riot/tag" src="res/tags/channellist.tag"></script>
+		<script type="riot/tag" src="res/tags/hotkey.tag"></script>
+		<script type="riot/tag" src="res/tags/overlayhotkeys.tag"></script>
 		<script type="application/javascript" src="node_modules/riot/riot%2Bcompiler.min.js"></script>
 
 

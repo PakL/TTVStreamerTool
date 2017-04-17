@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, globalShortcut} = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -23,6 +23,7 @@ function createWindow () {
 app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {
+	globalShortcut.unregisterAll()
 	if (process.platform !== 'darwin') {
 		app.quit()
 	}

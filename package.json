@@ -1,16 +1,18 @@
 {
 	"name": "ttv-streamertool",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"main": "main.js",
 
 	"scripts": {
 		"start": ".\\node_modules\\electron\\dist\\electron.exe .\\"
 	},
-	"devDependencies": {
-		"electron": "^1.4.14",
+	"dependencies": {
 		"riot": "^3.0.7",
 		"i18n-nodejs": "^2.0.0",
 		"dateformat": "^2.0.0",
 		"nodejs-websocket": "^1.7.1"
+	},
+	"devDependencies": {
+		"electron": "^1.4.14"
 	}
 }
