@@ -1,0 +1,10 @@
+{
+	"name": "LogitechMonochromLCD",
+	"dependencies":{
+		"ffi": "2.2.0",
+		"ref-wchar": "1.0.2",
+		"ref-array": "1.2.0",
+		"winreg": "1.2.3"
+	},
+	"systems": ["win32"]
+}
