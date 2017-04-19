@@ -61,10 +61,8 @@
 				font-weight: 400;
 				font-size: 100%;
 				color: white;
-				text-shadow:	1px  1px black,
-								1px -1px black,
-								-1px  1px black,
-								-1px -1px black;
+				 -webkit-text-stroke: 1px black;
+				text-stroke: 1px black;
 			}
 			#player {
 				position: absolute;
@@ -170,7 +168,7 @@
 
 			$(document).ready(function(){
 				if(args.indexOf("black") >= 0) {
-					$("#video_title").css({"color": "black", "text-shadow": "1px  1px white, 1px -1px white, -1px  1px white, -1px -1px white"});
+					$("#video_title").css({"color": "black", "-webkit-text-stroke": "1px white", "text-stroke": "1px white"});
 				}
 			});
 		</script>
