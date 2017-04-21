@@ -12,12 +12,34 @@ var scriptpath = path.dirname(thisscript)
 
 const winreg = require(scriptpath + '/node_modules/winreg')
 const LogitechLcd = require(scriptpath + '/logitechlcd')
-
+const bmfont = require(scriptpath + '/node_modules/load-bmfont')
+const tga = require(scriptpath + '/tga')
 
 class LcdHelper extends EventEmitter {
 
-	constructor() {
+	constructor(bmfont) {
 		super()
+
+		this.bmfont_config = bmfont
+		this.bmfont = {}
+
+		let bmfontpages = []
+		for(let i = 0; i < this.bmfont_config.pages.length; i++) {
+			let img = new tga(scriptpath +'/' + this.bmfont_config.pages[i])
+			bmfontpages.push({ width: img.width, height: img.height, pixels: img.getPixel(0, 0, img.width, img.height) })
+		}
+		for(let i = 0; i < this.bmfont_config.chars.length; i++) {
+			let char = this.bmfont_config.chars[i]
+			let charpixel = []
+			for(let y = char.y; y < char.y+char.height; y++) {
+				for(let x = char.x; x < char.x+char.width; x++) {
+					charpixel.push(bmfontpages[char.page].pixels[(y * bmfontpages[char.page].width + x)][0])
+				}
+			}
+			char.pixels = charpixel
+			this.bmfont[char.id.toString()] = char
+		}
+
 		this.PAGE_0 = 0
 		this.PAGE_1 = 1
 		this.PAGE_2 = 2
@@ -33,12 +55,6 @@ class LcdHelper extends EventEmitter {
 			new LogitechLcd.PIXEL_ARRAY(this.width * this.height),
 			new LogitechLcd.PIXEL_ARRAY(this.width * this.height),
 			new LogitechLcd.PIXEL_ARRAY(this.width * this.height)
-		]
-		this.texts = [
-			['', '', '', ''],
-			['', '', '', ''],
-			['', '', '', ''],
-			['', '', '', '']
 		]
 		this.background = this.backgrounds[this.page]
 
@@ -58,14 +74,11 @@ class LcdHelper extends EventEmitter {
 			}
 		}
 	}
-	clearText(page) {
-		this.write(page, 0, '')
-		this.write(page, 1, '')
-		this.write(page, 2, '')
-		this.write(page, 3, '')
-	}
 
 	plot(page, x, y, on) {
+		if(x >= LogitechLcd.LOGI_LCD_MONO_WIDTH || y >= LogitechLcd.LOGI_LCD_MONO_HEIGHT) {
+			return
+		}
 		this.backgrounds[page][x + (y * this.width)] = (on ? 255 : 0)
 	}
 
@@ -130,9 +143,19 @@ class LcdHelper extends EventEmitter {
 	}
 
 	write(page, line, text) {
-		this.texts[page][line] = text
-		if(this.page == page) {
-			LogitechLcd.l.LogiLcdMonoSetText(line, text)
+		for(let i = 0; i < text.length; i++) {
+			let charCode = text.charCodeAt(i)
+			if(this.bmfont.hasOwnProperty(charCode)) {
+				let char = this.bmfont[charCode]
+				let _x = Math.floor((5-char.width)/2)
+				if(_x > 0) char.xoffset = char.xoffset + _x
+				for(let yp = 0; yp < char.height; yp++) {
+					for(let xp = 0; xp < char.width; xp++) {
+						let p = char.pixels[yp * char.width + xp]
+						this.plot(page, i*6 + xp + char.xoffset, line*9-3 + yp + char.yoffset, (p > 128 ? true : false))
+					}
+				}
+			}
 		}
 	}
 
@@ -140,10 +163,6 @@ class LcdHelper extends EventEmitter {
 		if(newPage != this.page) {
 			this.page = newPage
 			this.background = this.backgrounds[this.page]
-			LogitechLcd.l.LogiLcdMonoSetText(0, this.texts[this.page][0])
-			LogitechLcd.l.LogiLcdMonoSetText(1, this.texts[this.page][1])
-			LogitechLcd.l.LogiLcdMonoSetText(2, this.texts[this.page][2])
-			LogitechLcd.l.LogiLcdMonoSetText(3, this.texts[this.page][3])
 		}
 	}
 
@@ -174,28 +193,29 @@ class LcdHelper extends EventEmitter {
 
 let lcd = null
 let regHKLM = new winreg({ hive: winreg.HKLM, key: '\\SOFTWARE\\Logitech\\Logitech Gaming Software' })
-regHKLM.get('InstallDir', (err, item) => {
-	if(err == null) {
-		LogitechLcd.load(item.value + '\\SDK\\LCD\\x64\\LogitechLcd')
+bmfont(scriptpath + '/5squared.fnt', (err, font) => {
+	if(err != null) console.error(err)
 
-		lcd = new LcdHelper()
+	regHKLM.get('InstallDir', (err, item) => {
+		if(err == null) {
+			LogitechLcd.load(item.value + '\\SDK\\LCD\\x64\\LogitechLcd')
 
-		window.onbeforeunload = (e) => {
-			lcd.shutdown()
+			lcd = new LcdHelper(font)
+
+			window.onbeforeunload = (e) => {
+				lcd.shutdown()
+			}
+
+			lcd.on('update', lcd_viewerplotter)
+		} else {
+			console.error(err)
 		}
-
-		lcd.on('update', lcd_viewerplotter)
-	} else {
-		console.error(err)
-	}
+	})
 })
 
 let lcd_splash = false
 const lcd_viewerplotter = function() {
 	if(openChannelId.length > 0) {
-		lcd.write(lcd.PAGE_0, 0, '')
-		lcd.write(lcd.PAGE_0, 1, '')
-		lcd.write(lcd.PAGE_0, 2, '')
 		if(channelViewersplotter.hasOwnProperty('_tag')) {
 			lcd.clearBackground(lcd.PAGE_0)
 			let data = channelViewersplotter._tag.data.slice(0, 80)
@@ -203,23 +223,23 @@ const lcd_viewerplotter = function() {
 			let v = -1
 			for(let i = data.length-80; i < data.length; i++) {
 				if(i >= 0) {
-					var ytop = 28 - Math.floor(28 / 100 * data[i].height)
-					lcd.drawRect(lcd.PAGE_0, c, ytop, c+1, 28)
+					var ytop = 31 - Math.floor(31 / 100 * data[i].height)
+					lcd.drawRect(lcd.PAGE_0, c, ytop, c+1, 31)
 					//if(v < 0) {
 						v = data[i].viewers
 					//}
 				}
 				c += 2
 			}
-			lcd.write(lcd.PAGE_0, 3, i18n.__('{{viewernum}} {{viewers||viewernum}}', { viewernum: v }))
+			lcd.write(lcd.PAGE_0, 4, i18n.__('{{viewernum}} {{viewers||viewernum}}', { viewernum: v }))
 		}
 	} else if(!lcd_splash) {
-		lcd.write(lcd.PAGE_0, 0, '')
-		lcd.write(lcd.PAGE_0, 1, '     TTV Streamer Tool     ')
-		lcd.write(lcd.PAGE_0, 2, '  Logitech-Mono-LCD Addon  ')
-		lcd.write(lcd.PAGE_0, 3, '')
-
 		lcd.clearBackground(lcd.PAGE_0)
-		lcd.drawRect(lcd.PAGE_0, 9, 8, 150, 30)
+		lcd.write(lcd.PAGE_0, 1, '     TTVStreamer Tool    ')
+		lcd.write(lcd.PAGE_0, 2, '    Logitech-LCD Addon   ')
+		lcd.write(lcd.PAGE_0, 3, '      by Pascal Pohl     ')
+
+		lcd.drawRect(lcd.PAGE_0, 22, 8, 132, 34)
+		lcd_splash = true
 	}
 }
