@@ -237,8 +237,8 @@ const lcd_viewerplotter = function() {
 	} else if(!lcd_splash) {
 		lcd.clearBackground(lcd.PAGE_0)
 		lcd.write(lcd.PAGE_0, 1, '     TTVStreamer Tool    ')
-		lcd.write(lcd.PAGE_0, 2, '2   Logitech-LCD Addon   ')
-		lcd.write(lcd.PAGE_0, 3, '1     by Pascal Pohl     ')
+		lcd.write(lcd.PAGE_0, 2, '    Logitech-LCD Addon   ')
+		lcd.write(lcd.PAGE_0, 3, '      by Pascal Pohl     ')
 
 		lcd.drawRect(lcd.PAGE_0, 22, 8, 132, 34)
 		lcd_splash = true
