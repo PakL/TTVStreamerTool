@@ -71,7 +71,7 @@
 		plotViewersCount(count, timestamp) {
 			var c = count
 			self.viewerscount = c.toString()
-			if(c >= 1000) {
+			if(c >= 10000) {
 				c = c / 1000
 				if(c >= 1000) {
 					c = c / 1000
