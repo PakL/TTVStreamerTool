@@ -30,6 +30,9 @@ class LcdHelper extends EventEmitter {
 		}
 		for(let i = 0; i < this.bmfont_config.chars.length; i++) {
 			let char = this.bmfont_config.chars[i]
+			let _x = Math.floor((5-char.width)/2)
+			if(_x > 0) char.xoffset = char.xoffset + _x
+
 			let charpixel = []
 			for(let y = char.y; y < char.y+char.height; y++) {
 				for(let x = char.x; x < char.x+char.width; x++) {
@@ -147,8 +150,6 @@ class LcdHelper extends EventEmitter {
 			let charCode = text.charCodeAt(i)
 			if(this.bmfont.hasOwnProperty(charCode)) {
 				let char = this.bmfont[charCode]
-				let _x = Math.floor((5-char.width)/2)
-				if(_x > 0) char.xoffset = char.xoffset + _x
 				for(let yp = 0; yp < char.height; yp++) {
 					for(let xp = 0; xp < char.width; xp++) {
 						let p = char.pixels[yp * char.width + xp]
@@ -218,7 +219,7 @@ const lcd_viewerplotter = function() {
 	if(openChannelId.length > 0) {
 		if(channelViewersplotter.hasOwnProperty('_tag')) {
 			lcd.clearBackground(lcd.PAGE_0)
-			let data = channelViewersplotter._tag.data.slice(0, 80)
+			let data = channelViewersplotter._tag.data.slice((channelViewersplotter._tag.data.length > 80 ? channelViewersplotter._tag.data.length-80 : 0), channelViewersplotter._tag.data.length)
 			let c = 0
 			let v = -1
 			for(let i = data.length-80; i < data.length; i++) {
@@ -236,8 +237,8 @@ const lcd_viewerplotter = function() {
 	} else if(!lcd_splash) {
 		lcd.clearBackground(lcd.PAGE_0)
 		lcd.write(lcd.PAGE_0, 1, '     TTVStreamer Tool    ')
-		lcd.write(lcd.PAGE_0, 2, '    Logitech-LCD Addon   ')
-		lcd.write(lcd.PAGE_0, 3, '      by Pascal Pohl     ')
+		lcd.write(lcd.PAGE_0, 2, '2   Logitech-LCD Addon   ')
+		lcd.write(lcd.PAGE_0, 3, '1     by Pascal Pohl     ')
 
 		lcd.drawRect(lcd.PAGE_0, 22, 8, 132, 34)
 		lcd_splash = true
