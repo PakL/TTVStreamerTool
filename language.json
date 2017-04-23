@@ -240,5 +240,8 @@
 	},
 	"Enter command that is sent to overlays": {
 		"de": "Befehl eingeben, der an die Overlays gesendet werden soll"
+	},
+	"Click here to dismiss this message": {
+		"de": "Hier klicken um diese Nachricht zu verstecken"
 	}
 }
