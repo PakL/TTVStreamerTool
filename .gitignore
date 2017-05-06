@@ -39,3 +39,5 @@ jspm_packages
 /dist
 /_electron
 /build.bat
+/res/overlays/dwz
+/res/overlays/dwz_2
