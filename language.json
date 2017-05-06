@@ -243,5 +243,14 @@
 	},
 	"Click here to dismiss this message": {
 		"de": "Hier klicken um diese Nachricht zu verstecken"
+	},
+	"View": {
+		"de": "Ansicht"
+	},
+	"Game information changed to «{{game}}»": {
+		"de": "Spielinformation auf «{{game}}» geändert"
+	},
+	"Stream title changed to «{{status}}»": {
+		"de": "Streamtitel auf «{{status}}» geändert"
 	}
 }

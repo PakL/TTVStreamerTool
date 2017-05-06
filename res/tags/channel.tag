@@ -19,7 +19,7 @@
 	<script>
 		const self = this
 		this.root.onclick = function() {
-			openChannel(self.opts.chnl._id)
+			Tool.ui.findPage('Cockpit').openChannel(self.opts.chnl._id)
 		}
 	</script>
 </channel>

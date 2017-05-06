@@ -58,7 +58,9 @@
 		newColor() {
 			self.colorIndex++
 			if(self.colorIndex >= defaultColors.length) self.colorIndex = 0
-			self.color = defaultColors[self.colorIndex][1]
+			let c = defaultColors[self.colorIndex][1]
+			if(!isGoodYIQ(c)) c = makeColorLighter(c)
+			self.color = c
 		}
 
 		clearPlotter() {
@@ -84,7 +86,7 @@
 					self.viewerscount = c.toFixed(decnum) + 'k'
 				}
 			}
-			if(__language == 'de') {
+			if(Tool.settings.language == 'de') {
 				self.viewerscount = self.viewerscount.replace(/\./, ',')
 			}
 

@@ -91,8 +91,8 @@
 		deleteifuser(username) {
 			if(username == self.opts.msg.user && !self.opts.msg.hasOwnProperty('old_message')) {
 				self.opts.msg.old_message = self.opts.msg.message_html
-				if(__autorecovermessages != 'true') {
-					self.opts.msg.message_html = `&lt; ${i18n.__('Message was deleted')} &gt;`
+				if(!Tool.settings.autoRecoverMessages) {
+					self.opts.msg.message_html = `&lt; ${Tool.i18n.__('Message was deleted')} &gt;`
 				}
 				self.realformat()
 				return true

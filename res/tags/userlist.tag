@@ -58,28 +58,28 @@
 					enabled: false
 				},
 				{
-					label: i18n.__('Clear messages'),
-					click() { if(openChannelObject.hasOwnProperty('name')) { twitchchat.sendmsg(openChannelObject.name, '/timeout ' + username + ' 5') } }
+					label: Tool.i18n.__('Clear messages'),
+					click() { if(Tool.cockpit.openChannelObject.hasOwnProperty('name')) { Tool.chat.sendmsg(Tool.cockpit.openChannelObject.name, '/timeout ' + username + ' 5') } }
 				},
 				{ type: 'separator' },
 				{
-					label: i18n.__('Ban'),
-					click() { if(openChannelObject.hasOwnProperty('name')) { twitchchat.sendmsg(openChannelObject.name, '/ban ' + username) } }
+					label: Tool.i18n.__('Ban'),
+					click() { if(Tool.cockpit.openChannelObject.hasOwnProperty('name')) { Tool.chat.sendmsg(Tool.cockpit.openChannelObject.name, '/ban ' + username) } }
 				},
 				{
-					label: i18n.__('Timeout'),
+					label: Tool.i18n.__('Timeout'),
 					submenu: [
 						{
-							label: i18n.__('for {{sec}} {{seconds||sec}}', { sec: 60 }),
-							click() { if(openChannelObject.hasOwnProperty('name')) { twitchchat.sendmsg(openChannelObject.name, '/timeout ' + username + ' 60') } }
+							label: Tool.i18n.__('for {{sec}} {{seconds||sec}}', { sec: 60 }),
+							click() { if(Tool.cockpit.openChannelObject.hasOwnProperty('name')) { Tool.chat.sendmsg(Tool.cockpit.openChannelObject.name, '/timeout ' + username + ' 60') } }
 						},
 						{
-							label: i18n.__('for {{min}} {{minutes||min}}', { min: 5 }),
-							click() { if(openChannelObject.hasOwnProperty('name')) { twitchchat.sendmsg(openChannelObject.name, '/timeout ' + username + ' ' + (60*5).toString()) } }
+							label: Tool.i18n.__('for {{min}} {{minutes||min}}', { min: 5 }),
+							click() { if(Tool.cockpit.openChannelObject.hasOwnProperty('name')) { Tool.chat.sendmsg(Tool.cockpit.openChannelObject.name, '/timeout ' + username + ' ' + (60*5).toString()) } }
 						},
 						{
-							label: i18n.__('for {{min}} {{minutes||min}}', { min: 20 }),
-							click() { if(openChannelObject.hasOwnProperty('name')) { twitchchat.sendmsg(openChannelObject.name, '/timeout ' + username + ' ' + (60*20).toString()) } }
+							label: Tool.i18n.__('for {{min}} {{minutes||min}}', { min: 20 }),
+							click() { if(Tool.cockpit.openChannelObject.hasOwnProperty('name')) { Tool.chat.sendmsg(Tool.cockpit.openChannelObject.name, '/timeout ' + username + ' ' + (60*20).toString()) } }
 						}
 					]
 				}

@@ -142,6 +142,7 @@ class TwitchTv {
 				try {
 					parsed = JSON.parse(rawData)
 				} catch(e) {
+					console.log(rawData)
 					error = e
 				}
 				if(res.statusCode != 200) {

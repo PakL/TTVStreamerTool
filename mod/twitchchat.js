@@ -47,11 +47,14 @@ class TwitchChat extends events.EventEmitter {
 				self.slaughter(message)
 			}
 		})
-		this.socket.connect(this.options.port, this.options.host)
 
 		this.namelists = {}
 
 		events.EventEmitter.call(this)
+	}
+
+	connect() {
+		this.socket.connect(this.options.port, this.options.host)
 	}
 	
 	disconnect() {

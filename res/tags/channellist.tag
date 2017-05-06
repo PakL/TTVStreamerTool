@@ -19,13 +19,13 @@
 		}
 
 		this.on('mount', () => {
-			self.refs.loadmore.innerText = i18n.__('Load more')
+			self.refs.loadmore.innerText = Tool.i18n.__('Load more')
 		})
 
 		this.on('updated', () => {
 			self.refs.loadmore.onclick = function() {
 				self.refs.loadmore.onclick = () => {}
-				loadMoreFollows()
+				Tool.ui.findPage('Cockpit').loadMoreFollows()
 			}
 			if(self.channels.length % 10 > 0) {
 				self.refs.loadmore.style.display = 'none'
