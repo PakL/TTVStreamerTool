@@ -4,16 +4,6 @@
 		<meta charset="utf-8" />
 		<title>TTVStreamerTool</title>
 
-<!--
-		<script type="application/javascript">
-			const TwitchTv = require('./mod/twitchtv')
-			const {shell, remote} = require('electron')
-			const {Menu, MenuItem, globalShortcut} = remote
-		</script>
-
-		<script type="application/javascript" src="lib/settings.js"></script>
-		<script type="application/javascript" src="lib/menu.js"></script>
-		-->
 		<link rel="stylesheet" type="text/css" href="res/style.css" />
 		<script type="application/javascript" src="node_modules/riot/riot%2Bcompiler.min.js"></script>
 		<script type="application/javascript" src="lib/chathelper.js"></script>
@@ -142,36 +132,5 @@
 		<script type="riot/tag" src="res/tags/channellist.tag"></script>
 		<script type="riot/tag" src="res/tags/hotkey.tag"></script>
 		<script type="riot/tag" src="res/tags/overlayhotkeys.tag"></script>
-
-
-<!--
-
-		<script type="application/javascript">
-			let twitchapi = new TwitchTv({
-				clientid: '11vhuxdssb9pc3s2uqpa7s3s0252hyk',
-				redirecturi: 'http://localhost:8086/',
-				scope: [
-					'user_read',
-					'channel_check_subscription',
-					'channel_editor',
-					'channel_read',
-					'channel_stream',
-					'channel_subscriptions',
-					'chat_login'
-				]
-			})
-			let twitchchat = null
-
-
-			riot.mount(document.querySelector('#highlightdialog'))
-		</script>
-		<script type="application/javascript" src="lib/chat.js"></script>
-		<script type="application/javascript" src="lib/cockpit.js"></script>
-		<script type="application/javascript" src="lib/follows.js"></script>
-		<script type="application/javascript" src="lib/auth.js"></script>
-
-		<script type="application/javascript" src="lib/overlay.js"></script>
-		<script type="application/javascript" src="lib/addons.js"></script>
--->
 	</body>
 </html>
