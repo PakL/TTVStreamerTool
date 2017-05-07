@@ -13,6 +13,8 @@ const Channel = require('../var/channel')
 const Follows = require('../var/follows')
 const Subscriptions = require('../var/subscriptions')
 
+const Addons = require('../lib/addons')
+
 class TTVTool extends EventEmitter {
 
 	constructor() {
@@ -41,6 +43,8 @@ class TTVTool extends EventEmitter {
 		this._channel = new Channel(this)
 		this._follows = new Follows(this)
 		this._subscriptions = new Subscriptions(this)
+
+		this._addons = new Addons(this)
 
 		const self = this
 		window.onload = (e) => { self.emit('load') }
