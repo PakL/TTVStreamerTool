@@ -113,7 +113,7 @@
 				var v = player.getVideoData();
 				document.getElementById("video_title").innerHTML = "Aktuell läuft: <b>" + v.title + "</b>";
 				resizeFont();
-				if(starting) {
+				if(starting || event == YT.PlayerState.ENDED) {
 					starting = false;
 					setTimeout(function(){
 						player.setShuffle(1);
