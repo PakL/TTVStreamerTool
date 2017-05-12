@@ -42,7 +42,8 @@ class TTVTool extends EventEmitter {
 		
 		this._channel = new Channel(this)
 		this._follows = new Follows(this)
-		this._subscriptions = new Subscriptions(this)
+		// All subscriptions are coming via chat now
+		//this._subscriptions = new Subscriptions(this)
 
 		this._addons = new Addons(this)
 
@@ -94,6 +95,10 @@ class TTVTool extends EventEmitter {
 
 	get subscriptions() {
 		return this._subscriptions
+	}
+
+	get addons() {
+		return this._addons
 	}
 
 }

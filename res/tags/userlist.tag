@@ -117,7 +117,10 @@
 			return self.users.length
 		}
 
-		joinusr(user) {
+		joinusr(user, noupdate) {
+			if(typeof(noupdate) != "boolean") {
+				noupdate = false
+			}
 			var index = self.findentry(user.user)
 			if(index >= 0) {
 				if(!user.hasOwnProperty('nooverwrite') || !user.nooverwrite) {
@@ -139,7 +142,8 @@
 			} else {
 				self.users.push(user)
 			}
-			self.update()
+			if(!noupdate)
+				self.update()
 		}
 		partusr(username) {
 			var index = self.findentry(username)

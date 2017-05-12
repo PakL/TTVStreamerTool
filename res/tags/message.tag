@@ -1,7 +1,7 @@
 <message>
 	<span class="timestamp" ref="timestamp">{ opts.msg.timestamp }</span>
 	<span class="m">
-		<span class="user">
+		<span class="user" ref="user">
 			<span class="badges" ref="badges"></span>
 			<span class="nickname" ref="nickname" data-username="{ opts.msg.user }">{ opts.msg.nickname }</span>
 		</span>
@@ -113,7 +113,7 @@
 			}
 			if(self.opts.msg.type == 2) {
 				self.root.classList.add('important')
-				self.refs.nickname.style.display = 'none'
+				self.refs.user.style.display = 'none'
 			}
 			if(self.opts.msg.type == 3 || self.opts.msg.type == 4) {
 				self.root.classList.add('important')
