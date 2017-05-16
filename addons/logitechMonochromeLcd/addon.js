@@ -7,9 +7,9 @@ const LcdHelper = require('./lcdhelper')
 
 class LogitechMonochromeLcd {
 
-	constructor(tool, addonpath) {
+	constructor(tool) {
 		this.tool = tool
-		this.addonpath = addonpath
+		this.addonpath = __dirname
 
 		const self = this
 

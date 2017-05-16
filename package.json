@@ -10,7 +10,8 @@
 		"riot": "^3.0.7",
 		"i18n-nodejs": "^2.0.0",
 		"dateformat": "^2.0.0",
-		"nodejs-websocket": "^1.7.1"
+		"nodejs-websocket": "^1.7.1",
+		"require-uncached": "^1.0.3"
 	},
 	"devDependencies": {
 		"electron": "^1.4.14"
