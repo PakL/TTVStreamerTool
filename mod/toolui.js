@@ -161,11 +161,13 @@ class ToolUI {
 		this.loadingElement = null
 	}
 
-	showErrorMessage(error) {
+	showErrorMessage(error, autohide) {
+		if(typeof(autohide) != "boolean") autohide = false
+
 		this.stopLoading() // Stop loading
 		if(!error.hasOwnProperty('message')) error = new Error(this._tool.i18n.__('Unkown error'))
-		console.error(error)
-		var modal = document.createElement('modal')
+		if(!autohide) console.error(error)
+		const modal = document.createElement('modal')
 		modal.innerHTML = error.message.replace('<', '&gt;').replace('>', '&lt;').replace('\n', '<br>')
 		modal.onclick = function() {
 			this.parentElement.removeChild(this)
@@ -174,6 +176,16 @@ class ToolUI {
 
 		document.getElementsByTagName('body')[0].appendChild(modal)
 		riot.mount(modal)
+
+		if(autohide) {
+			setTimeout(() => {
+				try {
+					modal.parentElement.removeChild(modal)
+				} catch(e) {
+					// Probably already removed
+				}
+			}, 5000)
+		}
 	}
 
 }

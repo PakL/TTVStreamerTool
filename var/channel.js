@@ -70,7 +70,7 @@ class Channel extends EventEmitter {
 							self.emit('viewers', 0)
 						} else if(err != null) {
 							if(err.hasOwnProperty('message')) err.message += '\n' + self.tool.i18n.__('Click here to dismiss this message')
-							self.tool.ui.showErrorMessage(err)
+							self.tool.ui.showErrorMessage(err, true)
 						}
 
 						self.timer = setTimeout(() => { self.fetchData() }, (30000 - (new Date().getTime() % 30000)))
@@ -79,7 +79,7 @@ class Channel extends EventEmitter {
 				}
 			} else if(err != null) {
 				if(err.hasOwnProperty('message')) err.message += '\n' + self.tool.i18n.__('Click here to dismiss this message')
-				self.tool.ui.showErrorMessage(err)
+				self.tool.ui.showErrorMessage(err, true)
 			}
 
 			self.timer = setTimeout(() => { self.fetchData() }, (30000 - (new Date().getTime() % 30000)))

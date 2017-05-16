@@ -60,7 +60,7 @@ class Subscriptions extends EventEmitter {
 					self.skipSubscriptions = true
 				} else {
 					if(err.hasOwnProperty('message')) err.message += '\n' + self.tool.i18n.__('Click here to dismiss this message')
-					self.tool.ui.showErrorMessage(err)
+					self.tool.ui.showErrorMessage(err, true)
 				}
 			}
 
