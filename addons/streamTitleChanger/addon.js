@@ -1,8 +1,9 @@
-"use strict"
+	"use strict"
 
 const path = require("path")
 const {spawn} = require('child_process')
 const UIPage  = require(path.dirname(module.parent.filename) + '/../mod/uipage')
+const fs = require('fs')
 
 class StreamTitleChanger extends UIPage {
 
@@ -14,6 +15,7 @@ class StreamTitleChanger extends UIPage {
 		this.contentElement = null
 		this.settings = tool.settings.getJSON('streamtitlechanger', [])
 		this.timer = null
+		this.psspath = ''
 		this.ls = null
 
 		this.lastactiveknown = -1
@@ -27,7 +29,16 @@ class StreamTitleChanger extends UIPage {
 			self.contentElement.appendChild(applicationlist)
 			document.querySelector('#contents').appendChild(self.contentElement)
 
-			self.startProcessMonitor();
+			console.log('[StreamTitleChanger] Loading monitoring script into temp folder')
+			try {
+				let script = fs.readFileSync(path.join(__dirname, 'processmonitor.ps1'), {encoding: 'utf8'})
+				this.psspath = path.join(process.env.TEMP, 'processmonitor.ps1')
+				fs.writeFileSync(this.psspath, script)
+				console.log('[StreamTitleChanger] ' + this.psspath + ' created')
+				self.startProcessMonitor();
+			} catch(e) {
+				self.tool.ui.showErrorMessage(e)
+			}
 			
 			riot.compile('/' + __dirname.replace(/\\/g, '/') + '/res/application.tag', () => {
 				riot.compile('/' + __dirname.replace(/\\/g, '/') + '/res/applicationlist.tag', () => {
@@ -39,12 +50,15 @@ class StreamTitleChanger extends UIPage {
 			if(this.ls != null) {
 				this.ls.kill()
 			}
+			if(this.psspath.length > 0) {
+				fs.unlinkSync(this.psspath)
+			}
 		})
 	}
 
 	startProcessMonitor() {
 		const self = this
-		this.ls = spawn('powershell', ["-ExecutionPolicy", "Bypass","-File", path.join(__dirname, 'processmonitor.ps1')])
+		this.ls = spawn('powershell', ["-ExecutionPolicy", "Bypass","-File", this.psspath])
 		this.ls.stdout.setEncoding('utf8')
 		this.ls.stdout.on('data', function(stdout) {
 			self.checkProcess(stdout.toString())
