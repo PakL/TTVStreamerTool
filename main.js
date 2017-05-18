@@ -1,4 +1,7 @@
-const {app, BrowserWindow, globalShortcut} = require('electron')
+const Electron = require('electron')
+const {app, BrowserWindow, globalShortcut} = Electron
+const EAU = require('electron-asar-updater');
+
 const path = require('path')
 const url = require('url')
 
@@ -6,6 +9,8 @@ let win
 
 function createWindow () {
 	win = new BrowserWindow({width: 800, height: 600})
+
+	EAU.init({ 'api': 'https://vs.paklweb.de/ttvst/update.php' })
 
 	win.loadURL(url.format({
 		pathname: path.join(__dirname, 'index.html'),

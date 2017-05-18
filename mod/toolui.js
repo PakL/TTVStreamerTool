@@ -186,6 +186,7 @@ class ToolUI {
 				}
 			}, 5000)
 		}
+		return modal;
 	}
 
 }

@@ -252,5 +252,14 @@
 	},
 	"Stream title changed to «{{status}}»": {
 		"de": "Streamtitel auf «{{status}}» geändert"
+	},
+	"There is a new update. Downloading now...": {
+		"de": "Es gibt ein neues Update. Lade herunter...."
+	},
+	"Update ready. Please restart!": {
+		"de": "Update bereit. Bitte neustarten!"
+	},
+	"Please wait a few seconds before restaring.": {
+		"de": "Bitte warte ein paar Sekunden bevor du das Programm neustartest."
 	}
 }
