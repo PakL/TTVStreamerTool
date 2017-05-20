@@ -261,5 +261,8 @@
 	},
 	"Please wait a few seconds before restaring.": {
 		"de": "Bitte warte ein paar Sekunden bevor du das Programm neustartest."
+	},
+	"Update ready. Program will restart automatically!": {
+		"de": "Update bereit. Programm wird automatisch neugestartet!"
 	}
 }
