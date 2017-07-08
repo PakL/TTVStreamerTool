@@ -256,12 +256,14 @@ class TwitchChat extends events.EventEmitter {
 				break
 			// USERNOTICE sends subscriptions
 			case (action == 'USERNOTICE'):
-				var channel = attach
-				if(channel.substr(0, 1) == '#') channel = channel.substr(1)
-				var messageIndex = msg.indexOf(':')
+				channel = attach
+				if(channel.startsWith('#')) channel = channel.substr(1)
+				var messageIndex = attach.indexOf(' :')
 				var message = ''
 				if(messageIndex >= 0) {
-					message = msg.substr(messageIndex+1)
+					message = attach.substr(messageIndex+2)
+					channel = attach.substr(0, messageIndex)
+					if(channel.startsWith('#')) channel = channel.substr(1)
 				}
 				this.emit('usernotice', channel, tags, message)
 				break
