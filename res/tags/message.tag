@@ -104,10 +104,15 @@
 			self.refs.msg.innerHTML = self.opts.msg.message_html
 			self.refs.badges.innerHTML = self.opts.msg.badges_html
 
+			if(self.opts.msg.type >= 20) {
+				self.root.classList.add('deleted')
+				self.opts.msg.type = self.opts.msg.type-20
+			}
+
 			if(self.opts.msg.type != 5) {
 				self.refs.nickname.style.color = self.opts.msg.color
 			}
-			if(self.opts.msg.type > 0 && self.opts.msg.type != 4 && self.opts.msg.type != 5) {
+			if(self.opts.msg.type > 0 && self.opts.msg.type < 4) {
 				self.refs.nickname.classList.add('action')
 				self.refs.msg.style.color = self.opts.msg.color
 			}
