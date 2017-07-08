@@ -76,7 +76,7 @@ class TwitchChat extends events.EventEmitter {
 		this.sendCLRF('CAP REQ :twitch.tv/membership')
 		this.sendCLRF('CAP REQ :twitch.tv/commands')
 		this.sendCLRF('CAP REQ :twitch.tv/tags')
-	};
+	}
 	slaughter(msg) {
 		var p = msg.substr(0, 1)
 		var tags = ''
@@ -140,22 +140,23 @@ class TwitchChat extends events.EventEmitter {
 					// Determine if message is actually an action (/me)
 					var actionprefix = new RegExp('^ ?\x01ACTION ')
 					var to = params[0]
+					if(to.substr(0, 1) == '#') to = to.substr(1)
 					var msg = attach.substr(attach.indexOf(' :')+2)
 					if(prefix.user == 'jtv') {
 						if(msg.match(/is now hosting/)) {
 							var viewers = 0
-							var match = msg.match(/(^| )([0-9]+)(\.| |$)/)
+							var match = msg.match(/( )([0-9]+)(\.| |$)/)
 							if(match != null) {
 								viewers = parseInt(match[2])
 							}
-							this.emit('hostingyou', to, viewers, msg)
+							this.emit('hostingyou', to, msg.substr(0, msg.indexOf(' ')), viewers, msg, tags)
 						} else if(msg.match(/is now auto hosting/)) {
 							var viewers = 0
-							var match = msg.match(/(^| )([0-9]+)(\.| |$)/)
+							var match = msg.match(/( )([0-9]+)(\.| |$)/)
 							if(match != null) {
 								viewers = parseInt(match[2])
 							}
-							this.emit('autohostingyou', to, viewers, msg)
+							this.emit('autohostingyou', to, msg.substr(0, msg.indexOf(' ')), viewers, msg, tags)
 						}
 					} else {
 						if(msg.match(actionprefix)) {
@@ -213,7 +214,7 @@ class TwitchChat extends events.EventEmitter {
 					if(!this.namelists.hasOwnProperty(channel) || typeof(this.namelists[channel]) == 'undefined')
 						this.namelists[channel] = []
 
-					this.emit('names', '#' + channel, this.namelists[channel])
+					this.emit('names', channel, this.namelists[channel])
 					this.namelists[channel] = undefined
 				}
 				break
@@ -231,6 +232,7 @@ class TwitchChat extends events.EventEmitter {
 				var args = attach.split(' ', 3)
 				if(args.length == 3) {
 					var channel = args[0]
+					if(channel.substr(0, 1) == '#') channel = channel.substr(1)
 					var mode = args[1]
 					var user = args[2]
 					if(mode.substr(0, 1) == '+')
@@ -247,6 +249,7 @@ class TwitchChat extends events.EventEmitter {
 				var args = attach.split(' :', 2)
 				if(args.length == 2) {
 					var channel = args[0]
+					if(channel.substr(0, 1) == '#') channel = channel.substr(1)
 					var msg = args[1]
 					this.emit("notice", channel, msg, tags)
 				}
@@ -254,6 +257,7 @@ class TwitchChat extends events.EventEmitter {
 			// USERNOTICE sends subscriptions
 			case (action == 'USERNOTICE'):
 				var channel = attach
+				if(channel.substr(0, 1) == '#') channel = channel.substr(1)
 				var messageIndex = msg.indexOf(':')
 				var message = ''
 				if(messageIndex >= 0) {
@@ -266,6 +270,7 @@ class TwitchChat extends events.EventEmitter {
 				if(attach.indexOf(' :') >= 0) {
 					var args = attach.split(' :', 2)
 					var channel = args[0]
+					if(channel.substr(0, 1) == '#') channel = channel.substr(1)
 					var user = args[1]
 					this.emit('clearuser', channel, user, tags)
 				} else {
@@ -277,24 +282,29 @@ class TwitchChat extends events.EventEmitter {
 			// twitch.tv/tags
 			case (action == 'USERSTATE'):
 				var channel = attach
+				if(channel.substr(0, 1) == '#') channel = channel.substr(1)
 				this.emit('userstate', channel, tags)
 				break
 			case (action == 'ROOMSTATE'):
 				var channel = attach
+				if(channel.substr(0, 1) == '#') channel = channel.substr(1)
 				this.emit('roomstate', channel, tags)
 				break
 		}
 	}
 	join(channel) {
+		if(channel.substr(0, 1) == '#') channel = channel.substr(1)
 		this.sendCLRF('JOIN #' + channel.toLowerCase())
 	}
 	part(channel, cb) {
+		if(channel.substr(0, 1) == '#') channel = channel.substr(1)
 		this.sendCLRF('PART #' + channel.toLowerCase())
 		if(typeof(cb) == 'function') {
 			this.once('part', cb)
 		}
 	}
 	say(dest, msg) {
+		if(dest.substr(0, 1) == '#') dest = dest.substr(1)
 		this.sendCLRF('PRIVMSG #' + dest.toLowerCase() + ' :' + msg)
 	}
 	sendCLRF(message) {

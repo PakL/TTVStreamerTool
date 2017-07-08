@@ -59,7 +59,7 @@
 		"de": "Verbunden mit Chat in Kanal {{channel}}"
 	},
 	"subscribed for the {{months}}. month in a row!": {
-		"de": "hat zum {{months}}. Monat in Folge subscribed!"
+		"de": "hat zum {{months}}. Monat in Folge abonniert!"
 	},
 	"was banned from the channel.": {
 		"de": "wurde vom Kanal verbannt."
@@ -136,8 +136,8 @@
 	"is following this channel now": {
 		"de": "folgt dem Kanal jetzt"
 	},
-	"subscribed to this channel": {
-		"de": "hat dem Kanal subscribed"
+	"subscribed with {{plan}} to this channel": {
+		"de": "hat dem Kanal mit {{plan}} abonniert"
 	},
 	"Unkown error": {
 		"de": "Unbekannter Fehler"
