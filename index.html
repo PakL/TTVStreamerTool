@@ -10,6 +10,7 @@
 		<script type="application/javascript">
 			const {shell, remote} = require('electron')
 			const {Menu, MenuItem, globalShortcut} = remote
+			const RandExp = require('randexp')
 
 			const openLinkExternal = function(url) {
 				shell.openExternal(url)
@@ -37,6 +38,11 @@
 				<div id="chat_message_column">
 					<div style="padding: 0 5px"><script type="application/javascript">document.write(`<input type="text" id="chat_message" placeholder="${Tool.i18n.__('Write a message...')}">`)</script></div>
 					<autocomplete id="ac_message_usernames"></autocomplete>
+					<div id="chat_message_emotes">
+						<input type="search" id="chat_message_emotes_search">
+						<emoticons id="chat_message_emotes_emoticons"></emoticons>
+					</div>
+					<button id="chat_message_emotes_button"><img src="https://static-cdn.jtvnw.net/emoticons/v1/25/1.0" alt="🙂"></button>
 				</div>
 			</div>
 
@@ -132,5 +138,6 @@
 		<script type="riot/tag" src="res/tags/channellist.tag"></script>
 		<script type="riot/tag" src="res/tags/hotkey.tag"></script>
 		<script type="riot/tag" src="res/tags/overlayhotkeys.tag"></script>
+		<script type="riot/tag" src="res/tags/emoticons.tag"></script>
 	</body>
 </html>

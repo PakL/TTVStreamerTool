@@ -349,6 +349,12 @@ class TwitchTv {
 			this.requestAPI('https://badges.twitch.tv/v1/badges/global/display', null, false, callback)
 		}
 	}
+
+	getChatEmoticonsBySet(emotesets, callback) {
+		const self = this
+		if(typeof(callback) != 'function' || typeof(emotesets) != 'string') return
+			this.requestAPI('/kraken/chat/emoticon_images', {emotesets: emotesets}, false, callback)
+	}
 	
 	/*********************************************
 	 * Streams

@@ -132,3 +132,36 @@ label > input {
 	width: 100%;
 	padding: 5px 0;
 }
+
+#chat_message_emotes {
+	display: none;
+	width: 300px;
+	height: 300px;
+	border: 1px solid #ffffff;
+	background-color: #303030;
+	position: fixed;
+	right: calc(50% + 6px);
+	bottom: 35px;
+	box-shadow: 0 0 10px rgba(0,0,0, 0.7);
+	overflow: auto;
+}
+
+#chat_message_emotes_button {
+	background: none;
+	border: 0;
+	position: fixed;
+	bottom: 9px;
+	right: calc(50% + 8px);
+	height: 25px;
+	width: 22px;
+	padding: 0;
+	margin: 0;
+}
+#chat_message_emotes_button > img {
+	width: 100%;
+	height: 100%;
+}
+#chat_message_emotes_search {
+	box-sizing: border-box;
+	width: 100%;
+}
