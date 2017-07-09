@@ -1,7 +1,0 @@
-{
-	"name": "streamTitleChanger",
-	"dependencies": {
-		"ps-node": "0.1.6"
-	},
-	"systems": ["win32"]
-}
