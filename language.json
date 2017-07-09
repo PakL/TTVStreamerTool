@@ -264,5 +264,20 @@
 	},
 	"Update ready. Program will restart automatically!": {
 		"de": "Update bereit. Programm wird automatisch neugestartet!"
+	},
+	"Uninstalling {{addon}} now... Program will restart.": {
+		"de": "Deinstalliere {{addon}}... Programm wird automatisch neustarten."
+	},
+	"Cannot uninstall. For uninstall the addon must be a asar addon.": {
+		"de": "Konnte nicht deinstalliert werden. Es können nur asar addons deinstalliert werden."
+	},
+	"Downloading and installing {{addon}} now... Program will restart.": {
+		"de": "Lade und installiere {{addon}}... Programm wird automatisch neustarten."
+	},
+	"Could not find anything to download.": {
+		"de": "Es konnte nichts zum Herunterladen gefunden werden."
+	},
+	"Downloading and updating {{addon}} now... Program will restart.": {
+		"de": "Lade und update {{addon}}... Programm wird automatisch neustarten."
 	}
 }
