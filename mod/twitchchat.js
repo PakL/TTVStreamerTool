@@ -220,10 +220,12 @@ class TwitchChat extends events.EventEmitter {
 				break
 			// JOIN action is sent if a user joins a channel you're in
 			case (action == 'JOIN'):
+				if(attach.startsWith('#')) attach = attach.substr(1)
 				this.emit('join', prefix.user, attach)
 				break
 			// PART action is sent if a user leaves a channel you're in
 			case (action == 'PART'):
+				if(attach.startsWith('#')) attach = attach.substr(1)
 				this.emit('part', prefix.user, attach)
 				break
 			// MODE action is sent if a users moderation rights are being changed
