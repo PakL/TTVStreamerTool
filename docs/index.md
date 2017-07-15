@@ -10,6 +10,10 @@ To install you simply download version 0.1.2. It's just a zip file with all nece
 
 » [Version 0.1.2 release](https://github.com/PakL/TTVStreamerTool/releases/tag/v0.1.2)
 
+### Screenshot
+
+![Cockpit Screenshot](ttvst_screen.jpg)
+
 ### Report issues
 
 To report issues or request improvements/features, please use the [github issues page](https://github.com/PakL/TTVStreamerTool/issues).
