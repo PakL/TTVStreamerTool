@@ -1,3 +1,7 @@
+# ToolSettings
+
+« [Overview](Overview.md)
+
 This module manages a few settings and gives you easy functions to store your settings in the localStorage.
 
 » [Source](https://github.com/PakL/TTVStreamerTool/blob/master/lib/settings.js)

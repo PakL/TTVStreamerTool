@@ -1,3 +1,7 @@
+# TTVTool
+
+« [Overview](Overview.md)
+
 This module initializes pretty much everything and other modules have access to other modules over here.
 
 » [Source](https://github.com/PakL/TTVStreamerTool/blob/master/mod/tool.js)
@@ -39,6 +43,7 @@ This module initializes pretty much everything and other modules have access to 
 * **addons** `readonly`
   > **Gives you the addons module.**<br>
   > type [Addons](Addons.md)
+
 ### Events
 * **load**
   > **Fires after the document was loaded. Basically window.onload. Use this instead of window.onload to not overwrite the onload function and breaking the entire application. Thank you. :)**<br>
