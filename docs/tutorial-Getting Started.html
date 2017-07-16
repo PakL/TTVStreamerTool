@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Tutorial: Getting Started - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="TTVTool.html">TTVTool</a></li><li><a href="ToolUI.html">ToolUI</a><ul class='methods'><li data-type='method'><a href="ToolUI.html#findPage">findPage</a></li><li data-type='method'><a href="ToolUI.html#addPage">addPage</a></li><li data-type='method'><a href="ToolUI.html#openPage">openPage</a></li><li data-type='method'><a href="ToolUI.html#addMenu">addMenu</a></li><li data-type='method'><a href="ToolUI.html#getMenuItemById">getMenuItemById</a></li><li data-type='method'><a href="ToolUI.html#startLoading">startLoading</a></li><li data-type='method'><a href="ToolUI.html#stopLoading">stopLoading</a></li><li data-type='method'><a href="ToolUI.html#showErrorMessage">showErrorMessage</a></li></ul></li><li><a href="TwitchTv.html">TwitchTv</a><ul class='methods'><li data-type='method'><a href="TwitchTv.html#getAuthImplicitGrantFlowUrl">getAuthImplicitGrantFlowUrl</a></li><li data-type='method'><a href="TwitchTv.html#verifyState">verifyState</a></li><li data-type='method'><a href="TwitchTv.html#setAuthToken">setAuthToken</a></li><li data-type='method'><a href="TwitchTv.html#getAuthToken">getAuthToken</a></li><li data-type='method'><a href="TwitchTv.html#isLoggedIn">isLoggedIn</a></li><li data-type='method'><a href="TwitchTv.html#requestAPI">requestAPI</a></li><li data-type='method'><a href="TwitchTv.html#getUser">getUser</a></li><li data-type='method'><a href="TwitchTv.html#getUserByName">getUserByName</a></li><li data-type='method'><a href="TwitchTv.html#getUserFollows">getUserFollows</a></li><li data-type='method'><a href="TwitchTv.html#getChannel">getChannel</a></li><li data-type='method'><a href="TwitchTv.html#updateChannel">updateChannel</a></li><li data-type='method'><a href="TwitchTv.html#getChannelFollowers">getChannelFollowers</a></li><li data-type='method'><a href="TwitchTv.html#getChannelSubscribers">getChannelSubscribers</a></li></ul></li><li><a href="UIPage.html">UIPage</a><ul class='methods'><li data-type='method'><a href="UIPage.html#open">open</a></li><li data-type='method'><a href="UIPage.html#close">close</a></li></ul></li><li><a href="Addons.html">Addons</a></li><li><a href="ToolSettings.html">ToolSettings</a><ul class='methods'><li data-type='method'><a href="ToolSettings.html#setLanguage">setLanguage</a></li><li data-type='method'><a href="ToolSettings.html#addHighlight">addHighlight</a></li><li data-type='method'><a href="ToolSettings.html#getBoolean">getBoolean</a></li><li data-type='method'><a href="ToolSettings.html#setBoolean">setBoolean</a></li><li data-type='method'><a href="ToolSettings.html#getString">getString</a></li><li data-type='method'><a href="ToolSettings.html#setString">setString</a></li><li data-type='method'><a href="ToolSettings.html#getJSON">getJSON</a></li><li data-type='method'><a href="ToolSettings.html#setJSON">setJSON</a></li></ul></li></ul><h3>Events</h3><ul><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TTVTool.html#event:exit">exit</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Tutorial: Getting Started</h1>
+    
+
+    <section>
+
+<header>
+    
+
+    <h2>Getting Started</h2>
+</header>
+
+<article>
+    <p>As you surely know by now TTVStreamerTool uses Addons to add optional functionality. This is so that you can have features on a need to have basis and save a few system resources you might need for streaming.</p>
+<p>Since everything is running through <a href="https://electron.atom.io/">Electron</a> you build your addons in JavaScript. You can use node modules so you don't need to reinvent the wheel.</p>
+<p>An addon must be either be placed in an subfolder of the <code>addons</code> folder (you can create on with non exists) or packed into an <code>asar</code> file to put in to the <code>resources</code> folder.
+In every addon root must be a valid <code>package.json</code> and an <code>addon.js</code> file.</p>
+<h3>package.json</h3><p>Similar to a normal node module package.json but the only really important bits are</p>
+<ul>
+<li><strong>name</strong><br>
+Should be readable. I don't really care about it but if you want you can follow the npm rules.</li>
+<li><strong>systems</strong><br>
+An array with supported platforms. Now this is a thing I made because I still hope I can make TTVST cross platform. But this is more dependent on my time than anything.</li>
+</ul>
+<h3>addon.js</h3><p>This should be a node module that has an constructor that takes a TTVTool object (we get to that later) and an optional <a href="https://www.npmjs.com/package/i18n-nodejs">i18n object</a> when a <code>language.json</code> file exist. A simple example would be</p>
+<pre class="prettyprint source lang-javascript"><code>&quot;use strict&quot;
+
+const path = require(&quot;path&quot;)
+
+class Addon {
+    constructor(tool, i18n) {
+        this._tool = tool
+    }
+}
+module.exports = Addon</code></pre><h3>language.json (optional)</h3><p>This is a language json file for the <a href="https://www.npmjs.com/package/i18n-nodejs">i18n-nodejs</a> module. It's optional but recommended.</p>
+<hr>
+<p>From here on you can do basically anything. You can modify the main document and destroy everything or build upon it. Now to the important parts. You get a TTVTool object when the addon is created. With this object you have access to pretty much every function of the tool.</p>
+</article>
+
+</section>
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Sun Jul 16 2017 12:35:04 GMT+0200 (Mitteleuropäische Sommerzeit) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

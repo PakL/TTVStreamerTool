@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Home - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="TTVTool.html">TTVTool</a></li><li><a href="ToolUI.html">ToolUI</a><ul class='methods'><li data-type='method'><a href="ToolUI.html#findPage">findPage</a></li><li data-type='method'><a href="ToolUI.html#addPage">addPage</a></li><li data-type='method'><a href="ToolUI.html#openPage">openPage</a></li><li data-type='method'><a href="ToolUI.html#addMenu">addMenu</a></li><li data-type='method'><a href="ToolUI.html#getMenuItemById">getMenuItemById</a></li><li data-type='method'><a href="ToolUI.html#startLoading">startLoading</a></li><li data-type='method'><a href="ToolUI.html#stopLoading">stopLoading</a></li><li data-type='method'><a href="ToolUI.html#showErrorMessage">showErrorMessage</a></li></ul></li><li><a href="TwitchTv.html">TwitchTv</a><ul class='methods'><li data-type='method'><a href="TwitchTv.html#getAuthImplicitGrantFlowUrl">getAuthImplicitGrantFlowUrl</a></li><li data-type='method'><a href="TwitchTv.html#verifyState">verifyState</a></li><li data-type='method'><a href="TwitchTv.html#setAuthToken">setAuthToken</a></li><li data-type='method'><a href="TwitchTv.html#getAuthToken">getAuthToken</a></li><li data-type='method'><a href="TwitchTv.html#isLoggedIn">isLoggedIn</a></li><li data-type='method'><a href="TwitchTv.html#requestAPI">requestAPI</a></li><li data-type='method'><a href="TwitchTv.html#getUser">getUser</a></li><li data-type='method'><a href="TwitchTv.html#getUserByName">getUserByName</a></li><li data-type='method'><a href="TwitchTv.html#getUserFollows">getUserFollows</a></li><li data-type='method'><a href="TwitchTv.html#getChannel">getChannel</a></li><li data-type='method'><a href="TwitchTv.html#updateChannel">updateChannel</a></li><li data-type='method'><a href="TwitchTv.html#getChannelFollowers">getChannelFollowers</a></li><li data-type='method'><a href="TwitchTv.html#getChannelSubscribers">getChannelSubscribers</a></li></ul></li><li><a href="UIPage.html">UIPage</a><ul class='methods'><li data-type='method'><a href="UIPage.html#open">open</a></li><li data-type='method'><a href="UIPage.html#close">close</a></li></ul></li><li><a href="Addons.html">Addons</a></li><li><a href="ToolSettings.html">ToolSettings</a><ul class='methods'><li data-type='method'><a href="ToolSettings.html#setLanguage">setLanguage</a></li><li data-type='method'><a href="ToolSettings.html#addHighlight">addHighlight</a></li><li data-type='method'><a href="ToolSettings.html#getBoolean">getBoolean</a></li><li data-type='method'><a href="ToolSettings.html#setBoolean">setBoolean</a></li><li data-type='method'><a href="ToolSettings.html#getString">getString</a></li><li data-type='method'><a href="ToolSettings.html#setString">setString</a></li><li data-type='method'><a href="ToolSettings.html#getJSON">getJSON</a></li><li data-type='method'><a href="ToolSettings.html#setJSON">setJSON</a></li></ul></li></ul><h3>Events</h3><ul><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TTVTool.html#event:exit">exit</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li></ul>
+</nav>
+
+<div id="main">
+    
+
+    
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    <section class="readme">
+        <article><h1>TTVStreamerTool</h1><p>TTVST is an application aimed at Twitch streamer. On the main view you will be able to read the chat, see the people who are in the chat, the current number of viewers and notifications for follows, subscriptions, bans, timeouts and other stuff. There is also a local http host in there for OBS or Xsplit overlays. You can set up hotkeys to control these.</p>
+<hr>
+<p>To make TTVST unique for your streaming needs it's possible to create your own overlays and addons. I will document how to do that in the coming future. To start of, read the <a href="GettingStarted.md">Getting Started Guide</a>.</p>
+<h3>Platform</h3><p>The TTVStreamerTool is developed and tested on an Windows 10 x64 system. I guess everything &gt;= Windows 8 should work.</p>
+<p>Linux or MacOS are <strong>not</strong> supported. <em>You could download the source code and tweak it here and there to make it work though...</em></p>
+<h3>Download &amp; Install</h3><p>Download the zip in the v0.1.2 release and unpack it somewhere you don't need elevated writing rights. This is because the auto updater needs to overwrite some files there. You could start the program as an administrator but this is not recommended.</p>
+<p>After unpacking start the tool by double clicking the <code>ttv-streamertool.exe</code>.</p>
+<p>» <a href="https://github.com/PakL/TTVStreamerTool/releases/tag/v0.1.2">Version 0.1.2 release</a></p>
+<h3>Screenshot</h3><p><img src="ttvst_screen.jpg" alt="Cockpit Screenshot"></p>
+<h3>Report issues</h3><p>To report issues or request improvements/features, please use the <a href="https://github.com/PakL/TTVStreamerTool/issues">github issues page</a>.</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Sun Jul 16 2017 12:35:04 GMT+0200 (Mitteleuropäische Sommerzeit) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

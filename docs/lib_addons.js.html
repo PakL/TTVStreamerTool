@@ -1,4 +1,43 @@
-"use strict"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>lib/addons.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="TTVTool.html">TTVTool</a></li><li><a href="ToolUI.html">ToolUI</a><ul class='methods'><li data-type='method'><a href="ToolUI.html#findPage">findPage</a></li><li data-type='method'><a href="ToolUI.html#addPage">addPage</a></li><li data-type='method'><a href="ToolUI.html#openPage">openPage</a></li><li data-type='method'><a href="ToolUI.html#addMenu">addMenu</a></li><li data-type='method'><a href="ToolUI.html#getMenuItemById">getMenuItemById</a></li><li data-type='method'><a href="ToolUI.html#startLoading">startLoading</a></li><li data-type='method'><a href="ToolUI.html#stopLoading">stopLoading</a></li><li data-type='method'><a href="ToolUI.html#showErrorMessage">showErrorMessage</a></li></ul></li><li><a href="TwitchTv.html">TwitchTv</a><ul class='methods'><li data-type='method'><a href="TwitchTv.html#getAuthImplicitGrantFlowUrl">getAuthImplicitGrantFlowUrl</a></li><li data-type='method'><a href="TwitchTv.html#verifyState">verifyState</a></li><li data-type='method'><a href="TwitchTv.html#setAuthToken">setAuthToken</a></li><li data-type='method'><a href="TwitchTv.html#getAuthToken">getAuthToken</a></li><li data-type='method'><a href="TwitchTv.html#isLoggedIn">isLoggedIn</a></li><li data-type='method'><a href="TwitchTv.html#requestAPI">requestAPI</a></li><li data-type='method'><a href="TwitchTv.html#getUser">getUser</a></li><li data-type='method'><a href="TwitchTv.html#getUserByName">getUserByName</a></li><li data-type='method'><a href="TwitchTv.html#getUserFollows">getUserFollows</a></li><li data-type='method'><a href="TwitchTv.html#getChannel">getChannel</a></li><li data-type='method'><a href="TwitchTv.html#updateChannel">updateChannel</a></li><li data-type='method'><a href="TwitchTv.html#getChannelFollowers">getChannelFollowers</a></li><li data-type='method'><a href="TwitchTv.html#getChannelSubscribers">getChannelSubscribers</a></li></ul></li><li><a href="UIPage.html">UIPage</a><ul class='methods'><li data-type='method'><a href="UIPage.html#open">open</a></li><li data-type='method'><a href="UIPage.html#close">close</a></li></ul></li><li><a href="Addons.html">Addons</a></li><li><a href="ToolSettings.html">ToolSettings</a><ul class='methods'><li data-type='method'><a href="ToolSettings.html#setLanguage">setLanguage</a></li><li data-type='method'><a href="ToolSettings.html#addHighlight">addHighlight</a></li><li data-type='method'><a href="ToolSettings.html#getBoolean">getBoolean</a></li><li data-type='method'><a href="ToolSettings.html#setBoolean">setBoolean</a></li><li data-type='method'><a href="ToolSettings.html#getString">getString</a></li><li data-type='method'><a href="ToolSettings.html#setString">setString</a></li><li data-type='method'><a href="ToolSettings.html#getJSON">getJSON</a></li><li data-type='method'><a href="ToolSettings.html#setJSON">setJSON</a></li></ul></li></ul><h3>Events</h3><ul><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TTVTool.html#event:exit">exit</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">lib/addons.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict"
 
 const {remote} = require('electron')
 const {app} = remote.require('electron')
@@ -30,14 +69,14 @@ class Addons {
 			fs.accessSync('addons')
 			let addonsDird = fs.readdirSync('addons')
 
-			for(let i = 0; i < addonsDird.length; i++)
+			for(let i = 0; i &lt; addonsDird.length; i++)
 				addonsDir.push('addons/' + addonsDird[i])
 		} catch(e) {}
 		try {
 			fs.accessSync('resources')
 			let resourcesDir = fs.readdirSync('resources')
 
-			for(let i = 0; i < resourcesDir.length; i++)
+			for(let i = 0; i &lt; resourcesDir.length; i++)
 				addonsDir.push('resources/' + resourcesDir[i])
 		} catch(e) {}
 
@@ -45,7 +84,7 @@ class Addons {
 		
 		let infos = {}
 		let lang = null
-		for(let i = 0; i < addonsDir.length; i++) {
+		for(let i = 0; i &lt; addonsDir.length; i++) {
 			infos = {}
 			lang = null
 			try {
@@ -60,7 +99,7 @@ class Addons {
 				lang = requireUncached('../node_modules/i18n-nodejs')(this.tool.settings.language, `${curdir}/${addonsDir[i]}/language.json`)
 			} catch(e) {}
 
-			if(infos.hasOwnProperty('name') && infos.hasOwnProperty('systems')) {
+			if(infos.hasOwnProperty('name') &amp;&amp; infos.hasOwnProperty('systems')) {
 				if(infos.systems.indexOf(process.platform) >= 0) {
 					try {
 						let addon = require(`${curdir}/${addonsDir[i]}/addon`)
@@ -85,7 +124,7 @@ class Addons {
 
 		const self = this
 		this.tool.on('load', () => {
-			for(let i = 0; i < self.addons.length; i++) {
+			for(let i = 0; i &lt; self.addons.length; i++) {
 				if(self.addons[i] instanceof UIPage) {
 					self.tool.ui.addPage(self.addons[i])
 				}
@@ -122,7 +161,7 @@ class Addons {
 
 		let m = []
 		let update = false
-		for(let i = 0; i < this.available_addons.length; i++) {
+		for(let i = 0; i &lt; this.available_addons.length; i++) {
 			let a = this.available_addons[i]
 			let mi = {
 				label: a.name + ' (v' + (this.addonInstalled(a.name) ? this.getInstalledAddonVersion(a.name) : a.version)+ ')',
@@ -156,7 +195,7 @@ class Addons {
 				let modal = this.tool.ui.showErrorMessage(new Error(this.tool.i18n.__('Uninstalling {{addon}} now... Program will restart.', {addon: addonname})))
 				modal.onclick = () => {}
 				setTimeout(() => {
-					exec('cmd /C "ping 127.0.0.1 -n 2 > NUL & del "' + this.package_infos[addonname].file.replace(/\//g, '\\') + '" & "' + process.execPath + '"')
+					exec('cmd /C "ping 127.0.0.1 -n 2 > NUL &amp; del "' + this.package_infos[addonname].file.replace(/\//g, '\\') + '" &amp; "' + process.execPath + '"')
 					app.quit()
 				}, 5000);
 			} else {
@@ -164,7 +203,7 @@ class Addons {
 			}
 		} else {
 			let downloadurl = ''
-			for(let i = 0; i < this.available_addons.length; i++) {
+			for(let i = 0; i &lt; this.available_addons.length; i++) {
 				let a = this.available_addons[i]
 				if(addonname == a.name) {
 					downloadurl = a.url
@@ -180,7 +219,7 @@ class Addons {
 						resp.on('data', (chunk) => { fs.appendFileSync('resources/' + addonname + '.part', chunk) })
 						resp.on('end', () => {
 							fs.renameSync('resources/' + addonname + '.part', 'resources/' + addonname + '.asar')
-							exec('cmd /C "ping 127.0.0.1 -n 2 > NUL & "' + process.execPath + '"')
+							exec('cmd /C "ping 127.0.0.1 -n 2 > NUL &amp; "' + process.execPath + '"')
 							app.quit()
 						})
 					} else {
@@ -196,9 +235,9 @@ class Addons {
 	updateclick() {
 		const self = this
 		let addonname = this.possibleAddon
-		if(addonname.length <= 0) return
+		if(addonname.length &lt;= 0) return
 		let downloadurl = ''
-		for(let i = 0; i < this.available_addons.length; i++) {
+		for(let i = 0; i &lt; this.available_addons.length; i++) {
 			let a = this.available_addons[i]
 			if(addonname == a.name) {
 				downloadurl = a.url
@@ -213,7 +252,7 @@ class Addons {
 					fs.writeFileSync('resources/' + addonname + '.part', Buffer.alloc(0))
 					resp.on('data', (chunk) => { fs.appendFileSync('resources/' + addonname + '.part', chunk) })
 					resp.on('end', () => {
-						exec('cmd /C "ping 127.0.0.1 -n 2 > NUL & del "' + self.package_infos[addonname].file.replace(/\//g, '\\') + '" & copy resources\\' + addonname + '.part resources\\' + addonname + '.asar & del resources\\' + addonname + '.part & "' + process.execPath + '"')
+						exec('cmd /C "ping 127.0.0.1 -n 2 > NUL &amp; del "' + self.package_infos[addonname].file.replace(/\//g, '\\') + '" &amp; copy resources\\' + addonname + '.part resources\\' + addonname + '.asar &amp; del resources\\' + addonname + '.part &amp; "' + process.execPath + '"')
 						app.quit()
 					})
 				} else {
@@ -246,4 +285,22 @@ class Addons {
 	}
 
 }
-module.exports = Addons
+module.exports = Addons</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Sun Jul 16 2017 12:35:04 GMT+0200 (Mitteleuropäische Sommerzeit) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

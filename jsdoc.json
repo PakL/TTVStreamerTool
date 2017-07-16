@@ -1,0 +1,18 @@
+{
+	"source": {
+		"include": ["./mod", "./lib", "./var"],
+		"includePattern": ".js$"
+	},
+	"opts": {
+		"template": "node_modules/docdash",
+		"encoding": "utf8",
+		"destination": "docs"
+	},
+	"templates": {
+		"cleverLinks": false,
+		"monospaceLinks": false
+	},
+	"docdash": {
+		"sort": false
+	}
+}

@@ -19,6 +19,14 @@ const EAU = remote.require('electron-asar-updater')
 const {app} = remote.require('electron')
 const exec = require('child_process').exec;
 
+/**
+ * This module initializes pretty much everything and other modules have access to other modules over here.
+ * 
+ * @class TTVTool
+ * @fires TTVTool#load
+ * @fires TTVTool#exit
+ * @extends {EventEmitter}
+ */
 class TTVTool extends EventEmitter {
 
 	constructor() {
@@ -77,57 +85,148 @@ class TTVTool extends EventEmitter {
 			})
 		})
 
-		window.onload = (e) => { self.emit('load') }
-		window.onbeforeunload = (e) => { self.emit('exit') }
+		window.onload = (e) => {
+			/**
+			 * Fires after the document was loaded. Basically window.onload. Use this instead
+			 * of window.onload to not overwrite the onload function and breaking the entire
+			 * application. Thank you. :)
+			 * 
+			 * @event TTVTool#load
+			 */
+			self.emit('load')
+		}
+		window.onbeforeunload = (e) => {
+			/**
+			 * Fires before the application is exited. Once again just window.onbeforeunload.
+			 * Don't overwrite window.onbeforeunload please.
+			 * 
+			 * @event TTVTool#exit
+			 */
+			self.emit('exit')
+		}
 
 		
 	}
 
 
+	/**
+	 * Gives you the UI modules
+	 * 
+	 * @type {ToolUI}
+	 * @readonly
+	 */
 	get ui() {
 		return this._ui
 	}
 
+	/**
+	 * Gives you the {@link https://www.npmjs.com/package/i18n-nodejs|i18n-nodejs} module.
+	 * 
+	 * @type {i18n-nodejs}
+	 * @see {@link https://www.npmjs.com/package/i18n-nodejs}
+	 * @readonly
+	 */
 	get i18n() {
 		return this._i18n
 	}
 
+	/**
+	 * Gives you the settings module.
+	 * 
+	 * @type {ToolSettings}
+	 * @readonly
+	 */
 	get settings() {
 		return this._settings
 	}
 
+	/**
+	 * Gives you the Twitch-API module.
+	 * 
+	 * @type {TwitchTv}
+	 * @readonly
+	 */
 	get twitchapi() {
 		return this._twitchapi
 	}
 	
+	/**
+	 * Gives you the auth module.
+	 * 
+	 * @type {TTVLogin}
+	 * @readonly
+	 */
 	get auth() {
 		return this._auth
 	}
 
+	/**
+	 * Gives you the chat module.
+	 * 
+	 * @type {Chat}
+	 * @readonly
+	 */
 	get chat() {
 		return this._chat
 	}
 
+	/**
+	 * Gives you the cockpit module.
+	 * 
+	 * @type {Cockpit}
+	 * @readonly
+	 */
 	get cockpit() {
 		return this._ui.findPage('Cockpit')
 	}
 
+	/**
+	 * Gives you the overlay module.
+	 * 
+	 * @type {TTVLogin}
+	 * @readonly
+	 */
 	get overlays() {
 		return this._ui.findPage('Overlays')
 	}
 
+	/**
+	 * Gives you the channel data module.
+	 * 
+	 * @type {Channel}
+	 * @readonly
+	 */
 	get channel() {
 		return this._channel
 	}
 
+	/**
+	 * Gives you the follow data module.
+	 * 
+	 * @type {Follows}
+	 * @readonly
+	 */
 	get follows() {
 		return this._follows
 	}
 
+	/**
+	 * Gives you a subscription module.
+	 * 
+	 * @type {undefined}
+	 * @readonly
+	 * @deprecated Subscription are now shared with everyone via chat.
+	 */
 	get subscriptions() {
 		return this._subscriptions
 	}
 
+	/**
+	 * Gives you the addons module.
+	 * 
+	 * @type {Addons}
+	 * @readonly
+	 */
 	get addons() {
 		return this._addons
 	}

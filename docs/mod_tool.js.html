@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>mod/tool.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="TTVTool.html">TTVTool</a></li><li><a href="ToolUI.html">ToolUI</a><ul class='methods'><li data-type='method'><a href="ToolUI.html#findPage">findPage</a></li><li data-type='method'><a href="ToolUI.html#addPage">addPage</a></li><li data-type='method'><a href="ToolUI.html#openPage">openPage</a></li><li data-type='method'><a href="ToolUI.html#addMenu">addMenu</a></li><li data-type='method'><a href="ToolUI.html#getMenuItemById">getMenuItemById</a></li><li data-type='method'><a href="ToolUI.html#startLoading">startLoading</a></li><li data-type='method'><a href="ToolUI.html#stopLoading">stopLoading</a></li><li data-type='method'><a href="ToolUI.html#showErrorMessage">showErrorMessage</a></li></ul></li><li><a href="TwitchTv.html">TwitchTv</a><ul class='methods'><li data-type='method'><a href="TwitchTv.html#getAuthImplicitGrantFlowUrl">getAuthImplicitGrantFlowUrl</a></li><li data-type='method'><a href="TwitchTv.html#verifyState">verifyState</a></li><li data-type='method'><a href="TwitchTv.html#setAuthToken">setAuthToken</a></li><li data-type='method'><a href="TwitchTv.html#getAuthToken">getAuthToken</a></li><li data-type='method'><a href="TwitchTv.html#isLoggedIn">isLoggedIn</a></li><li data-type='method'><a href="TwitchTv.html#requestAPI">requestAPI</a></li><li data-type='method'><a href="TwitchTv.html#getUser">getUser</a></li><li data-type='method'><a href="TwitchTv.html#getUserByName">getUserByName</a></li><li data-type='method'><a href="TwitchTv.html#getUserFollows">getUserFollows</a></li><li data-type='method'><a href="TwitchTv.html#getChannel">getChannel</a></li><li data-type='method'><a href="TwitchTv.html#updateChannel">updateChannel</a></li><li data-type='method'><a href="TwitchTv.html#getChannelFollowers">getChannelFollowers</a></li><li data-type='method'><a href="TwitchTv.html#getChannelSubscribers">getChannelSubscribers</a></li></ul></li><li><a href="UIPage.html">UIPage</a><ul class='methods'><li data-type='method'><a href="UIPage.html#open">open</a></li><li data-type='method'><a href="UIPage.html#close">close</a></li></ul></li><li><a href="Addons.html">Addons</a></li><li><a href="ToolSettings.html">ToolSettings</a><ul class='methods'><li data-type='method'><a href="ToolSettings.html#setLanguage">setLanguage</a></li><li data-type='method'><a href="ToolSettings.html#addHighlight">addHighlight</a></li><li data-type='method'><a href="ToolSettings.html#getBoolean">getBoolean</a></li><li data-type='method'><a href="ToolSettings.html#setBoolean">setBoolean</a></li><li data-type='method'><a href="ToolSettings.html#getString">getString</a></li><li data-type='method'><a href="ToolSettings.html#setString">setString</a></li><li data-type='method'><a href="ToolSettings.html#getJSON">getJSON</a></li><li data-type='method'><a href="ToolSettings.html#setJSON">setJSON</a></li></ul></li></ul><h3>Events</h3><ul><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TTVTool.html#event:exit">exit</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">mod/tool.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict"
+
+const {remote} = require('electron')
+const EventEmitter = require('events')
+const i18n = require('../node_modules/i18n-nodejs')
+
+const ToolUI = require('./toolui')
+const ToolSettings = require('../lib/settings')
+const TwitchTv = require('./twitchtv')
+const TTVLogin = require('../lib/auth')
+const Chat = require('../lib/chat')
+
+const Channel = require('../var/channel')
+const Follows = require('../var/follows')
+const Subscriptions = require('../var/subscriptions')
+
+const Addons = require('../lib/addons')
+const EAU = remote.require('electron-asar-updater')
+const {app} = remote.require('electron')
+const exec = require('child_process').exec;
+
+/**
+ * This module initializes pretty much everything and other modules have access to other modules over here.
+ * 
+ * @class TTVTool
+ * @fires TTVTool#load
+ * @fires TTVTool#exit
+ * @extends {EventEmitter}
+ */
+class TTVTool extends EventEmitter {
+
+	constructor() {
+		super()
+		const self = this
+
+		this._settings = new ToolSettings(this)
+		this._i18n = i18n(this._settings.language, './../../language.json')
+		this._twitchapi = new TwitchTv({
+			clientid: '11vhuxdssb9pc3s2uqpa7s3s0252hyk',
+			redirecturi: 'http://localhost:8086/',
+			scope: [
+				'user_read',
+				'channel_check_subscription',
+				'channel_editor',
+				'channel_read',
+				'channel_stream',
+				'channel_subscriptions',
+				'chat_login'
+			]
+		})
+		this._auth = new TTVLogin(this)
+		this._chat = new Chat(this)
+
+		this._ui = new ToolUI(this)
+		
+		this._channel = new Channel(this)
+		this._follows = new Follows(this)
+		// All subscriptions are coming via chat now
+		//this._subscriptions = new Subscriptions(this)
+
+		this._addons = new Addons(this)
+
+		this.on('load', () => {
+			EAU.check((e) => {
+				if(e != null &amp;&amp; e.length > 0) {
+					if(e === 'no_update_available') return
+					self.ui.showErrorMessage(new Error(e))
+				} else {
+					let errormsg_download = self.ui.showErrorMessage(new Error(self.i18n.__('There is a new update. Downloading now...')))
+					EAU.download((er) => {
+						if(e != null &amp;&amp; e.length > 0) {
+							self.ui.showErrorMessage(new Error(e))
+							return
+						}
+						try { errormsg_download.parentElement.removeChild(errormsg_download) } catch(e) {}
+
+						let errormsg_restart = self.ui.showErrorMessage(new Error(self.i18n.__('Update ready. Program will restart automatically!')))
+						errormsg_restart.onclick = () => {}
+						setTimeout(() => {
+							exec('cmd /C "ping 127.0.0.1 -n 2 > NUL &amp; copy resources\\update.asar resources\\app.asar /Y &amp; del resources\\update.asar &amp; "' + process.execPath + '""')
+							app.quit()
+						}, 5000);
+					})
+				}
+			})
+		})
+
+		window.onload = (e) => {
+			/**
+			 * Fires after the document was loaded. Basically window.onload. Use this instead
+			 * of window.onload to not overwrite the onload function and breaking the entire
+			 * application. Thank you. :)
+			 * 
+			 * @event TTVTool#load
+			 */
+			self.emit('load')
+		}
+		window.onbeforeunload = (e) => {
+			/**
+			 * Fires before the application is exited. Once again just window.onbeforeunload.
+			 * Don't overwrite window.onbeforeunload please.
+			 * 
+			 * @event TTVTool#exit
+			 */
+			self.emit('exit')
+		}
+
+		
+	}
+
+
+	/**
+	 * Gives you the UI modules
+	 * 
+	 * @type {ToolUI}
+	 * @readonly
+	 */
+	get ui() {
+		return this._ui
+	}
+
+	/**
+	 * Gives you the {@link https://www.npmjs.com/package/i18n-nodejs|i18n-nodejs} module.
+	 * 
+	 * @type {i18n-nodejs}
+	 * @see {@link https://www.npmjs.com/package/i18n-nodejs}
+	 * @readonly
+	 */
+	get i18n() {
+		return this._i18n
+	}
+
+	/**
+	 * Gives you the settings module.
+	 * 
+	 * @type {ToolSettings}
+	 * @readonly
+	 */
+	get settings() {
+		return this._settings
+	}
+
+	/**
+	 * Gives you the Twitch-API module.
+	 * 
+	 * @type {TwitchTv}
+	 * @readonly
+	 */
+	get twitchapi() {
+		return this._twitchapi
+	}
+	
+	/**
+	 * Gives you the auth module.
+	 * 
+	 * @type {TTVLogin}
+	 * @readonly
+	 */
+	get auth() {
+		return this._auth
+	}
+
+	/**
+	 * Gives you the chat module.
+	 * 
+	 * @type {Chat}
+	 * @readonly
+	 */
+	get chat() {
+		return this._chat
+	}
+
+	/**
+	 * Gives you the cockpit module.
+	 * 
+	 * @type {Cockpit}
+	 * @readonly
+	 */
+	get cockpit() {
+		return this._ui.findPage('Cockpit')
+	}
+
+	/**
+	 * Gives you the overlay module.
+	 * 
+	 * @type {TTVLogin}
+	 * @readonly
+	 */
+	get overlays() {
+		return this._ui.findPage('Overlays')
+	}
+
+	/**
+	 * Gives you the channel data module.
+	 * 
+	 * @type {Channel}
+	 * @readonly
+	 */
+	get channel() {
+		return this._channel
+	}
+
+	/**
+	 * Gives you the follow data module.
+	 * 
+	 * @type {Follows}
+	 * @readonly
+	 */
+	get follows() {
+		return this._follows
+	}
+
+	/**
+	 * Gives you a subscription module.
+	 * 
+	 * @type {undefined}
+	 * @readonly
+	 * @deprecated Subscription are now shared with everyone via chat.
+	 */
+	get subscriptions() {
+		return this._subscriptions
+	}
+
+	/**
+	 * Gives you the addons module.
+	 * 
+	 * @type {Addons}
+	 * @readonly
+	 */
+	get addons() {
+		return this._addons
+	}
+
+}
+
+const tool = new TTVTool()
+module.exports = tool</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Sun Jul 16 2017 12:35:04 GMT+0200 (Mitteleuropäische Sommerzeit) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

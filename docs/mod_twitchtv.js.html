@@ -1,4 +1,43 @@
-"use strict"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>mod/twitchtv.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="TTVTool.html">TTVTool</a></li><li><a href="ToolUI.html">ToolUI</a><ul class='methods'><li data-type='method'><a href="ToolUI.html#findPage">findPage</a></li><li data-type='method'><a href="ToolUI.html#addPage">addPage</a></li><li data-type='method'><a href="ToolUI.html#openPage">openPage</a></li><li data-type='method'><a href="ToolUI.html#addMenu">addMenu</a></li><li data-type='method'><a href="ToolUI.html#getMenuItemById">getMenuItemById</a></li><li data-type='method'><a href="ToolUI.html#startLoading">startLoading</a></li><li data-type='method'><a href="ToolUI.html#stopLoading">stopLoading</a></li><li data-type='method'><a href="ToolUI.html#showErrorMessage">showErrorMessage</a></li></ul></li><li><a href="TwitchTv.html">TwitchTv</a><ul class='methods'><li data-type='method'><a href="TwitchTv.html#getAuthImplicitGrantFlowUrl">getAuthImplicitGrantFlowUrl</a></li><li data-type='method'><a href="TwitchTv.html#verifyState">verifyState</a></li><li data-type='method'><a href="TwitchTv.html#setAuthToken">setAuthToken</a></li><li data-type='method'><a href="TwitchTv.html#getAuthToken">getAuthToken</a></li><li data-type='method'><a href="TwitchTv.html#isLoggedIn">isLoggedIn</a></li><li data-type='method'><a href="TwitchTv.html#requestAPI">requestAPI</a></li><li data-type='method'><a href="TwitchTv.html#getUser">getUser</a></li><li data-type='method'><a href="TwitchTv.html#getUserByName">getUserByName</a></li><li data-type='method'><a href="TwitchTv.html#getUserFollows">getUserFollows</a></li><li data-type='method'><a href="TwitchTv.html#getChannel">getChannel</a></li><li data-type='method'><a href="TwitchTv.html#updateChannel">updateChannel</a></li><li data-type='method'><a href="TwitchTv.html#getChannelFollowers">getChannelFollowers</a></li><li data-type='method'><a href="TwitchTv.html#getChannelSubscribers">getChannelSubscribers</a></li></ul></li><li><a href="UIPage.html">UIPage</a><ul class='methods'><li data-type='method'><a href="UIPage.html#open">open</a></li><li data-type='method'><a href="UIPage.html#close">close</a></li></ul></li><li><a href="Addons.html">Addons</a></li><li><a href="ToolSettings.html">ToolSettings</a><ul class='methods'><li data-type='method'><a href="ToolSettings.html#setLanguage">setLanguage</a></li><li data-type='method'><a href="ToolSettings.html#addHighlight">addHighlight</a></li><li data-type='method'><a href="ToolSettings.html#getBoolean">getBoolean</a></li><li data-type='method'><a href="ToolSettings.html#setBoolean">setBoolean</a></li><li data-type='method'><a href="ToolSettings.html#getString">getString</a></li><li data-type='method'><a href="ToolSettings.html#setString">setString</a></li><li data-type='method'><a href="ToolSettings.html#getJSON">getJSON</a></li><li data-type='method'><a href="ToolSettings.html#setJSON">setJSON</a></li></ul></li></ul><h3>Events</h3><ul><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TTVTool.html#event:exit">exit</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">mod/twitchtv.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict"
 const https = require('https')
 const url = require('url')
 const zlib = require('zlib')
@@ -78,11 +117,11 @@ class TwitchTv {
 
 		return 'https://api.twitch.tv/kraken/oauth2/authorize' +
 				'?response_type=token' +
-				'&client_id=' + this.clientid +
-				'&redirect_uri=' + encodeURIComponent(this.redirecturi) +
-				'&scope=' + this.scope.join('+') +
-				'&state=' + state +
-				'&force_verify=true'
+				'&amp;client_id=' + this.clientid +
+				'&amp;redirect_uri=' + encodeURIComponent(this.redirecturi) +
+				'&amp;scope=' + this.scope.join('+') +
+				'&amp;state=' + state +
+				'&amp;force_verify=true'
 	}
 
 	/**
@@ -177,7 +216,7 @@ class TwitchTv {
 		let querystr = ''
 		for(var key in query) {
 			if(query.hasOwnProperty(key)) {
-				querystr += '&' + encodeURIComponent(key) + '=' + encodeURIComponent(query[key])
+				querystr += '&amp;' + encodeURIComponent(key) + '=' + encodeURIComponent(query[key])
 			}
 		}
 		querystr = '?' + querystr.substr(1)
@@ -215,7 +254,7 @@ class TwitchTv {
 			'headers': headers
 		}, (res) => {
 			let gziped = false
-			if(res.headers.hasOwnProperty('content-encoding') && res.headers['content-encoding'].toLowerCase() == 'gzip') {
+			if(res.headers.hasOwnProperty('content-encoding') &amp;&amp; res.headers['content-encoding'].toLowerCase() == 'gzip') {
 				gziped = true
 			}
 			let rawData = ''
@@ -279,9 +318,9 @@ class TwitchTv {
 			callback = userid
 			userid = ''
 		}
-		if(typeof(callback) != 'function' || (typeof(userid) != 'string' && typeof(userid) != 'number')) return
+		if(typeof(callback) != 'function' || (typeof(userid) != 'string' &amp;&amp; typeof(userid) != 'number')) return
 		userid = userid.toString()
-		if(userid.length == 0 && this.userobj != null) {
+		if(userid.length == 0 &amp;&amp; this.userobj != null) {
 			callback(this.userobj, null)
 		} else {
 			this.requestAPI('/kraken/user' + (userid.length > 0 ? 's/' + userid : ''), null, !(userid.length > 0), callback)
@@ -316,14 +355,14 @@ class TwitchTv {
 	 * @see {@link https://dev.twitch.tv/docs/v5/reference/users/#get-user-follows}
 	 */
 	getUserFollows(userid, options, callback) {
-		if(typeof(callback) != 'function' || (typeof(userid) != 'string' && typeof(userid) != 'number')) return
+		if(typeof(callback) != 'function' || (typeof(userid) != 'string' &amp;&amp; typeof(userid) != 'number')) return
 		userid = userid.toString()
 		if(userid.length == 0) {
 			if(this.userid.length > 0) userid = this.userid
 			else {
 				const self = this
 				this.getUser((res, err) => {
-					if(res != null && res.hasOwnProperty('_id')) {
+					if(res != null &amp;&amp; res.hasOwnProperty('_id')) {
 						self.userid = res._id
 						self.getUserFollows('', options, callback)
 					} else {
@@ -336,10 +375,10 @@ class TwitchTv {
 		var uri = '/kraken/users/' + userid + '/follows/channels'
 		var opt = {}
 		if(typeof(options) == 'object') {
-			if(options.hasOwnProperty('limit') && typeof(options.limit) == 'number') opt.limit = options.limit
-			if(options.hasOwnProperty('offset') && typeof(options.offset) == 'number') opt.offset = options.offset
-			if(options.hasOwnProperty('direction') && (options.direction == 'asc' || options.direction == 'desc')) opt.direction = options.direction
-			if(options.hasOwnProperty('sortby') && (options.sortby == 'created_at' || options.sortby == 'last_broadcast' || options.sortby == 'login')) opt.sortby = options.sortby
+			if(options.hasOwnProperty('limit') &amp;&amp; typeof(options.limit) == 'number') opt.limit = options.limit
+			if(options.hasOwnProperty('offset') &amp;&amp; typeof(options.offset) == 'number') opt.offset = options.offset
+			if(options.hasOwnProperty('direction') &amp;&amp; (options.direction == 'asc' || options.direction == 'desc')) opt.direction = options.direction
+			if(options.hasOwnProperty('sortby') &amp;&amp; (options.sortby == 'created_at' || options.sortby == 'last_broadcast' || options.sortby == 'login')) opt.sortby = options.sortby
 		}
 		this.requestAPI(uri, opt, false, callback)
 	}
@@ -360,9 +399,9 @@ class TwitchTv {
 			callback = channelid
 			channelid = ''
 		}
-		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' && typeof(channelid) != 'number')) return
+		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' &amp;&amp; typeof(channelid) != 'number')) return
 		channelid = channelid.toString()
-		if(channelid.length == 0 && this.channelobj != null) {
+		if(channelid.length == 0 &amp;&amp; this.channelobj != null) {
 			callback(this.channelobj, null)
 		} else {
 			this.requestAPI('/kraken/channel' + (channelid.length > 0 ? 's/' + channelid : ''), null, !(channelid.length > 0), callback)
@@ -383,17 +422,17 @@ class TwitchTv {
 	 * @see {@link https://dev.twitch.tv/docs/v5/reference/channels/#update-channel}
 	 */
 	updateChannel(channelid, options, callback) {
-		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' && typeof(channelid) != 'number')) return
+		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' &amp;&amp; typeof(channelid) != 'number')) return
 		channelid = channelid.toString()
 
 		var opt = {}
 		if(typeof(options) == 'object') {
-			if(options.hasOwnProperty('status') && typeof(options.status) == 'string') opt.status = options.status
-			if(options.hasOwnProperty('game') && typeof(options.game) == 'string') opt.game = options.game
-			if(options.hasOwnProperty('delay') && typeof(options.delay) == 'string') opt.delay = options.delay
-			if(options.hasOwnProperty('channel_feed_enabled') && typeof(options.channel_feed_enabled) == 'boolean') opt.channel_feed_enabled = options.channel_feed_enabled
+			if(options.hasOwnProperty('status') &amp;&amp; typeof(options.status) == 'string') opt.status = options.status
+			if(options.hasOwnProperty('game') &amp;&amp; typeof(options.game) == 'string') opt.game = options.game
+			if(options.hasOwnProperty('delay') &amp;&amp; typeof(options.delay) == 'string') opt.delay = options.delay
+			if(options.hasOwnProperty('channel_feed_enabled') &amp;&amp; typeof(options.channel_feed_enabled) == 'boolean') opt.channel_feed_enabled = options.channel_feed_enabled
 		}
-		if(Object.keys(opt).length <= 0) return
+		if(Object.keys(opt).length &lt;= 0) return
 
 		this.requestAPI('/kraken/channels/' + channelid, null, true, {channel: opt}, callback)
 	}
@@ -412,14 +451,14 @@ class TwitchTv {
 	 * @see {@link https://dev.twitch.tv/docs/v5/reference/channels/#get-channel-followers}
 	 */
 	getChannelFollowers(channelid, options, callback) {
-		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' && typeof(channelid) != 'number')) return
+		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' &amp;&amp; typeof(channelid) != 'number')) return
 		channelid = channelid.toString()
 		if(channelid.length == 0) {
 			if(this.channelid.length > 0) channelid = this.channelid
 			else {
 				const self = this
 				this.getChannel((res, err) => {
-					if(res != null && res.hasOwnProperty('_id')) {
+					if(res != null &amp;&amp; res.hasOwnProperty('_id')) {
 						self.channelid = res._id
 						self.getChannelFollowers('', options, callback)
 					} else {
@@ -432,10 +471,10 @@ class TwitchTv {
 		var uri = '/kraken/channels/' + channelid + '/follows'
 		var opt = {}
 		if(typeof(options) == 'object') {
-			if(options.hasOwnProperty('limit') && typeof(options.limit) == 'number') opt.limit = options.limit
-			if(options.hasOwnProperty('offset') && typeof(options.offset) == 'number') opt.offset = options.offset
-			if(options.hasOwnProperty('cursor') && typeof(options.cursor) == 'string') opt.cursor = options.cursor
-			if(options.hasOwnProperty('direction') && (options.direction == 'asc' || options.direction == 'desc')) opt.direction = options.direction
+			if(options.hasOwnProperty('limit') &amp;&amp; typeof(options.limit) == 'number') opt.limit = options.limit
+			if(options.hasOwnProperty('offset') &amp;&amp; typeof(options.offset) == 'number') opt.offset = options.offset
+			if(options.hasOwnProperty('cursor') &amp;&amp; typeof(options.cursor) == 'string') opt.cursor = options.cursor
+			if(options.hasOwnProperty('direction') &amp;&amp; (options.direction == 'asc' || options.direction == 'desc')) opt.direction = options.direction
 		}
 		this.requestAPI(uri, opt, false, callback)
 	}
@@ -453,14 +492,14 @@ class TwitchTv {
 	 * @see {@link https://dev.twitch.tv/docs/v5/reference/channels/#get-channel-subscribers}
 	 */
 	getChannelSubscribers(channelid, options, callback) {
-		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' && typeof(channelid) != 'number')) return
+		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' &amp;&amp; typeof(channelid) != 'number')) return
 		channelid = channelid.toString()
 		if(channelid.length == 0) {
 			if(this.channelid.length > 0) channelid = this.channelid
 			else {
 				const self = this
 				this.getChannel((res, err) => {
-					if(res != null && res.hasOwnProperty('_id')) {
+					if(res != null &amp;&amp; res.hasOwnProperty('_id')) {
 						self.channelid = res._id
 						self.getChannelSubscribers('', options, callback)
 					} else {
@@ -473,9 +512,9 @@ class TwitchTv {
 		var uri = '/kraken/channels/' + channelid + '/subscriptions'
 		var opt = {}
 		if(typeof(options) == 'object') {
-			if(options.hasOwnProperty('limit') && typeof(options.limit) == 'number') opt.limit = options.limit
-			if(options.hasOwnProperty('offset') && typeof(options.offset) == 'number') opt.offset = options.offset
-			if(options.hasOwnProperty('direction') && (options.direction == 'asc' || options.direction == 'desc')) opt.direction = options.direction
+			if(options.hasOwnProperty('limit') &amp;&amp; typeof(options.limit) == 'number') opt.limit = options.limit
+			if(options.hasOwnProperty('offset') &amp;&amp; typeof(options.offset) == 'number') opt.offset = options.offset
+			if(options.hasOwnProperty('direction') &amp;&amp; (options.direction == 'asc' || options.direction == 'desc')) opt.direction = options.direction
 		}
 		this.requestAPI(uri, opt, true, callback)
 	}
@@ -484,7 +523,7 @@ class TwitchTv {
 	 * Chat
 	 *********************************************/
 	getChatBadgesByChannel(channelid, callback) {
-		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' && typeof(channelid) != 'number')) return
+		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' &amp;&amp; typeof(channelid) != 'number')) return
 		channelid = channelid.toString()
 		if(channelid.length > 0) {
 			this.requestAPI('/kraken/chat/' + channelid + '/badges', null, false, callback)
@@ -494,15 +533,15 @@ class TwitchTv {
 	// Undocumented and slow but better
 	getChatBadgeSetsByChannel(channelid, callback) {
 		const self = this
-		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' && typeof(channelid) != 'number')) return
+		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' &amp;&amp; typeof(channelid) != 'number')) return
 		channelid = channelid.toString()
 		if(channelid.length > 0) {
 			// Global badge settings are not available in the channel badge
 			// sets so we need to load them first and overwrite them later
 			this.getChatBadgeSetsByChannel('', (res, error) => {
-				if(res != null && res.hasOwnProperty('badge_sets')) {
+				if(res != null &amp;&amp; res.hasOwnProperty('badge_sets')) {
 					self.requestAPI('https://badges.twitch.tv/v1/badges/channels/' + channelid + '/display', null, false, (res_channel, error) => {
-						if(res_channel != null && res_channel.hasOwnProperty('badge_sets')) {
+						if(res_channel != null &amp;&amp; res_channel.hasOwnProperty('badge_sets')) {
 							// Overwrite global settings...
 							for(var set in res_channel.badge_sets) {
 								if(res_channel.badge_sets.hasOwnProperty(set)) {
@@ -533,14 +572,14 @@ class TwitchTv {
 	 * Streams
 	 *********************************************/
 	getStreamByUser(channelid, options, callback) {
-		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' && typeof(channelid) != 'number')) return
+		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' &amp;&amp; typeof(channelid) != 'number')) return
 		channelid = channelid.toString()
 		if(channelid.length == 0) {
 			if(this.channelid.length > 0) channelid = this.channelid
 			else {
 				const self = this
 				this.getChannel((res, err) => {
-					if(res != null && res.hasOwnProperty('_id')) {
+					if(res != null &amp;&amp; res.hasOwnProperty('_id')) {
 						self.channelid = res._id
 						self.getStreamByUser('', options, callback)
 					} else {
@@ -553,7 +592,7 @@ class TwitchTv {
 		var uri = '/kraken/streams/' + channelid
 		var opt = {}
 		if(typeof(options) == 'object') {
-			if(options.hasOwnProperty('stream_type') && (options.stream_type == 'live' || options.stream_type == 'playlist' || options.stream_type == 'all')) opt.stream_type = options.stream_type
+			if(options.hasOwnProperty('stream_type') &amp;&amp; (options.stream_type == 'live' || options.stream_type == 'playlist' || options.stream_type == 'all')) opt.stream_type = options.stream_type
 		}
 		this.requestAPI(uri, opt, false, callback)
 	}
@@ -562,11 +601,11 @@ class TwitchTv {
 	 * Search
 	 *********************************************/
 	searchGames(query, options, callback) {
-		if(typeof(callback) != 'function' || typeof(query) != 'string' || query.length < 3) return
+		if(typeof(callback) != 'function' || typeof(query) != 'string' || query.length &lt; 3) return
 		var uri = '/kraken/search/games'
 		var opt = { query: query }
 		if(typeof(options) == 'object') {
-			if(options.hasOwnProperty('live') && (options.live == 'true' || options.live == 'false')) opt.live = options.live
+			if(options.hasOwnProperty('live') &amp;&amp; (options.live == 'true' || options.live == 'false')) opt.live = options.live
 		}
 		this.requestAPI(uri, opt, false, callback)
 	}
@@ -580,4 +619,22 @@ class TwitchTv {
  * @param {(null|Error)} error Null if no error
  */
 
-module.exports = TwitchTv
+module.exports = TwitchTv</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Sun Jul 16 2017 12:35:04 GMT+0200 (Mitteleuropäische Sommerzeit) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

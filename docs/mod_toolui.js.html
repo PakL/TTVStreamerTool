@@ -1,4 +1,43 @@
-"use strict"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>mod/toolui.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="TTVTool.html">TTVTool</a></li><li><a href="ToolUI.html">ToolUI</a><ul class='methods'><li data-type='method'><a href="ToolUI.html#findPage">findPage</a></li><li data-type='method'><a href="ToolUI.html#addPage">addPage</a></li><li data-type='method'><a href="ToolUI.html#openPage">openPage</a></li><li data-type='method'><a href="ToolUI.html#addMenu">addMenu</a></li><li data-type='method'><a href="ToolUI.html#getMenuItemById">getMenuItemById</a></li><li data-type='method'><a href="ToolUI.html#startLoading">startLoading</a></li><li data-type='method'><a href="ToolUI.html#stopLoading">stopLoading</a></li><li data-type='method'><a href="ToolUI.html#showErrorMessage">showErrorMessage</a></li></ul></li><li><a href="TwitchTv.html">TwitchTv</a><ul class='methods'><li data-type='method'><a href="TwitchTv.html#getAuthImplicitGrantFlowUrl">getAuthImplicitGrantFlowUrl</a></li><li data-type='method'><a href="TwitchTv.html#verifyState">verifyState</a></li><li data-type='method'><a href="TwitchTv.html#setAuthToken">setAuthToken</a></li><li data-type='method'><a href="TwitchTv.html#getAuthToken">getAuthToken</a></li><li data-type='method'><a href="TwitchTv.html#isLoggedIn">isLoggedIn</a></li><li data-type='method'><a href="TwitchTv.html#requestAPI">requestAPI</a></li><li data-type='method'><a href="TwitchTv.html#getUser">getUser</a></li><li data-type='method'><a href="TwitchTv.html#getUserByName">getUserByName</a></li><li data-type='method'><a href="TwitchTv.html#getUserFollows">getUserFollows</a></li><li data-type='method'><a href="TwitchTv.html#getChannel">getChannel</a></li><li data-type='method'><a href="TwitchTv.html#updateChannel">updateChannel</a></li><li data-type='method'><a href="TwitchTv.html#getChannelFollowers">getChannelFollowers</a></li><li data-type='method'><a href="TwitchTv.html#getChannelSubscribers">getChannelSubscribers</a></li></ul></li><li><a href="UIPage.html">UIPage</a><ul class='methods'><li data-type='method'><a href="UIPage.html#open">open</a></li><li data-type='method'><a href="UIPage.html#close">close</a></li></ul></li><li><a href="Addons.html">Addons</a></li><li><a href="ToolSettings.html">ToolSettings</a><ul class='methods'><li data-type='method'><a href="ToolSettings.html#setLanguage">setLanguage</a></li><li data-type='method'><a href="ToolSettings.html#addHighlight">addHighlight</a></li><li data-type='method'><a href="ToolSettings.html#getBoolean">getBoolean</a></li><li data-type='method'><a href="ToolSettings.html#setBoolean">setBoolean</a></li><li data-type='method'><a href="ToolSettings.html#getString">getString</a></li><li data-type='method'><a href="ToolSettings.html#setString">setString</a></li><li data-type='method'><a href="ToolSettings.html#getJSON">getJSON</a></li><li data-type='method'><a href="ToolSettings.html#setJSON">setJSON</a></li></ul></li></ul><h3>Events</h3><ul><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TTVTool.html#event:exit">exit</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">mod/toolui.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict"
 
 const {remote} = require('electron')
 const {Menu, MenuItem} = remote
@@ -34,7 +73,7 @@ class ToolUI {
 		this.currentPage = ''
 		/**
 		 * Contains an array with UIPage elements. Please use addPage() to add pages!
-		 * @member {Array<UIPage>}
+		 * @member {Array&lt;UIPage>}
 		 */
 		this.pages = []
 		/**
@@ -105,7 +144,7 @@ class ToolUI {
 	 * @returns {(null|UIPage)}
 	 */
 	findPage(name) {
-		for(let i = 0; i < this.pages.length; i++) {
+		for(let i = 0; i &lt; this.pages.length; i++) {
 			if(this.pages[i].name == name) {
 				return this.pages[i]
 			}
@@ -119,7 +158,7 @@ class ToolUI {
 	 */
 	addPage(page) {
 		const self = this
-		if(page instanceof UIPage && page.name.length > 0) {
+		if(page instanceof UIPage &amp;&amp; page.name.length > 0) {
 			let lookitup = this.findPage(page.name)
 			if(lookitup == null) {
 				this.pages.push(page)
@@ -171,14 +210,14 @@ class ToolUI {
 		if(typeof(menu) == "undefined")
 			menu = Menu.getApplicationMenu()
 		var items = menu.items
-		for(var i = 0; i < items.length; i++) {
+		for(var i = 0; i &lt; items.length; i++) {
 			var submenu = items[i].submenu
 			if(submenu != null) {
 				var it = this.getMenuItemById(menuitemid, submenu)
 				if(it != null)
 					return it
 			}
-			if(items[i].hasOwnProperty('id') && items[i].id == menuitemid) {
+			if(items[i].hasOwnProperty('id') &amp;&amp; items[i].id == menuitemid) {
 				return items[i]
 			}
 		}
@@ -192,7 +231,7 @@ class ToolUI {
 		if(this.loadingElement != null) return
 
 		this.loadingElement = document.createElement('modal')
-		this.loadingElement.innerHTML = '<img src="res/hourglass.gif" alt="" />'
+		this.loadingElement.innerHTML = '&lt;img src="res/hourglass.gif" alt="" />'
 
 		document.getElementsByTagName('body')[0].appendChild(this.loadingElement)
 		riot.mount(this.loadingElement)
@@ -221,7 +260,7 @@ class ToolUI {
 		if(error == null || !error.hasOwnProperty('message')) error = new Error(this._tool.i18n.__('Unkown error'))
 		if(!autohide) console.error(error)
 		const modal = document.createElement('modal')
-		modal.innerHTML = error.message.replace('<', '&gt;').replace('>', '&lt;').replace('\n', '<br>')
+		modal.innerHTML = error.message.replace('&lt;', '&amp;gt;').replace('>', '&amp;lt;').replace('\n', '&lt;br>')
 		modal.onclick = function() {
 			this.parentElement.removeChild(this)
 		}
@@ -244,4 +283,22 @@ class ToolUI {
 
 }
 
-module.exports = ToolUI
+module.exports = ToolUI</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Sun Jul 16 2017 12:35:04 GMT+0200 (Mitteleuropäische Sommerzeit) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

@@ -4,7 +4,8 @@
 	"main": "main.js",
 
 	"scripts": {
-		"start": ".\\node_modules\\electron\\dist\\electron.exe .\\"
+		"start": ".\\node_modules\\electron\\dist\\electron.exe .\\",
+		"generate-docs": ".\\node_modules\\.bin\\jsdoc -c jsdoc.json -R README.md -u docs\\_tutorials"
 	},
 	"dependencies": {
 		"riot": "^3.0.7",
@@ -17,6 +18,8 @@
 		"follow-redirects": "1.2.4"
 	},
 	"devDependencies": {
-		"electron": "^1.4.14"
+		"electron": "^1.4.14",
+		"jsdoc": "3.5.3",
+		"docdash": "0.4.0"
 	}
 }
