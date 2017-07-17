@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Source: lib/addons.js | TTVST</title>
+    <title>Source: lib/auth.js | TTVST</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -55,293 +55,222 @@
         <article>
             <pre class="prettyprint source linenums"><code>"use strict"
 
+const EventEmitter = require('events')
+const http = require('http')
 const {remote} = require('electron')
-const {app} = remote.require('electron')
-const exec = require('child_process').exec;
-const fs = require("fs")
-const https = require("../node_modules/follow-redirects").https
-const UIPage = require('../mod/uipage')
-const requireUncached = require('../node_modules/require-uncached')
+const {Menu, MenuItem, BrowserWindow} = remote
 
 /**
- * This module finds addons, loads and initialze them
+ * This module manages the login flow
  * 
+ * @class TTVLogin
+ * @extends {EventEmitter}
  * @param {TTVTool} tool
- * @class Addons
+ * @fires TTVLogin#complete
  */
-class Addons {
+class TTVLogin extends EventEmitter {
 
 	constructor(tool) {
-		this.tool = tool
+		super()
 
-		this.addons = []
-		this.addonnames = []
-		this.package_infos = {}
-		this.available_addons = []
-		this.possibleAddon = ''
-
-		let curdir = fs.realpathSync('.')
-		let addonsDir = []
-		try {
-			fs.accessSync('addons')
-			let addonsDird = fs.readdirSync('addons')
-
-			for(let i = 0; i &lt; addonsDird.length; i++)
-				addonsDir.push('addons/' + addonsDird[i])
-		} catch(e) {}
-		try {
-			fs.accessSync('resources')
-			let resourcesDir = fs.readdirSync('resources')
-
-			for(let i = 0; i &lt; resourcesDir.length; i++)
-				addonsDir.push('resources/' + resourcesDir[i])
-		} catch(e) {}
-
-		console.log('Checking addons: ' + addonsDir.join(', '))
-		
-		let infos = {}
-		let lang = null
-		for(let i = 0; i &lt; addonsDir.length; i++) {
-			infos = {}
-			lang = null
-			try {
-				fs.accessSync(`${addonsDir[i]}/package.json`)
-				fs.accessSync(`${addonsDir[i]}/addon.js`)
-
-				let pack = fs.readFileSync(`${addonsDir[i]}/package.json`, { encoding: 'utf8' })
-				infos = JSON.parse(pack)
-			} catch(e) {}
-			try {
-				fs.accessSync(`${addonsDir[i]}/language.json`)
-				lang = requireUncached('../node_modules/i18n-nodejs')(this.tool.settings.language, `${curdir}/${addonsDir[i]}/language.json`)
-			} catch(e) {}
-
-			if(infos.hasOwnProperty('name') &amp;&amp; infos.hasOwnProperty('systems')) {
-				if(infos.systems.indexOf(process.platform) >= 0) {
-					try {
-						let addon = require(`${curdir}/${addonsDir[i]}/addon`)
-
-						this.addons.push(new addon(this.tool, lang))
-						console.log('Addon ' + addonsDir[i] + ' is being loaded')
-						this.addonnames.push(infos.name)
-						infos.file = `${curdir}/${addonsDir[i]}`
-						this.package_infos[infos.name] = infos
-					} catch(e) {
-						console.log('Error loading addon ' + addonsDir[i])
-						console.error(e)
-					}
-
-				} else {
-					console.log('Addon ' + addonsDir[i] + ' is not compatible with the current platform')
-				}
-			} else {
-				console.log('Addon ' + addonsDir[i] + ' has no platform informations')
-			}
-		}
+		this._tool = tool
+		this._username = ''
+		this._userid = ''
+		this.logindialog = null
+		this.loginbutton = null
+		this.authwindow = null
+		this.authresponseserver = null
 
 		const self = this
-		this.tool.on('load', () => {
-			for(let i = 0; i &lt; self.addons.length; i++) {
-				if(self.addons[i] instanceof UIPage) {
-					self.tool.ui.addPage(self.addons[i])
-				}
-			}
-			self.loadPackages()
+		this._tool.on('load', () => {
+			self.logindialog = document.querySelector('#logindialog')
+			self.loginbutton = document.querySelector('#starttwitchauth')
+
+			self._tool.cockpit.on('channelopen', () => {
+				let mi = self._tool.ui.getMenuItemById('menu_changechannel')
+				if(mi != null)
+					mi.enabled = true
+			})
+			self._tool.cockpit.on('channelleft', () => {
+				let mi = self._tool.ui.getMenuItemById('menu_changechannel')
+				if(mi != null)
+					mi.enabled = false
+			})
+
+			riot.mount(self.logindialog)
+			self.continueafterauth()
 		})
 	}
 
 	/**
-	 * Checks if an addon is installed
+	 * Gives you the username of the logged in user. Is empty when not logged in.
 	 * 
-	 * @param {String} name Name of the addon
-	 * @returns {Boolean}
+	 * @type {String}
+	 * @readonly
 	 */
-	addonInstalled(name) {
-		if(this.addonnames.indexOf(name) >= 0) {
-			return true
-		}
-		return false
+	get username() {
+		return this._username
 	}
 
 	/**
-	 * Returns the version of the installed addon
+	 * Gives you the userid of the logged in user. Is empty when not logged in.
 	 * 
-	 * @param {String} name Name of the addon
-	 * @returns {String} Version of the addon or 'Unkown' if not installed or not defined
+	 * @type {String}
+	 * @readonly
 	 */
-	getInstalledAddonVersion(name) {
-		if(typeof(this.package_infos[name]) == "undefined" || typeof(this.package_infos[name].version) == "undefined") {
-			return "Unkown"
-		}
-		return this.package_infos[name].version
+	get userid() {
+		return this._userid
 	}
 
 	/**
-	 * Gets the addon by name
-	 * 
-	 * @param {String} name Name of the addon
-	 * @returns {(null|Object)} Either the addon module or null when not found
-	 */
-	getAddon(name) {
-		let i = this.addonnames.indexOf(name)
-		if(i >= 0) {
-			return this.addons[i]
-		}
-		return null
-	}
-
-	/**
-	 * Gives you a new instance of the addons menu
+	 * Gives you a new instance of the twitch menu
 	 * 
 	 * @type {MenuItem}
 	 * @readonly
 	 */
 	get menu() {
 		const self = this
-
-		let m = []
-		let update = false
-		for(let i = 0; i &lt; this.available_addons.length; i++) {
-			let a = this.available_addons[i]
-			let mi = {
-				label: a.name + ' (v' + (this.addonInstalled(a.name) ? this.getInstalledAddonVersion(a.name) : a.version)+ ')',
-				type: 'checkbox',
-				checked: this.addonInstalled(a.name),
-				click: () => { self.addonclick(a.name) }
-			}
-			m.push(mi)
-
-			if(this.addonInstalled(a.name)) {
-				if(self.getInstalledAddonVersion(a.name) != a.version) {
-					update = true
-					self.possibleAddon = a.name
-				}
-			}
-		}
-		if(update) {
-			m.push({type: 'separator'})
-			m.push({label: 'Update available. Update now!', click: () => { self.updateclick() }})
-		}
-
 		return new MenuItem({
-			label: 'Addons',
-			submenu: Menu.buildFromTemplate(m)
+			label: 'Twitch',
+			submenu: Menu.buildFromTemplate([
+				{
+					label: this._tool.i18n.__('Change channel'),
+					enabled: false,
+					id: 'menu_changechannel',
+					click() {
+						self._tool.cockpit.leaveChannel()
+					}
+				},
+				{
+					type: 'separator'
+				},
+				{
+					label: this._tool.i18n.__('Logout'),
+					click() {
+						window.localStorage.removeItem('tw_auth_token')
+						window.location.reload()
+					}
+				}
+			])
 		})
 	}
 
 	/**
-	 * (Un)installs an addon
-	 * 
-	 * @private
-	 * @param {String} addonname Name of the addon
+	 * Starts the authorization flow
 	 */
-	addonclick(addonname) {
-		if(this.addonInstalled(addonname)) {
-			if(this.package_infos[addonname].file.endsWith('.asar')) {
-				let modal = this.tool.ui.showErrorMessage(new Error(this.tool.i18n.__('Uninstalling {{addon}} now... Program will restart.', {addon: addonname})))
-				modal.onclick = () => {}
-				setTimeout(() => {
-					exec('cmd /C "ping 127.0.0.1 -n 2 > NUL &amp; del "' + this.package_infos[addonname].file.replace(/\//g, '\\') + '" &amp; "' + process.execPath + '"')
-					app.quit()
-				}, 5000);
-			} else {
-				this.tool.ui.showErrorMessage(new Error(this.tool.i18n.__('Cannot uninstall. For uninstall the addon must be a asar addon.', {addon: addonname})))
-			}
-		} else {
-			let downloadurl = ''
-			for(let i = 0; i &lt; this.available_addons.length; i++) {
-				let a = this.available_addons[i]
-				if(addonname == a.name) {
-					downloadurl = a.url
-				}
-			}
-			if(downloadurl.length > 0) {
-				let modal = this.tool.ui.showErrorMessage(new Error(this.tool.i18n.__('Downloading and installing {{addon}} now... Program will restart.', {addon: addonname})))
-				modal.onclick = () => {}
-
-				https.get(downloadurl, (resp) => {
-					if(resp.statusCode == 200) {
-						fs.writeFileSync('resources/' + addonname + '.part', Buffer.alloc(0))
-						resp.on('data', (chunk) => { fs.appendFileSync('resources/' + addonname + '.part', chunk) })
-						resp.on('end', () => {
-							fs.renameSync('resources/' + addonname + '.part', 'resources/' + addonname + '.asar')
-							exec('cmd /C "ping 127.0.0.1 -n 2 > NUL &amp; "' + process.execPath + '"')
-							app.quit()
-						})
-					} else {
-						app.quit()
-					}
-				})
-			} else {
-				this.tool.ui.showErrorMessage(new Error(this.tool.i18n.__('Could not find anything to download.')))
-			}
-		}
-	}
-
-	/**
-	 * Updates a addon and restarts
-	 * 
-	 * @private
-	 */
-	updateclick() {
+	auth() {
 		const self = this
-		let addonname = this.possibleAddon
-		if(addonname.length &lt;= 0) return
-		let downloadurl = ''
-		for(let i = 0; i &lt; this.available_addons.length; i++) {
-			let a = this.available_addons[i]
-			if(addonname == a.name) {
-				downloadurl = a.url
-			}
-		}
-		if(downloadurl.length > 0) {
-			let modal = this.tool.ui.showErrorMessage(new Error(this.tool.i18n.__('Downloading and updating {{addon}} now... Program will restart.', {addon: addonname})))
-			modal.onclick = () => {}
-
-			https.get(downloadurl, (resp) => {
-				if(resp.statusCode == 200) {
-					fs.writeFileSync('resources/' + addonname + '.part', Buffer.alloc(0))
-					resp.on('data', (chunk) => { fs.appendFileSync('resources/' + addonname + '.part', chunk) })
-					resp.on('end', () => {
-						exec('cmd /C "ping 127.0.0.1 -n 2 > NUL &amp; del "' + self.package_infos[addonname].file.replace(/\//g, '\\') + '" &amp; copy resources\\' + addonname + '.part resources\\' + addonname + '.asar &amp; del resources\\' + addonname + '.part &amp; "' + process.execPath + '"')
-						app.quit()
-					})
-				} else {
-					app.quit()
+		this.loginbutton.innerText = this._tool.i18n.__('Please wait...')
+		this.authresponseserver = http.createServer((req, resp) => {
+			var response = "&lt;!DOCTYPE html>\r\n&lt;html>&lt;head>&lt;meta charset=\"utf-8\">&lt;title>OAUTH RESPONSE&lt;/title>&lt;/head>&lt;body>This should only be visible for a second...&lt;/body>&lt;/html>"
+			resp.writeHead(200, {'Content-Length': response.length, 'Content-Type': 'text/html; charset=utf-8'})
+			resp.end(response)
+		})
+		this.authresponseserver.on('error', (err) => {
+			self._tool.ui.showErrorMessage(err)
+			if(self.authwindow != null) self.authwindow.close()
+			self.authresponseserver.close()
+			self.authresponseserver = null
+		})
+		this.authresponseserver.on('close', () => { self.authresponseserver = null })
+		this.authresponseserver.listen(8086, () => {
+			self.loginbutton.innerText = self._tool.i18n.__('Login window should be opening...')
+			let url = self._tool.twitchapi.getAuthImplicitGrantFlowUrl()
+			self.authwindow = new BrowserWindow({ width: 400, height: 500, show: false, 'node-integration': false, webPreferences: { sandbox: true } })
+			self.authwindow.loadURL(url)
+			self.authwindow.on('page-title-updated', (e, t) => { self.authtitlechange(e, t) })
+			self.authwindow.show()
+			self.authwindow.on('closed', () => {
+				self.authwindow = null
+				if(self.authresponseserver != null) {
+					self.authresponseserver.close()
+					self.authresponse({})
 				}
 			})
-		} else {
-			this.tool.ui.showErrorMessage(new Error(this.tool.i18n.__('Could not find anything to download.')))
+		})
+	}
+
+	/**
+	 * Is called when the title of the login window changes, so we know that it was completed
+	 * 
+	 * @private
+	 * @param {Event} event Event of the title change
+	 * @param {String} title New title of the window
+	 */
+	authtitlechange(event, title) {
+		if(title == 'OAUTH RESPONSE') {
+			let url = this.authwindow.webContents.getURL()
+
+			this.authresponseserver.close()
+			this.authwindow.close()
+
+			let hashindex = url.lastIndexOf('#')
+			if(hashindex > 0) {
+				let hashstr = url.substring(hashindex+1)
+				let hashargs = hashstr.split('&amp;')
+				let hash = {}
+				for(let i = 0; i &lt; hashargs.length; i++) {
+					let kv = hashargs[i].split('=', 2)
+					let k = kv[0]
+					let v = decodeURIComponent(kv[1])
+					hash[k] = v
+				}
+				this.authresponse(hash)
+			}
 		}
 	}
 
 	/**
-	 * Loads all available packages
+	 * Checks for the right hash information and saves the token
+	 * 
+	 * @private
+	 * @param {String} hash The hash of the url that was redirected to from the authorization flow
+	 */
+	authresponse(hash) {
+		if(typeof(hash.access_token) != 'undefined' &amp;&amp; typeof(hash.state) != 'undefined') {
+			if(this._tool.twitchapi.verifyState(hash.state)) {
+				this.loginbutton.innerText = this._tool.i18n.__('Logged in')
+				this._tool.twitchapi.setAuthToken(hash.access_token)
+				this.continueafterauth()
+			} else {
+				this.loginbutton.innerText = this._tool.i18n.__('Invalid token')
+			}
+		} else {
+			this.loginbutton.innerText = this._tool.i18n.__('Canceled by user')
+		}
+	}
+
+	/**
+	 * Checks if user is logged in and fires complete event
 	 * 
 	 * @private
 	 */
-	loadPackages() {
-		const self = this
-		https.get('https://vs.paklweb.de/ttvst/addons.php', (res) => {
-			if(res.statusCode == 200) {
-				res.setEncoding('utf8')
-				let addons_json = ''
-				res.on('data', (chunk) => { addons_json += chunk })
-				res.on('end', () => {
-					try {
-						let addons = JSON.parse(addons_json)
-						self.available_addons = addons
-						self.tool.ui.addMenu(self.menu)
-					} catch(e) {
-						console.error(e)
-					}
-				})
-			}
-		})
+	continueafterauth() {
+		if(this._tool.twitchapi.isLoggedIn()) {
+			this.logindialog.style.display = 'none'
+
+			this._tool.twitchapi.getUser('', (res, err) => {
+				if(res != null &amp;&amp; res.hasOwnProperty('_id')) {
+					this._username = res.name
+					this._userid = res._id
+					/**
+					 * Fires when user is sucessfully is logged in
+					 * 
+					 * @event TTVLogin#complete
+					 */
+					this.emit('complete')
+					/*loadMoreFollows(true)
+					twitchchat = new Chat(res.name, twitchapi.token)*/
+				} else if(err != null) {
+					this._tool.ui.showErrorMessage(err)
+				}
+			})
+		}
 	}
 
 }
-module.exports = Addons</code></pre>
+
+module.exports = TTVLogin</code></pre>
         </article>
     </section>
 

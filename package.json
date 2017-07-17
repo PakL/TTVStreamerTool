@@ -5,7 +5,7 @@
 
 	"scripts": {
 		"start": ".\\node_modules\\electron\\dist\\electron.exe .\\",
-		"generate-docs": ".\\node_modules\\.bin\\jsdoc -c jsdoc.json -R README.md -u docs\\_tutorials"
+		"generate-docs": ".\\node_modules\\.bin\\jsdoc -c jsdoc.json"
 	},
 	"dependencies": {
 		"riot": "^3.0.7",
@@ -20,6 +20,6 @@
 	"devDependencies": {
 		"electron": "^1.4.14",
 		"jsdoc": "3.5.3",
-		"docdash": "0.4.0"
+		"tui-jsdoc-template": "1.1.0"
 	}
 }

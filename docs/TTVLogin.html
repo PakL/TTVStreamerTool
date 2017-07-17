@@ -1,10 +1,8 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Source: lib/addons.js | TTVST</title>
+    <title>Class: TTVLogin | TTVST</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -50,300 +48,629 @@
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>"use strict"
+        <h2>TTVLogin</h2>
+        
+    
+</header>
 
-const {remote} = require('electron')
-const {app} = remote.require('electron')
-const exec = require('child_process').exec;
-const fs = require("fs")
-const https = require("../node_modules/follow-redirects").https
-const UIPage = require('../mod/uipage')
-const requireUncached = require('../node_modules/require-uncached')
+<article>
+    <div class="container-overview">
+    
+        
 
-/**
- * This module finds addons, loads and initialze them
- * 
- * @param {TTVTool} tool
- * @class Addons
- */
-class Addons {
+<dt>
 
-	constructor(tool) {
-		this.tool = tool
+    
+        
 
-		this.addons = []
-		this.addonnames = []
-		this.package_infos = {}
-		this.available_addons = []
-		this.possibleAddon = ''
+        <h4 class="name" id="TTVLogin">
+            <span class="type-signature"></span>new TTVLogin<span class="signature">(tool)</span><span class="type-signature"></span>
+            
+            <div class="container-source members">
+                <code><a href="lib_auth.js.html">lib/auth.js</a></code>,
+                <code><a href="lib_auth.js.html#line8">line 8</a></code>
+            </div>
+            
+        </h4>
 
-		let curdir = fs.realpathSync('.')
-		let addonsDir = []
-		try {
-			fs.accessSync('addons')
-			let addonsDird = fs.readdirSync('addons')
+        
+    
 
-			for(let i = 0; i &lt; addonsDird.length; i++)
-				addonsDir.push('addons/' + addonsDird[i])
-		} catch(e) {}
-		try {
-			fs.accessSync('resources')
-			let resourcesDir = fs.readdirSync('resources')
+</dt>
+<dd>
 
-			for(let i = 0; i &lt; resourcesDir.length; i++)
-				addonsDir.push('resources/' + resourcesDir[i])
-		} catch(e) {}
+    
+    <div class="description">
+        This module manages the login flow
+    </div>
+    
 
-		console.log('Checking addons: ' + addonsDir.join(', '))
-		
-		let infos = {}
-		let lang = null
-		for(let i = 0; i &lt; addonsDir.length; i++) {
-			infos = {}
-			lang = null
-			try {
-				fs.accessSync(`${addonsDir[i]}/package.json`)
-				fs.accessSync(`${addonsDir[i]}/addon.js`)
+    
 
-				let pack = fs.readFileSync(`${addonsDir[i]}/package.json`, { encoding: 'utf8' })
-				infos = JSON.parse(pack)
-			} catch(e) {}
-			try {
-				fs.accessSync(`${addonsDir[i]}/language.json`)
-				lang = requireUncached('../node_modules/i18n-nodejs')(this.tool.settings.language, `${curdir}/${addonsDir[i]}/language.json`)
-			} catch(e) {}
+    
 
-			if(infos.hasOwnProperty('name') &amp;&amp; infos.hasOwnProperty('systems')) {
-				if(infos.systems.indexOf(process.platform) >= 0) {
-					try {
-						let addon = require(`${curdir}/${addonsDir[i]}/addon`)
+    
 
-						this.addons.push(new addon(this.tool, lang))
-						console.log('Addon ' + addonsDir[i] + ' is being loaded')
-						this.addonnames.push(infos.name)
-						infos.file = `${curdir}/${addonsDir[i]}`
-						this.package_infos[infos.name] = infos
-					} catch(e) {
-						console.log('Error loading addon ' + addonsDir[i])
-						console.error(e)
-					}
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
 
-				} else {
-					console.log('Addon ' + addonsDir[i] + ' is not compatible with the current platform')
-				}
-			} else {
-				console.log('Addon ' + addonsDir[i] + ' has no platform informations')
-			}
-		}
+        <th>Type</th>
 
-		const self = this
-		this.tool.on('load', () => {
-			for(let i = 0; i &lt; self.addons.length; i++) {
-				if(self.addons[i] instanceof UIPage) {
-					self.tool.ui.addPage(self.addons[i])
-				}
-			}
-			self.loadPackages()
-		})
-	}
+        
 
-	/**
-	 * Checks if an addon is installed
-	 * 
-	 * @param {String} name Name of the addon
-	 * @returns {Boolean}
-	 */
-	addonInstalled(name) {
-		if(this.addonnames.indexOf(name) >= 0) {
-			return true
-		}
-		return false
-	}
+        
 
-	/**
-	 * Returns the version of the installed addon
-	 * 
-	 * @param {String} name Name of the addon
-	 * @returns {String} Version of the addon or 'Unkown' if not installed or not defined
-	 */
-	getInstalledAddonVersion(name) {
-		if(typeof(this.package_infos[name]) == "undefined" || typeof(this.package_infos[name].version) == "undefined") {
-			return "Unkown"
-		}
-		return this.package_infos[name].version
-	}
+        <th class="last">Description</th>
+    </tr>
+    </thead>
 
-	/**
-	 * Gets the addon by name
-	 * 
-	 * @param {String} name Name of the addon
-	 * @returns {(null|Object)} Either the addon module or null when not found
-	 */
-	getAddon(name) {
-		let i = this.addonnames.indexOf(name)
-		if(i >= 0) {
-			return this.addons[i]
-		}
-		return null
-	}
+    <tbody>
+    
 
-	/**
-	 * Gives you a new instance of the addons menu
-	 * 
-	 * @type {MenuItem}
-	 * @readonly
-	 */
-	get menu() {
-		const self = this
+        <tr>
+            
+                <td class="name"><code>tool</code></td>
+            
 
-		let m = []
-		let update = false
-		for(let i = 0; i &lt; this.available_addons.length; i++) {
-			let a = this.available_addons[i]
-			let mi = {
-				label: a.name + ' (v' + (this.addonInstalled(a.name) ? this.getInstalledAddonVersion(a.name) : a.version)+ ')',
-				type: 'checkbox',
-				checked: this.addonInstalled(a.name),
-				click: () => { self.addonclick(a.name) }
-			}
-			m.push(mi)
+            <td class="type">
+            
+                
+<span class="param-type"><a href="TTVTool.html">TTVTool</a></span>
 
-			if(this.addonInstalled(a.name)) {
-				if(self.getInstalledAddonVersion(a.name) != a.version) {
-					update = true
-					self.possibleAddon = a.name
-				}
-			}
-		}
-		if(update) {
-			m.push({type: 'separator'})
-			m.push({label: 'Update available. Update now!', click: () => { self.updateclick() }})
-		}
 
-		return new MenuItem({
-			label: 'Addons',
-			submenu: Menu.buildFromTemplate(m)
-		})
-	}
+            
+            </td>
 
-	/**
-	 * (Un)installs an addon
-	 * 
-	 * @private
-	 * @param {String} addonname Name of the addon
-	 */
-	addonclick(addonname) {
-		if(this.addonInstalled(addonname)) {
-			if(this.package_infos[addonname].file.endsWith('.asar')) {
-				let modal = this.tool.ui.showErrorMessage(new Error(this.tool.i18n.__('Uninstalling {{addon}} now... Program will restart.', {addon: addonname})))
-				modal.onclick = () => {}
-				setTimeout(() => {
-					exec('cmd /C "ping 127.0.0.1 -n 2 > NUL &amp; del "' + this.package_infos[addonname].file.replace(/\//g, '\\') + '" &amp; "' + process.execPath + '"')
-					app.quit()
-				}, 5000);
-			} else {
-				this.tool.ui.showErrorMessage(new Error(this.tool.i18n.__('Cannot uninstall. For uninstall the addon must be a asar addon.', {addon: addonname})))
-			}
-		} else {
-			let downloadurl = ''
-			for(let i = 0; i &lt; this.available_addons.length; i++) {
-				let a = this.available_addons[i]
-				if(addonname == a.name) {
-					downloadurl = a.url
-				}
-			}
-			if(downloadurl.length > 0) {
-				let modal = this.tool.ui.showErrorMessage(new Error(this.tool.i18n.__('Downloading and installing {{addon}} now... Program will restart.', {addon: addonname})))
-				modal.onclick = () => {}
+            
 
-				https.get(downloadurl, (resp) => {
-					if(resp.statusCode == 200) {
-						fs.writeFileSync('resources/' + addonname + '.part', Buffer.alloc(0))
-						resp.on('data', (chunk) => { fs.appendFileSync('resources/' + addonname + '.part', chunk) })
-						resp.on('end', () => {
-							fs.renameSync('resources/' + addonname + '.part', 'resources/' + addonname + '.asar')
-							exec('cmd /C "ping 127.0.0.1 -n 2 > NUL &amp; "' + process.execPath + '"')
-							app.quit()
-						})
-					} else {
-						app.quit()
-					}
-				})
-			} else {
-				this.tool.ui.showErrorMessage(new Error(this.tool.i18n.__('Could not find anything to download.')))
-			}
-		}
-	}
+            
 
-	/**
-	 * Updates a addon and restarts
-	 * 
-	 * @private
-	 */
-	updateclick() {
-		const self = this
-		let addonname = this.possibleAddon
-		if(addonname.length &lt;= 0) return
-		let downloadurl = ''
-		for(let i = 0; i &lt; this.available_addons.length; i++) {
-			let a = this.available_addons[i]
-			if(addonname == a.name) {
-				downloadurl = a.url
-			}
-		}
-		if(downloadurl.length > 0) {
-			let modal = this.tool.ui.showErrorMessage(new Error(this.tool.i18n.__('Downloading and updating {{addon}} now... Program will restart.', {addon: addonname})))
-			modal.onclick = () => {}
+            <td class="description last"></td>
+        </tr>
 
-			https.get(downloadurl, (resp) => {
-				if(resp.statusCode == 200) {
-					fs.writeFileSync('resources/' + addonname + '.part', Buffer.alloc(0))
-					resp.on('data', (chunk) => { fs.appendFileSync('resources/' + addonname + '.part', chunk) })
-					resp.on('end', () => {
-						exec('cmd /C "ping 127.0.0.1 -n 2 > NUL &amp; del "' + self.package_infos[addonname].file.replace(/\//g, '\\') + '" &amp; copy resources\\' + addonname + '.part resources\\' + addonname + '.asar &amp; del resources\\' + addonname + '.part &amp; "' + process.execPath + '"')
-						app.quit()
-					})
-				} else {
-					app.quit()
-				}
-			})
-		} else {
-			this.tool.ui.showErrorMessage(new Error(this.tool.i18n.__('Could not find anything to download.')))
-		}
-	}
+    
+    </tbody>
+</table>
 
-	/**
-	 * Loads all available packages
-	 * 
-	 * @private
-	 */
-	loadPackages() {
-		const self = this
-		https.get('https://vs.paklweb.de/ttvst/addons.php', (res) => {
-			if(res.statusCode == 200) {
-				res.setEncoding('utf8')
-				let addons_json = ''
-				res.on('data', (chunk) => { addons_json += chunk })
-				res.on('end', () => {
-					try {
-						let addons = JSON.parse(addons_json)
-						self.available_addons = addons
-						self.tool.ui.addMenu(self.menu)
-					} catch(e) {
-						console.error(e)
-					}
-				})
-			}
-		})
-	}
+    </div>
+    
 
-}
-module.exports = Addons</code></pre>
-        </article>
-    </section>
+    
+
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li><a href="TTVLogin.html#event:complete">TTVLogin#event:complete</a></li>
+    </ul>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+    
+    </div>
+
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li>EventEmitter</li>
+    </ul>
+
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+
+<dt>
+<h4 class="name" id="menu">
+    <span class="type-signature"><span class="icon green">readonly</span> </span>menu<span class="type-signature"> :MenuItem</span>
+    
+    <div class="container-source members">
+        <code><a href="lib_auth.js.html">lib/auth.js</a></code>,
+        <code><a href="lib_auth.js.html#line76">line 76</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        Gives you a new instance of the twitch menu
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">MenuItem</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="userid">
+    <span class="type-signature"><span class="icon green">readonly</span> </span>userid<span class="type-signature"> :String</span>
+    
+    <div class="container-source members">
+        <code><a href="lib_auth.js.html">lib/auth.js</a></code>,
+        <code><a href="lib_auth.js.html#line66">line 66</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        Gives you the userid of the logged in user. Is empty when not logged in.
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">String</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="username">
+    <span class="type-signature"><span class="icon green">readonly</span> </span>username<span class="type-signature"> :String</span>
+    
+    <div class="container-source members">
+        <code><a href="lib_auth.js.html">lib/auth.js</a></code>,
+        <code><a href="lib_auth.js.html#line56">line 56</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        Gives you the username of the logged in user. Is empty when not logged in.
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">String</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+                
+
+<dt>
+
+    
+        
+
+        <h4 class="name" id="auth">
+            <span class="type-signature"></span>auth<span class="signature">()</span><span class="type-signature"></span>
+            
+            <div class="container-source members">
+                <code><a href="lib_auth.js.html">lib/auth.js</a></code>,
+                <code><a href="lib_auth.js.html#line106">line 106</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Starts the authorization flow
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            </dl>
+    
+
+    
+
+    
+        <h3 class="subsection-title">Events</h3>
+
+        <dl>
+            
+
+<dt>
+
+    
+        
+
+        <h4 class="name" id="event:complete">
+            complete
+            
+            <div class="container-source members">
+                <code><a href="lib_auth.js.html">lib/auth.js</a></code>,
+                <code><a href="lib_auth.js.html#line201">line 201</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Fires when user is sucessfully is logged in
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+        </dl>
+    
+</article>
+
+</section>
 
 
 
@@ -360,7 +687,7 @@ module.exports = Addons</code></pre>
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = '_sub'.replace(/"/g, '_');
+        var id = 'TTVLogin_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 

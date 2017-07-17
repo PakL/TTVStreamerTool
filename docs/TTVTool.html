@@ -2,34 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>TTVTool - Documentation</title>
+    <title>Class: TTVTool | TTVST</title>
 
-    <script src="scripts/prettify/prettify.js"></script>
-    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/tui-doc.css">
+
+    
 </head>
 <body>
-
-<input type="checkbox" id="nav-trigger" class="nav-trigger" />
-<label for="nav-trigger" class="navicon-button x">
-  <div class="navicon"></div>
-</label>
-
-<label for="nav-trigger" class="overlay"></label>
-
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="TTVTool.html">TTVTool</a></li><li><a href="ToolUI.html">ToolUI</a><ul class='methods'><li data-type='method'><a href="ToolUI.html#findPage">findPage</a></li><li data-type='method'><a href="ToolUI.html#addPage">addPage</a></li><li data-type='method'><a href="ToolUI.html#openPage">openPage</a></li><li data-type='method'><a href="ToolUI.html#addMenu">addMenu</a></li><li data-type='method'><a href="ToolUI.html#getMenuItemById">getMenuItemById</a></li><li data-type='method'><a href="ToolUI.html#startLoading">startLoading</a></li><li data-type='method'><a href="ToolUI.html#stopLoading">stopLoading</a></li><li data-type='method'><a href="ToolUI.html#showErrorMessage">showErrorMessage</a></li></ul></li><li><a href="TwitchTv.html">TwitchTv</a><ul class='methods'><li data-type='method'><a href="TwitchTv.html#getAuthImplicitGrantFlowUrl">getAuthImplicitGrantFlowUrl</a></li><li data-type='method'><a href="TwitchTv.html#verifyState">verifyState</a></li><li data-type='method'><a href="TwitchTv.html#setAuthToken">setAuthToken</a></li><li data-type='method'><a href="TwitchTv.html#getAuthToken">getAuthToken</a></li><li data-type='method'><a href="TwitchTv.html#isLoggedIn">isLoggedIn</a></li><li data-type='method'><a href="TwitchTv.html#requestAPI">requestAPI</a></li><li data-type='method'><a href="TwitchTv.html#getUser">getUser</a></li><li data-type='method'><a href="TwitchTv.html#getUserByName">getUserByName</a></li><li data-type='method'><a href="TwitchTv.html#getUserFollows">getUserFollows</a></li><li data-type='method'><a href="TwitchTv.html#getChannel">getChannel</a></li><li data-type='method'><a href="TwitchTv.html#updateChannel">updateChannel</a></li><li data-type='method'><a href="TwitchTv.html#getChannelFollowers">getChannelFollowers</a></li><li data-type='method'><a href="TwitchTv.html#getChannelSubscribers">getChannelSubscribers</a></li></ul></li><li><a href="UIPage.html">UIPage</a><ul class='methods'><li data-type='method'><a href="UIPage.html#open">open</a></li><li data-type='method'><a href="UIPage.html#close">close</a></li></ul></li><li><a href="Addons.html">Addons</a></li><li><a href="ToolSettings.html">ToolSettings</a><ul class='methods'><li data-type='method'><a href="ToolSettings.html#setLanguage">setLanguage</a></li><li data-type='method'><a href="ToolSettings.html#addHighlight">addHighlight</a></li><li data-type='method'><a href="ToolSettings.html#getBoolean">getBoolean</a></li><li data-type='method'><a href="ToolSettings.html#setBoolean">setBoolean</a></li><li data-type='method'><a href="ToolSettings.html#getString">getString</a></li><li data-type='method'><a href="ToolSettings.html#setString">setString</a></li><li data-type='method'><a href="ToolSettings.html#getJSON">getJSON</a></li><li data-type='method'><a href="ToolSettings.html#setJSON">setJSON</a></li></ul></li></ul><h3>Events</h3><ul><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TTVTool.html#event:exit">exit</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li></ul>
+<nav class="lnb" id="lnb">
+    <div class="logo" style="width: 0px; height: 0px">
+        <img src="img/toast-ui.png" width="100%" height="100%">
+    </div>
+    <div class="title">
+        <h1><a href="index.html" class="link">TTVST</a></h1>
+        
+    </div>
+    <div class="search-container" id="search-container">
+        <input type="text" placeholder="Search">
+        <ul></ul>
+    </div>
+    
+        <ol class="lnb-tab">
+            <li id="api-tab">
+                <a href="#"><h4>API</h4></a>
+            </li>
+            <li id="examples-tab">
+                <a href="#"><h4>Tutorials</h4></a>
+            </li>
+        </ol>
+    
+    <div class="lnb-examples hidden"><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Getting Started_sub"></div></li></ul></div><div class="lnb-api hidden"><h3>Classes</h3><ul><li><a href="Addons.html">Addons</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Addons_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Addons.html#menu">menu</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Addons.html#addonInstalled">addonInstalled</a></li><li><a href="Addons.html#getAddon">getAddon</a></li><li><a href="Addons.html#getInstalledAddonVersion">getInstalledAddonVersion</a></li></ul></div></li><li><a href="Chat.html">Chat</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Chat_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Chat.html#connected">connected</a></li><li><a href="Chat.html#irc">irc</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Chat.html#auth">auth</a></li><li><a href="Chat.html#disconnect">disconnect</a></li><li><a href="Chat.html#getUserObjByTags">getUserObjByTags</a></li><li><a href="Chat.html#join">join</a></li><li><a href="Chat.html#part">part</a></li><li><a href="Chat.html#sendmsg">sendmsg</a></li><li><a href="Chat.html#showmsg">showmsg</a></li></ul><div class="member-type">Events</div><ul class="inner"><li><a href="Chat.html#event:autohostingyou">autohostingyou</a></li><li><a href="Chat.html#event:chatmessage">chatmessage</a></li><li><a href="Chat.html#event:clearchat">clearchat</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:connected">connected</a></li><li><a href="Chat.html#event:hostingyou">hostingyou</a></li><li><a href="Chat.html#event:join">join</a></li><li><a href="Chat.html#event:names">names</a></li><li><a href="Chat.html#event:part">part</a></li><li><a href="Chat.html#event:usernotice">usernotice</a></li><li><a href="Chat.html#event:userstate">userstate</a></li></ul><div class="member-type">Typedef</div><ul class="inner"><li><a href="Chat.html#~userObject">userObject</a></li></ul></div></li><li><a href="ToolSettings.html">ToolSettings</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ToolSettings_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ToolSettings.html#autoRecoverMessages">autoRecoverMessages</a></li><li><a href="ToolSettings.html#highlights">highlights</a></li><li><a href="ToolSettings.html#language">language</a></li><li><a href="ToolSettings.html#menu">menu</a></li><li><a href="ToolSettings.html#showLocalizedNames">showLocalizedNames</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="ToolSettings.html#addHighlight">addHighlight</a></li><li><a href="ToolSettings.html#getBoolean">getBoolean</a></li><li><a href="ToolSettings.html#getJSON">getJSON</a></li><li><a href="ToolSettings.html#getString">getString</a></li><li><a href="ToolSettings.html#setBoolean">setBoolean</a></li><li><a href="ToolSettings.html#setJSON">setJSON</a></li><li><a href="ToolSettings.html#setLanguage">setLanguage</a></li><li><a href="ToolSettings.html#setString">setString</a></li></ul></div></li><li><a href="ToolUI.html">ToolUI</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ToolUI_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ToolUI.html#currentPage">currentPage</a></li><li><a href="ToolUI.html#loadingElement">loadingElement</a></li><li><a href="ToolUI.html#pageBefore">pageBefore</a></li><li><a href="ToolUI.html#pages">pages</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="ToolUI.html#addMenu">addMenu</a></li><li><a href="ToolUI.html#addPage">addPage</a></li><li><a href="ToolUI.html#findPage">findPage</a></li><li><a href="ToolUI.html#getMenuItemById">getMenuItemById</a></li><li><a href="ToolUI.html#openPage">openPage</a></li><li><a href="ToolUI.html#showErrorMessage">showErrorMessage</a></li><li><a href="ToolUI.html#startLoading">startLoading</a></li><li><a href="ToolUI.html#stopLoading">stopLoading</a></li></ul></div></li><li><a href="TTVLogin.html">TTVLogin</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="TTVLogin_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="TTVLogin.html#menu">menu</a></li><li><a href="TTVLogin.html#userid">userid</a></li><li><a href="TTVLogin.html#username">username</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="TTVLogin.html#auth">auth</a></li></ul><div class="member-type">Events</div><ul class="inner"><li><a href="TTVLogin.html#event:complete">complete</a></li></ul></div></li><li><a href="TTVTool.html">TTVTool</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="TTVTool_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="TTVTool.html#addons">addons</a></li><li><a href="TTVTool.html#auth">auth</a></li><li><a href="TTVTool.html#channel">channel</a></li><li><a href="TTVTool.html#chat">chat</a></li><li><a href="TTVTool.html#cockpit">cockpit</a></li><li><a href="TTVTool.html#follows">follows</a></li><li><a href="TTVTool.html#i18n">i18n</a></li><li><a href="TTVTool.html#overlays">overlays</a></li><li><a href="TTVTool.html#settings">settings</a></li><li><a href="TTVTool.html#subscriptions">subscriptions</a></li><li><a href="TTVTool.html#twitchapi">twitchapi</a></li><li><a href="TTVTool.html#ui">ui</a></li></ul><div class="member-type">Events</div><ul class="inner"><li><a href="TTVTool.html#event:exit">exit</a></li><li><a href="TTVTool.html#event:load">load</a></li></ul></div></li><li><a href="TwitchChat.html">TwitchChat</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="TwitchChat_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="TwitchChat.html#options">options</a></li><li><a href="TwitchChat.html#socket">socket</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="TwitchChat.html#join">join</a></li><li><a href="TwitchChat.html#part">part</a></li><li><a href="TwitchChat.html#say">say</a></li><li><a href="TwitchChat.html#sendCLRF">sendCLRF</a></li></ul><div class="member-type">Events</div><ul class="inner"><li><a href="TwitchChat.html#event:action">action</a></li><li><a href="TwitchChat.html#event:autohostingyou">autohostingyou</a></li><li><a href="TwitchChat.html#event:capack">capack</a></li><li><a href="TwitchChat.html#event:clearchat">clearchat</a></li><li><a href="TwitchChat.html#event:clearuser">clearuser</a></li><li><a href="TwitchChat.html#event:close">close</a></li><li><a href="TwitchChat.html#event:connect">connect</a></li><li><a href="TwitchChat.html#event:error">error</a></li><li><a href="TwitchChat.html#event:hostingyou">hostingyou</a></li><li><a href="TwitchChat.html#event:incoming">incoming</a></li><li><a href="TwitchChat.html#event:join">join</a></li><li><a href="TwitchChat.html#event:message">message</a></li><li><a href="TwitchChat.html#event:mode">mode</a></li><li><a href="TwitchChat.html#event:mode+">mode+</a></li><li><a href="TwitchChat.html#event:mode-">mode-</a></li><li><a href="TwitchChat.html#event:motd">motd</a></li><li><a href="TwitchChat.html#event:names">names</a></li><li><a href="TwitchChat.html#event:notice">notice</a></li><li><a href="TwitchChat.html#event:outgoing">outgoing</a></li><li><a href="TwitchChat.html#event:part">part</a></li><li><a href="TwitchChat.html#event:raw">raw</a></li><li><a href="TwitchChat.html#event:registered">registered</a></li><li><a href="TwitchChat.html#event:roomstate">roomstate</a></li><li><a href="TwitchChat.html#event:usernotice">usernotice</a></li><li><a href="TwitchChat.html#event:userstate">userstate</a></li><li><a href="TwitchChat.html#event:whisper">whisper</a></li></ul></div></li><li><a href="TwitchTv.html">TwitchTv</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="TwitchTv_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="TwitchTv.html#channelid">channelid</a></li><li><a href="TwitchTv.html#channelobj">channelobj</a></li><li><a href="TwitchTv.html#clientid">clientid</a></li><li><a href="TwitchTv.html#redirecturi">redirecturi</a></li><li><a href="TwitchTv.html#scope">scope</a></li><li><a href="TwitchTv.html#userid">userid</a></li><li><a href="TwitchTv.html#userobj">userobj</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="TwitchTv.html#getAuthImplicitGrantFlowUrl">getAuthImplicitGrantFlowUrl</a></li><li><a href="TwitchTv.html#getAuthToken">getAuthToken</a></li><li><a href="TwitchTv.html#getChannel">getChannel</a></li><li><a href="TwitchTv.html#getChannelFollowers">getChannelFollowers</a></li><li><a href="TwitchTv.html#getChannelSubscribers">getChannelSubscribers</a></li><li><a href="TwitchTv.html#getChatBadgesByChannel">getChatBadgesByChannel</a></li><li><a href="TwitchTv.html#getChatBadgeSetsByChannel">getChatBadgeSetsByChannel</a></li><li><a href="TwitchTv.html#getChatEmoticonsBySet">getChatEmoticonsBySet</a></li><li><a href="TwitchTv.html#getStreamByUser">getStreamByUser</a></li><li><a href="TwitchTv.html#getUser">getUser</a></li><li><a href="TwitchTv.html#getUserByName">getUserByName</a></li><li><a href="TwitchTv.html#getUserFollows">getUserFollows</a></li><li><a href="TwitchTv.html#isLoggedIn">isLoggedIn</a></li><li><a href="TwitchTv.html#requestAPI">requestAPI</a></li><li><a href="TwitchTv.html#searchGames">searchGames</a></li><li><a href="TwitchTv.html#setAuthToken">setAuthToken</a></li><li><a href="TwitchTv.html#updateChannel">updateChannel</a></li><li><a href="TwitchTv.html#verifyState">verifyState</a></li></ul><div class="member-type">Typedef</div><ul class="inner"><li><a href="TwitchTv.html#~requestCallback">requestCallback</a></li></ul></div></li><li><a href="UIPage.html">UIPage</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="UIPage_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="UIPage.html#localizedName">localizedName</a></li><li><a href="UIPage.html#name">name</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="UIPage.html#close">close</a></li><li><a href="UIPage.html#open">open</a></li></ul></div></li></ul></div>
 </nav>
+<div id="resizer"></div>
 
-<div id="main">
-    
-    <h1 class="page-title">TTVTool</h1>
-    
-
+<div class="main" id="main">
     
 
 
@@ -39,9 +53,7 @@
 
 <header>
     
-        <h2>
-        TTVTool
-        </h2>
+        <h2>TTVTool</h2>
         
     
 </header>
@@ -51,23 +63,64 @@
     
         
 
-    
-
-    <h4 class="name" id="TTVTool"><span class="type-signature"></span>new TTVTool<span class="signature">()</span><span class="type-signature"></span></h4>
+<dt>
 
     
+        
 
+        <h4 class="name" id="TTVTool">
+            <span class="type-signature"></span>new TTVTool<span class="signature">()</span><span class="type-signature"></span>
+            
+            <div class="container-source members">
+                <code><a href="mod_tool.js.html">mod/tool.js</a></code>,
+                <code><a href="mod_tool.js.html#line22">line 22</a></code>
+            </div>
+            
+        </h4>
 
+        
+    
+
+</dt>
+<dd>
+
+    
+    <div class="description">
+        This module initializes pretty much everything and other modules have access to other modules over here.
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Fires:</h5>
+    <ul>
+        <li><a href="TTVTool.html#event:load">TTVTool#event:load</a></li>
+    
+        <li><a href="TTVTool.html#event:exit">TTVTool#event:exit</a></li>
+    </ul>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 
 
 <dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mod_tool.js.html">mod/tool.js</a>, <a href="mod_tool.js.html#line22">line 22</a>
-    </li></ul></dd>
-    
 
     
 
@@ -101,43 +154,9 @@
 </dl>
 
 
+    
 
-
-
-<div class="description">
-    This module initializes pretty much everything and other modules have access to other modules over here.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Fires:</h5>
-<ul>
-    <li><a href="TTVTool.html#event:load">TTVTool#event:load</a></li>
-
-    <li><a href="TTVTool.html#event:exit">TTVTool#event:exit</a></li>
-</ul>
-
-
-
-
-
-
-
-
-
-
+</dd>
 
     
     </div>
@@ -166,22 +185,47 @@
     
         <h3 class="subsection-title">Members</h3>
 
-        
+        <dl>
             
-<h4 class="name" id="ui"><span class="type-signature">(readonly) </span>ui<span class="type-signature"> :<a href="ToolUI.html">ToolUI</a></span></h4>
+
+<dt>
+<h4 class="name" id="addons">
+    <span class="type-signature"><span class="icon green">readonly</span> </span>addons<span class="type-signature"> :<a href="Addons.html">Addons</a></span>
+    
+    <div class="container-source members">
+        <code><a href="mod_tool.js.html">mod/tool.js</a></code>,
+        <code><a href="mod_tool.js.html#line230">line 230</a></code>
+    </div>
+    
+</h4>
 
 
+</dt>
+<dd>
+    
+    <div class="description">
+        Gives you the addons module.
+    </div>
+    
 
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type"><a href="Addons.html">Addons</a></span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
 
 
 <dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mod_tool.js.html">mod/tool.js</a>, <a href="mod_tool.js.html#line118">line 118</a>
-    </li></ul></dd>
-    
 
     
 
@@ -215,46 +259,447 @@
 </dl>
 
 
+    
 
-
-
-<div class="description">
-    Gives you the UI modules
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type"><a href="ToolUI.html">ToolUI</a></span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
+    
+</dd>
 
         
             
-<h4 class="name" id="i18n"><span class="type-signature">(readonly) </span>i18n<span class="type-signature"> :i18n-nodejs</span></h4>
+
+<dt>
+<h4 class="name" id="auth">
+    <span class="type-signature"><span class="icon green">readonly</span> </span>auth<span class="type-signature"> :<a href="TTVLogin.html">TTVLogin</a></span>
+    
+    <div class="container-source members">
+        <code><a href="mod_tool.js.html">mod/tool.js</a></code>,
+        <code><a href="mod_tool.js.html#line159">line 159</a></code>
+    </div>
+    
+</h4>
 
 
+</dt>
+<dd>
+    
+    <div class="description">
+        Gives you the auth module.
+    </div>
+    
 
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type"><a href="TTVLogin.html">TTVLogin</a></span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
 
 
 <dl class="details">
 
     
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mod_tool.js.html">mod/tool.js</a>, <a href="mod_tool.js.html#line129">line 129</a>
-    </li></ul></dd>
+
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="channel">
+    <span class="type-signature"><span class="icon green">readonly</span> </span>channel<span class="type-signature"> :Channel</span>
+    
+    <div class="container-source members">
+        <code><a href="mod_tool.js.html">mod/tool.js</a></code>,
+        <code><a href="mod_tool.js.html#line199">line 199</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        Gives you the channel data module.
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Channel</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="chat">
+    <span class="type-signature"><span class="icon green">readonly</span> </span>chat<span class="type-signature"> :<a href="Chat.html">Chat</a></span>
+    
+    <div class="container-source members">
+        <code><a href="mod_tool.js.html">mod/tool.js</a></code>,
+        <code><a href="mod_tool.js.html#line169">line 169</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        Gives you the chat module.
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type"><a href="Chat.html">Chat</a></span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="cockpit">
+    <span class="type-signature"><span class="icon green">readonly</span> </span>cockpit<span class="type-signature"> :Cockpit</span>
+    
+    <div class="container-source members">
+        <code><a href="mod_tool.js.html">mod/tool.js</a></code>,
+        <code><a href="mod_tool.js.html#line179">line 179</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        Gives you the cockpit module.
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Cockpit</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="follows">
+    <span class="type-signature"><span class="icon green">readonly</span> </span>follows<span class="type-signature"> :Follows</span>
+    
+    <div class="container-source members">
+        <code><a href="mod_tool.js.html">mod/tool.js</a></code>,
+        <code><a href="mod_tool.js.html#line209">line 209</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        Gives you the follow data module.
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Follows</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="i18n">
+    <span class="type-signature"><span class="icon green">readonly</span> </span>i18n<span class="type-signature"> :i18n-nodejs</span>
+    
+    <div class="container-source members">
+        <code><a href="mod_tool.js.html">mod/tool.js</a></code>,
+        <code><a href="mod_tool.js.html#line129">line 129</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        Gives you the <a href="https://www.npmjs.com/package/i18n-nodejs">i18n-nodejs</a> module.
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">i18n-nodejs</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
 
     
 
@@ -295,46 +740,52 @@
 </dl>
 
 
+    
 
-
-
-<div class="description">
-    Gives you the <a href="https://www.npmjs.com/package/i18n-nodejs">i18n-nodejs</a> module.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">i18n-nodejs</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
+    
+</dd>
 
         
             
-<h4 class="name" id="settings"><span class="type-signature">(readonly) </span>settings<span class="type-signature"> :<a href="ToolSettings.html">ToolSettings</a></span></h4>
+
+<dt>
+<h4 class="name" id="overlays">
+    <span class="type-signature"><span class="icon green">readonly</span> </span>overlays<span class="type-signature"> :<a href="TTVLogin.html">TTVLogin</a></span>
+    
+    <div class="container-source members">
+        <code><a href="mod_tool.js.html">mod/tool.js</a></code>,
+        <code><a href="mod_tool.js.html#line189">line 189</a></code>
+    </div>
+    
+</h4>
 
 
+</dt>
+<dd>
+    
+    <div class="description">
+        Gives you the overlay module.
+    </div>
+    
 
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type"><a href="TTVLogin.html">TTVLogin</a></span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
 
 
 <dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mod_tool.js.html">mod/tool.js</a>, <a href="mod_tool.js.html#line139">line 139</a>
-    </li></ul></dd>
-    
 
     
 
@@ -368,46 +819,52 @@
 </dl>
 
 
+    
 
+    
+</dd>
 
-
-<div class="description">
-    Gives you the settings module.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
+        
             
+
+<dt>
+<h4 class="name" id="settings">
+    <span class="type-signature"><span class="icon green">readonly</span> </span>settings<span class="type-signature"> :<a href="ToolSettings.html">ToolSettings</a></span>
+    
+    <div class="container-source members">
+        <code><a href="mod_tool.js.html">mod/tool.js</a></code>,
+        <code><a href="mod_tool.js.html#line139">line 139</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        Gives you the settings module.
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
 <span class="param-type"><a href="ToolSettings.html">ToolSettings</a></span>
 
 
-        </li>
-    </ul>
+            </li>
+        </ul>
+    
+    -->
 
-
-
-
-
-
-        
-            
-<h4 class="name" id="twitchapi"><span class="type-signature">(readonly) </span>twitchapi<span class="type-signature"> :<a href="TwitchTv.html">TwitchTv</a></span></h4>
-
-
-
+    
 
 
 <dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mod_tool.js.html">mod/tool.js</a>, <a href="mod_tool.js.html#line149">line 149</a>
-    </li></ul></dd>
-    
 
     
 
@@ -441,484 +898,52 @@
 </dl>
 
 
+    
 
-
-
-<div class="description">
-    Gives you the Twitch-API module.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type"><a href="TwitchTv.html">TwitchTv</a></span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
+    
+</dd>
 
         
             
-<h4 class="name" id="auth"><span class="type-signature">(readonly) </span>auth<span class="type-signature"> :TTVLogin</span></h4>
 
-
-
-
-
-<dl class="details">
-
+<dt>
+<h4 class="name" id="subscriptions">
+    <span class="type-signature"><span class="icon green">readonly</span> </span>subscriptions<span class="type-signature"> :undefined</span>
     
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mod_tool.js.html">mod/tool.js</a>, <a href="mod_tool.js.html#line159">line 159</a>
-    </li></ul></dd>
+    <div class="container-source members">
+        <code><a href="mod_tool.js.html">mod/tool.js</a></code>,
+        <code><a href="mod_tool.js.html#line220">line 220</a></code>
+    </div>
     
+</h4>
 
+
+</dt>
+<dd>
     
-
-    
-
-    
-
+    <div class="description">
+        Gives you a subscription module.
+    </div>
     
 
+    <!--
     
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">undefined</span>
 
-    
 
+            </li>
+        </ul>
     
-
-    
-
-    
-
-    
-
-    
-
-    
+    -->
 
     
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Gives you the auth module.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">TTVLogin</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="chat"><span class="type-signature">(readonly) </span>chat<span class="type-signature"> :Chat</span></h4>
-
-
-
 
 
 <dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mod_tool.js.html">mod/tool.js</a>, <a href="mod_tool.js.html#line169">line 169</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Gives you the chat module.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Chat</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="cockpit"><span class="type-signature">(readonly) </span>cockpit<span class="type-signature"> :Cockpit</span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mod_tool.js.html">mod/tool.js</a>, <a href="mod_tool.js.html#line179">line 179</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Gives you the cockpit module.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Cockpit</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="overlays"><span class="type-signature">(readonly) </span>overlays<span class="type-signature"> :TTVLogin</span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mod_tool.js.html">mod/tool.js</a>, <a href="mod_tool.js.html#line189">line 189</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Gives you the overlay module.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">TTVLogin</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="channel"><span class="type-signature">(readonly) </span>channel<span class="type-signature"> :Channel</span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mod_tool.js.html">mod/tool.js</a>, <a href="mod_tool.js.html#line199">line 199</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Gives you the channel data module.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Channel</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="follows"><span class="type-signature">(readonly) </span>follows<span class="type-signature"> :Follows</span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mod_tool.js.html">mod/tool.js</a>, <a href="mod_tool.js.html#line209">line 209</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Gives you the follow data module.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Follows</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="subscriptions"><span class="type-signature">(readonly) </span>subscriptions<span class="type-signature"> :undefined</span></h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mod_tool.js.html">mod/tool.js</a>, <a href="mod_tool.js.html#line220">line 220</a>
-    </li></ul></dd>
-    
 
     
 
@@ -954,46 +979,52 @@
 </dl>
 
 
+    
 
-
-
-<div class="description">
-    Gives you a subscription module.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">undefined</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
+    
+</dd>
 
         
             
-<h4 class="name" id="addons"><span class="type-signature">(readonly) </span>addons<span class="type-signature"> :<a href="Addons.html">Addons</a></span></h4>
+
+<dt>
+<h4 class="name" id="twitchapi">
+    <span class="type-signature"><span class="icon green">readonly</span> </span>twitchapi<span class="type-signature"> :<a href="TwitchTv.html">TwitchTv</a></span>
+    
+    <div class="container-source members">
+        <code><a href="mod_tool.js.html">mod/tool.js</a></code>,
+        <code><a href="mod_tool.js.html#line149">line 149</a></code>
+    </div>
+    
+</h4>
 
 
+</dt>
+<dd>
+    
+    <div class="description">
+        Gives you the Twitch-API module.
+    </div>
+    
 
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type"><a href="TwitchTv.html">TwitchTv</a></span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
 
 
 <dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mod_tool.js.html">mod/tool.js</a>, <a href="mod_tool.js.html#line230">line 230</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1027,31 +1058,91 @@
 </dl>
 
 
+    
 
-
-
-<div class="description">
-    Gives you the addons module.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type"><a href="Addons.html">Addons</a></span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
+    
+</dd>
 
         
+            
+
+<dt>
+<h4 class="name" id="ui">
+    <span class="type-signature"><span class="icon green">readonly</span> </span>ui<span class="type-signature"> :<a href="ToolUI.html">ToolUI</a></span>
+    
+    <div class="container-source members">
+        <code><a href="mod_tool.js.html">mod/tool.js</a></code>,
+        <code><a href="mod_tool.js.html#line118">line 118</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        Gives you the UI modules
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type"><a href="ToolUI.html">ToolUI</a></span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        </dl>
     
 
     
@@ -1061,26 +1152,60 @@
     
         <h3 class="subsection-title">Events</h3>
 
-        
+        <dl>
             
 
-    
-
-    <h4 class="name" id="event:load">load</h4>
+<dt>
 
     
+        
 
+        <h4 class="name" id="event:exit">
+            exit
+            
+            <div class="container-source members">
+                <code><a href="mod_tool.js.html">mod/tool.js</a></code>,
+                <code><a href="mod_tool.js.html#line99">line 99</a></code>
+            </div>
+            
+        </h4>
 
+        
+    
+
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Fires before the application is exited. Once again just window.onbeforeunload.Don't overwrite window.onbeforeunload please.
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 
 
 <dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mod_tool.js.html">mod/tool.js</a>, <a href="mod_tool.js.html#line89">line 89</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1114,57 +1239,64 @@
 </dl>
 
 
+    
 
-
-
-<div class="description">
-    Fires after the document was loaded. Basically window.onload. Use this insteadof window.onload to not overwrite the onload function and breaking the entireapplication. Thank you. :)
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</dd>
 
         
             
 
-    
-
-    <h4 class="name" id="event:exit">exit</h4>
+<dt>
 
     
+        
 
+        <h4 class="name" id="event:load">
+            load
+            
+            <div class="container-source members">
+                <code><a href="mod_tool.js.html">mod/tool.js</a></code>,
+                <code><a href="mod_tool.js.html#line89">line 89</a></code>
+            </div>
+            
+        </h4>
 
+        
+    
+
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Fires after the document was loaded. Basically window.onload. Use this insteadof window.onload to not overwrite the onload function and breaking the entireapplication. Thank you. :)
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 
 
 <dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mod_tool.js.html">mod/tool.js</a>, <a href="mod_tool.js.html#line99">line 99</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1198,38 +1330,11 @@
 </dl>
 
 
+    
 
+</dd>
 
-
-<div class="description">
-    Fires before the application is exited. Once again just window.onbeforeunload.Don't overwrite window.onbeforeunload please.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
+        </dl>
     
 </article>
 
@@ -1240,13 +1345,24 @@
 
 </div>
 
-<br class="clear">
-
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Sun Jul 16 2017 12:35:04 GMT+0200 (Mitteleuropäische Sommerzeit) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    <img class="logo" src="img/toast-ui.png" style="width: 0px; height: 0px">
+    <div class="footer-text">Code by PakL</div>
 </footer>
-
 <script>prettyPrint();</script>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/tui-doc.js"></script>
 <script src="scripts/linenumber.js"></script>
+
+    <script>
+        var id = 'TTVTool_sub'.replace(/"/g, '_');
+        var selectedApi = document.getElementById(id); // do not use jquery selector
+        var $selectedApi = $(selectedApi);
+
+        $selectedApi.removeClass('hidden');
+        $selectedApi.parent().find('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        showLnbApi();
+    </script>
+
 </body>
 </html>

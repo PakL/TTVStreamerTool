@@ -4,15 +4,25 @@
 		"includePattern": ".js$"
 	},
 	"opts": {
-		"template": "node_modules/docdash",
+		"template": "node_modules/tui-jsdoc-template",
 		"encoding": "utf8",
-		"destination": "docs"
+		"destination": "docs",
+		"tutorials": "docs/_tutorials",
+		"readme": "README.md"
 	},
 	"templates": {
 		"cleverLinks": false,
-		"monospaceLinks": false
-	},
-	"docdash": {
+		"monospaceLinks": false,
+		"tabNames": {
+			"tutorials": "Tutorials"
+		},
+		"name": "TTVST",
+		"logo": {
+			"url": "",
+			"width": "0px",
+			"height": "0px"
+		},
+		"footerText": "Code by PakL",
 		"sort": false
 	}
 }

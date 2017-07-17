@@ -483,6 +483,14 @@ class TwitchTv {
 	/*********************************************
 	 * Chat
 	 *********************************************/
+	/**
+	 * Loads channel badges. It's incomplete. If you want better badges use {@link TwitchTv#getChatBadgeSetsByChannel}.
+	 * 
+	 * @async
+	 * @param {(String|Number)} channelid Channel id of the channel you want the badges of.
+	 * @param {TwitchTv~requestCallback} callback 
+	 * @see {@link https://dev.twitch.tv/docs/v5/reference/chat/#get-chat-badges-by-channel}
+	 */
 	getChatBadgesByChannel(channelid, callback) {
 		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' && typeof(channelid) != 'number')) return
 		channelid = channelid.toString()
@@ -492,6 +500,32 @@ class TwitchTv {
 	}
 
 	// Undocumented and slow but better
+	/**
+	 * A more detailed alternative to {@link TwitchTv#getChatBadgesByChannel}. There is no official documentation and is now official api endpoint. See example for an example response.
+	 * 
+	 * @async
+	 * @param {(String|Number)} channelid Channel id of the channel you want the badges of.
+	 * @param {TwitchTv~requestCallback} callback 
+	 * @example
+	 * // Example response:
+	 * {
+	 *   "badge_sets": {
+	 *     "subscriber": {
+	 *       "versions": {
+	 *         "0": {
+	 *           "image_url_1x": "https://static-cdn.jtvnw.net/badges/v1/7821fdef-7fd6-4085-a9b0-eae8952ce299/1",
+	 *           "image_url_2x": "https://static-cdn.jtvnw.net/badges/v1/7821fdef-7fd6-4085-a9b0-eae8952ce299/2",
+	 *           "image_url_4x": "https://static-cdn.jtvnw.net/badges/v1/7821fdef-7fd6-4085-a9b0-eae8952ce299/3",
+	 *           "description": "Subscriber",
+	 *           "title": "Subscriber",
+	 *           "click_action": "subscribe_to_channel",
+	 *           "click_url": ""
+	 *         }
+	 *       }
+	 *     }
+	 *   }
+	 * }
+	 */
 	getChatBadgeSetsByChannel(channelid, callback) {
 		const self = this
 		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' && typeof(channelid) != 'number')) return
@@ -523,15 +557,33 @@ class TwitchTv {
 		}
 	}
 
+	/**
+	 * Get emote sets.
+	 * 
+	 * @async
+	 * @param {String} emotesets Comma seperated list of emote set ids.
+	 * @param {TwitchTv~requestCallback} callback 
+	 * @see {@link https://dev.twitch.tv/docs/v5/reference/chat/#get-chat-emoticons-by-set}
+	 */
 	getChatEmoticonsBySet(emotesets, callback) {
 		const self = this
 		if(typeof(callback) != 'function' || typeof(emotesets) != 'string') return
-			this.requestAPI('/kraken/chat/emoticon_images', {emotesets: emotesets}, false, callback)
+		this.requestAPI('/kraken/chat/emoticon_images', {emotesets: emotesets}, false, callback)
 	}
 	
 	/*********************************************
 	 * Streams
 	 *********************************************/
+	/**
+	 * Loads a stream object for a channel
+	 * 
+	 * @async
+	 * @param {(String|Number)} channelid Channel id of the channel you want the stream for.
+	 * @param {Object} options Options to filter by stream type
+	 * @param {String} [options.steam_type='live'] Constrains the type of streams returned. Valid values: live, playlist, all. Playlists are offline streams of VODs (Video on Demand) that appear live.
+	 * @param {TwitchTv~requestCallback} callback 
+	 * @see {@link https://dev.twitch.tv/docs/v5/reference/streams/#get-stream-by-user}
+	 */
 	getStreamByUser(channelid, options, callback) {
 		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' && typeof(channelid) != 'number')) return
 		channelid = channelid.toString()
@@ -561,6 +613,16 @@ class TwitchTv {
 	/*********************************************
 	 * Search
 	 *********************************************/
+	/**
+	 * Search for available games
+	 * 
+	 * @async
+	 * @param {String} query Search query. Must be at least 3 characters long, otherwise request is not being done.
+	 * @param {Object} options Options for filtering
+	 * @param {Boolean} [options.live=false] If true, returns only games that are live on at least one channel.
+	 * @param {TwitchTv~requestCallback} callback 
+	 * @see {@link https://dev.twitch.tv/docs/v5/reference/search/#search-games}
+	 */
 	searchGames(query, options, callback) {
 		if(typeof(callback) != 'function' || typeof(query) != 'string' || query.length < 3) return
 		var uri = '/kraken/search/games'
