@@ -8,6 +8,7 @@ const EventEmitter = require('events')
  * @class Follows
  * @extends {EventEmitter}
  * @param {TTVTool} tool
+ * @fires Follows#follow
  */
 class Follows extends EventEmitter {
 
@@ -74,6 +75,12 @@ class Follows extends EventEmitter {
 							color: self.tool.chat.userselement._tag.getUserColor(f.user.name)
 						}
 
+						/**
+						 * Fires when a new follower appears in the list
+						 * @event Follows#follow
+						 * @param {Follows~userObject} user The user with username, display name and color
+						 * @param {Object} raw The raw follow object from the api
+						 */
 						self.emit('follow', usr, f)
 						self.latestFollow = new Date(f.created_at).getTime()
 					}
@@ -88,5 +95,13 @@ class Follows extends EventEmitter {
 	}
 
 }
+
+/**
+ * An abstraction of the {@link Chat~userObject} but with less properties
+ * @typedef {Object} Follows~userObject
+ * @property {String} user Twitch user name
+ * @property {String} name Twitch display name
+ * @property {String} color Hex color string prepended by a #
+ */
 
 module.exports = Follows
