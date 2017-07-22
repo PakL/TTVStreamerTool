@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Class: Addons | TTVST</title>
+    <title>Class: Channel | TTVST</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -53,7 +53,7 @@
 
 <header>
     
-        <h2>Addons</h2>
+        <h2>Channel</h2>
         
     
 </header>
@@ -68,12 +68,12 @@
     
         
 
-        <h4 class="name" id="Addons">
-            <span class="type-signature"></span>new Addons<span class="signature">(tool)</span><span class="type-signature"></span>
+        <h4 class="name" id="Channel">
+            <span class="type-signature"></span>new Channel<span class="signature">(tool)</span><span class="type-signature"></span>
             
             <div class="container-source members">
-                <code><a href="lib_addons.js.html">lib/addons.js</a></code>,
-                <code><a href="lib_addons.js.html#line11">line 11</a></code>
+                <code><a href="var_channel.js.html">var/channel.js</a></code>,
+                <code><a href="var_channel.js.html#line5">line 5</a></code>
             </div>
             
         </h4>
@@ -86,7 +86,7 @@
 
     
     <div class="description">
-        This module finds addons, loads and initialze them
+        This module polls channel and stream data on a regular basis and emits events on changes
     </div>
     
 
@@ -151,6 +151,19 @@
     
 
     
+    <h5>Fires:</h5>
+    <ul>
+        <li>{<a href="Channel.html#event:channelonline">Channel#event:channelonline</a>}</li>
+    
+        <li>{<a href="Channel.html#event:channeloffline">Channel#event:channeloffline</a>}</li>
+    
+        <li>{<a href="Channel.html#event:gamechange">Channel#event:gamechange</a>}</li>
+    
+        <li>{<a href="Channel.html#event:statuschange">Channel#event:statuschange</a>}</li>
+    
+        <li>{<a href="Channel.html#event:viewers">Channel#event:viewers</a>}</li>
+    </ul>
+    
 
     
 
@@ -203,6 +216,17 @@
 
     
     </div>
+
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li>EventEmitter</li>
+    </ul>
+
 
     
 
@@ -215,44 +239,63 @@
     
 
     
-        <h3 class="subsection-title">Members</h3>
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Events</h3>
 
         <dl>
             
 
 <dt>
-<h4 class="name" id="menu">
-    <span class="type-signature"><span class="icon green">readonly</span> </span>menu<span class="type-signature"> :MenuItem</span>
-    
-    <div class="container-source members">
-        <code><a href="lib_addons.js.html">lib/addons.js</a></code>,
-        <code><a href="lib_addons.js.html#line144">line 144</a></code>
-    </div>
-    
-</h4>
 
+    
+        
+
+        <h4 class="name" id="event:channeloffline">
+            channeloffline
+            
+            <div class="container-source members">
+                <code><a href="var_channel.js.html">var/channel.js</a></code>,
+                <code><a href="var_channel.js.html#line116">line 116</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
 
 </dt>
 <dd>
+
     
     <div class="description">
-        Gives you a new instance of the addons menu
+        Fires when the channel goes offline.
     </div>
     
 
-    <!--
     
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">MenuItem</span>
 
-
-            </li>
-        </ul>
     
-    -->
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 
     
 
@@ -293,507 +336,523 @@
 
     
 
+</dd>
+
+        
+            
+
+<dt>
+
     
+        
+
+        <h4 class="name" id="event:channelonline">
+            channelonline
+            
+            <div class="container-source members">
+                <code><a href="var_channel.js.html">var/channel.js</a></code>,
+                <code><a href="var_channel.js.html#line80">line 80</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Fires when the channel goes online.
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+        
+            
+
+<dt>
+
+    
+        
+
+        <h4 class="name" id="event:gamechange">
+            gamechange
+            
+            <div class="container-source members">
+                <code><a href="var_channel.js.html">var/channel.js</a></code>,
+                <code><a href="var_channel.js.html#line85">line 85</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Fires when the game of the channel changes
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>newgame</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The new game of the channel</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+        
+            
+
+<dt>
+
+    
+        
+
+        <h4 class="name" id="event:statuschange">
+            statuschange
+            
+            <div class="container-source members">
+                <code><a href="var_channel.js.html">var/channel.js</a></code>,
+                <code><a href="var_channel.js.html#line91">line 91</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Fires when the channel status/title changes
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>newtitle</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The new title/status of the channel</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+        
+            
+
+<dt>
+
+    
+        
+
+        <h4 class="name" id="event:viewers">
+            viewers
+            
+            <div class="container-source members">
+                <code><a href="var_channel.js.html">var/channel.js</a></code>,
+                <code><a href="var_channel.js.html#line97">line 97</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Fires on every data polling and brings you the current viewers count
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>viewers</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Number of current viewers</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
 </dd>
 
         </dl>
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        <dl>
-                
-
-<dt>
-
-    
-        
-
-        <h4 class="name" id="addonInstalled">
-            <span class="type-signature"></span>addonInstalled<span class="signature">(name)</span><span class="type-signature"> &rarr; {Boolean}</span>
-            
-            <div class="container-source members">
-                <code><a href="lib_addons.js.html">lib/addons.js</a></code>,
-                <code><a href="lib_addons.js.html#line104">line 104</a></code>
-            </div>
-            
-        </h4>
-
-        
-    
-
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Checks if an addon is installed
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Name of the addon</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <div class="container-returns">
-        <h5>Returns:</h5>
-        
-                
-
-
-
-<span class="param-type">Boolean</span>
-
-
-
-
-
-
-
-
-            
-    </div>
-    
-
-    
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-</dd>
-
-            
-                
-
-<dt>
-
-    
-        
-
-        <h4 class="name" id="getAddon">
-            <span class="type-signature"></span>getAddon<span class="signature">(name)</span><span class="type-signature"> &rarr; {null|Object}</span>
-            
-            <div class="container-source members">
-                <code><a href="lib_addons.js.html">lib/addons.js</a></code>,
-                <code><a href="lib_addons.js.html#line130">line 130</a></code>
-            </div>
-            
-        </h4>
-
-        
-    
-
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Gets the addon by name
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Name of the addon</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <div class="container-returns">
-        <h5>Returns:</h5>
-        
-                
-
-
-
-<span class="param-type">null</span>
-|
-
-<span class="param-type">Object</span>
-
-
-
-
-
-- Either the addon module or null when not found
-
-
-
-
-            
-    </div>
-    
-
-    
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-</dd>
-
-            
-                
-
-<dt>
-
-    
-        
-
-        <h4 class="name" id="getInstalledAddonVersion">
-            <span class="type-signature"></span>getInstalledAddonVersion<span class="signature">(name)</span><span class="type-signature"> &rarr; {String}</span>
-            
-            <div class="container-source members">
-                <code><a href="lib_addons.js.html">lib/addons.js</a></code>,
-                <code><a href="lib_addons.js.html#line117">line 117</a></code>
-            </div>
-            
-        </h4>
-
-        
-    
-
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Returns the version of the installed addon
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Name of the addon</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <div class="container-returns">
-        <h5>Returns:</h5>
-        
-                
-
-
-
-<span class="param-type">String</span>
-
-
-
-
-
-- Version of the addon or 'Unkown' if not installed or not defined
-
-
-
-
-            
-    </div>
-    
-
-    
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-</dd>
-
-            </dl>
-    
-
-    
-
     
 </article>
 
@@ -814,7 +873,7 @@
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = 'Addons_sub'.replace(/"/g, '_');
+        var id = 'Channel_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 
