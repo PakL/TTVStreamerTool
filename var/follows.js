@@ -2,6 +2,13 @@
 
 const EventEmitter = require('events')
 
+/**
+ * This module polls channel followers on a regular basis and emits events on changes
+ * 
+ * @class Follows
+ * @extends {EventEmitter}
+ * @param {TTVTool} tool
+ */
 class Follows extends EventEmitter {
 
 	constructor(tool) {
@@ -21,14 +28,32 @@ class Follows extends EventEmitter {
 		})
 	}
 
+	/**
+	 * Shortcut to the twitch api object
+	 * 
+	 * @readonly
+	 * @private
+	 */
 	get api() {
 		return this.tool.twitchapi
 	}
 
+	/**
+	 * Shortcut to the cockpit
+	 * 
+	 * @readonly
+	 * @private
+	 */
 	get cockpit() {
 		return this.tool.cockpit
 	}
 
+	/**
+	 * Fetches data every 30 seconds. Do not call this manually.
+	 * 
+	 * @async
+	 * @private
+	 */
 	fetchData() {
 		const self = this
 		if(this.cockpit.openChannelId.length <= 0) return

@@ -2,6 +2,18 @@
 
 const EventEmitter = require('events')
 
+/**
+ * This module polls channel and stream data on a regular basis and emits events on changes
+ * 
+ * @class Channel
+ * @extends {EventEmitter}
+ * @param {TTVTool} tool
+ * @fires {Channel#channelonline}
+ * @fires {Channel#channeloffline}
+ * @fires {Channel#gamechange}
+ * @fires {Channel#statuschange}
+ * @fires {Channel#viewers}
+ */
 class Channel extends EventEmitter {
 
 	constructor(tool) {
@@ -23,14 +35,32 @@ class Channel extends EventEmitter {
 		})
 	}
 
+	/**
+	 * Shortcut to the twitch api object
+	 * 
+	 * @readonly
+	 * @private
+	 */
 	get api() {
 		return this.tool.twitchapi
 	}
 
+	/**
+	 * Shortcut to the cockpit
+	 * 
+	 * @readonly
+	 * @private
+	 */
 	get cockpit() {
 		return this.tool.cockpit
 	}
 
+	/**
+	 * Fetches data every 30 seconds. Do not call this manually.
+	 * 
+	 * @async
+	 * @private
+	 */
 	fetchData() {
 		const self = this
 		if(this.cockpit.openChannelId.length <= 0) return
@@ -47,9 +77,28 @@ class Channel extends EventEmitter {
 					self.streamobject = res.stream
 					self.channelobject = res.stream.channel
 
+					/**
+					 * Fires when the channel goes online.
+					 * @event Channel#channelonline
+					 */
 					if(emitonline) self.emit('channelonline')
+					/**
+					 * Fires when the game of the channel changes
+					 * @event Channel#gamechange
+					 * @param {String} newgame The new game of the channel
+					 */
 					if(oldgame != self.channelobject.game) self.emit('gamechange', self.channelobject.game)
+					/** 
+					 * Fires when the channel status/title changes
+					 * @event Channel#statuschange
+					 * @param {String} newtitle The new title/status of the channel
+					 */
 					if(oldstatus != self.channelobject.status) self.emit('statuschange', self.channelobject.status)
+					/**
+					 * Fires on every data polling and brings you the current viewers count
+					 * @event Channel#viewers
+					 * @param {Number} viewers Number of current viewers
+					 */
 					self.emit('viewers', self.streamobject.viewers)
 				} else {
 					self.api.getChannel(this.cockpit.openChannelId, (res, err) => {
@@ -64,6 +113,10 @@ class Channel extends EventEmitter {
 							self.streamobject = {}
 							self.channelobject = res
 
+							/**
+							 * Fires when the channel goes offline.
+							 * @event Channel#channeloffline
+							 */
 							if(emitoffline) self.emit('channeloffline')
 							if(oldgame != self.channelobject.game) self.emit('gamechange', self.channelobject.game)
 							if(oldstatus != self.channelobject.status) self.emit('statuschange', self.channelobject.status)
