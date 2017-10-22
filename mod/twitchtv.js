@@ -63,8 +63,10 @@ class TwitchTv {
 		if(typeof(options.redirecturi) == 'string') this.redirecturi = options.redirecturi
 		if(typeof(options.scope) == 'object') this.scope = options.scope
 
-		this.token = window.localStorage.getItem('tw_auth_token')
-		if(this.token == null) this.token = ''
+		if(typeof(window) !== "undefined" && window.hasOwnProperty('localStorage')) {
+			this.token = window.localStorage.getItem('tw_auth_token')
+			if(this.token == null) this.token = ''
+		}
 	}
 
 	/**
@@ -480,6 +482,35 @@ class TwitchTv {
 		this.requestAPI(uri, opt, true, callback)
 	}
 
+	/**
+	 * Gets a list of VODs (Video on Demand) from a specified channel.
+	 * 
+	 * @async
+	 * @param {(String|Number)} channelid Channel id of the channel you want the subscriber of.
+	 * @param {Object} options Options to control direction of the result.
+	 * @param {Number} [options.limit=25] Maximum number of objects to return. Maximum: 100.
+	 * @param {Number} [options.offset=0] Object offset for pagination of results.
+	 * @param {String} [options.broadcast_type='archive,highlight,upload'] Constrains the type of videos returned. Valid values: (any combination of) archive, highlight, upload.
+	 * @param {String} [options.language] Constrains the language of the videos that are returned; for example, en,es. Default: all languages.
+	 * @param {String} [options.sort='time'] Sorting order of the returned objects. Valid values: views, time. 
+	 * @param {TwitchTv~requestCallback} callback 
+	 * @see {@link https://dev.twitch.tv/docs/v5/reference/channels/#get-channel-videos}
+	 */
+	getChannelVideos(channelid, options, callback) {
+		if(typeof(callback) != 'function' || (typeof(channelid) != 'string' && typeof(channelid) != 'number')) return
+		channelid = channelid.toString()
+		var uri = '/kraken/channels/' + channelid + '/videos'
+		var opt = {}
+		if(typeof(options) == 'object') {
+			if(options.hasOwnProperty('limit') && typeof(options.limit) == 'number') opt.limit = options.limit
+			if(options.hasOwnProperty('offset') && typeof(options.offset) == 'number') opt.offset = options.offset
+			if(options.hasOwnProperty('broadcast_type') && typeof(options.broadcast_type) == 'string') opt.broadcast_type = options.broadcast_type
+			if(options.hasOwnProperty('language') && typeof(options.language) == 'string') opt.language = options.language
+			if(options.hasOwnProperty('sort') && (options.sort == 'views' || options.sort == 'time')) opt.sort = options.sort
+		}
+		this.requestAPI(uri, opt, true, callback)
+	}
+
 	/*********************************************
 	 * Chat
 	 *********************************************/
@@ -634,6 +665,46 @@ class TwitchTv {
 	}
 
 		
+	/*********************************************
+	 * Team
+	 *********************************************/
+	/**
+	 * Gets a specified team object
+	 * 
+	 * @param {String} teamname The teamname that you want to get
+	 * @param {TwitchTv~requestCallback} callback 
+	 * @see {@link https://dev.twitch.tv/docs/v5/reference/teams/#get-team}
+	 */
+	getTeam(teamname, callback) {
+		if(typeof(callback) != 'function' || typeof(teamname) != 'string') return
+		this.requestAPI('/kraken/teams/' + encodeURIComponent(teamname), {}, false, callback)
+	}
+
+	/*********************************************
+	 * Collections
+	 *********************************************/
+	/**
+	 * Gets collections to a specified channel
+	 * 
+	 * @param {String} channelid The channel you want the collections of
+	 * @param {Object} options Options to filter or limit the response
+	 * @param {String} [options.limit=10] Maximum number of most-recent objects to return. Maximum: 100.
+	 * @param {Number} [options.cursor] Tells the server where to start fetching the next set of results in a multi-page response.
+	 * @param {String} [options.containing_item] Returns only collections containing the specified video. Note this uses a video ID, not a collection item ID. Example: video:89917098.
+	 * @param {TwitchTv~requestCallback} callback 
+	 * @see {@link https://dev.twitch.tv/docs/v5/reference/collections/#get-collections-by-channel}
+	 */
+	getCollectionsByChannel(channelid, options, callback) {
+		if(typeof(callback) != 'function' || typeof(channelid) != 'string') return
+		var uri = '/kraken/channels/' + encodeURIComponent(channelid) + '/collections'
+		var opt = {}
+		if(typeof(options) == 'object') {
+			if(options.hasOwnProperty('limit') && typeof(options.limit) == 'number') opt.limit = options.limit
+			if(options.hasOwnProperty('cursor') && typeof(options.cursor) == 'string') opt.cursor = options.cursor
+			if(options.hasOwnProperty('containing_item') && typeof(options.containing_item) == 'string' && options.containing_item.startsWith('video:')) opt.containing_item = options.containing_item
+		}
+		this.requestAPI(uri, opt, false, callback)
+	}
 
 }
 /**
