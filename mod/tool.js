@@ -17,7 +17,7 @@ const Subscriptions = require('../var/subscriptions')
 const Addons = require('../lib/addons')
 const EAU = remote.require('electron-asar-updater')
 const {app} = remote.require('electron')
-const exec = require('child_process').exec;
+const spawn = require('child_process').spawn;
 
 /**
  * This module initializes pretty much everything and other modules have access to other modules over here.
@@ -77,7 +77,7 @@ class TTVTool extends EventEmitter {
 						let errormsg_restart = self.ui.showErrorMessage(new Error(self.i18n.__('Update ready. Program will restart automatically!')))
 						errormsg_restart.onclick = () => {}
 						setTimeout(() => {
-							exec('cmd /C "ping 127.0.0.1 -n 2 > NUL & copy resources\\update.asar resources\\app.asar /Y & del resources\\update.asar & "' + process.execPath + '""')
+							spawn('cmd', ['/C', 'ping 127.0.0.1 -n 2 > NUL & copy resources\\update.asar resources\\app.asar /Y & del resources\\update.asar & "' + process.execPath + '"'], {'detached': true})
 							app.quit()
 						}, 5000);
 					})
