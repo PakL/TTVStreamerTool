@@ -77,7 +77,10 @@ class TTVTool extends EventEmitter {
 						let errormsg_restart = self.ui.showErrorMessage(new Error(self.i18n.__('Update ready. Program will restart automatically!')))
 						errormsg_restart.onclick = () => {}
 						setTimeout(() => {
-							spawn('cmd', ['/C', 'ping 127.0.0.1 -n 2 > NUL & copy resources\\update.asar resources\\app.asar /Y & del resources\\update.asar & "' + process.execPath + '"'], {'detached': true})
+							let exPa = process.execPath
+							if(exPa.startsWith('\\')) exPa = exPa.substr(1)
+							if(exPa.indexOf(' ') > 0) exPa = '"' + exPa + '"'
+							spawn('cmd', ['/Q', '/C', 'copy resources\\update.asar resources\\app.asar /Y & del resources\\update.asar & start ' + exPa], {'detached': true})
 							app.quit()
 						}, 5000);
 					})
