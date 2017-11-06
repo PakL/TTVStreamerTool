@@ -35,6 +35,7 @@
 		this.users = []
 
 		this.on('update', () => {
+			if(!Tool.settings.showViewerList) return
 			self.users.sort(function(a, b){
 				if(a.sort > b.sort) return -1
 				else if(a.sort < b.sort) return 1
@@ -142,7 +143,7 @@
 			} else {
 				self.users.push(user)
 			}
-			if(!noupdate)
+			if(!noupdate && Tool.settings.showViewerList)
 				self.update()
 		}
 		partusr(username) {

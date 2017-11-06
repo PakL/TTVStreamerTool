@@ -1,5 +1,5 @@
 <actionstream>
-	<div class="actionstream_action" each={ actions }>
+	<div each={ actions } class="actionstream_action" >
 		<span class="actionstream_nickname" style="color:{color}">{ nickname }</span>
 		<span class="actionstream_timestamp">{ timestamp }</span>
 		<span class="actionstream_message"><raw content={ message } /></span>
@@ -13,10 +13,9 @@
 			overflow-x: hidden;
 			transform: scaleY(-1);
 		}
-		@keyframes actionMoveIn {
+		@keyframes actionFlash {
 			0% {
-				transform: scaleY(-1) translateX(100%);
-			}
+				transform: scaleY(-1) translateX(100%);}
 			3% {
 				transform: scaleY(-1) translateX(0);
 				background: #1e1e1e;
@@ -42,16 +41,27 @@
 			91% { background: #ffffff; }
 			100% { background: #1e1e1e; }
 		}
+		@keyframes actionMoveIn {
+			0% {
+				transform: scaleY(-1) translateX(100%);
+			}
+			3% {
+				transform: scaleY(-1) translateX(0);
+			}
+		}
 		actionstream > .actionstream_action {
 			padding: 5px;
 			margin: 5px;
 			border: 1px solid #d3d3d3;
 			border-radius: 5px;
+			transform: scaleY(-1) translateX(0);
 			animation-name: actionMoveIn;
 			animation-iteration-count: 1;
 			animation-timing-function: ease-out;
 			animation-duration: 10s;
-			transform: scaleY(-1) translateX(0);
+		}
+		actionstream.flash > .actionstream_action {
+			animation-name: actionFlash;
 		}
 		actionstream > .actionstream_action > .actionstream_nickname {
 			font-weight: bold;
@@ -79,6 +89,14 @@
 				message: message,
 				timestamp: timestamp
 			})
+			if(self.actions.length > 200) {
+				self.actions.shift()
+			}
+			if(Tool.settings.flashActions && !self.root.classList.contains('flash')) {
+				self.root.classList.add('flash')
+			} else if(!Tool.settings.flashActions && self.root.classList.contains('flash')) {
+				self.root.classList.remove('flash')
+			}
 			self.update()
 		}
 		clearActions() {

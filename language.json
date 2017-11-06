@@ -279,5 +279,29 @@
 	},
 	"Downloading and updating {{addon}} now... Program will restart.": {
 		"de": "Lade und update {{addon}}... Programm wird automatisch neustarten."
+	},
+	"Show viewer list": {
+		"de": "Zuschauerliste anzeigen"
+	},
+	"Alert options": {
+		"de": "Benachrichtigungseinstellungen"
+	},
+	"Flash alerts": {
+		"de": "Blinkende Benachrichtigungen"
+	},
+	"Show follow alerts": {
+		"de": "Follows anzeigen"
+	},
+	"Show subscription alerts": {
+		"de": "Abos anzeigen"
+	},
+	"Show host alerts": {
+		"de": "Hosts anzeigen"
+	},
+	"Show ban alerts": {
+		"de": "Verbannungen anzeigen"
+	},
+	"Show timeout alerts": {
+		"de": "Ruhigstellungen anzeigen"
 	}
 }
