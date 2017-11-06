@@ -61,6 +61,9 @@ class TTVTool extends EventEmitter {
 		this._addons = new Addons(this)
 
 		this.on('load', () => {
+			if(self._settings.lightDesignMode) {
+				document.querySelector('body').classList.add('invert')
+			}
 			EAU.check((e) => {
 				if(e != null && e.length > 0) {
 					if(e === 'no_update_available') return
