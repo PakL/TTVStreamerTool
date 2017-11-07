@@ -8,17 +8,18 @@
 		"generate-docs": ".\\node_modules\\.bin\\jsdoc -c jsdoc.json"
 	},
 	"dependencies": {
-		"riot": "^3.0.7",
-		"i18n-nodejs": "^2.0.0",
-		"dateformat": "^2.0.0",
-		"nodejs-websocket": "^1.7.1",
-		"require-uncached": "^1.0.3",
-		"electron-asar-updater": "^1.1.3",
-		"randexp": "0.4.5",
-		"follow-redirects": "1.2.4"
+		"riot": "3.7.4",
+		"i18n-nodejs": "3.0.0",
+		"dateformat": "2.0.0",
+		"nodejs-websocket": "1.7.1",
+		"require-uncached": "1.0.3",
+		"electron-asar-updater": "1.1.3",
+		"randexp": "0.4.6",
+		"follow-redirects": "1.2.4",
+		"electron-window-state": "4.1.1"
 	},
 	"devDependencies": {
-		"electron": "^1.4.14",
+		"electron": "1.7.9",
 		"jsdoc": "3.5.3",
 		"tui-jsdoc-template": "1.1.0"
 	}

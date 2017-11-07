@@ -34,7 +34,7 @@ class TTVTool extends EventEmitter {
 		const self = this
 
 		this._settings = new ToolSettings(this)
-		this._i18n = i18n(this._settings.language, './../../language.json')
+		this._i18n = new i18n(this._settings.language, './../../language.json')
 		this._twitchapi = new TwitchTv({
 			clientid: '11vhuxdssb9pc3s2uqpa7s3s0252hyk',
 			redirecturi: 'http://localhost:8086/',
