@@ -1,6 +1,7 @@
 const Electron = require('electron')
 const {app, BrowserWindow, globalShortcut, autoUpdater} = Electron
 //const EAU = require('electron-asar-updater');
+const windowStateKeeper = require('electron-window-state');
 
 const path = require('path')
 const url = require('url')
@@ -43,7 +44,14 @@ else {
 		splash.on('close', () => {
 			if(doNotOpenMainWindow) return
 
-			win = new BrowserWindow({width: 800, height: 600})
+			let mainWindowState = windowStateKeeper({ defaultWidth: 800, defaultHeight: 600 })
+
+			win = new BrowserWindow({
+				x: mainWindowState.x,
+				y: mainWindowState.y,
+				width: mainWindowState.width,
+				height: mainWindowState.height
+			})
 			win.loadURL(url.format({
 				pathname: path.join(__dirname, 'index.html'),
 				protocol: 'file:',
@@ -52,6 +60,7 @@ else {
 			win.on('closed', () => {
 				win = null
 			})
+			mainWindowState.manage(win)
 		})
 		splash.on('closed', () => {
 			splash = null
