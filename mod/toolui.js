@@ -1,7 +1,7 @@
 "use strict"
 
 const {remote} = require('electron')
-const {Menu, MenuItem} = remote
+const {Menu, MenuItem, app} = remote
 
 const TTVTool = require('./tool')
 const UIPage = require('./uipage')
@@ -54,6 +54,7 @@ class ToolUI {
 					{ label: this._tool.i18n.__('Restart'), role: 'reload' },
 					{ label: this._tool.i18n.__('DevTools'), role: 'toggledevtools' },
 					{ type: 'separator' },
+					{ label: 'Version ' + app.getVersion() },
 					{ label: this._tool.i18n.__('Quit'), role: 'quit' }
 				]
 			},

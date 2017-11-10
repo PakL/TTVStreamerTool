@@ -306,5 +306,11 @@
 	},
 	"Light design mode": {
 		"de": "Helles Design"
+	},
+	"Show raid alerts": {
+		"de": "Raids anzeigen"
+	},
+	"is raiding your channel with {{viewers}} viewers": {
+		"de": "raidet diesen Kanal mit {{viewers}} Zuschauern"
 	}
 }

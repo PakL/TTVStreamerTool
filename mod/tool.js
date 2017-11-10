@@ -15,8 +15,8 @@ const Follows = require('../var/follows')
 const Subscriptions = require('../var/subscriptions')
 
 const Addons = require('../lib/addons')
-const EAU = remote.require('electron-asar-updater')
-const {app} = remote.require('electron')
+//const EAU = remote.require('electron-asar-updater')
+const {app, autoUpdater} = remote.require('electron')
 const spawn = require('child_process').spawn;
 
 /**
@@ -64,7 +64,8 @@ class TTVTool extends EventEmitter {
 			if(self._settings.lightDesignMode) {
 				document.querySelector('body').classList.add('invert')
 			}
-			EAU.check((e) => {
+
+			/*EAU.check((e) => {
 				if(e != null && e.length > 0) {
 					if(e === 'no_update_available') return
 					self.ui.showErrorMessage(new Error(e))
@@ -88,7 +89,7 @@ class TTVTool extends EventEmitter {
 						}, 5000);
 					})
 				}
-			})
+			})*/
 		})
 
 		window.onload = (e) => {
