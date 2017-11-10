@@ -10,15 +10,13 @@ To make TTVST unique for your streaming needs it's possible to create your own o
 
 The TTVStreamerTool is developed and tested on an Windows 10 x64 system. I guess everything >= Windows 8 should work.
 
-Linux or MacOS are **not** supported. *You could download the source code and tweak it here and there to make it work though...*
+Linux or MacOS are **not** supported. (And propably never will be.)
 
 ### Download & Install
 
-Download the zip in the v0.1.2 release and unpack it somewhere you don't need elevated writing rights. This is because the auto updater needs to overwrite some files there. You could start the program as an administrator but this is not recommended.
+Download the Setup.exe of the latest release and execute it. The application will install and create a few shortcuts. From then on the application should keep itself updated. Since I don't have the time or money for an code signing certificate the Setup.exe might be blocked from executing. It's up to you to trust this application. Do not install a Setup.exe that was not downloaded from the releases page of this project. Stay safe!
 
-After unpacking start the tool by double clicking the `ttv-streamertool.exe`.
-
-» [Version 0.1.2 release](https://github.com/PakL/TTVStreamerTool/releases/tag/v0.1.2)
+» [Find tha latest release](https://github.com/PakL/TTVStreamerTool/releases/)
 
 ### Screenshot
 
