@@ -22,6 +22,7 @@
 		message > span {
 			display: table-cell;
 			padding: 3px 0;
+			padding-right: 5px;
 		}
 		message.important > span {
 			padding: 10px 0;
@@ -30,6 +31,8 @@
 			vertical-align: top;
 			color: #777;
 			padding-right: 5px;
+			width: 40px;
+			padding-left: 5px;
 		}
 		message .user {
 			display: block;
@@ -66,7 +69,7 @@
 		}
 		message .msg img {
 			vertical-align: middle;
-			margin: -5px 0;
+			margin: -.5rem 0;
 			display: inline-block;
 		}
 		message .msg a {
@@ -86,7 +89,7 @@
 				document.querySelector('#channeluser')._tag.showuseroptions(e.target.dataset.username, e.clientX, e.clientY)
 			}
 		})
-		this.on("updated", () => self.realformat() )
+		//this.on("updated", () => self.realformat() )
 
 		deleteifuser(username) {
 			if(username == self.opts.msg.user && !self.opts.msg.hasOwnProperty('old_message')) {

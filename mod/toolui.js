@@ -57,23 +57,38 @@ class ToolUI {
 					{ label: 'Version ' + app.getVersion() },
 					{ label: this._tool.i18n.__('Quit'), role: 'quit' }
 				]
-			},
-			{
-				label: this._tool.i18n.__('View'),
-				id: 'menu_view',
-				submenu: []
 			}
 		]
 
 		Menu.setApplicationMenu(Menu.buildFromTemplate(this.menuTemplate))
 
-		this.addMenu(this._tool.auth.menu)
-		this.addMenu(this._tool.settings.menu)
+		this._appendPageViewLinkOnLoad = []
+
+		/*this.addMenu(this._tool.auth.menu)
+		this.addMenu(this._tool.settings.menu)*/
 
 		this.addPage(new Cockpit(this))
 		this.addPage(new Overlays(this))
+
 		this._tool.on('load', () => {
-			this.openPage(self.pages[0].name)
+			self.openPage(self.pages[0].name)
+
+			let navMenu = document.querySelector('#nav-main-menu')
+			self._appendPageViewLinkOnLoad.forEach((pageLink) => {
+				navMenu.appendChild(pageLink)
+			})
+			self._appendPageViewLinkOnLoad = []
+
+			
+			this.addPage(new class extends UIPage {
+				constructor(name) {
+					super(name)
+					document.querySelector('#nav-about').onclick = () => { self.openPage('About') }
+				}
+				get showInViewsList() { return false }
+				open() { document.querySelector('#content_about').style.display = 'block' }
+				close() { document.querySelector('#content_about').style.display = 'none' }
+			}('About'));
 		})
 		
 	}
@@ -124,13 +139,31 @@ class ToolUI {
 			let lookitup = this.findPage(page.name)
 			if(lookitup == null) {
 				this.pages.push(page)
-				let menu = this.getMenuItemById('menu_view')
-				menu.submenu.append(new MenuItem({
-					label: page.localizedName,
-					type: 'radio',
-					checked: false,
-					click: (mi, bw, e) => { self.openPage(page.name) }
-				}))
+				if(page.showInViewsList) {
+					let listElement = document.createElement('li')
+					let linkElement = document.createElement('a')
+					let iconElement = document.createElement('span')
+
+					iconElement.innerText = page.localizedName.substr(0, 1).toUpperCase()
+					linkElement.appendChild(iconElement)
+					linkElement.appendChild(document.createTextNode(page.localizedName))
+					linkElement.addEventListener('click', () => { self.openPage(page.name) })
+					listElement.appendChild(linkElement)
+
+					let navMenu = document.querySelector('#nav-main-menu')
+					if(navMenu == null) {
+						self._appendPageViewLinkOnLoad.push(listElement)
+					} else {
+						navMenu.appendChild(listElement)
+					}
+					/*let menu = this.getMenuItemById('menu_view')
+					menu.submenu.append(new MenuItem({
+						label: page.localizedName,
+						type: 'radio',
+						checked: false,
+						click: (mi, bw, e) => { self.openPage(page.name) }
+					}))*/
+				}
 			}
 		}
 	}

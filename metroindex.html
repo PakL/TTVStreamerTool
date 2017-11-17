@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>TTVStreamerTool</title>
+		
+		<link rel="stylesheet" type="text/css" href="res/icons/style.css">
+
+		<script type="application/javascript" src="node_modules/riot/riot%2Bcompiler.min.js"></script>
+		<script type="application/javascript" src="lib/chathelper.js"></script>
+
+
+		<style type="text/css" id="metro-style"></style>
+
+		<script type="application/javascript">
+			const {shell, remote} = require('electron')
+			const {Menu, MenuItem, globalShortcut, systemPreferences, app} = remote
+			const RandExp = require('randexp')
+			const fs = require('fs')
+			const sass = require('node-sass')
+			const path = require('path')
+
+			const openLinkExternal = function(url) {
+				shell.openExternal(url)
+			}
+
+			const Tool = require('./mod/tool')
+
+			if (typeof module === 'object') {window.module = module; module = undefined;}
+		</script>
+
+		<script type="application/javascript" src="res/color-thief.min.js"></script>
+		<script type="application/javascript" src="res/metro.js"></script>
+		<script type="application/javascript">if (window.module) module = window.module;</script>
+	</head>
+	<body>
+		<nav id="sidebar" class="side-nav collapsed">
+			<ul id="nav-main-menu">
+				<li><a class="menu-collapse"><span class="icon-menu"></span><span style="font-weight:bold;">TTVStreamerTool</span></a></li>
+			</ul>
+			
+
+			<ul class="bottom">
+				<li><a id="nav-addons"><span class="icon-chip"></span><script>document.write(Tool.i18n.__('Addons'))</script></a></li>
+				<li><a id="nav-settings"><span class="icon-cog"></span><script>document.write(Tool.i18n.__('Settings'))</script></a></li>
+				<li><a id="nav-about"><span class="icon-question"></span><script>document.write(Tool.i18n.__('About TTVST'))</script></a></li>
+			</ul>
+		</nav>
+
+		<div id="contents">
+			<div id="content_cockpit">
+				<div id="channel_status_column">
+					<script type="application/javascript">document.write(`<input type="text" id="channel_status" placeholder="${Tool.i18n.__('Stream status')}">`)</script>
+					<span class="icon-tag"></span>
+					<script type="application/javascript">document.write(`<input type="text" id="channel_game" placeholder="${Tool.i18n.__('Stream game')}">`)</script>
+					<span class="icon-gamepad"></span>
+					<autocomplete id="ac_channel_game"></autocomplete>
+				</div>
+				<div id="channel_viewers_column">
+					<viewerplotter id="channel_viewers"></viewerplotter>
+				</div>
+
+				<div id="chat_column"><chat id="channelchat"></chat></div>
+				<div id="chat_users_column" rowspan="2"><userlist id="channeluser"></userlist></div>
+				<div id="cockpit_action_stream" rowspan="2"><actionstream id="channelactions"></actionstream></div>
+				
+				<div id="chat_message_column">
+					<div><script type="application/javascript">document.write(`<input type="text" id="chat_message" placeholder="${Tool.i18n.__('Write a message...')}">`)</script></div>
+					<autocomplete id="ac_message_usernames"></autocomplete>
+					<div id="chat_message_emotes">
+						<input type="search" id="chat_message_emotes_search">
+						<emoticons id="chat_message_emotes_emoticons"></emoticons>
+					</div>
+					<button id="chat_message_emotes_button"><img src="https://static-cdn.jtvnw.net/emoticons/v1/25/1.0" alt="🙂"></button>
+				</div>
+			</div>
+
+			<div id="content_follows">
+				<script type="application/javascript">document.write(`<input type="text" id="openchannel_input" placeholder="${Tool.i18n.__('Type channel name and press Enter')}">`)</script>
+				<channellist id="myfollows"></channellist>
+			</div>
+
+			<div id="content_overlays">
+				<div style="padding:5px;">
+					<fieldset>
+						<legend><script type="application/javascript">document.write(Tool.i18n.__('Music Overlay'))</script></legend>
+						<label>
+							<script type="application/javascript">document.write(Tool.i18n.__('Youtube playlist id: (has to be public)'))</script>
+							<input type="text" id="overlay_music_playlistid">
+							<small><script type="application/javascript">document.write(Tool.i18n.__('Press Enter when finished to save'))</script></small>
+						</label>
+						<label>
+							<script type="application/javascript">document.write(Tool.i18n.__('Default volume'))</script>
+							<input type="range" id="overlay_music_volume" min="0" max="100" step="5">
+						</label>
+						<label>
+							<script type="application/javascript">document.write(Tool.i18n.__('Live volume control'))</script>
+							<input type="range" id="overlay_music_volume_control" min="0" max="100">
+						</label>
+						<label>
+							<script type="application/javascript">document.write(Tool.i18n.__('Overlay URL'))</script>
+							<input type="text" id="overlay_music_url" readonly>
+							<small><script type="application/javascript">document.write(Tool.i18n.__('Add #black to the end of the URL to get black text with white borders instead of white text with black borders.'))</script></small>
+						</label>
+						<label>
+							<script type="application/javascript">document.write(Tool.i18n.__('Overlay volume control URL'))</script>
+							<input type="text" id="overlay_music_volume_control_url" readonly>
+							<small><script type="application/javascript">document.write(Tool.i18n.__('This is a completely transparent overlay you can use in different OBS scenes to control the volume on scene changes. Change the number at the end to anything between 0 (mute) to 100 (way to loud).'))</script></small>
+						</label>
+					</fieldset>
+					<fieldset>
+						<legend><script type="application/javascript">document.write(Tool.i18n.__('Overlay hotkeys'))</script></legend>
+
+						<overlayhotkeys id="overlay_hotkeys"></overlayhotkeys>
+					</fieldset>
+				</div>
+			</div>
+
+			<div id="content_settings"></div>
+
+			<div id="content_addons">
+				<div style="padding:10px;">
+					<table class="datatable">
+						<thead>
+							<tr>
+								<th><script>document.write(Tool.i18n.__('Addon'))</script></th>
+								<th><script>document.write(Tool.i18n.__('Description'))</script></th>
+								<th><script>document.write(Tool.i18n.__('Version'))</script></th>
+								<th style="text-align:right"><script>document.write(Tool.i18n.__('Installed'))</script></th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div id="content_about" style="height:100%;">
+				<table style="width:100%;height:100%;">
+					<tr>
+						<td style="text-align: center;vertical-align:middle;">
+							TTVStreamerTool was created by <a onclick="openLinkExternal('http://paklweb.de/')">Pascal Pohl</a><br>
+							<small>You currently have version <code><script type="application/javascript">document.write(app.getVersion())</script></code> installed.</small>
+							<p>
+								Twitch and the Twitch logo are registered trademarks<br>
+								by Twitch Interactive, Inc. They are used as permitted and<br>
+								instructed by the <a onclick="openLinkExternal('https://www.twitch.tv/p/legal/trademark/')">Trademark Usage Guidelines</a>.
+							</p>
+							<p styl="font-weight:bold;">* * *</p>
+							
+							TTVStreamerTool is licensed under the open source MIT license:
+<pre>
+Copyright 2017 Pascal «PakL» Pohl
+	
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+he above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+	
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+</pre>
+
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<modal id="logindialog" style="display:none;">
+			<h3><script type="application/javascript">document.write(Tool.i18n.__('Welcome to TTVStreamerTool'))</script></h3>
+			<script type="application/javascript">document.write(Tool.i18n.__('To use this program you gonna need a Twitch channel. You can login via Twitch here.'))</script><br>
+			<script type="application/javascript">document.write(Tool.i18n.__('Only then the program is able to to something.'))</script>
+			<div style="text-align:center;margin-top:10px;">
+				<button id="starttwitchauth" onclick="Tool.auth.auth()"><script type="application/javascript">document.write(Tool.i18n.__('Login via Twitch'))</script></button>
+			</div>
+		</modal>
+
+		<modal id="highlightdialog" style="display:none;">
+			<h3><script type="application/javascript">document.write(Tool.i18n.__('Add a highlighter'))</script></h3>
+			<label>
+				<script type="application/javascript">document.write(Tool.i18n.__('Word or phrase that triggers a message highlight:'))</script>
+				<input type="text" id="highlightdialog_phrase">
+				<output id="highlightdialog_errors"></output>
+			</label>
+			<table>
+				<tr>
+					<td>
+						<label>
+							<script type="application/javascript">document.write(Tool.i18n.__('Regular expression'))</script>
+							<a href="#" onclick="openLinkExternal('http://www.regular-expressions.info/')">(?)</a>
+							<input type="checkbox" id="highlightdialog_regex">
+						</label>
+					</td>
+					<td>
+						<label>
+							<script type="application/javascript">document.write(Tool.i18n.__('Case sensitive'))</script>
+							<input type="checkbox" id="highlightdialog_casesensitive">
+						</label>
+					</td>
+				</tr>
+			</table>
+			<button id="highlightdialog_save" onclick="Tool.settings.saveNewHighlight()"><script type="application/javascript">document.write(Tool.i18n.__('Save'))</script></button>
+			<button id="highlightdialog_cancel" onclick="Tool.settings.cancelNewHighlight()"><script type="application/javascript">document.write(Tool.i18n.__('Cancel'))</script></button>
+		</modal>
+
+		<script type="riot/tag" src="res/tags/raw.tag"></script>
+		
+		<script type="riot/tag" src="res/tags/autocomplete.tag"></script>
+		<script type="riot/tag" src="res/tags/message.tag"></script>
+		<script type="riot/tag" src="res/tags/chat.tag"></script>
+		<script type="riot/tag" src="res/tags/userlist.tag"></script>
+		<script type="riot/tag" src="res/tags/actionstream.tag"></script>
+		<script type="riot/tag" src="res/tags/viewerplotter.tag"></script>
+		<script type="riot/tag" src="res/tags/modal.tag"></script>
+		<script type="riot/tag" src="res/tags/channel.tag"></script>
+		<script type="riot/tag" src="res/tags/channellist.tag"></script>
+		<script type="riot/tag" src="res/tags/hotkey.tag"></script>
+		<script type="riot/tag" src="res/tags/overlayhotkeys.tag"></script>
+		<script type="riot/tag" src="res/tags/emoticons.tag"></script>
+	</body>
+</html>

@@ -1,11 +1,16 @@
 <channellist>
-	<channel each={ chnl in channels } chnl={ chnl } />
+	<channel each={ chnl in channels } chnl={ chnl } class="metro-tile" />
 	<button ref="loadmore"></button>
 
 	<style>
+		channellist {
+			display: block;
+			line-height: 0;
+			text-align: center;
+		}
 		channellist > button {
 			display: block;
-			padding: 5px 20px;
+			/*padding: 5px 20px;*/
 			font-size: 1.2em;
 			margin: 10px auto;
 		}
@@ -32,6 +37,8 @@
 			} else {
 				self.refs.loadmore.style.display = 'block'
 			}
+
+			refreshTileColors()
 		})
 	</script>
 </channellist>

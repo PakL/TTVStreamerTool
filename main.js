@@ -50,10 +50,14 @@ else {
 				x: mainWindowState.x,
 				y: mainWindowState.y,
 				width: mainWindowState.width,
-				height: mainWindowState.height
+				height: mainWindowState.height,
+				minWidth: 800,
+				minHeight: 450,
+				autoHideMenuBar: true,
+				icon: 'res/icon.ico'
 			})
 			win.loadURL(url.format({
-				pathname: path.join(__dirname, 'index.html'),
+				pathname: path.join(__dirname, 'metroindex.html'),
 				protocol: 'file:',
 				slashes: true
 			}))

@@ -6,10 +6,9 @@
 			display: block;
 			height: 100%;
 			overflow: auto;
+			padding-bottom: 10px;
 		}
 		chat > div {
-			margin-left: 5px;
-			margin-right: 5px;
 			display: table;
 			width: calc(100% - 10px);
 		}

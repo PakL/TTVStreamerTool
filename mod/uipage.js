@@ -38,6 +38,16 @@ class UIPage extends EventEmitter {
 	}
 
 	/**
+	 * Wether or not to show this page in the views list; If false you have to make sure yourself that the user can access this page
+	 * 
+	 * @member {Boolean}
+	 * @readonly
+	 */
+	get showInViewsList() {
+		return true
+	}
+
+	/**
 	 * Is being called when this page is opened.
 	 * 
 	 * @abstract

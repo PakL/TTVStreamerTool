@@ -33,6 +33,8 @@ class TTVTool extends EventEmitter {
 		super()
 		const self = this
 
+		this.setMaxListeners(50)
+
 		this._settings = new ToolSettings(this)
 		this._i18n = new i18n(this._settings.language, './../../language.json')
 		this._twitchapi = new TwitchTv({
@@ -52,6 +54,7 @@ class TTVTool extends EventEmitter {
 		this._chat = new Chat(this)
 
 		this._ui = new ToolUI(this)
+		this._ui.addPage(this._settings)
 		
 		this._channel = new Channel(this)
 		this._follows = new Follows(this)

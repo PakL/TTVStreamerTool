@@ -312,5 +312,41 @@
 	},
 	"is raiding your channel with {{viewers}} viewers": {
 		"de": "raidet diesen Kanal mit {{viewers}} Zuschauern"
+	},
+	"About TTVST": {
+		"de": "Über TTVST"
+	},
+	"Click this button to log out of twitch. You will prompted to login again.": {
+		"de": "Klicke auf diesen Knopf um dich aus Twitch auszuloggen. Du wirst aufgefordert sich erneut einzuloggen."
+	},
+	"Addons": {
+		"de": "Addons"
+	},
+	"Addon": {
+		"de": "Addon"
+	},
+	"Description": {
+		"de": "Beschreibung"
+	},
+	"Version": {
+		"de": "Version"
+	},
+	"Installed": {
+		"de": "Installiert"
+	},
+	"Loading, please wait...": {
+		"de": "Lade, bitte warte..."
+	},
+	"Could not load addon information.": {
+		"de": "Addoninformationen konnten nicht geladen werden."
+	},
+	"Install now": {
+		"de": "Jetzt installieren"
+	},
+	"Update available. Update now!": {
+		"de": "Update verfügbar. Jetzt updaten!"
+	},
+	"Remove": {
+		"de": "Entfernen"
 	}
 }

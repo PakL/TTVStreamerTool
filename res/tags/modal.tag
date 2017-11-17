@@ -29,6 +29,10 @@
 			max-width: 500px;
 			color: #444444;
 		}
+
+		modal h1, modal h2, modal h3 {
+			margin-top: 0;
+		}
 	</style>
 
 </modal>

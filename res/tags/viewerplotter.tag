@@ -30,7 +30,6 @@
 			width: 1%;
 			height: 100%;
 			display: inline-block;
-			background: #1e1e1e;
 		}
 		viewerplotter > .plotter > .plotlines > .line > div {
 			display: inline-block;

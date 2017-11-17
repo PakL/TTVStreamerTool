@@ -1,6 +1,6 @@
 {
 	"name": "ttv-streamertool",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"main": "main.js",
 	"description": "TTVST is an application aimed at Twitch streamer.",
 	"author": {
@@ -23,10 +23,12 @@
 		"randexp": "0.4.6",
 		"follow-redirects": "1.2.4",
 		"electron-window-state": "4.1.1",
-		"electron-squirrel-startup": "1.0.0"
+		"electron-squirrel-startup": "1.0.0",
+		"node-sass": "4.6.0"
 	},
 	"devDependencies": {
 		"electron": "1.7.9",
+		"electron-rebuild": "1.6.0",
 		"jsdoc": "3.5.3",
 		"tui-jsdoc-template": "1.1.0",
 		"electron-winstaller": "2.6.3"
