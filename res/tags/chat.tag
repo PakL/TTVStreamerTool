@@ -10,7 +10,7 @@
 		}
 		chat > div {
 			display: table;
-			width: calc(100% - 10px);
+			width: 100%;
 		}
 	</style>
 	<script>
