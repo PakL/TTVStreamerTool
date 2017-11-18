@@ -80,13 +80,21 @@
 
 		setVisible() {
 			var parentRect = self.parentInput.getBoundingClientRect()
-			var viewport = document.querySelector('body').getBoundingClientRect()
+			var parentRelative = self.parentInput.parentNode
+			var cs = window.getComputedStyle(parentRelative)
+			while(cs.getPropertyValue('position') != 'relative' && parentRelative.tagName.toUpperCase() != 'BODY') {
+				parentRelative = parentRelative.parentNode
+				cs = window.getComputedStyle(parentRelative)
+			}
+
+			var viewport = parentRelative.getBoundingClientRect()
 			if(self.position == 'above') {
-				self.root.style.left = parentRect.left + 'px'
+				self.root.style.left = (parentRect.left - viewport.left) + 'px'
+				console.log(viewport.height, parentRect.top)
 				self.root.style.bottom = (viewport.height - parentRect.top) + 'px'
 			} else if(self.position == 'below') {
-				self.root.style.left = parentRect.left + 'px'
-				self.root.style.top = parentRect.bottom + 'px'
+				self.root.style.left = (parentRect.left - viewport.left) + 'px'
+				self.root.style.top = (parentRect.bottom - viewport.top) + 'px'
 			}
 			if(self.suggestions.length > 0) {
 				self.root.style.display = 'block'
