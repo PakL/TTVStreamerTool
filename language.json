@@ -364,5 +364,8 @@
 			"0": "Bit",
 			"1": "Bits"
 		}
+	},
+	"Show cheer alerts": {
+		"de": "Bit-Anfeuerungen anzeigen"
 	}
 }
