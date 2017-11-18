@@ -16,7 +16,7 @@ Linux or MacOS are **not** supported. (And propably never will be.)
 
 Download the Setup.exe of the latest release and execute it. The application will install and create a few shortcuts. From then on the application should keep itself updated. Since I don't have the time or money for an code signing certificate the Setup.exe might be blocked from executing. It's up to you to trust this application. Do not install a Setup.exe that was not downloaded from the releases page of this project. Stay safe!
 
-» [Find tha latest release](https://github.com/PakL/TTVStreamerTool/releases/)
+» [Find the latest release](https://github.com/PakL/TTVStreamerTool/releases/)
 
 ### Screenshot
 
