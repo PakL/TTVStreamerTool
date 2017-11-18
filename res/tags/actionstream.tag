@@ -11,13 +11,12 @@
 			height: 100%;
 			overflow-y: auto;
 			overflow-x: hidden;
-			transform: scaleY(-1);
 		}
 		@keyframes actionFlash {
 			0% {
-				transform: scaleY(-1) translateX(100%);}
+				transform: translateX(100%);}
 			3% {
-				transform: scaleY(-1) translateX(0);
+				transform: translateX(0);
 				background: #1e1e1e;
 			}
 			4% { background: #ffffff; }
@@ -43,10 +42,10 @@
 		}
 		@keyframes actionMoveIn {
 			0% {
-				transform: scaleY(-1) translateX(100%);
+				transform: translateX(100%);
 			}
 			3% {
-				transform: scaleY(-1) translateX(0);
+				transform: translateX(0);
 			}
 		}
 		actionstream > .actionstream_action {
@@ -54,7 +53,7 @@
 			margin: 5px;
 			border: 1px solid #d3d3d3;
 			border-radius: 5px;
-			transform: scaleY(-1) translateX(0);
+			transform: translateX(0);
 			animation-name: actionMoveIn;
 			animation-iteration-count: 1;
 			animation-timing-function: ease-out;
@@ -77,20 +76,49 @@
 	<script>
 		const self = this
 		this.actions = []
+		this.nextid = 0
 
-		this.on('updated', () => {
+		/*this.on('updated', () => {
 			self.root.scrollTop = self.root.scrollHeight
-		})
+		})*/
 
 		addAction(user, message, timestamp) {
-			self.actions.push({
+			/*self.actions.push({
+				id: self.nextid,
 				color: user.color,
 				nickname: user.name,
 				message: message,
 				timestamp: timestamp
 			})
-			if(self.actions.length > 200) {
-				self.actions.shift()
+			self.nextid++*/
+
+			let actionElement = document.createElement('div')
+			actionElement.classList.add('actionstream_action')
+
+			let actionNickname = document.createElement('span')
+			actionNickname.classList.add('actionstream_nickname')
+			actionNickname.style.color = user.color
+			actionNickname.innerText = user.name
+			actionElement.appendChild(actionNickname)
+
+			let actionTimestamp = document.createElement('span')
+			actionTimestamp.classList.add('actionstream_timestamp')
+			actionTimestamp.innerText = timestamp
+			actionElement.appendChild(actionTimestamp)
+
+			let actionMessage = document.createElement('span')
+			actionMessage.classList.add('actionstream_message')
+			actionMessage.innerHTML = message
+			actionElement.appendChild(actionMessage)
+
+			if(self.root.childNodes.length <= 0) {
+				self.root.appendChild(actionElement)
+			} else {
+				self.root.insertBefore(actionElement, self.root.childNodes[0])
+			}
+
+			if(self.root.childNodes.length > 200) {
+				self.root.removeChild(self.root.childNodes[self.root.childNodes.length-1])
 			}
 			if(Tool.settings.flashActions && !self.root.classList.contains('flash')) {
 				self.root.classList.add('flash')
@@ -100,7 +128,8 @@
 			self.update()
 		}
 		clearActions() {
-			self.actions = []
+			//self.actions = []
+			self.root.innerHTML = ''
 			self.update()
 		}
 	</script>

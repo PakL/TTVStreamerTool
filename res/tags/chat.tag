@@ -1,5 +1,5 @@
 <chat>
-	<div><message each={ msg in messages } msg={ msg } /></div>
+	<div></div>
 
 	<style>
 		chat {
@@ -24,6 +24,11 @@
 		this.autoscroll = true
 		this.nowautoscrollring = false
 
+		this.messageDrop = null
+		this.nextAutoscroll = false
+		
+		this.on('mount', () => { self.messageDrop = self.root.querySelector('div') })
+
 		throttleupdate() {
 			if(!self.isupdating)
 				self.update()
@@ -34,6 +39,7 @@
 				self.nowautoscrollring = false
 				return
 			}
+			console.log('user scroll')
 			self.autoscroll = true
 			if(!self.scrolled_to_bottom()) {
 				self.autoscroll = false
@@ -59,22 +65,33 @@
 		}
 
 		addmessage(message) {
-			self.messages.push(message)
-			while(self.messages.length > 500) {
-				self.messages.shift()
-			}
-			self.throttleupdate()
+			window.requestAnimationFrame(() => {
+				let newMessageElement = document.createElement('message')
+				self.messageDrop.appendChild(newMessageElement)
+				riot.mount(newMessageElement, { msg: message });
+
+				while(self.messageDrop.childNodes.length > 500) {
+					self.messageDrop.removeChild(self.messageDrop.childNodes[0])
+				}
+
+				if(self.autoscroll) {
+					self.nowautoscrollring = true
+					self.root.scrollTop = self.root.scrollHeight
+				}
+			})
 		}
 
 		clearuser(username) {
-			var messages = self.root.childNodes[0].querySelectorAll('message')
-			for(var i = 0; i < messages.length; i++) {
-				messages[i]._tag.deleteifuser(username)
-			}
+			window.requestAnimationFrame(() => {
+				var messages = self.messageDrop.querySelectorAll('message')
+				for(var i = 0; i < messages.length; i++) {
+					messages[i]._tag.deleteifuser(username)
+				}
+			})
 		}
 
 		clearmessages() {
-			self.messages = []
+			self.messageDrop.innerHTML = ''
 			self.update()
 		}
 	</script>

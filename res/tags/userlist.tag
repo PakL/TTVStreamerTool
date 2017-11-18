@@ -1,5 +1,5 @@
 <userlist>
-	<div class="userlist_user" each={ users } no-reorder>
+	<div class="userlist_user" each={ users } no-reorder key="user">
 		<span class="userlist_badges"><raw content={ badges } /></span>
 		<span class="userlist_name" style="color:{ color }" data-username="{ user }">{ name }</span>
 	</div>
@@ -34,7 +34,13 @@
 		this.toomany = false
 		this.users = []
 
+		throttleupdate() {
+			if(!self.isupdating)
+				self.update()
+		}
+
 		this.on('update', () => {
+			self.isupdating = true
 			if(!Tool.settings.showViewerList) return
 			self.users.sort(function(a, b){
 				if(a.sort > b.sort) return -1
@@ -50,6 +56,7 @@
 					self.showuseroptions(e.target.dataset.username, e.clientX, e.clientY)
 				}
 			}
+			setTimeout(() => { self.isupdating = false}, 0)
 		})
 
 		showuseroptions(username, x, y) {
@@ -144,14 +151,14 @@
 				self.users.push(user)
 			}
 			if(!noupdate && Tool.settings.showViewerList)
-				self.update()
+				self.throttleupdate()
 		}
 		partusr(username) {
 			var index = self.findentry(username)
 			if(index >= 0) {
 				self.users.splice(index, 1)
 			}
-			self.update()
+			self.throttleupdate()
 		}
 
 		clearUsers() {

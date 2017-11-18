@@ -89,7 +89,7 @@
 				document.querySelector('#channeluser')._tag.showuseroptions(e.target.dataset.username, e.clientX, e.clientY)
 			}
 		})
-		//this.on("updated", () => self.realformat() )
+		this.on("updated", () => self.realformat() )
 
 		deleteifuser(username) {
 			if(username == self.opts.msg.user && !self.opts.msg.hasOwnProperty('old_message')) {
@@ -140,6 +140,8 @@
 					self.opts.msg.message_html = self.opts.msg.old_message
 					self.realformat()
 				}
+			} else {
+				self.root.classList.remove('deleted')
 			}
 
 			var links = self.root.querySelectorAll('a')
