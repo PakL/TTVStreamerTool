@@ -348,5 +348,8 @@
 	},
 	"Remove": {
 		"de": "Entfernen"
+	},
+	"gifted {{recipient}} a {{plan}} subscription": {
+		"de": "schenkte {{recipient}} ein {{plan}} Abonnement"
 	}
 }
