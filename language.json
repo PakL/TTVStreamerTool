@@ -58,8 +58,8 @@
 	"Connected to chat in channel {{channel}}": {
 		"de": "Verbunden mit Chat in Kanal {{channel}}"
 	},
-	"subscribed for the {{months}}. month in a row!": {
-		"de": "hat zum {{months}}. Monat in Folge abonniert!"
+	"subscribed with {{plan}} for the {{months}}. month in a row!": {
+		"de": "hat zum {{months}}. Monat in Folge mit {{plan}} abonniert!"
 	},
 	"was banned from the channel.": {
 		"de": "wurde vom Kanal verbannt."
@@ -351,5 +351,18 @@
 	},
 	"gifted {{recipient}} a {{plan}} subscription": {
 		"de": "schenkte {{recipient}} ein {{plan}} Abonnement"
+	},
+	"just cheered with {{num_bits}} {{bits||num_bits}}": {
+		"de": "feuert mit {{num_bits}} {{bits||num_bits}} an"
+	},
+	"bits": {
+		"en": {
+			"0": "bit",
+			"1": "bits"
+		},
+		"de": {
+			"0": "Bit",
+			"1": "Bits"
+		}
 	}
 }

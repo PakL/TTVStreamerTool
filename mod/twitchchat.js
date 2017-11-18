@@ -197,11 +197,15 @@ class TwitchChat extends events.EventEmitter {
 		for(var i = 0; i < tags.length; i++) {
 			var sp = tags[i].split('=', 2);
 			if(sp.length < 2) continue;
-			var unescape = sp[1].replace(/(^|[^\\])\\:/g, (match, m1) => { return m1 +';' });
-			unescape = unescape.replace(/(^|[^\\])\\s/g, (match, m1) => { return m1 +' ' });
-			unescape = unescape.replace(/(^|[^\\])\\r/g, (match, m1) => { return m1 +'\r' });
-			unescape = unescape.replace(/(^|[^\\])\\n/g, (match, m1) => { return m1 +'\n' });
-			unescape = unescape.replace(/(^|[^\\])\\\\/g, (match, m1) => { return m1 +'\\' });
+			var unescape = sp[1].replace(/\\(:|s|r|n|\\)/g, (match, m1) => { 
+				switch(m1) {
+					default: return m1
+					case ':': return ';'
+					case 's': return ' '
+					case 'r': return '\r'
+					case 'n': return '\n'
+				}
+			});
 			ntags[sp[0]] = unescape;
 		}
 		tags = ntags;

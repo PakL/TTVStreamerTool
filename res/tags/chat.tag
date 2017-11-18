@@ -50,12 +50,20 @@
 			self.isupdating = true
 		})
 		this.on('updated', () => {
-			setTimeout(() => { self.isupdating = false}, 0)
-			if(self.autoscroll) {
-				self.nowautoscrollring = true
-				self.root.scrollTop = self.root.scrollHeight
-			}
+			window.requestAnimationFrame(() => {
+				self.isupdating = false
+				self.scoll_to_bottom()
+			})
 		})
+
+		scoll_to_bottom() {
+			window.requestAnimationFrame(() => {
+				if(self.autoscroll) {
+					self.nowautoscrollring = true
+					self.root.scrollTop = self.root.scrollHeight
+				}
+			})
+		}
 
 		scrolled_to_bottom() {
 			if((self.root.offsetHeight + self.root.scrollTop) >= self.root.childNodes[0].offsetHeight) {

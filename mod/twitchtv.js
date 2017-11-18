@@ -58,6 +58,7 @@ class TwitchTv {
 		this.channelobj = null
 
 		this.validstates = []
+		this.lastRequest = 0
 
 		if(typeof(options.clientid) == 'string') this.clientid = options.clientid
 		if(typeof(options.redirecturi) == 'string') this.redirecturi = options.redirecturi
@@ -210,59 +211,67 @@ class TwitchTv {
 			uri = parsedurl.path
 		}
 
-		var req = https.request({
-			'method': (Object.keys(postdata).length > 0 ? 'PUT' : 'GET'),
-			'host': overridehost,
-			'path': uri,
-			'headers': headers
-		}, (res) => {
-			let gziped = false
-			if(res.headers.hasOwnProperty('content-encoding') && res.headers['content-encoding'].toLowerCase() == 'gzip') {
-				gziped = true
-			}
-			let rawData = ''
-			let rawDataBuffer = Buffer.alloc(0)
+		let waitFor = 500 - ((Date.now()-500) - this.lastRequest)
+		if(waitFor > 500) waitFor = 500
+		if(waitFor < 0) waitFor = 0
 
-			if(!gziped)
-				res.setEncoding('utf8')
-			
-			res.on('data', (chunk) => {
-				if(gziped) {
-					rawDataBuffer = Buffer.concat([rawDataBuffer, chunk])
-				} else {
-					rawData += chunk
+		setTimeout(() => {
+			self.lastRequest = Date.now()
+
+			var req = https.request({
+				'method': (Object.keys(postdata).length > 0 ? 'PUT' : 'GET'),
+				'host': overridehost,
+				'path': uri,
+				'headers': headers
+			}, (res) => {
+				let gziped = false
+				if(res.headers.hasOwnProperty('content-encoding') && res.headers['content-encoding'].toLowerCase() == 'gzip') {
+					gziped = true
 				}
-			})
-			res.on('end', () => {
-				var error = null
-				let parsed = null
-				if(gziped) {
-					rawData = zlib.gunzipSync(rawDataBuffer).toString('utf8')
-				}
-				try {
-					parsed = JSON.parse(rawData)
-				} catch(e) {
-					console.log(rawData)
-					error = e
-				}
-				if(res.statusCode != 200) {
-					error = new Error(`API request failed for ${uri} with status code ${res.statusCode}`)
-				} else {
-					if(uri == '/kraken/user') {
-						self.userobj = parsed
-					} else if(uri == '/kraken/channels') {
-						self.channelobj = parsed
+				let rawData = ''
+				let rawDataBuffer = Buffer.alloc(0)
+
+				if(!gziped)
+					res.setEncoding('utf8')
+				
+				res.on('data', (chunk) => {
+					if(gziped) {
+						rawDataBuffer = Buffer.concat([rawDataBuffer, chunk])
+					} else {
+						rawData += chunk
 					}
-				}
-				callback(parsed, error)
+				})
+				res.on('end', () => {
+					var error = null
+					let parsed = null
+					if(gziped) {
+						rawData = zlib.gunzipSync(rawDataBuffer).toString('utf8')
+					}
+					try {
+						parsed = JSON.parse(rawData)
+					} catch(e) {
+						console.log(rawData)
+						error = e
+					}
+					if(res.statusCode != 200) {
+						error = new Error(`API request failed for ${uri} with status code ${res.statusCode}`)
+					} else {
+						if(uri == '/kraken/user') {
+							self.userobj = parsed
+						} else if(uri == '/kraken/channels') {
+							self.channelobj = parsed
+						}
+					}
+					callback(parsed, error)
+				})
 			})
-		})
-		req.on('error', (e) => {
-			callback(null, new Error(`API request failed for ${uri} with message ${e.message}`))
-		})
-		if(poststr.length > 0)
-			req.write(poststr)
-		req.end()
+			req.on('error', (e) => {
+				callback(null, new Error(`API request failed for ${uri} with message ${e.message}`))
+			})
+			if(poststr.length > 0)
+				req.write(poststr)
+			req.end()
+		}, waitFor)
 	}
 
 	/*********************************************
@@ -704,6 +713,26 @@ class TwitchTv {
 			if(options.hasOwnProperty('containing_item') && typeof(options.containing_item) == 'string' && options.containing_item.startsWith('video:')) opt.containing_item = options.containing_item
 		}
 		this.requestAPI(uri, opt, false, callback)
+	}
+
+
+	/*********************************************
+	 * Bits
+	 *********************************************/
+	/**
+	 * Retrieves the list of available cheermotes
+	 * 
+	 * @async
+	 * @param {String} [channel_id] If this is specified, the cheermote for this channel is included in the response (if the channel owner has uploaded a channel-specific cheermote).
+	 * @param {TwitchTv~requestCallback} callback 
+	 * @see {@link https://dev.twitch.tv/docs/v5/reference/bits#get-cheermotes}
+	 */
+	getCheermotes(channel_id, callback) {
+		if(typeof(channel_id) === 'function') callback = channel_id
+		if(typeof(callback) != 'function') return
+		let options = {}
+		if(typeof(channel_id) === 'string') options.channel_id = channel_id
+		this.requestAPI('/kraken/bits/actions', options, false, callback)
 	}
 
 }

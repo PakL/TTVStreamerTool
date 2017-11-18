@@ -88,6 +88,15 @@
 			self.refs.nickname.onclick = function(e) {
 				document.querySelector('#channeluser')._tag.showuseroptions(e.target.dataset.username, e.clientX, e.clientY)
 			}
+
+			let emotes = self.root.querySelectorAll('img')
+			for(let i = 0; i < emotes.length; i++) {
+				emotes[i].addEventListener('load', () => {
+					if(self.root.parentNode.parentNode.hasOwnProperty('_tag') && typeof(self.root.parentNode.parentNode._tag.scoll_to_bottom) == 'function') {
+						self.root.parentNode.parentNode._tag.scoll_to_bottom()
+					}
+				})
+			}
 		})
 		this.on("updated", () => self.realformat() )
 
