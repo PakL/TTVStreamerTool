@@ -1,6 +1,7 @@
 <overlayhotkeys>
 	<div ref="hotkeysdisabledwarning"></div>
 	<hotkey each={ hotkey in hotkeys } no-reorder hotkey={ hotkey }></hotkey>
+	<hr>
 	<button ref="addhotkey" onclick={ addahotkey }></button>
 	<button ref="savehotkeys" onclick={ savehotkeys }></button>
 

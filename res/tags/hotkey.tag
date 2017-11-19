@@ -1,13 +1,25 @@
 <hotkey>
-	<label>
-		<span ref="lang_enter_hotkey"></span>
-		<input type="text" ref="hotkeyaccelerator" class="hotkeyaccelerator" value={ hotkeyaccelerator } onkeydown={ accelerator_down } onkeyup={ accelerator_up }>
-	</label>
-	<label>
-		<span ref="lang_enter_command"></span>
-		<input type="text" ref="hotkeycommand" class="hotkeycommand" value={ hotkeycommand } onkeydown={ changes }>
-	</label>
-	<hr>
+	<table>
+		<tbody>
+			<tr>
+				<td><input type="text" ref="hotkeyaccelerator" class="hotkeyaccelerator" value={ hotkeyaccelerator } onkeydown={ accelerator_down } onkeyup={ accelerator_up }></td>
+				<td><input type="text" ref="hotkeycommand" class="hotkeycommand" value={ hotkeycommand } onkeydown={ changes }></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<style>
+		hotkey > table {
+			width: 100%;
+		}
+		hotkey > table td:first-child {
+			width: 20%;
+		}
+		hotkey > table input {
+			box-sizing: border-box;
+			width: 100%;
+		}
+	</style>
 
 	<script>
 		const self = this
@@ -16,8 +28,8 @@
 		this.hotkeycommand = this.opts.hotkey.cmd
 
 		this.on('mount', () => {
-			self.refs.lang_enter_hotkey.innerText = Tool.i18n.__('Enter Hotkey')
-			self.refs.lang_enter_command.innerText = Tool.i18n.__('Enter command that is sent to overlays')
+			self.refs.hotkeyaccelerator.setAttribute('placeholder', Tool.i18n.__('Enter Hotkey'))
+			self.refs.hotkeycommand.setAttribute('placeholder', Tool.i18n.__('Enter command that is sent to overlays'))
 		})
 
 		this.keyCodes = {
