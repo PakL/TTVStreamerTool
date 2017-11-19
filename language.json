@@ -370,5 +370,8 @@
 	},
 	"Open addons folder": {
 		"de": "Addons-Ordner öffnen"
+	},
+	"Manually": {
+		"de": "Manuell"
 	}
 }
