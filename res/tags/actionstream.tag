@@ -49,15 +49,17 @@
 			}
 		}
 		actionstream > .actionstream_action {
-			padding: 5px;
+			padding-bottom: 10px;
 			margin: 5px;
-			border: 1px solid #d3d3d3;
-			border-radius: 5px;
+			border-bottom: 1px solid #3b3b3b;
 			transform: translateX(0);
 			animation-name: actionMoveIn;
 			animation-iteration-count: 1;
 			animation-timing-function: ease-out;
 			animation-duration: 10s;
+		}
+		actionstream > .actionstream_action:last-child {
+			border-bottom: 0;
 		}
 		actionstream.flash > .actionstream_action {
 			animation-name: actionFlash;
@@ -71,6 +73,7 @@
 			float: right;
 			font-size: 0.8em;
 			color: #b2b2b2;
+			margin-left: 10px;
 		}
 	</style>
 	<script>

@@ -8,10 +8,10 @@ $globalBackground: #121212;
 	width: 10px;
 }
 ::-webkit-scrollbar-thumb {
-	background: darken($accentColor, 10%);
+	background-color: darken($accentColor, 10%);
 }
 ::-webkit-scrollbar-track-piece {
-	background-color: $globalBackground;
+	background-color: darken($globalBackground, 5%);
 }
 
 #contents {
