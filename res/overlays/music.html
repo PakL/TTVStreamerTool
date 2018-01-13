@@ -76,7 +76,7 @@
 
 		<script type="application/javascript">
 			var tag = document.createElement('script');
-			var ready = false; var paused = false;
+			var ready = false; var paused = true;
 
 			tag.src = "https://www.youtube.com/iframe_api";
 			var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -106,7 +106,10 @@
 			var starting = true;
 			function onPlayerReady(event) {
 				player.setVolume(volume);
-				player.playVideo();
+				if(volume > 0) {
+					player.playVideo();
+					paused = false;
+				}
 			}
 
 			function onPlayerStateChange(event) {

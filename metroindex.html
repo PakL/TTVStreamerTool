@@ -82,6 +82,14 @@
 
 			<div id="content_overlays">
 				<div style="padding:5px;">
+					<fieldset id="overlays_overlay_urls">
+						<legend><script type="application/javascript">document.write(Tool.i18n.__('Installed Overlays'))</script></legend>
+					</fieldset>
+					<fieldset>
+						<legend><script type="application/javascript">document.write(Tool.i18n.__('Overlay hotkeys'))</script></legend>
+
+						<overlayhotkeys id="overlay_hotkeys"></overlayhotkeys>
+					</fieldset>
 					<fieldset>
 						<legend><script type="application/javascript">document.write(Tool.i18n.__('Music Overlay'))</script></legend>
 						<label>
@@ -108,11 +116,6 @@
 							<small><script type="application/javascript">document.write(Tool.i18n.__('This is a completely transparent overlay you can use in different OBS scenes to control the volume on scene changes. Change the number at the end to anything between 0 (mute) to 100 (way to loud).'))</script></small>
 						</label>
 					</fieldset>
-					<fieldset>
-						<legend><script type="application/javascript">document.write(Tool.i18n.__('Overlay hotkeys'))</script></legend>
-
-						<overlayhotkeys id="overlay_hotkeys"></overlayhotkeys>
-					</fieldset>
 				</div>
 			</div>
 
@@ -120,7 +123,7 @@
 
 			<div id="content_addons">
 				<div style="padding:10px;">
-					<table class="datatable">
+					<table class="datatable" style="width:100%">
 						<thead>
 							<tr>
 								<th><script>document.write(Tool.i18n.__('Addon'))</script></th>
@@ -215,5 +218,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 		<script type="riot/tag" src="res/tags/hotkey.tag"></script>
 		<script type="riot/tag" src="res/tags/overlayhotkeys.tag"></script>
 		<script type="riot/tag" src="res/tags/emoticons.tag"></script>
+		<script type="riot/tag" src="res/tags/setting.tag"></script>
+		<script type="riot/tag" src="res/tags/settingsset.tag"></script>
 	</body>
 </html>
