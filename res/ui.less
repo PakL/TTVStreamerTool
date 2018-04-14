@@ -1,17 +1,17 @@
-$accentColor: #515C6B;
+@accentColor: #515C6B;
 
-$globalFontFamily: 'Segoe UI', sans-serif;
-$globalFontSize: 16px;
-$globalBackground: #121212;
+@globalFontFamily: 'Segoe UI', sans-serif;
+@globalFontSize: 16px;
+@globalBackground: #121212;
 
 ::-webkit-scrollbar {
 	width: 10px;
 }
 ::-webkit-scrollbar-thumb {
-	background-color: darken($accentColor, 10%);
+	background-color: darken(@accentColor, 10%);
 }
 ::-webkit-scrollbar-track-piece {
-	background-color: darken($globalBackground, 5%);
+	background-color: darken(@globalBackground, 5%);
 }
 
 #contents {
@@ -78,7 +78,7 @@ $globalBackground: #121212;
 	left: 0;
 	height: 64px;
 	width: 50%;
-	border-bottom: 1px solid $accentColor;
+	border-bottom: 1px solid @accentColor;
 }
 #channel_viewers_column {
 	position: absolute;
@@ -86,12 +86,12 @@ $globalBackground: #121212;
 	left: 50%;
 	height: 64px;
 	width: 50%;
-	border-bottom: 1px solid $accentColor;
+	border-bottom: 1px solid @accentColor;
 }
 
 #chat_column {
 	position: absolute;
-	font-size: $globalFontSize - 2px;
+	font-size: @globalFontSize - 2px;
 	top: 65px;
 	left: 0;
 	width: 50%;
@@ -99,10 +99,10 @@ $globalBackground: #121212;
 }
 #chat_users_column {
 	position: absolute;
-	font-size: $globalFontSize - 2px;
+	font-size: @globalFontSize - 2px;
 	top: 65px;
 	left: 50%;
-	background: lighten($globalBackground, 5%);
+	background: lighten(@globalBackground, 5%);
 	width: 20%;
 	height: calc(100% - 65px);
 }
@@ -120,7 +120,7 @@ $globalBackground: #121212;
 	left: 0;
 	height: 35px;
 	width: 50%;
-	border-top: 1px solid $accentColor;
+	border-top: 1px solid @accentColor;
 }
 #chat_message_emotes {
 	display: none;

@@ -47,16 +47,18 @@ const refreshTileColors = () => {
 }
 
 
-let style_metro_sass = fs.readFileSync(path.join(__dirname, 'res', 'metro.scss'), {encoding: 'utf8'})
-let style_ui_sass = fs.readFileSync(path.join(__dirname, 'res', 'ui.scss'), {encoding: 'utf8'})
-const renderSass = function(event, newColor) {
-	style_metro_sass = style_metro_sass.replace(/\$accentColor: #([0-9A-F]{6});/i, '$accentColor: #' + newColor.substr(0, 6) + ';')
-	style_ui_sass = style_ui_sass.replace(/\$accentColor: #([0-9A-F]{6});/i, '$accentColor: #' + newColor.substr(0, 6) + ';')
-	style_css = sass.renderSync({ data: style_metro_sass, outputStyle: 'compressed' }).css + sass.renderSync({ data: style_ui_sass, outputStyle: 'compressed' }).css
+let style_metro_less = fs.readFileSync(path.join(__dirname, 'res', 'metro.less'), {encoding: 'utf8'})
+let style_ui_lesss = fs.readFileSync(path.join(__dirname, 'res', 'ui.less'), {encoding: 'utf8'})
+async function renderLess(event, newColor) {
+	style_metro_less = style_metro_less.replace(/@accentColor: darken\(#([0-9A-F]{6})/i, '@accentColor: darken(#' + newColor.substr(0, 6))
+	style_ui_lesss = style_ui_lesss.replace(/@accentColor: #([0-9A-F]{6});/i, '@accentColor: #' + newColor.substr(0, 6) + ';')
+	let style_css = (await less.render(style_metro_less)).css
+	style_css += (await less.render(style_ui_lesss)).css
+
 	document.querySelector('#metro-style').innerHTML = style_css
 }
 
-renderSass(null, systemPreferences.getAccentColor())
+renderLess(null, systemPreferences.getAccentColor())
 
 systemPreferences.removeAllListeners('accent-color-changed')
-systemPreferences.on('accent-color-changed', renderSass)
+systemPreferences.on('accent-color-changed', renderLess)

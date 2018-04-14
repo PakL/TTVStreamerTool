@@ -1,17 +1,19 @@
-$accentColor: #515C6B;
+@accentColor: darken(#515C6B, 5%);
 
-$globalFontFamily: 'Segoe UI', sans-serif;
-$globalFontSize: 16px;
-$globalBackground: #121212;
+@globalFontFamily: 'Segoe UI', sans-serif;
+@globalFontSize: 16px;
+@globalBackground: #121212;
 
-@while lightness($accentColor) > 50 {
+//@accentColor: darken(@accentColor, 50%, 'absolute');
+
+/*@while lightness($accentColor) > 50 {
 	$accentColor: darken($accentColor, 1%);
-}
+}*/
 
 html, body {
-	font-family: $globalFontFamily;
-	font-size: $globalFontSize;
-	background: $globalBackground;
+	font-family: @globalFontFamily;
+	font-size: @globalFontSize;
+	background: @globalBackground;
 	color: #ffffff;
 	
 	user-select: none;
@@ -20,15 +22,15 @@ html, body {
 
 
 a {
-	color: lighten($accentColor, 20%);
+	color: lighten(@accentColor, 20%);
 	cursor: pointer;
 }
 
 pre {
 	white-space: pre-wrap;
-	font-size: $globalFontSize - 4px;
+	font-size: @globalFontSize - 4px;
 	padding: 5px;
-	background-color: lighten($globalBackground, 5%);
+	background-color: lighten(@globalBackground, 5%);
 	max-width: 500px;
 	margin: auto;
 	margin-top: 10px;
@@ -37,9 +39,9 @@ pre {
 
 
 input, textarea, select {
-	background: $globalBackground;
-	font-family: $globalFontFamily;
-	font-size: $globalFontSize;
+	background: @globalBackground;
+	font-family: @globalFontFamily;
+	font-size: @globalFontSize;
 	border: 2px solid #ffffff;
 	padding: 3px 8px;
 	color: #ffffff;
@@ -48,7 +50,7 @@ input:hover, textarea:hover, select:hover {
 	border: 2px solid #aaaaaa;
 }
 input:focus, textarea:focus, select:focus {
-	border: 2px solid lighten($accentColor, 10%);
+	border: 2px solid lighten(@accentColor, 10%);
 	outline: none;
 }
 input:disabled, input:read-only {
@@ -56,38 +58,38 @@ input:disabled, input:read-only {
 	border: 2px solid #aaaaaa;
 }
 button {
-	background: $accentColor;
-	font-family: $globalFontFamily;
-	font-size: $globalFontSize;
+	background: @accentColor;
+	font-family: @globalFontFamily;
+	font-size: @globalFontSize;
 	padding: 5px 10px;
 	color: #ffffff;
 	border: 0;
 	transition: transform 0.1s ease-out;
 }
 button:hover {
-	border: 2px solid darken($accentColor, 15%);
+	border: 2px solid darken(@accentColor, 15%);
 	padding: 3px 8px;
 }
 button:focus {
 	outline: none;
 }
 button:active {
-	@extend button:focus;
-	background: darken($accentColor, 15%);
+	&:extend(button:focus);
+	background: darken(@accentColor, 15%);
 	transform: scaleX(0.95) scaleY(0.95);
 	outline: none;
 }
 
 fieldset {
 	margin: 10px;
-	border: 2px solid darken($accentColor, 5%);
+	border: 2px solid darken(@accentColor, 5%);
 
 	legend {
-		color: lighten($accentColor, 10%);
+		color: lighten(@accentColor, 10%);
 	}
 
 	hr {
-		border: 1px solid darken($accentColor, 5%);
+		border: 1px solid darken(@accentColor, 5%);
 		margin: 20px 0;
 	}
 }
@@ -105,8 +107,8 @@ label {
 	small {
 		display: block;
 		margin-top: 5px;
-		font-size: $globalFontSize - 4px;
-		color: lighten($accentColor, 10%);
+		font-size: @globalFontSize - 4px;
+		color: lighten(@accentColor, 10%);
 	}
 }
 legend + label, label:first-child {
@@ -137,7 +139,7 @@ label.win10-switch {
 		font-family: 'icomoon';
 		content: '\ee74';
 		font-size: 1.75em;
-		color: lighten($accentColor, 10%);
+		color: lighten(@accentColor, 10%);
 	}
 }
 
@@ -151,8 +153,8 @@ table.datatable {
 
 	> thead {
 		th {
-			border-bottom: 2px solid lighten($accentColor, 10%);
-			color: lighten($accentColor, 20%);
+			border-bottom: 2px solid lighten(@accentColor, 10%);
+			color: lighten(@accentColor, 20%);
 			font-weight: bold;
 			text-align: left;
 			font-size: 1.2em;
@@ -161,13 +163,13 @@ table.datatable {
 
 	> tbody {
 		td {
-			border-bottom: 1px solid $accentColor;
+			border-bottom: 1px solid @accentColor;
 		}
 	}
 
 	> tfoot {
 		td {
-			border-top: 2px solid lighten($accentColor, 10%);
+			border-top: 2px solid lighten(@accentColor, 10%);
 			text-align: right;
 		}
 	}
@@ -176,7 +178,7 @@ table.datatable {
 
 nav.side-nav {
 	display: block;
-	background: $accentColor;
+	background: @accentColor;
 	position: absolute;
 	z-index: 998;
 	top: 0;
@@ -226,11 +228,11 @@ nav.side-nav {
 			}
 
 			a:hover {
-				background-color: lighten($accentColor, 10%);
+				background-color: lighten(@accentColor, 10%);
 			}
 
 			a.menu-collapse {
-				background-color: darken($accentColor, 10%);
+				background-color: darken(@accentColor, 10%);
 			}
 		}
 	}
@@ -245,7 +247,7 @@ nav.side-nav {
 		position: absolute;
 		left: 46px;
 		top: 46px;
-		background: lighten($accentColor, 3%);
+		background: lighten(@accentColor, 3%);
 		transition: width .1s ease-in-out;
 
 		li {
@@ -279,7 +281,7 @@ nav.side-nav.collapsed {
 	overflow: hidden;
 	margin: 3px;
 	transition: transform 0.1s ease;
-	font-size: $globalFontSize - 4px;
+	font-size: @globalFontSize - 4px;
 	line-height: normal;
 	text-shadow: 0 0 5px #000000;
 	position: relative;
@@ -353,7 +355,7 @@ ul.linklist {
 			cursor: pointer;
 		}
 		a:hover {
-			background-color: $accentColor;
+			background-color: @accentColor;
 		}
 	}
 }

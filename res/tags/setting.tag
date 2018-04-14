@@ -40,8 +40,6 @@
 				options = options_default
 			}
 
-			console.log(options)
-
 			if(options.type == 'separator') {
 				self.root.innerHTML = ''
 				self.root.appendChild(document.createElement('hr'))
