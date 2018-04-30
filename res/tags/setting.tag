@@ -75,6 +75,11 @@
 					if(Tool.settings.getBoolean(options.setting, (typeof(options.default) !== 'boolean' ? false : options.default))) {
 						inputElement.setAttribute('checked', Tool.settings.getBoolean(options.setting))
 					}
+				} else if(options.type == 'range' || options.type == 'number') {
+					inputElement.value = parseFloat(Tool.settings.getString(options.setting, (typeof(options.default) === 'number' ? options.default : '')))
+					if(typeof(options.min) === 'number') inputElement.setAttribute('min', options.min)
+					if(typeof(options.max) === 'number') inputElement.setAttribute('max', options.max)
+					if(typeof(options.step) === 'number') inputElement.setAttribute('step', options.step)
 				} else {
 					inputElement.value = Tool.settings.getString(options.setting, (typeof(options.default) === 'string' ? options.default : ''))
 				}
@@ -83,6 +88,9 @@
 				}
 			}
 
+			if(typeof(options.attrid) === 'string') {
+				inputElement.setAttribute('id', options.attrid)
+			}
 			inputElement.dataset.setting = options.setting
 
 			if(typeof(options.onchange) === 'function') {
