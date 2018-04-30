@@ -18,7 +18,7 @@
 	<script>
 		const self = this
 		this.setting = opts.data
-		console.log(opts)
+		//console.log(opts)
 
 		create() {
 
@@ -76,23 +76,27 @@
 						inputElement.setAttribute('checked', Tool.settings.getBoolean(options.setting))
 					}
 				} else {
-					inputElement.value = Tool.settings.getString(options.setting)
+					inputElement.value = Tool.settings.getString(options.setting, (typeof(options.default) === 'string' ? options.default : ''))
+				}
+				if(typeof(options.readonly) === 'boolean') {
+					inputElement.setAttribute('readonly', 'readonly')
 				}
 			}
 
 			inputElement.dataset.setting = options.setting
 
-
 			if(typeof(options.onchange) === 'function') {
 				inputElement.addEventListener('change', options.onchange)
 			}
-			inputElement.addEventListener('change', () => {
-				if(options.type == 'checkbox') {
-					Tool.settings.setBoolean(options.setting, inputElement.checked)
-				} else {
-					Tool.settings.setString(options.setting, inputElement.value)
-				}
-			})
+			if(typeof(options.setting) === 'string' && options.setting.length > 0) {
+				inputElement.addEventListener('change', () => {
+					if(options.type == 'checkbox') {
+						Tool.settings.setBoolean(options.setting, inputElement.checked)
+					} else {
+						Tool.settings.setString(options.setting, inputElement.value)
+					}
+				})
+			}
 
 			let descriptionElement = null
 			if(options.description.length > 0) {
