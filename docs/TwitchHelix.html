@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Class: Addons | TTVST</title>
+    <title>Class: TwitchHelix | TTVST</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -55,7 +55,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Addons<span class="signature">(tool)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>TwitchHelix<span class="signature">(options)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -68,14 +68,14 @@
 
 <dt>
     
-        <h4 class="name" id="Addons">
+        <h4 class="name" id="TwitchHelix">
             
-                new <span class="type-signature"></span>Addons<span class="signature">(tool)</span><span class="type-signature"></span>
+                new <span class="type-signature"></span>TwitchHelix<span class="signature">(options)</span><span class="type-signature"></span>
                 
             
             <div class="container-source members">
-                <code><a href="lib_addons.js.html">lib/addons.js</a></code>,
-                <code><a href="lib_addons.js.html#line12">line 12</a></code>
+                <code><a href="mod_twitchhelix.js.html">mod/twitchhelix.js</a></code>,
+                <code><a href="mod_twitchhelix.js.html#line3">line 3</a></code>
             </div>
             
         </h4>
@@ -85,10 +85,6 @@
 </dt>
 <dd>
 
-    
-    <div class="description">
-        This module finds addons, loads and initialze them
-    </div>
     
 
     
@@ -123,13 +119,13 @@
 
         <tr>
             
-                <td class="name"><code>tool</code></td>
+                <td class="name"><code>options</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="TTVTool.html">TTVTool</a></span>
+<span class="param-type">Object</span>
 
 
             
@@ -139,7 +135,166 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Options for the TwitchTv object
+                <h6>Properties</h6>
+                
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>clientid</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The client id of the twitch api app</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>redirecturi</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The redirect uri of the twitch api app</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scope</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">An array of the permission scopes you might need</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">A string with an bearer token. If this is omitted token will be loaded from localStroage if possible</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -225,12 +380,12 @@
             
 
 <dt>
-<h4 class="name" id="menu">
-    <span class="type-signature"><span class="icon green">readonly</span> </span>menu<span class="type-signature"> :MenuItem</span>
+<h4 class="name" id="clientid">
+    <span class="type-signature"></span>clientid<span class="type-signature"> :String</span>
     
     <div class="container-source members">
-        <code><a href="lib_addons.js.html">lib/addons.js</a></code>,
-        <code><a href="lib_addons.js.html#line169">line 169</a></code>
+        <code><a href="mod_twitchhelix.js.html">mod/twitchhelix.js</a></code>,
+        <code><a href="mod_twitchhelix.js.html#line18">line 18</a></code>
     </div>
     
 </h4>
@@ -240,7 +395,7 @@
 <dd>
     
     <div class="description">
-        Gives you a new instance of the addons menu
+        The twitch api app client id that is necessary for request to the twitch api.
     </div>
     
 
@@ -250,7 +405,326 @@
         <ul>
             <li>
                 
-<span class="param-type">MenuItem</span>
+<span class="param-type">String</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="redirecturi">
+    <span class="type-signature"></span>redirecturi<span class="type-signature"> :String</span>
+    
+    <div class="container-source members">
+        <code><a href="mod_twitchhelix.js.html">mod/twitchhelix.js</a></code>,
+        <code><a href="mod_twitchhelix.js.html#line23">line 23</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        The redirect uri that ist set in the app settings.
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">String</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="scope">
+    <span class="type-signature"></span>scope<span class="type-signature"> :Array</span>
+    
+    <div class="container-source members">
+        <code><a href="mod_twitchhelix.js.html">mod/twitchhelix.js</a></code>,
+        <code><a href="mod_twitchhelix.js.html#line28">line 28</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        An array with the required permission scopes.
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Array</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="userid">
+    <span class="type-signature"></span>userid<span class="type-signature"> :String</span>
+    
+    <div class="container-source members">
+        <code><a href="mod_twitchhelix.js.html">mod/twitchhelix.js</a></code>,
+        <code><a href="mod_twitchhelix.js.html#line39">line 39</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        User id of the logged in user.
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">String</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="userobj">
+    <span class="type-signature"></span>userobj<span class="type-signature"> :null|Object</span>
+    
+    <div class="container-source members">
+        <code><a href="mod_twitchhelix.js.html">mod/twitchhelix.js</a></code>,
+        <code><a href="mod_twitchhelix.js.html#line44">line 44</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        An object with all twitch user information. More information in the <a href="https://dev.twitch.tv/docs/api/reference/#get-users">twitch api documentation</a>.
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">null</span>
+|
+
+<span class="param-type">Object</span>
 
 
             </li>
@@ -311,14 +785,14 @@
 
 <dt>
     
-        <h4 class="name" id="addonInstalled">
+        <h4 class="name" id="getAuthImplicitGrantFlowUrl">
             
-                <span class="type-signature"></span>addonInstalled<span class="signature">(name)</span><span class="type-signature"> &rarr; {Boolean}</span>
+                <span class="type-signature"></span>getAuthImplicitGrantFlowUrl<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span>
                 
             
             <div class="container-source members">
-                <code><a href="lib_addons.js.html">lib/addons.js</a></code>,
-                <code><a href="lib_addons.js.html#line112">line 112</a></code>
+                <code><a href="mod_twitchhelix.js.html">mod/twitchhelix.js</a></code>,
+                <code><a href="mod_twitchhelix.js.html#line67">line 67</a></code>
             </div>
             
         </h4>
@@ -330,7 +804,223 @@
 
     
     <div class="description">
-        Checks if an addon is installed
+        Returns a complete URL for the grant flow authentication and creates a state.
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">String</span>
+
+
+
+
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="getAuthToken">
+            
+                <span class="type-signature"></span>getAuthToken<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="mod_twitchhelix.js.html">mod/twitchhelix.js</a></code>,
+                <code><a href="mod_twitchhelix.js.html#line115">line 115</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Returns the twitch user auth token. Used for login in twitch irc or api requests for user related information.
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">String</span>
+
+
+
+
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="getUsers">
+            
+                <span class="type-signature"></span>getUsers<span class="signature">(query)</span><span class="type-signature"> &rarr; {Promise}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="mod_twitchhelix.js.html">mod/twitchhelix.js</a></code>,
+                <code><a href="mod_twitchhelix.js.html#line266">line 266</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Gets information about one or more specified Twitch users. Users are identified by optional user IDs and/or login name. If neither a user ID nor a login name is specified, the user is looked up by Bearer token.
     </div>
     
 
@@ -366,7 +1056,939 @@
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>query</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">An object with request parameters
+                <h6>Properties</h6>
+                
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;String></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">String array of user ids (max 100 entries)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>login</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;String></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">String array of user login names (max 100 entries)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Promise</span>
+
+
+
+
+
+- Returns a Promise that resolves with a single response object if the request is done
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://dev.twitch.tv/docs/api/reference/#get-users">https://dev.twitch.tv/docs/api/reference/#get-users</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="getUsersFollows">
+            
+                <span class="type-signature"></span>getUsersFollows<span class="signature">(from_id, to_id, first<span class="signature-attributes">opt</span>, after<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="mod_twitchhelix.js.html">mod/twitchhelix.js</a></code>,
+                <code><a href="mod_twitchhelix.js.html#line288">line 288</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Gets information on follow relationships between two Twitch users. Information returned is sorted in order, most recent follow first. This can return information like “who is lirik following,” “who is following lirik,” or “is user X following user Y.”At minimum, from_id or to_id must be provided for a query to be valid.
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>from_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">User ID. The request returns information about users who are being followed by the from_id user. Will be omitted when empty.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>to_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">User ID. The request returns information about users who are following the to_id user. Will be omitted when empty.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>first</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Maximum number of objects to return. Maximum: 100. Default: 20.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>after</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Cursor for forward pagination: tells the server where to start fetching the next set of results, in a multi-page response.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Promise</span>
+
+
+
+
+
+- Returns a Promise that resolves with a single response object if the request is done
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://dev.twitch.tv/docs/api/reference/#get-users-follows">https://dev.twitch.tv/docs/api/reference/#get-users-follows</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="isLoggedIn">
+            
+                <span class="type-signature"></span>isLoggedIn<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="mod_twitchhelix.js.html">mod/twitchhelix.js</a></code>,
+                <code><a href="mod_twitchhelix.js.html#line124">line 124</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Returns true if user is logged in.
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Boolean</span>
+
+
+
+
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="requestAPI">
+            
+                <span class="type-signature"></span>requestAPI<span class="signature">(uri, query, authNeeded, postdata<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="mod_twitchhelix.js.html">mod/twitchhelix.js</a></code>,
+                <code><a href="mod_twitchhelix.js.html#line152">line 152</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Prepares and executes a request to the twitch api and parses the response
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>uri</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The URI to the api endpoint. Only the path is required, the host api.twitch.tv is prepended when the uri does not start with https://</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>query</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">An object with all request parameters. Is being encoded for the uri. Must be passed but can be empty.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>authNeeded</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Is user authorization required for this request. Oauth token is then passed on the request.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>postdata</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    {}
+                
+                </td>
+            
+
+            <td class="description last">Optional post data. If there are properties in this object authNeeded is set to true and request method is set to put. Post data is serialized to a JSON string.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Promise</span>
+
+
+
+
+
+- Returns a Promise that resolves with a single response object if the request is done
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>twitchtv.requestAPI(    // uri    '/helix/users',    // query    {        login: ['pakl']    },    // authNeeded    false).then((data) => {    // Do something with data})</code></pre>
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="setAuthToken">
+            
+                <span class="type-signature"></span>setAuthToken<span class="signature">(token)</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="mod_twitchhelix.js.html">mod/twitchhelix.js</a></code>,
+                <code><a href="mod_twitchhelix.js.html#line101">line 101</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Fills the user token and saves it in the localStorage.
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>token</code></td>
             
 
             <td class="type">
@@ -382,7 +2004,146 @@
 
             
 
-            <td class="description last">Name of the addon</td>
+            <td class="description last">The token that is returned by the OAuth2 auth flow</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="verifyState">
+            
+                <span class="type-signature"></span>verifyState<span class="signature">(state)</span><span class="type-signature"> &rarr; {Boolean}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="mod_twitchhelix.js.html">mod/twitchhelix.js</a></code>,
+                <code><a href="mod_twitchhelix.js.html#line86">line 86</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Verifys if this returned state is one of the valid states and removes it from the local list.
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>state</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The state that is returned by the OAuth auth flow</td>
         </tr>
 
     
@@ -464,489 +2225,6 @@
 
 </dd>
 
-            
-                
-
-<dt>
-    
-        <h4 class="name" id="getAddon">
-            
-                <span class="type-signature"></span>getAddon<span class="signature">(name)</span><span class="type-signature"> &rarr; {null|Object}</span>
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_addons.js.html">lib/addons.js</a></code>,
-                <code><a href="lib_addons.js.html#line151">line 151</a></code>
-            </div>
-            
-        </h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Gets the addon by name
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Name of the addon</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <div class="container-returns">
-        <h5>Returns:</h5>
-        
-                
-
-
-
-<span class="param-type">null</span>
-|
-
-<span class="param-type">Object</span>
-
-
-
-
-
-- Either the addon module or null when not found
-
-
-
-
-            
-    </div>
-    
-
-    
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-</dd>
-
-            
-                
-
-<dt>
-    
-        <h4 class="name" id="getInstalledAddonDescription">
-            
-                <span class="type-signature"></span>getInstalledAddonDescription<span class="signature">(name)</span><span class="type-signature"> &rarr; {String}</span>
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_addons.js.html">lib/addons.js</a></code>,
-                <code><a href="lib_addons.js.html#line138">line 138</a></code>
-            </div>
-            
-        </h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Returns the description of the installed addon
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Name of the addon</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <div class="container-returns">
-        <h5>Returns:</h5>
-        
-                
-
-
-
-<span class="param-type">String</span>
-
-
-
-
-
-- Description of the addon or 'No description' if not installed or not defined
-
-
-
-
-            
-    </div>
-    
-
-    
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-</dd>
-
-            
-                
-
-<dt>
-    
-        <h4 class="name" id="getInstalledAddonVersion">
-            
-                <span class="type-signature"></span>getInstalledAddonVersion<span class="signature">(name)</span><span class="type-signature"> &rarr; {String}</span>
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_addons.js.html">lib/addons.js</a></code>,
-                <code><a href="lib_addons.js.html#line125">line 125</a></code>
-            </div>
-            
-        </h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Returns the version of the installed addon
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Name of the addon</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <div class="container-returns">
-        <h5>Returns:</h5>
-        
-                
-
-
-
-<span class="param-type">String</span>
-
-
-
-
-
-- Version of the addon or 'Unkown' if not installed or not defined
-
-
-
-
-            
-    </div>
-    
-
-    
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-</dd>
-
             </dl>
     
 
@@ -972,7 +2250,7 @@
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = 'Addons_sub'.replace(/"/g, '_');
+        var id = 'TwitchHelix_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 

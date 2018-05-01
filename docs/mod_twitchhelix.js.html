@@ -1,8 +1,10 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Class: Follows | TTVST</title>
+    <title>Source: mod/twitchhelix.js | TTVST</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -50,547 +52,303 @@
 
 
 
-
-<section>
-
-<header>
-    
-        <h2><span class="attribs"><span class="type-signature"></span></span>Follows<span class="signature">(tool)</span><span class="type-signature"></span></h2>
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-
-<dt>
-    
-        <h4 class="name" id="Follows">
-            
-                new <span class="type-signature"></span>Follows<span class="signature">(tool)</span><span class="type-signature"></span>
-                
-            
-            <div class="container-source members">
-                <code><a href="var_follows.js.html">var/follows.js</a></code>,
-                <code><a href="var_follows.js.html#line5">line 5</a></code>
-            </div>
-            
-        </h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        This module polls channel followers on a regular basis and emits events on changes
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>tool</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="TTVTool.html">TTVTool</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    </div>
-    
-
-    
-
-    
-    <h5>Fires:</h5>
-    <ul>
-        <li><a href="Follows.html#event:follow">Follows#event:follow</a></li>
-    </ul>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-</dd>
-
-        
-        </div>
-    
-
-    
-        <h3 class="subsection-title">Extends</h3>
-
-        
-
-
-    <ul>
-        <li>EventEmitter</li>
-    </ul>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Type Definitions</h3>
-
-        <dl>
-                
-
-<dt>
-<h4 class="name" id="~userObject">
-    userObject
-    
-    <div class="container-source members">
-        <code><a href="var_follows.js.html">var/follows.js</a></code>,
-        <code><a href="var_follows.js.html#line99">line 99</a></code>
-    </div>
-    
-</h4>
-
-
-</dt>
-<dd>
-    
-    <div class="description">
-        An abstraction of the <a href="Chat.html#~userObject">Chat~userObject</a> but with less properties
-    </div>
-    
-
-    <!--
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">Object</span>
-
-
-            </li>
-        </ul>
-    
-    -->
-
-    
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Twitch user name</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Twitch display name</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>color</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Hex color string prepended by a #</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-</dd>
-
-            </dl>
-    
-
-    
-        <h3 class="subsection-title">Events</h3>
-
-        <dl>
-            
-
-<dt>
-    
-        <h4 class="name" id="event:follow">
-            
-                follow
-                
-            
-            <div class="container-source members">
-                <code><a href="var_follows.js.html">var/follows.js</a></code>,
-                <code><a href="var_follows.js.html#line78">line 78</a></code>
-            </div>
-            
-        </h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Fires when a new follower appears in the list
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Follows.html#~userObject">Follows~userObject</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The user with username, display name and color</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>raw</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The raw follow object from the api</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
     
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-</dd>
-
-        </dl>
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const request = require('request')
+
+/**
+ * @class TwitchHelix
+ * @param {Object} options Options for the TwitchTv object
+ * @param {String} [options.clientid] The client id of the twitch api app
+ * @param {String} [options.redirecturi] The redirect uri of the twitch api app
+ * @param {Array} [options.scope] An array of the permission scopes you might need
+ * @param {String} [options.token] A string with an bearer token. If this is omitted token will be loaded from localStroage if possible
+ */
+class TwitchHelix {
+
+	constructor(options) {
+		/**
+		 * The twitch api app client id that is necessary for request to the twitch api.
+		 * @member {String}
+		 */
+		this.clientid = ''
+		/**
+		 * The redirect uri that ist set in the app settings.
+		 * @member {String}
+		 */
+		this.redirecturi = ''
+		/**
+		 * An array with the required permission scopes.
+		 * @member {Array}
+		 */
+		this.scope = []
+		/**
+		 * You know exactly what this is. Don't touch it!
+		 * @private
+		 * @member {String}
+		 */
+		this.token = ''
+		/**
+		 * User id of the logged in user.
+		 * @member {String}
+		 */
+		this.userid = ''
+		/**
+		 * An object with all twitch user information. More information in the {@link https://dev.twitch.tv/docs/api/reference/#get-users|twitch api documentation}.
+		 * @member {(null | Object)}
+		 */
+		this.userobj = null
+
+		this.validstates = []
+		this.ratelimitreset = -1;
+
+		if(typeof(options.clientid) == 'string') this.clientid = options.clientid
+		if(typeof(options.redirecturi) == 'string') this.redirecturi = options.redirecturi
+		if(typeof(options.scope) == 'object') this.scope = options.scope
+
+		if(typeof(options.token) == 'string') this.token = options.token
+		else {
+			if(typeof(window) !== "undefined" &amp;&amp; window.hasOwnProperty('localStorage')) {
+				this.token = window.localStorage.getItem('tw_auth_token')
+				if(this.token == null) this.token = ''
+			}
+		}
+	}
+
+	/**
+	 * Returns a complete URL for the grant flow authentication and creates a state.
+	 * 
+	 * @returns {String}
+	 */
+	getAuthImplicitGrantFlowUrl() {
+		var state = Math.floor(Date.now() / 1000).toString(16)
+		this.validstates.push(state)
+
+		return 'https://api.twitch.tv/kraken/oauth2/authorize' +
+				'?response_type=token' +
+				'&amp;client_id=' + this.clientid +
+				'&amp;redirect_uri=' + encodeURIComponent(this.redirecturi) +
+				'&amp;scope=' + this.scope.join('+') +
+				'&amp;state=' + state +
+				'&amp;force_verify=true'
+	}
+
+	/**
+	 * Verifys if this returned state is one of the valid states and removes it from the local list.
+	 * 
+	 * @param {String} state The state that is returned by the OAuth auth flow
+	 * @returns {Boolean}
+	 */
+	verifyState(state) {
+		var i = this.validstates.indexOf(state)
+		if(i >= 0) {
+			this.validstates.splice(i, 1)
+			return true
+		}
+
+		return false
+	}
+
+	/**
+	 * Fills the user token and saves it in the localStorage.
+	 * 
+	 * @param {String} token The token that is returned by the OAuth2 auth flow
+	 */
+	setAuthToken(token) {
+		if(typeof(token) != 'string') token = ''
+		this.token = token
+
+		if(typeof(window) !== "undefined" &amp;&amp; window.hasOwnProperty('localStorage')) {
+			window.localStorage.setItem('tw_auth_token', token)
+		}
+	}
+
+	/**
+	 * Returns the twitch user auth token. Used for login in twitch irc or api requests for user related information.
+	 * 
+	 * @returns {String}
+	 */
+	getAuthToken() {
+		return this.token
+	}
+
+	/**
+	 * Returns true if user is logged in.
+	 * 
+	 * @returns {Boolean}
+	 */
+	isLoggedIn() {
+		return (this.token.length > 0)
+	}
+
+	/**
+	 * Prepares and executes a request to the twitch api and parses the response
+	 * 
+	 * @param {String} uri The URI to the api endpoint. Only the path is required, the host api.twitch.tv is prepended when the uri does not start with https://
+	 * @param {Object} query An object with all request parameters. Is being encoded for the uri. Must be passed but can be empty.
+	 * @param {Boolean} authNeeded Is user authorization required for this request. Oauth token is then passed on the request.
+	 * @param {Object} [postdata={}] Optional post data. If there are properties in this object authNeeded is set to true and request method is set to put. Post data is serialized to a JSON string.
+	 * @returns {Promise} Returns a Promise that resolves with a single response object if the request is done
+	 * @example
+	 * twitchtv.requestAPI(
+	 *     // uri
+	 *     '/helix/users',
+	 * 
+	 *     // query
+	 *     {
+	 *         login: ['pakl']
+	 *     },
+	 * 
+	 *     // authNeeded
+	 *     false
+	 * ).then((data) => {
+	 *     // Do something with data
+	 * })
+	 */
+	requestAPI(uri, query, authNeeded, postdata) {
+		const self = this
+		if(typeof(authNeeded) != 'boolean') authNeeded = false
+		if(typeof(query) != 'object' || query == null) query = {}
+
+		if(typeof(postdata) == 'function') {
+			callback = postdata
+			postdata = {}
+		}
+		if(typeof(uri) != 'string' || typeof(callback) != 'function') return
+
+		if(Object.keys(postdata).length > 0) authNeeded = true
+
+		let querystr = ''
+		for(var key in query) {
+			if(query.hasOwnProperty(key)) {
+				let val = query[key]
+				if(!Array.isArray(val)) {
+					val = [val]
+				}
+				for(let i = 0; i &lt; val.length; i++) {
+					querystr += '&amp;' + encodeURIComponent(key) + '=' + encodeURIComponent(val[i])
+				}
+			}
+		}
+		querystr = '?' + querystr.substr(1)
+		if(querystr.length > 1) {
+			uri += querystr
+		}
+
+		let headers = {}
+
+		if(self.token.length > 0) {
+			headers = {
+				'Authorization': 'Bearer ' + self.token
+			}
+		} else if(!authNeeded) {
+			headers = {
+				'Client-ID': self.clientid
+			}
+		} else {
+			return new Promise((res, rej) => {
+				rej(new Error('User not logged in but authorization needed'))
+			})
+		}
+
+
+		var poststr = ''
+		if(Object.keys(postdata).length > 0) {
+			poststr = JSON.stringify(postdata)
+			headers['Content-Type'] = 'application/json'
+		}
+
+		console.log(`Request for ${uri} started... authNeeded:${authNeeded}`)
+
+		let overridehost = 'api.twitch.tv'
+		if(uri.startsWith('https://')) {
+			var parsedurl = url.parse(uri)
+			overridehost = parsedurl.hostname
+			uri = parsedurl.path
+		}
+
+		if(this.ratelimitreset > 0) {
+			let timestamp = new Date().getTime()
+			if(timestamp >= this.ratelimitreset) {
+				this.ratelimitreset = -1
+ 			} else {
+				 return new Promise((res, rej) => {
+					rej(new Error('Rate limit exceeded. Try again later.'))
+				})
+			 }
+		}
+
+		return new Promise((resolve, reject) => {
+			request({
+				'method': (Object.keys(postdata).length > 0 ? 'PUT' : 'GET'),
+				'url': 'https://' + overridehost + uri,
+				'headers': headers
+			}, (error, response, body) => {
+				if(error) {
+					reject(error)
+					return
+				}
+				if(response.statusCode !== 200) {
+					if(response.statusCode == 429) {
+						self.ratelimitreset = parseInt(response.headers['ratelimit-reset']) * 1000
+					}
+					reject(body)
+					return
+				}
+
+				let data = null
+				try {
+					data = JSON.parse(body)
+				} catch(e) {
+					reject(e)
+					return
+				}
+				resolve(data)
+			})
+
+		})
+	}
+
+
+	/**
+	 * Gets information about one or more specified Twitch users. Users are identified by optional user IDs and/or login name. If neither a user ID nor a login name is specified, the user is looked up by Bearer token.
+	 * 
+	 * @param {Object} query An object with request parameters
+	 * @param {String[]} [query.id] String array of user ids (max 100 entries)
+	 * @param {String[]} [query.login] String array of user login names (max 100 entries)
+	 * @returns {Promise} Returns a Promise that resolves with a single response object if the request is done
+	 * @see {@link https://dev.twitch.tv/docs/api/reference/#get-users}
+	 */
+	getUsers(query)
+	{
+		var uri = '/helix/users'
+		var opt = {}
+		if(typeof(query) == 'object') {
+			if(options.hasOwnProperty('id') &amp;&amp; (Array.isArray(options.id) || typeof(options.id) == "string")) opt.id = options.id
+			if(options.hasOwnProperty('login') &amp;&amp; (Array.isArray(options.login) || typeof(options.login) == "string")) opt.login = options.login
+		}
+		return this.requestAPI(uri, opt, false)
+	}
+
+	/**
+	 * Gets information on follow relationships between two Twitch users. Information returned is sorted in order, most recent follow first. This can return information like “who is lirik following,” “who is following lirik,” or “is user X following user Y.”
+	 * At minimum, from_id or to_id must be provided for a query to be valid.
+	 * 
+	 * @param {String} from_id User ID. The request returns information about users who are being followed by the from_id user. Will be omitted when empty.
+	 * @param {String} to_id User ID. The request returns information about users who are following the to_id user. Will be omitted when empty.
+	 * @param {Number} [first] Maximum number of objects to return. Maximum: 100. Default: 20.
+	 * @param {String} [after] Cursor for forward pagination: tells the server where to start fetching the next set of results, in a multi-page response.
+	 * @returns {Promise} Returns a Promise that resolves with a single response object if the request is done
+	 * @see {@link https://dev.twitch.tv/docs/api/reference/#get-users-follows}
+	 */
+	getUsersFollows(from_id, to_id, first, after)
+	{
+
+	}
+}</code></pre>
+        </article>
+    </section>
 
 
 
@@ -607,7 +365,7 @@
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = 'Follows_sub'.replace(/"/g, '_');
+        var id = '_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 
