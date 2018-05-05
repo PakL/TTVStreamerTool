@@ -181,7 +181,7 @@ class TwitchTv {
 			headers['Content-Length'] = Buffer.from(poststr).length
 		}*/
 
-		console.log(`Request for ${uri} started... authNeeded:${authNeeded}`)
+		console.log(`[API] Request for ${uri} started... authNeeded:${authNeeded}`)
 
 		let overridehost = 'api.twitch.tv'
 		if(uri.startsWith('https://')) {
@@ -202,14 +202,14 @@ class TwitchTv {
 				let requestOptions = {
 					'method': 'GET',
 					'url': 'https://' + overridehost + uri,
+					'json': true,
 					'headers': headers,
 					'gzip': true,
 					'strictSSL': true
 				}
 				if(Object.keys(postdata).length > 0) {
 					requestOptions.method = 'PUT'
-					requestOptions.body = postdata,
-					requestOptions.json = true
+					requestOptions.body = postdata
 				}
 
 				request(requestOptions, (error, response, body) => {
@@ -218,11 +218,16 @@ class TwitchTv {
 						return
 					}
 					let data = null
-					try {
-						data = JSON.parse(body)
-					} catch(e) {
-						reject(e)
-						return
+					if(typeof(body) == 'object') {
+						data = body
+					} else {
+						try {
+							data = JSON.parse(body)
+						} catch(e) {
+							console.log('[API] Got unregular response:', body)
+							reject(e)
+							return
+						}
 					}
 
 					if(response.statusCode !== 200) {
