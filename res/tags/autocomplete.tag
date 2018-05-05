@@ -67,11 +67,14 @@
 			if(self.parentInput != null) {
 
 				self.parentInput.addEventListener('keyup', (e) => {
-					self.typed(e)
+					if([13].indexOf(e.which) < 0) {
+						self.typed(e)
+					}
 				})
 				self.parentInput.addEventListener('keydown', (e) => {
 					if(e.which == 38 || e.which == 40) e.preventDefault()
 					if(e.which == 9) { // keycode 9 == TAB
+						e.preventDefault()
 						self.complete(e)
 					}
 				})
@@ -132,6 +135,9 @@
 				if(self.selectedindex >= self.suggestions.length)
 					self.selectedindex = self.suggestions.length-1
 				self.setVisible()
+			} else if(e.which == 9) { // keycode 9 == TAB
+				e.preventDefault()
+				self.setSuggestions([])
 			} else {
 				var el = e.target
 				self.suggestions = self.finddata(el.value)
