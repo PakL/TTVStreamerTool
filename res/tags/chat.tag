@@ -39,7 +39,7 @@
 				self.nowautoscrollring = false
 				return
 			}
-			console.log('user scroll')
+			//console.log('user scroll')
 			self.autoscroll = true
 			if(!self.scrolled_to_bottom()) {
 				self.autoscroll = false
