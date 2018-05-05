@@ -1,6 +1,6 @@
 <emoticons>
 	<div each={ e in emotes }>
-		<a each={ e }><span style="background-image:url(http://static-cdn.jtvnw.net/emoticons/v1/{ id }/1.0)" data-code={ code } title={ code } onclick={ addemote }></a>
+		<a each={ e }><span style="background-image:url(https://static-cdn.jtvnw.net/emoticons/v1/{ id }/1.0)" data-code={ code } title={ code }></a>
 	</div>
 
 	<style>
@@ -33,6 +33,13 @@
 	<script>
 		const self = this
 		this.emotes = []
+
+		this.on('updated', () => {
+			let emotes = self.root.querySelectorAll('span')
+			for(let i = 0; i < emotes.length; i++) {
+				emotes[i].onclick = self.addemote
+			}
+		})
 
 		setemotes(emotes) {
 			self.emotes = [];
