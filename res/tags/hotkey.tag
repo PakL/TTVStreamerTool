@@ -2,8 +2,8 @@
 	<table>
 		<tbody>
 			<tr>
-				<td><input type="text" ref="hotkeyaccelerator" class="hotkeyaccelerator" value={ hotkeyaccelerator }></td>
-				<td><input type="text" ref="hotkeycommand" class="hotkeycommand" value={ hotkeycommand }></td>
+				<td><input type="text" ref="hotkeyaccelerator" class="hotkeyaccelerator" value={ hotkeyaccelerator } onkeyup="{ accelerator_up }" onkeydown="{ accelerator_down }"></td>
+				<td><input type="text" ref="hotkeycommand" class="hotkeycommand" value={ hotkeycommand } onkeydown="{ changes }"></td>
 			</tr>
 		</tbody>
 	</table>
@@ -31,8 +31,6 @@
 			self.refs.hotkeyaccelerator.setAttribute('placeholder', Tool.i18n.__('Enter Hotkey'))
 			self.refs.hotkeycommand.setAttribute('placeholder', Tool.i18n.__('Enter command that is sent to overlays'))
 
-			self.refs.hotkeyaccelerator.onkeyup = self.accelerator_up
-			self.refs.hotkeyaccelerator.onkeydown = self.accelerator_down
 			self.refs.hotkeycommand.onkeydown = self.changes
 		})
 
@@ -164,8 +162,9 @@
 
 		this.accelerator = []
 		accelerator_down(e) {
-			//if(!e.metaKey)
-				e.preventDefault()
+			e.preventDefault()
+
+			console.log(e.keyCode.toString())
 
 			if(self.keyCodes.hasOwnProperty(e.keyCode.toString())) {
 				if(self.accelerator.indexOf('+' + self.keyCodes[e.keyCode.toString()]) < 0) {
@@ -173,14 +172,13 @@
 				}
 			}
 			if(self.accelerator.length > 0) {
-				self.hotkeyaccelerator = self.accelerator.join('').substr(1)
+				self.opts.hotkey.accelerator = self.accelerator.join('').substr(1)
 				self.update()
 				self.changes()
 			}
 		}
 		accelerator_up(e) {
-			//if(!e.metaKey)
-				e.preventDefault()
+			e.preventDefault()
 
 			if(self.keyCodes.hasOwnProperty(e.keyCode.toString())) {
 				let s = '+' + self.keyCodes[e.keyCode.toString()]
