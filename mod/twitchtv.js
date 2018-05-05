@@ -137,7 +137,6 @@ class TwitchTv {
 	/**
 	 * Prepares and executes a request to the twitch api and parses the response
 	 * 
-	 * @async
 	 * @param {String} uri The URI to the api endpoint. Only the path is required, the host api.twitch.tv is prepended when the uri does not start with https://
 	 * @param {Object} query An object with all request parameters. Is being encoded for the uri. Must be passed but can be empty.
 	 * @param {Boolean} authNeeded Is user authorization required for this request. Oauth token is then passed on the request.
@@ -259,7 +258,6 @@ class TwitchTv {
 	/**
 	 * Gets a user by the passed userid or by the oauth token
 	 * 
-	 * @async
 	 * @param {(String|Number)} [userid] The user id of the user you want to get. Usernames are not supported. Use {@link TwitchTv#getUserByName} to get the user by name.
 	 * @returns {Promise} Returns a Promise that resolves with the deserialized json object
 	 * @see {@link https://dev.twitch.tv/docs/v5/reference/users/#get-user}
@@ -279,7 +277,6 @@ class TwitchTv {
 	/**
 	 * Gets user objects by name.
 	 * 
-	 * @async
 	 * @param {String} username Username of the user you want to get. You can pass a comma seperated list (up to 100) to get multiple users at once. Display name is not supported.
 	 * @returns {Promise} Returns a Promise that resolves with the deserialized json object
 	 * @see {@link https://dev.twitch.tv/docs/v5/reference/users/#get-users}
@@ -293,7 +290,6 @@ class TwitchTv {
 	/**
 	 * Get the channels a user follows.
 	 * 
-	 * @async
 	 * @param {(String|Number)} [userid] The user id of the user you want the follows of.
 	 * @param {Object} options Options to control direction and sorting of the result
 	 * @param {Number} [options.limit=25] Maximum number of most-recent objects to return. Maximum: 100.
@@ -345,7 +341,6 @@ class TwitchTv {
 	/**
 	 * Gets a channel by the passed channelid or by the oauth token
 	 * 
-	 * @async
 	 * @param {(String|Number)} [channelid] The channel id of the channel you want to get. Channel names are not supported.
 	 * @returns {Promise} Returns a Promise that resolves with the deserialized json object
 	 * @see {@link https://dev.twitch.tv/docs/v5/reference/channels/#get-channel}
@@ -365,7 +360,6 @@ class TwitchTv {
 	/**
 	 * Updates some channel data
 	 * 
-	 * @async
 	 * @param {(String|Number)} channelid The channel id of the channel you want to update. The logged in user must have permission for that or an http error 401 is returned.
 	 * @param {Object} options Options that should be changed. At least one property is required or no request is made (and therefore no callback called).
 	 * @param {String} [options.status] Description of the broadcaster's status, displayed as a title on the channel page.
@@ -394,7 +388,6 @@ class TwitchTv {
 	/**
 	 * Gets users that follow the channel.
 	 * 
-	 * @async
 	 * @param {(String|Number)} [channelid] Channel id of the channel you want the followers of.
 	 * @param {Object} options Options to control direction of the result.
 	 * @param {Number} [options.limit=25] Maximum number of objects to return. Maximum: 100.
@@ -443,7 +436,6 @@ class TwitchTv {
 	/**
 	 * Gets subscribers to the channel. Logged in user needs to have permission to view channel subscriber or you get a 401 error.
 	 * 
-	 * @async
 	 * @param {(String|Number)} [channelid] Channel id of the channel you want the subscriber of.
 	 * @param {Object} options Options to control direction of the result.
 	 * @param {Number} [options.limit=25] Maximum number of objects to return. Maximum: 100.
@@ -490,7 +482,6 @@ class TwitchTv {
 	/**
 	 * Gets a list of VODs (Video on Demand) from a specified channel.
 	 * 
-	 * @async
 	 * @param {(String|Number)} channelid Channel id of the channel you want the subscriber of.
 	 * @param {Object} options Options to control direction of the result.
 	 * @param {Number} [options.limit=25] Maximum number of objects to return. Maximum: 100.
@@ -522,7 +513,6 @@ class TwitchTv {
 	/**
 	 * Loads channel badges. It's incomplete. If you want better badges use {@link TwitchTv#getChatBadgeSetsByChannel}.
 	 * 
-	 * @async
 	 * @param {(String|Number)} channelid Channel id of the channel you want the badges of.
 	 * @returns {Promise} Returns a Promise that resolves with the deserialized json object
 	 * @see {@link https://dev.twitch.tv/docs/v5/reference/chat/#get-chat-badges-by-channel}
@@ -541,7 +531,6 @@ class TwitchTv {
 	/**
 	 * A more detailed alternative to {@link TwitchTv#getChatBadgesByChannel}. There is no official documentation and is now official api endpoint. See example for an example response.
 	 * 
-	 * @async
 	 * @param {(String|Number)} [channelid] Channel id of the channel you want the badges of.
 	 * @returns {Promise} Returns a Promise that resolves with the deserialized json object
 	 * @example
@@ -605,7 +594,6 @@ class TwitchTv {
 	/**
 	 * Get emote sets.
 	 * 
-	 * @async
 	 * @param {String} emotesets Comma seperated list of emote set ids.
 	 * @returns {Promise} Returns a Promise that resolves with the deserialized json object
 	 * @see {@link https://dev.twitch.tv/docs/v5/reference/chat/#get-chat-emoticons-by-set}
@@ -622,7 +610,6 @@ class TwitchTv {
 	/**
 	 * Loads a stream object for a channel
 	 * 
-	 * @async
 	 * @param {(String|Number)} [channelid] Channel id of the channel you want the stream for.
 	 * @param {Object} options Options to filter by stream type
 	 * @param {String} [options.steam_type='live'] Constrains the type of streams returned. Valid values: live, playlist, all. Playlists are offline streams of VODs (Video on Demand) that appear live.
@@ -668,7 +655,6 @@ class TwitchTv {
 	/**
 	 * Search for available games
 	 * 
-	 * @async
 	 * @param {String} query Search query. Must be at least 3 characters long, otherwise request is not being done.
 	 * @param {Object} options Options for filtering
 	 * @param {Boolean} [options.live=false] If true, returns only games that are live on at least one channel.
@@ -734,7 +720,6 @@ class TwitchTv {
 	/**
 	 * Retrieves the list of available cheermotes
 	 * 
-	 * @async
 	 * @param {String} [channel_id] If this is specified, the cheermote for this channel is included in the response (if the channel owner has uploaded a channel-specific cheermote).
 	 * @returns {Promise} Returns a Promise that resolves with the deserialized json object
 	 * @see {@link https://dev.twitch.tv/docs/v5/reference/bits#get-cheermotes}

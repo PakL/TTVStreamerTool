@@ -382,5 +382,11 @@
 	},
 	"Use this command in an hotkey to change volume. Change the number at the end to anything between 0 (mute) to 100 (way to loud).": {
 		"de": "Benutze diesen Befehl in einem Hotkey um die Lautstärke zu ändern. Ändere die Nummer am Ende zu etwas Beliebigem zwischen 0 (stumm) und 100 (viel zu laut)."
+	},
+	"Incompatible platforms \"{{platform}}\"": {
+		"de": "Inkompatibele Plattformen \"{{platform}}\""
+	},
+	"Incompatible version \"{{version}}\". Current TTVST version: {{packageversion}}": {
+		"de": "Inkompatibele Version \"{{version}}\". Aktuelle TTVST-Version: {{packageversion}}"
 	}
 }
