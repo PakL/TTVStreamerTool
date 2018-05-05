@@ -1,11 +1,11 @@
 <message>
-	<span class="timestamp" ref="timestamp">{ opts.msg.timestamp }</span>
+	<span class="timestamp" ref="timestamp">{ timestamp }</span>
 	<span class="m">
 		<span class="user" ref="user">
 			<span class="badges" ref="badges"></span>
-			<span class="nickname" ref="nickname" data-username="{ opts.msg.user }">{ opts.msg.nickname }</span>
+			<span class="nickname" ref="nickname" data-username="{ user }">{ nickname }</span>
 		</span>
-		<span class="msg" ref="msg">{ opts.msg.message }</span>
+		<span class="msg" ref="msg">{ message }</span>
 	</span>
 	
 	<style>
@@ -82,7 +82,13 @@
 	<script>
 		const self = this
 
+		this.timestamp = opts.msg.timestamp
+		this.user = opts.msg.user
+		this.nickname = opts.msg.nickname
+		this.message = opts.msg.message
+
 		this.on("mount", () => {
+			console.log(self.opts)
 			self.realformat()
 			self.refs.nickname.style.cursor = 'pointer'
 			self.refs.nickname.onclick = function(e) {
@@ -97,6 +103,12 @@
 					}
 				})
 			}
+		})
+		this.on('update', () => {
+			this.timestamp = opts.msg.timestamp
+			this.user = opts.msg.user
+			this.nickname = opts.msg.nickname
+			this.message = opts.msg.message
 		})
 		this.on("updated", () => self.realformat() )
 

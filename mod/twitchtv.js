@@ -284,7 +284,7 @@ class TwitchTv {
 	getUserByName(username) {
 		if(typeof(username) != 'string') return new Promise((res, rej) => { rej(new Error('username must be of type string')) })
 		username = username.toLowerCase()
-		this.requestAPI('/kraken/users', { login: username }, false)
+		return this.requestAPI('/kraken/users', { login: username }, false)
 	}
 
 	/**
