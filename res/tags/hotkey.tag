@@ -36,6 +36,11 @@
 			self.refs.hotkeycommand.onkeydown = self.changes
 		})
 
+		this.on('update', () => {
+			self.hotkeyaccelerator = self.opts.hotkey.accelerator
+			self.hotkeycommand = self.opts.hotkey.cmd
+		})
+
 		this.keyCodes = {
 			'8' : 'Backspace',
 			'9' : "Tab",

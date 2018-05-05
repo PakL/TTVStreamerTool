@@ -24,7 +24,7 @@
 		"randexp": "0.4.9",
 		"request": "2.85.0",
 		"require-uncached": "1.0.3",
-		"riot": "3.9.4",
+		"riot": "3.9.5",
 		"less": "3.0.2",
 		"compare-versions": "3.1.0"
 	},
