@@ -2,8 +2,8 @@
 	<div ref="hotkeysdisabledwarning"></div>
 	<hotkey each={ hotkey in hotkeys } no-reorder hotkey={ hotkey }></hotkey>
 	<hr>
-	<button ref="addhotkey" onclick={ addahotkey }></button>
-	<button ref="savehotkeys" onclick={ savehotkeys }></button>
+	<button ref="addhotkey"></button>
+	<button ref="savehotkeys"></button>
 
 	<style>
 		overlayhotkeys > div {
@@ -28,6 +28,9 @@
 			self.refs.hotkeysdisabledwarning.innerText = Tool.i18n.__('Hotkeys are currently disabled. Save hotkeys to reenable them.')
 			Tool.overlays.renewOverlayHotkeys()
 			self.refs.hotkeysdisabledwarning.style.display = 'none'
+
+			self.refs.addhotkey.onclick = self.addahotkey
+			self.refs.savehotkeys.onclick = self.savehotkeys
 		})
 
 		changes() {

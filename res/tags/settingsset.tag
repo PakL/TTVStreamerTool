@@ -1,6 +1,6 @@
 <settingsset>
 	<fieldset>
-		<legend ref="title" onclick={ toggle }><span ref="togglebutton">➕</span> { title }</legend>
+		<legend ref="title"><span ref="togglebutton">➕</span> { title }</legend>
 
 		<setting each="{ sett in settings }" data="{ sett }"></setting>
 	</fieldset>
@@ -24,6 +24,7 @@
 		this.settings = opts.settings
 		refresh() {
 			if(self.title.length > 0) {
+				self.refs.title.onclick = self.toggle
 				self.refs.title.style.display = 'initial'
 				if(self.visible) {
 					self.root.classList.remove('collapsed')

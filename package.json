@@ -1,16 +1,17 @@
 {
 	"name": "ttv-streamertool",
-	"version": "0.3.6",
+	"version": "0.3.7",
 	"main": "main.js",
 	"description": "TTVST is an application aimed at Twitch streamer.",
 	"author": {
 		"email": "pakl@paklweb.de",
 		"name": "Pascal Pohl",
-		"url": "http://paklweb.de/"
+		"url": "https://paklweb.de/"
 	},
 	"scripts": {
 		"start": ".\\node_modules\\electron\\dist\\electron.exe .\\",
-		"generate-docs": ".\\node_modules\\.bin\\jsdoc -c jsdoc.json"
+		"generate-docs": ".\\node_modules\\.bin\\jsdoc -c jsdoc.json",
+		"compile-riot": ".\\node_modules\\.bin\\riot .\\res\\tags\\ .\\var\\tags\\"
 	},
 	"dependencies": {
 		"dateformat": "3.0.3",
@@ -23,11 +24,12 @@
 		"randexp": "0.4.9",
 		"request": "2.85.0",
 		"require-uncached": "1.0.3",
-		"riot": "3.9.4",
-		"less": "3.0.2"
+		"riot": "3.9.5",
+		"less": "3.0.2",
+		"compare-versions": "3.1.0"
 	},
 	"devDependencies": {
-		"electron": "1.8.6",
+		"electron": "2.0.0",
 		"electron-rebuild": "1.7.3",
 		"jsdoc": "3.5.5",
 		"tui-jsdoc-template": "1.2.2",

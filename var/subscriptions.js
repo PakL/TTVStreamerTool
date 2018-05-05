@@ -31,42 +31,45 @@ class Subscriptions extends EventEmitter {
 		return this.tool.cockpit
 	}
 
-	fetchData() {
+	async fetchData() {
 		const self = this
 		if(this.cockpit.openChannelId.length <= 0) return
 		
-		this.api.getChannelSubscribers(this.cockpit.openChannelId, { direction: 'desc' }, (res, err) => {
-			if(res != null && res.hasOwnProperty('subscriptions')) {
-				let subscriptions = res.subscriptions
-				subscriptions.sort(function(a, b){ return new Date(a.created_at).getTime() - new Date(b.created_at).getTime() })
-				for(let i = 0; i < subscriptions.length; i++) {
-					let s = subscriptions[i]
-					if(new Date(s.created_at).getTime() > self.latestSubscriber) {
-						let dn = d.user.display_name
-						if(!self.tool.settings.showLocalizedNames && !dn.match(/^[a-z0-9_\-]+$/i))
-							dn = f.user.name
-						let usr = {
-							user: s.user.name,
-							name: dn,
-							color: self.tool.chat.userselement._tag.getUserColor(s.user.name)
-						}
+		let subs = null
+		try {
+			subs = await this.api.getChannelSubscribers(this.cockpit.openChannelId, { direction: 'desc' })
+		} catch(e) {
+			if(err.message.match(/API request failed for (.+?) with status code (403|422)/i)) {
+				this.skipSubscriptions = true
+			} else {
+				if(err.hasOwnProperty('message')) err.message += '\n' + this.tool.i18n.__('Click here to dismiss this message')
+				this.tool.ui.showErrorMessage(err, true)
+			}
+		}
 
-						self.emit('subscription', usr, s)
-						self.latestSubscriber = new Date(s.created_at).getTime()
+		if(subs != null && subs.hasOwnProperty('subscriptions')) {
+			let subscriptions = subs.subscriptions
+			subscriptions.sort(function(a, b){ return new Date(a.created_at).getTime() - new Date(b.created_at).getTime() })
+			for(let i = 0; i < subscriptions.length; i++) {
+				let s = subscriptions[i]
+				if(new Date(s.created_at).getTime() > self.latestSubscriber) {
+					let dn = d.user.display_name
+					if(!self.tool.settings.showLocalizedNames && !dn.match(/^[a-z0-9_\-]+$/i))
+						dn = f.user.name
+					let usr = {
+						user: s.user.name,
+						name: dn,
+						color: self.tool.chat.userselement._tag.getUserColor(s.user.name)
 					}
-				}
-			} else if(err != null) {
-				if(err.message.match(/API request failed for (.+?) with status code (403|422)/i)) {
-					self.skipSubscriptions = true
-				} else {
-					if(err.hasOwnProperty('message')) err.message += '\n' + self.tool.i18n.__('Click here to dismiss this message')
-					self.tool.ui.showErrorMessage(err, true)
+
+					this.emit('subscription', usr, s)
+					this.latestSubscriber = new Date(s.created_at).getTime()
 				}
 			}
+		}
 
-			if(!self.skipSubscriptions)
-				self.timer = setTimeout(() => { self.fetchData() }, (30000 - (new Date().getTime() % 30000)))
-		})
+		if(!this.skipSubscriptions)
+			this.timer = setTimeout(() => { self.fetchData() }, (30000 - (new Date().getTime() % 30000)))
 	}
 
 }

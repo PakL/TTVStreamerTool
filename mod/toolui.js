@@ -252,10 +252,11 @@ class ToolUI {
 		if(typeof(autohide) != "boolean") autohide = false
 
 		this.stopLoading() // Stop loading
+		if(typeof(error) == 'string') error = new Error(error)
 		if(error == null || !error.hasOwnProperty('message')) error = new Error(this._tool.i18n.__('Unkown error'))
 		if(!autohide) console.error(error)
 		const modal = document.createElement('modal')
-		modal.innerHTML = error.message.replace('<', '&gt;').replace('>', '&lt;').replace('\n', '<br>')
+		modal.innerHTML = error.message.replace('<', '&gt;').replace('>', '&lt;').replace('\n', '<br>') + '<div style="text-align:center;margin-top:10px;"><button>' + this._tool.i18n.__('OK') + '</button></div>'
 		modal.onclick = function() {
 			this.parentElement.removeChild(this)
 		}

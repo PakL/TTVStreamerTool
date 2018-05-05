@@ -44,3 +44,4 @@ jspm_packages
 /addons
 /docs/_tutorials
 /*.php
+/var/tags/*.js
