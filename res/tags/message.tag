@@ -88,7 +88,6 @@
 		this.message = opts.msg.message
 
 		this.on("mount", () => {
-			console.log(self.opts)
 			self.realformat()
 			self.refs.nickname.style.cursor = 'pointer'
 			self.refs.nickname.onclick = function(e) {
