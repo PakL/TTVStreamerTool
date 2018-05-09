@@ -7,6 +7,7 @@ const i18n = require('../node_modules/i18n-nodejs')
 const ToolUI = require('./toolui')
 const ToolSettings = require('../lib/settings')
 const TwitchTv = require('./twitchtv')
+const TwitchHelix = require('./twitchhelix')
 const TTVLogin = require('../lib/auth')
 const Chat = require('../lib/chat')
 
@@ -49,6 +50,11 @@ class TTVTool extends EventEmitter {
 				'channel_subscriptions',
 				'chat_login'
 			]
+		})
+		this._twitchhelix = new TwitchHelix({
+			clientid: '11vhuxdssb9pc3s2uqpa7s3s0252hyk',
+			redirecturi: 'http://localhost:8086/',
+			scope: []
 		})
 		this._auth = new TTVLogin(this)
 		this._chat = new Chat(this)
@@ -160,6 +166,16 @@ class TTVTool extends EventEmitter {
 	 */
 	get twitchapi() {
 		return this._twitchapi
+	}
+
+	/**
+	 * Gives you the new Twitch API module
+	 * 
+	 * @type {TwitchHelix}
+	 * @readonly
+	 */
+	get twitchhelix() {
+		return this._twitchhelix
 	}
 	
 	/**

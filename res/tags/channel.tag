@@ -17,12 +17,12 @@
 		const self = this
 		this.on('mount', () => {
 			//console.log(self.opts)
-			self.refs.logo.setAttribute('src', self.opts.chnl.logo)
+			self.refs.logo.setAttribute('src', self.opts.chnl.profile_image_url)
 			self.refs.channelname.innerText = self.opts.chnl.display_name
 		})
 		//this.root.style.backgroundImage = 'url('+self.opts.chnl.logo+')'
 		this.root.onclick = function() {
-			Tool.ui.findPage('Cockpit').openChannel(self.opts.chnl._id)
+			Tool.ui.findPage('Cockpit').openChannel(self.opts.chnl.id)
 		}
 	</script>
 </channel>
