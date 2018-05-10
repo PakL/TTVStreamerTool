@@ -284,7 +284,7 @@ class TwitchHelix {
 			if(query.hasOwnProperty('id') && (Array.isArray(query.id) || typeof(query.id) == "string")) opt.id = query.id
 			if(query.hasOwnProperty('login') && (Array.isArray(query.login) || typeof(query.login) == "string")) opt.login = query.login
 		}
-		return this.requestAPI(uri, opt, false)
+		return this.requestAPI(uri, opt, (typeof(opt.id) !== 'string' && typeof(opt.login) !== 'string') ? true : false)
 	}
 
 	/**
@@ -314,6 +314,66 @@ class TwitchHelix {
 		if(typeof(opt.from_id) !== 'string' && typeof(opt.to_id) !== 'string') {
 			return new Promise((r, reject) => {
 				reject(new Error('One of either from_id or to_id must be defined'))
+			})
+		}
+		return this.requestAPI(uri, opt, false)
+	}
+
+
+	/**
+	 * Gets information about active streams. Streams are returned sorted by number of current viewers, in descending order. Across multiple pages of results, there may be duplicate or missing streams, as viewers join and leave streams.
+	 * 
+	 * @param {Object} query An object with request parameters
+	 * @param {String} [query.after] Cursor for forward pagination: tells the server where to start fetching the next set of results, in a multi-page response. The cursor value specified here is from the pagination response field of a prior query.
+	 * @param {String} [query.before] Cursor for backward pagination: tells the server where to start fetching the next set of results, in a multi-page response. The cursor value specified here is from the pagination response field of a prior query.
+	 * @param {String[]} [query.community_id] Returns streams in a specified community ID. You can specify up to 100 IDs.
+	 * @param {Number} [query.first] Maximum number of objects to return. Maximum: 100. Default: 20.
+	 * @param {String[]} [query.game_id] Returns streams broadcasting a specified game ID. You can specify up to 100 IDs.
+	 * @param {String[]} [query.language] Stream language. You can specify up to 100 languages.
+	 * @param {String[]} [query.user_id] Returns streams broadcast by one or more specified user IDs. You can specify up to 100 IDs.
+	 * @param {String[]} [query.user_login]  	Returns streams broadcast by one or more specified user login names. You can specify up to 100 names.
+	 * @returns {Promise} Returns a Promise that resolves with a single response object if the request is done
+	 * @see {@link https://dev.twitch.tv/docs/api/reference/#get-streams}
+	 */
+	getStreams(query)
+	{
+		var uri = '/helix/streams'
+		var opt = {}
+		if(typeof(query) == 'object') {
+			if(query.hasOwnProperty('after') && typeof(query.after) == "string") opt.after = query.after
+			if(query.hasOwnProperty('before') && typeof(query.before) == "string") opt.before = query.before
+			if(query.hasOwnProperty('community_id') && (Array.isArray(query.community_id) || typeof(query.community_id) == "string")) opt.community_id = query.community_id
+			if(query.hasOwnProperty('first') && typeof(query.first) == "number") opt.first = query.first
+			if(query.hasOwnProperty('game_id') && (Array.isArray(query.game_id) || typeof(query.game_id) == "string")) opt.game_id = query.game_id
+			if(query.hasOwnProperty('language') && (Array.isArray(query.language) || typeof(query.language) == "string")) opt.language = query.language
+			if(query.hasOwnProperty('user_id') && (Array.isArray(query.user_id) || typeof(query.user_id) == "string")) opt.user_id = query.user_id
+			if(query.hasOwnProperty('user_login') && (Array.isArray(query.user_login) || typeof(query.user_login) == "string")) opt.user_login = query.user_login
+		}
+		return this.requestAPI(uri, opt, false)
+	}
+
+	/**
+	 * Gets game information by game ID or name.
+	 * At minimum, id or name must be provided for a query to be valid.
+	 * 
+	 * @param {String[]} id Game ID. At most 100 id values can be specified. Will be omitted when empty.
+	 * @param {String[]} name Game name. The name must be an exact match. For instance, “Pokemon” will not return a list of Pokemon games; instead, query the specific Pokemon game(s) in which you are interested. At most 100 name values can be specified. Will be omitted when empty.
+	 * @returns {Promise} Returns a Promise that resolves with a single response object if the request is done
+	 * @see {@link https://dev.twitch.tv/docs/api/reference/#get-users-follows}
+	 */
+	getGames(id, name) {
+		var uri = '/helix/games'
+		var opt = {}
+
+		if((Array.isArray(id) || typeof(id) == "string") && id.length > 0) opt.id = id
+		if((Array.isArray(name) || typeof(name) == "string") && name.length > 0) opt.name = name
+
+		if(
+			typeof(opt.id) !== 'string' && typeof(opt.name) !== 'string' &&
+			!Array.isArray(opt.id) && !Array.isArray(opt.name)
+		) {
+			return new Promise((r, reject) => {
+				reject(new Error('One of either id or name must be defined'))
 			})
 		}
 		return this.requestAPI(uri, opt, false)

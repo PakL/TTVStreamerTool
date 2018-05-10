@@ -45,6 +45,10 @@ class Channel extends EventEmitter {
 		return this.tool.twitchapi
 	}
 
+	get helix() {
+		return this.tool.twitchhelix
+	}
+
 	/**
 	 * Shortcut to the cockpit
 	 * 
@@ -68,22 +72,37 @@ class Channel extends EventEmitter {
 		let stream = null
 		let channel = null
 		try {
-			stream = await this.api.getStreamByUser(this.cockpit.openChannelId, { stream_type: 'live' })
+			stream = await this.helix.getStreams({ user_id: this.cockpit.openChannelId })
 		} catch (err) {
 			if(err.hasOwnProperty('message')) err.message += '\n' + this.tool.i18n.__('Click here to dismiss this message')
 			this.tool.ui.showErrorMessage(err, true)
 		}
 
-		if(stream !== null && stream.hasOwnProperty('stream') && stream.stream != null) {
-			let emitonline = !this.streamobject.hasOwnProperty('_id')
+		if(stream !== null && stream.hasOwnProperty('data') && stream.data.length > 0) {
+			let emitonline = !this.streamobject.hasOwnProperty('id')
 			let oldstatus = ''
 			let oldgame = ''
 			if(this.channelobject.hasOwnProperty('_id')) {
 				oldgame = this.channelobject.game
 				oldstatus = this.channelobject.status
+			} else if(this.streamobject.hasOwnProperty('id')) {
+				oldgame = this.streamobject.gamename
+				oldstatus = this.streamobject.title
 			}
-			this.streamobject = stream.stream
-			this.channelobject = stream.stream.channel
+			this.streamobject = stream.data[0]
+			this.streamobject.gamename = ''
+			this.channelobject = {}
+
+			let game = null
+			try {
+				game = await this.helix.getGames(this.streamobject.game_id)
+			} catch (err) {
+				console.error(err)
+			}
+			if(game !== null && game.hasOwnProperty('data') && game.data.length > 0) {
+				this.streamobject.gamename = game.data[0].name
+			}
+
 
 			/**
 			 * Fires when the channel goes online.
@@ -95,19 +114,19 @@ class Channel extends EventEmitter {
 			 * @event Channel#gamechange
 			 * @param {String} newgame The new game of the channel
 			 */
-			if(oldgame != this.channelobject.game) this.emit('gamechange', this.channelobject.game)
+			if(oldgame != this.streamobject.gamename) this.emit('gamechange', this.streamobject.gamename)
 			/** 
 			 * Fires when the channel status/title changes
 			 * @event Channel#statuschange
 			 * @param {String} newtitle The new title/status of the channel
 			 */
-			if(oldstatus != this.channelobject.status) this.emit('statuschange', this.channelobject.status)
+			if(oldstatus != this.streamobject.title) this.emit('statuschange', this.streamobject.title)
 			/**
 			 * Fires on every data polling and brings you the current viewers count
 			 * @event Channel#viewers
 			 * @param {Number} viewers Number of current viewers
 			 */
-			this.emit('viewers', this.streamobject.viewers)
+			this.emit('viewers', this.streamobject.viewer_count)
 		} else {
 			try {
 				channel = await this.api.getChannel(this.cockpit.openChannelId)
@@ -123,6 +142,9 @@ class Channel extends EventEmitter {
 				if(this.channelobject.hasOwnProperty('_id')) {
 					oldgame = this.channelobject.game
 					oldstatus = this.channelobject.status
+				} else if(this.streamobject.hasOwnProperty('id')) {
+					oldgame = this.streamobject.gamename
+					oldstatus = this.streamobject.title
 				}
 				this.streamobject = {}
 				this.channelobject = channel
