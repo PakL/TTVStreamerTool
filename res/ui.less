@@ -95,7 +95,8 @@
 	top: 65px;
 	left: 0;
 	width: 50%;
-	height: calc(100% - 110px);
+	bottom: 45px;
+	overflow-x: hidden;
 }
 #chat_users_column {
 	position: absolute;
@@ -104,14 +105,14 @@
 	left: 50%;
 	background: lighten(@globalBackground, 5%);
 	width: 20%;
-	height: calc(100% - 65px);
+	bottom: 0;
 }
 #cockpit_action_stream {
 	position: absolute;
 	top: 65px;
 	left: 70%;
 	width: 30%;
-	height: calc(100% - 65px);
+	bottom: 0;
 }
 
 #chat_message_column {
@@ -154,4 +155,250 @@
 #chat_message_emotes_search {
 	box-sizing: border-box;
 	width: 100%;
+}
+
+#stream_video {
+	display: none;
+	position: absolute;
+	font-size: @globalFontSize - 2px;
+	background-color: @accentColor;
+	color: #ffffff;
+	top: 65px;
+	left: 0;
+	width: 50%;
+	height: 40px;
+	line-height: 40px;
+	text-indent: 10px;
+	cursor: pointer;
+}
+#stream_video > webview {
+	width: 100%;
+	height: 100%;
+}
+
+#content_cockpit.hideViewerList {
+	#chat_column {
+		width: 70%;
+	}
+	#chat_users_column {
+		display: none;
+	}
+	#chat_message_column {
+		width: 70%;
+	}
+	#chat_message_emotes {
+		left: calc(70% - 280px);
+	}
+	#stream_video {
+		width: 70%;
+	}
+}
+#content_cockpit.hideActionStream {
+	#chat_column {
+		width: 80%;
+	}
+	#chat_users_column {
+		left: 80%;
+	}
+	#cockpit_action_stream {
+		display: none;
+	}
+	#chat_message_column {
+		width: 80%;
+	}
+	#chat_message_emotes {
+		left: calc(80% - 280px);
+	}
+	#stream_video {
+		width: 80%;
+	}
+}
+#content_cockpit.hideViewerList.hideActionStream {
+	#chat_column {
+		width: 100%;
+	}
+	#cockpit_action_stream {
+		display: none;
+	}
+	#chat_users_column {
+		display: none;
+	}
+	#chat_message_column {
+		width: 100%;
+	}
+	#chat_message_emotes {
+		left: calc(100% - 280px);
+	}
+	#stream_video {
+		width: 100%;
+	}
+}
+
+#content_cockpit.online {
+	#chat_column {
+		top: 105px;
+	}
+	#stream_video {
+		display: block;
+	}
+}
+
+#content_cockpit.online.showPlayer {
+	#stream_video {
+		width: 50%;
+		top: 65px;
+		height: 50%;
+	}
+	#chat_column {
+		top: calc(50% + 65px);
+		width: 50%;
+		left: 0;
+	}
+	#chat_message_column {
+		width: 50%;
+		left: 0;
+	}
+	#chat_message_emotes {
+		left: calc(50% - 280px);
+	}
+	#chat_users_column {
+		width: 20%;
+		left: 50%;
+	}
+	#cockpit_action_stream {
+		width: 30%;
+		left: 70%;
+	}
+}
+#content_cockpit.online.showPlayer.hideViewerList, #content_cockpit.online.showPlayer.hideActionStream {
+	#stream_video {
+		width: 40%;
+		top: 65px;
+		height: auto;
+		bottom: 0;
+	}
+	#chat_column {
+		top: 65px;
+		width: 40%;
+		left: 40%;
+	}
+	#chat_message_column {
+		width: 40%;
+		left: 40%;
+	}
+	#chat_message_emotes {
+		left: calc(80% - 280px);
+	}
+}
+
+#content_cockpit.online.showPlayer.hideViewerList {
+	#cockpit_action_stream {
+		width: 20%;
+		left: 80%;
+	}
+}
+#content_cockpit.online.showPlayer.hideActionStream {
+	#chat_users_column {
+		width: 20%;
+		left: 80%;
+	}
+}
+#content_cockpit.online.showPlayer.hideViewerList.hideActionStream {
+	#stream_video {
+		width: 60%;
+		top: 65px;
+		height: auto;
+		bottom: 0;
+	}
+	#chat_column {
+		top: 65px;
+		width: 40%;
+		left: 60%;
+	}
+	#chat_message_column {
+		width: 40%;
+		left: 60%;
+	}
+	#chat_message_emotes {
+		left: calc(100% - 280px);
+	}
+}
+
+@media (min-width: 1100px) {
+	#content_cockpit.online.showPlayer.hideViewerList, #content_cockpit.online.showPlayer.hideActionStream {
+		#stream_video {
+			width: 50%;
+		}
+		#chat_column {
+			width: 30%;
+			left: 50%;
+		}
+		#chat_message_column {
+			width: 30%;
+			left: 50%;
+		}
+	}
+	#content_cockpit.online.showPlayer.hideViewerList.hideActionStream {
+		#stream_video {
+			width: 70%;
+		}
+		#chat_column {
+			width: 30%;
+			left: 70%;
+		}
+		#chat_message_column {
+			width: 30%;
+			left: 70%;
+		}
+	}
+}
+
+
+@media (min-width: 1500px) {
+	#content_cockpit.online.showPlayer.hideViewerList, #content_cockpit.online.showPlayer.hideActionStream {
+		#stream_video {
+			width: 70%;
+			top: 65px;
+			height: auto;
+			bottom: 0;
+		}
+		#chat_column {
+			top: 65px;
+			width: 20%;
+			left: 70%;
+		}
+		#chat_message_column {
+			width: 20%;
+			left: 70%;
+		}
+		#chat_message_emotes {
+			left: calc(90% - 280px);
+		}
+	}
+	#content_cockpit.online.showPlayer.hideViewerList {
+		#cockpit_action_stream {
+			width: 10%;
+			left: 90%;
+		}
+	}
+	#content_cockpit.online.showPlayer.hideActionStream {
+		#chat_users_column {
+			width: 10%;
+			left: 90%;
+		}
+	}
+
+	#content_cockpit.online.showPlayer.hideViewerList.hideActionStream {
+		#stream_video {
+			width: 80%;
+		}
+		#chat_column {
+			width: 20%;
+			left: 80%;
+		}
+		#chat_message_column {
+			width: 20%;
+			left: 80%;
+		}
+	}
 }

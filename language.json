@@ -388,5 +388,14 @@
 	},
 	"Incompatible version \"{{version}}\". Current TTVST version: {{packageversion}}": {
 		"de": "Inkompatibele Version \"{{version}}\". Aktuelle TTVST-Version: {{packageversion}}"
+	},
+	"Show action stream": {
+		"de": "Benachrichtigungsleiste anzeigen"
+	},
+	"Click here to display stream player": {
+		"de": "Hier klicken um Stream anzusehen"
+	},
+	"Unexpected response": {
+		"de": "Unerwartete Antwort"
 	}
 }

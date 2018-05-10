@@ -6,7 +6,7 @@
 			display: block;
 			height: 100%;
 			overflow: auto;
-			padding-bottom: 10px;
+			overflow-x: hidden;
 		}
 		chat > div {
 			display: table;

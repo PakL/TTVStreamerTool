@@ -52,7 +52,7 @@ else {
 				width: mainWindowState.width,
 				height: mainWindowState.height,
 				minWidth: 800,
-				minHeight: 450,
+				minHeight: 600,
 				autoHideMenuBar: true,
 				icon: 'res/icon.ico'
 			})
