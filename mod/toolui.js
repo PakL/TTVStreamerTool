@@ -228,7 +228,8 @@ class ToolUI {
 		this.loadingElement = document.createElement('modal')
 		this.loadingElement.innerHTML = '<img src="res/hourglass.gif" alt="" />'
 
-		document.getElementsByTagName('body')[0].appendChild(this.loadingElement)
+		document.querySelector('#contents').style.filter = 'blur(3px)'
+		document.querySelector('body').appendChild(this.loadingElement)
 		riot.mount(this.loadingElement)
 	}
 
@@ -237,6 +238,7 @@ class ToolUI {
 	 */
 	stopLoading() {
 		if(this.loadingElement == null) return
+		document.querySelector('#contents').style.filter = ''
 		this.loadingElement.parentElement.removeChild(this.loadingElement)
 		this.loadingElement = null
 	}

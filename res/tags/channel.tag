@@ -12,15 +12,28 @@
 			width: 100%;
 			height: auto;
 		}
+		channel > img.offline {
+			filter: grayscale(1);
+		}
 	</style>
 	<script>
 		const self = this
-		this.on('mount', () => {
-			//console.log(self.opts)
+		u() {
 			self.refs.logo.setAttribute('src', self.opts.chnl.profile_image_url)
 			self.refs.channelname.innerText = self.opts.chnl.display_name
+			if(self.opts.chnl.stream == null) {
+				self.refs.logo.classList.add('offline')
+			} else {
+				self.refs.logo.classList.remove('offline')
+			}
+		}
+		this.on('mount', () => {
+			self.u()
 		})
-		//this.root.style.backgroundImage = 'url('+self.opts.chnl.logo+')'
+		this.on('updated', () => {
+			self.u()
+		})
+		
 		this.root.onclick = function() {
 			Tool.ui.findPage('Cockpit').openChannel(self.opts.chnl.id)
 		}
