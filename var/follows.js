@@ -61,25 +61,43 @@ class Follows extends EventEmitter {
 		
 		let followers = null
 		try {
-			followers = await this.api.getChannelFollowers(this.cockpit.openChannelId, { direction: 'desc' })
+			let userFollows = await this.tool.twitchhelix.getUsersFollows('', this.cockpit.openChannelId)
+			if(userFollows != null && userFollows.hasOwnProperty('data')) {
+				self.followersCursor = userFollows.pagination.cursor
+				let followersIds = []
+				for(var i in userFollows.data) {
+					followersIds.push(userFollows.data[i].from_id)
+				}
+
+				followers = await this.tool.twitchhelix.getUsers({ id: followersIds })
+				if(followers != null && followers.hasOwnProperty('data')) {
+					for(let i = 0; i < followers.data.length; i++) {
+						for(var f in userFollows.data) {
+							if(userFollows.data[f].from_id == followers.data[i].id) {
+								followers.data[i].followed_at = userFollows.data[f].followed_at
+							}
+						}
+					}
+				}
+			}
 		} catch(err) {
 			if(err.hasOwnProperty('message')) err.message += '\n' + this.tool.i18n.__('Click here to dismiss this message')
 			this.tool.ui.showErrorMessage(err, true)
 		}
 
-		if(followers != null && followers.hasOwnProperty('follows')) {
-			let follows = followers.follows
-			follows.sort(function(a, b){ return new Date(a.created_at).getTime() - new Date(b.created_at).getTime() })
+		if(followers != null && followers.hasOwnProperty('data')) {
+			let follows = followers.data
+			follows.sort(function(a, b){ return new Date(a.followed_at).getTime() - new Date(b.followed_at).getTime() })
 			for(let i = 0; i < follows.length; i++) {
 				let f = follows[i]
-				if(new Date(f.created_at).getTime() > this.latestFollow) {
-					let dn = f.user.display_name
+				if(new Date(f.followed_at).getTime() > this.latestFollow) {
+					let dn = f.display_name
 					if(!this.tool.settings.showLocalizedNames && !dn.match(/^[a-z0-9_\-]+$/i))
-						dn = f.user.name
+						dn = f.login
 					let usr = {
-						user: f.user.name,
+						user: f.login,
 						name: dn,
-						color: this.tool.chat.userselement._tag.getUserColor(f.user.name)
+						color: this.tool.chat.userselement._tag.getUserColor(f.login)
 					}
 
 					/**
@@ -89,7 +107,7 @@ class Follows extends EventEmitter {
 					 * @param {Object} raw The raw follow object from the api
 					 */
 					this.emit('follow', usr, f)
-					this.latestFollow = new Date(f.created_at).getTime()
+					this.latestFollow = new Date(f.followed_at).getTime()
 				}
 			}
 		}
