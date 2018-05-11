@@ -33,7 +33,7 @@
 		this.on('updated', () => {
 			self.u()
 		})
-		
+
 		this.root.onclick = function() {
 			Tool.ui.findPage('Cockpit').openChannel(self.opts.chnl.id)
 		}

@@ -12,6 +12,23 @@
 			display: table;
 			width: 100%;
 		}
+
+		chat > div > .filtered {
+			display: table-row;
+			background: #777;
+			color: #000;
+		}
+		chat > div > .filtered > span {
+			display: table-cell;
+			padding: 3px 0;
+			padding-right: 5px;
+		}
+		chat > div > .filtered > span:first-child {
+			vertical-align: top;
+			padding-right: 5px;
+			width: 40px;
+			padding-left: 5px;
+		}
 	</style>
 	<script>
 		const self = this
@@ -26,6 +43,8 @@
 
 		this.messageDrop = null
 		this.nextAutoscroll = false
+
+		this.filteredMessages = {}
 		
 		this.on('mount', () => { self.messageDrop = self.root.querySelector('div') })
 
@@ -72,14 +91,90 @@
 			return false;
 		}
 
-		addmessage(message) {
+		unfilter(e) {
+			let el = e.target
+			while(!el.classList.contains('filtered')) {
+				el = el.parentNode
+				if(el.tagName.toUpperCase() == 'BODY') return
+			}
+			let ts = el.dataset.timestamp
+
+			for(let i = 0; i < self.filteredMessages[ts].length; i++) {
+				self.addmessage(self.filteredMessages[ts][i], true)
+			}
+			el.parentNode.removeChild(el)
+			delete self.filteredMessages[ts]
+		}
+
+		filter(message) {
+			if(typeof(self.filteredMessages[message.timestamp]) === 'undefined') {
+				self.filteredMessages[message.timestamp] = []
+			}
+
+			self.filteredMessages[message.timestamp].push(message)
+			window.requestAnimationFrame(() => {
+				let filterElement = self.root.querySelector('div.filtered#filter_' + message.timestamp.replace(/[^0-9a-z]/ig, ''))
+
+				let messageElement = document.createElement('span')
+				if(filterElement == null) {
+					let timestampElement = document.createElement('span')
+					timestampElement.innerText = message.timestamp
+
+					let filterElement = document.createElement('div')
+					filterElement.classList.add('filtered')
+					filterElement.setAttribute('id', 'filter_' + message.timestamp.replace(/[^0-9a-z]/ig, ''))
+					filterElement.dataset.timestamp = message.timestamp
+					filterElement.appendChild(timestampElement)
+					filterElement.appendChild(messageElement)
+					filterElement.onclick = self.unfilter
+
+					self.messageDrop.appendChild(filterElement)
+
+						
+					if(self.autoscroll) {
+						self.nowautoscrollring = true
+						self.root.scrollTop = self.root.scrollHeight
+					}
+				} else {
+					messageElement = filterElement.querySelectorAll('span')[1]
+				}
+				messageElement.innerText = Tool.i18n.__('{{message_count}} messages filtered', {message_count: self.filteredMessages[message.timestamp].length})
+			})
+		}
+
+		addmessage(message, ignorefilter) {
+			if(typeof(ignorefilter) !== 'boolean') ignorefilter = false
+
+			if(!ignorefilter) {
+				if(Tool.settings.filterEmoteSpam) {
+					if(message.message.trim().split(' ').length >= 3) {
+						let messageWOTags = message.message_html.replace(/(<([^>]+)>)/ig, '').replace(/( |\t)/g, '')
+						if(messageWOTags.length <= 0) {
+							self.filter(message)
+							return
+						}
+					}
+				}
+				if(Tool.settings.filterBotCommands) {
+					if(message.message.startsWith('!') || ['moobot'].indexOf(message.user) >= 0) {
+						self.filter(message)
+						return
+					}
+				}
+			}
+
 			window.requestAnimationFrame(() => {
 				let newMessageElement = document.createElement('message')
 				self.messageDrop.appendChild(newMessageElement)
 				riot.mount(newMessageElement, { msg: message });
 
 				while(self.messageDrop.childNodes.length > 500) {
-					self.messageDrop.removeChild(self.messageDrop.childNodes[0])
+					let el = self.messageDrop.childNodes[0]
+					if(el.classList.contains('filtered')) {
+						let ts = el.dataset.timestamp
+						delete self.filteredMessages[ts]
+					}
+					self.messageDrop.removeChild(el)
 				}
 
 				if(self.autoscroll) {

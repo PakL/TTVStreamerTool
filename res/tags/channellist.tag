@@ -32,13 +32,15 @@
 				self.refs.loadmore.onclick = () => {}
 				Tool.ui.findPage('Cockpit').loadMoreFollows()
 			}
-			if(self.channels.length % 10 > 0) {
-				self.refs.loadmore.style.display = 'none'
-			} else {
-				self.refs.loadmore.style.display = 'block'
-			}
 
 			refreshTileColors()
 		})
+
+		hideButton() {
+			self.refs.loadmore.style.display = 'none'
+		}
+		showButton() {
+			self.refs.loadmore.style.display = 'block'
+		}
 	</script>
 </channellist>

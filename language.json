@@ -400,5 +400,23 @@
 	},
 	"Close stream player": {
 		"de": "Stream schließen"
+	},
+	"{{message_count}} messages filtered": {
+		"de": "{{message_count}} Nachrichten gefiltert"
+	},
+	"Chat filter": {
+		"de": "Chatfilter"
+	},
+	"Filter emote spam": {
+		"de": "Emote-Spam filtern"
+	},
+	"This filters out any messages that are only emotes and contains at least 3 emotes.": {
+		"de": "Dieser Filter entfernt alle Nachrichten die nur aus Emotes besteht und aus mindestens 3 Emotes bestehen."
+	},
+	"Filter bot commands": {
+		"de": "Bot-Befehle filtern"
+	},
+	"This filters out any messages beginning with an exclamation mark (!) and messages by known bots (Moobot).": {
+		"de": "Dieser Filter entfernt alle Nachrichten die mit einem Ausrufezeichen (!) beginnen oder von einem bekannten Bot (Moobot) stammen."
 	}
 }
