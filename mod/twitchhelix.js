@@ -2,7 +2,6 @@ const request = require('request')
 
 /**
  * @class TwitchHelix
- * @ignore
  * @param {Object} options Options for the TwitchTv object
  * @param {String} [options.clientid] The client id of the twitch api app
  * @param {String} [options.redirecturi] The redirect uri of the twitch api app
