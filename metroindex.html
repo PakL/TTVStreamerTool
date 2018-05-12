@@ -57,7 +57,6 @@
 					<span class="icon-tag"></span>
 					<script type="application/javascript">document.write(`<input type="text" id="channel_game" placeholder="${Tool.i18n.__('Stream game')}">`)</script>
 					<span class="icon-gamepad"></span>
-					<autocomplete id="ac_channel_game"></autocomplete>
 				</div>
 				<div id="channel_viewers_column">
 					<viewerplotter id="channel_viewers"></viewerplotter>
@@ -70,7 +69,6 @@
 				
 				<div id="chat_message_column">
 					<div><script type="application/javascript">document.write(`<input type="text" id="chat_message" placeholder="${Tool.i18n.__('Write a message...')}">`)</script></div>
-					<autocomplete id="ac_message_usernames"></autocomplete>
 					<div id="chat_message_emotes">
 						<input type="search" id="chat_message_emotes_search">
 						<emoticons id="chat_message_emotes_emoticons"></emoticons>
@@ -209,6 +207,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 			<button id="highlightdialog_save" onclick="Tool.settings.saveNewHighlight()"><script type="application/javascript">document.write(Tool.i18n.__('Save'))</script></button>
 			<button id="highlightdialog_cancel" onclick="Tool.settings.cancelNewHighlight()"><script type="application/javascript">document.write(Tool.i18n.__('Cancel'))</script></button>
 		</modal>
+
+		<autocomplete id="ac_channel_game"></autocomplete>
+		<autocomplete id="ac_message_usernames"></autocomplete>
 
 		<script type="application/javascript" src="var/tags/raw.js"></script>
 		
