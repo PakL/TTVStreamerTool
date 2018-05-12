@@ -1,6 +1,7 @@
 <channel>
-	<img ref="logo" class="slideout" alt="" />
+	<canvas ref="logo" class="slideout"></canvas>
 	<a ref="channelname" class="channelname label slidein"></a>
+	<img ref="hiddenlogo">
 
 	<style>
 		channel {
@@ -9,24 +10,59 @@
 			background-size: cover;
 		}
 		channel > img {
-			width: 100%;
-			height: auto;
+			display: none;
 		}
-		channel > img.offline {
-			filter: grayscale(1);
+		channel > canvas {
+			width: 100px;
+			height: 100px;
+		}
+		channel.wide > canvas {
+			width: 206px;
 		}
 	</style>
 	<script>
 		const self = this
+		this.logoImage = null
+		this.thumbnailImage = null
 		u() {
-			self.refs.logo.setAttribute('src', self.opts.chnl.profile_image_url)
+			self.logoImage = new Image
+			self.logoImage.onload = () => { self.draw() }
+			self.logoImage.src = self.opts.chnl.profile_image_url
+
+			self.refs.hiddenlogo.setAttribute('src', self.opts.chnl.profile_image_url)
+
 			self.refs.channelname.innerText = self.opts.chnl.display_name
 			if(self.opts.chnl.stream == null) {
-				self.refs.logo.classList.add('offline')
+				self.root.classList.remove('wide')
+				self.refs.logo.width = '100'
+				self.refs.logo.height = '100'
 			} else {
-				self.refs.logo.classList.remove('offline')
+				self.root.classList.add('wide')
+				self.thumbnailImage = new Image
+				self.thumbnailImage.onload = () => { self.draw() }
+				self.thumbnailImage.src = self.opts.chnl.stream.thumbnail_url.replace('{width}', '206').replace('{height}', 116)
+				self.refs.logo.width = '206'
+				self.refs.logo.height = '100'
 			}
 		}
+
+		draw() {
+			window.requestAnimationFrame(() => {
+				let canvasContext = self.refs.logo.getContext('2d')
+				canvasContext.imageSmoothingEnabled = true
+				canvasContext.imageSmoothingQuality = 'high'
+				canvasContext.fillStyle = '#ffffff'
+				if(self.opts.chnl.stream == null) {
+					canvasContext.fillRect(0, 0, 100, 100)
+					canvasContext.drawImage(self.logoImage, 0, 0, 100, 100)
+				} else {
+					canvasContext.fillRect(0, 0, 206, 100)
+					canvasContext.drawImage(self.thumbnailImage, 0, 8, 206, 100, 0, 0, 206, 100)
+					canvasContext.drawImage(self.logoImage, 156, 50, 50, 50)
+				}
+			})
+		}
+
 		this.on('mount', () => {
 			self.u()
 		})
