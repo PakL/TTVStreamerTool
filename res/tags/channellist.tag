@@ -1,5 +1,7 @@
 <channellist>
-	<channel each={ chnl in channels } chnl={ chnl } class="metro-tile" />
+	<div>
+		<channel each={ chnl in channels } chnl={ chnl } class="metro-tile" />
+	</div>
 	<button ref="loadmore"></button>
 
 	<style>
@@ -7,6 +9,11 @@
 			display: block;
 			line-height: 0;
 			text-align: center;
+		}
+		channellist > div {
+			text-align: left;
+			margin: auto;
+			width: fit-content;
 		}
 		channellist > button {
 			display: block;
