@@ -196,8 +196,8 @@
 				self.update()
 		}
 		partusr(username) {
-			if(self.userDictonary.hasOwnProperty(user.user)) {
-				delete self.userDictonary[user.user]
+			if(self.userDictonary.hasOwnProperty(username)) {
+				delete self.userDictonary[username]
 			}
 			self.update()
 		}
