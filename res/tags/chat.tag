@@ -48,11 +48,6 @@
 		
 		this.on('mount', () => { self.messageDrop = self.root.querySelector('div') })
 
-		throttleupdate() {
-			if(!self.isupdating)
-				self.update()
-		}
-
 		this.root.addEventListener("scroll", () => {
 			if(self.nowautoscrollring) {
 				self.nowautoscrollring = false
@@ -74,6 +69,10 @@
 				self.scoll_to_bottom()
 			})
 		})
+		shouldUpdate() {
+			if(self.isupdating) return false
+			return true
+		}
 
 		scoll_to_bottom() {
 			window.requestAnimationFrame(() => {
@@ -156,7 +155,7 @@
 					}
 				}
 				if(Tool.settings.filterBotCommands) {
-					if(message.message.startsWith('!') || ['moobot'].indexOf(message.user) >= 0) {
+					if(message.message.startsWith('!') || ['moobot', 'streamelements'].indexOf(message.user) >= 0) {
 						self.filter(message)
 						return
 					}
