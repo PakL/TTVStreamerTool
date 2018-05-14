@@ -103,11 +103,15 @@
 					min = self.data[i].viewers
 				}
 			}
+			let highestHigh = 0
 			for(var i = 0; i < self.data.length; i++) {
 				self.data[i].height = (100 / (max-min) * (self.data[i].viewers-min))
+				if(self.data[i].height > highestHigh) highestHigh = self.data[i].height
 			}
-			if(self.data.length == 1) {
-				self.data[0].height = 100
+			if(highestHigh < 100) {
+				for(var i = 0; i < self.data.length; i++) {
+					self.data[i].height = 100
+				}
 			}
 			self.update()
 		}
