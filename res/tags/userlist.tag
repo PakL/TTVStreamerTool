@@ -150,7 +150,7 @@
 			for(let i in self.userDictonary) {
 				if(!self.userDictonary.hasOwnProperty(i)) continue
 				if(self.userDictonary[i].user.startsWith(snipp) || self.userDictonary[i].name.toLowerCase().startsWith(snipp)) {
-					users.push(self.userDictonary[i][i])
+					users.push(self.userDictonary[i])
 				}
 			}
 			return users
