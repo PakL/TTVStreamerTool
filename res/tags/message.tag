@@ -169,9 +169,11 @@
 				if(self.opts.msg.type != 5) {
 					links[i].style.color = self.opts.msg.color
 				}
-				links[i].onclick = function(e) {
-					e.preventDefault()
-					openLinkExternal(this.href)
+				if(typeof(links[i].onclick) !== 'function') {
+					links[i].onclick = function(e) {
+						e.preventDefault()
+						openLinkExternal(this.href)
+					}
 				}
 			}
 		}
