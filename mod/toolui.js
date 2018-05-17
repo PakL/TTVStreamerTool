@@ -9,6 +9,8 @@ const UIPage = require('./uipage')
 const Cockpit = require('../lib/cockpit')
 const Overlays = require('../lib/overlay')
 
+const selfWindow = remote.BrowserWindow.getAllWindows()[0]
+
 /**
  * This module helps control and manage the user interface. You can add
  * viewable pages, menus or display error messages.
@@ -90,6 +92,34 @@ class ToolUI {
 				close() { document.querySelector('#content_about').style.display = 'none' }
 			}('About'));
 		})
+
+		
+		selfWindow.on('enter-full-screen', () => {
+			document.querySelector('body').classList.add('fullscreen')
+		})
+		selfWindow.on('enter-html-full-screen', () => {
+			document.querySelector('body').classList.add('fullscreen')
+		})
+		selfWindow.on('leave-full-screen', () => {
+			document.querySelector('body').classList.remove('fullscreen')
+		})
+		selfWindow.on('leave-html-full-screen', () => {
+			document.querySelector('body').classList.remove('fullscreen')
+			selfWindow.setFullScreen(false)
+		})
+
+		window.onkeyup = (ev) => {
+			if(ev.which == 122) { // F11
+				selfWindow.setFullScreen(!selfWindow.isFullScreen())
+			} else if(ev.which == 27 && selfWindow.isFullScreen()) { // Esc
+				selfWindow.setFullScreen(false)
+			} else if(ev.which == 116) { // F5
+				let currPage = this.findPage(this.currentPage)
+				if(currPage !== null && typeof(currPage.refreshPage) === 'function') {
+					currPage.refreshPage()
+				}
+			}
+		}
 		
 	}
 
