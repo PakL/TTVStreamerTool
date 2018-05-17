@@ -97,9 +97,29 @@ class ToolUI {
 					document.querySelector('#nav-changelog').onclick = () => { self.openPage('Changelog') }
 				}
 				get showInViewsList() { return false }
-				open() { document.querySelector('#content_changelog').style.display = 'block' }
+				open() {
+					document.querySelector('#content_changelog').style.display = 'block'
+
+					let latestKnownVersion = self.tool.settings.getString('lastversion', '0.3.11')
+					if(latestKnownVersion != app.getVersion()) {
+						self.tool.settings.setString('lastversion', app.getVersion())
+						let changelogUpdateIndicator =  document.querySelector('#nav-changelog > span.update')
+						if(changelogUpdateIndicator != null) {
+							changelogUpdateIndicator.parentNode.removeChild(changelogUpdateIndicator)
+						}
+					}
+				}
 				close() { document.querySelector('#content_changelog').style.display = 'none' }
 			}('Changelog'));
+			let latestKnownVersion = self.tool.settings.getString('lastversion', '0.3.11')
+			if(latestKnownVersion != app.getVersion()) {
+				let changelogUpdateIndicator =  document.querySelector('#nav-changelog > span.update')
+				if(changelogUpdateIndicator == null) {
+					changelogUpdateIndicator = document.createElement('span')
+					changelogUpdateIndicator.classList.add('update')
+					document.querySelector('#nav-changelog').appendChild(changelogUpdateIndicator)
+				}
+			}
 		})
 
 		
