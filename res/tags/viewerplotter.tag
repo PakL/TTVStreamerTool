@@ -108,7 +108,7 @@
 				self.data[i].height = (100 / (max-min) * (self.data[i].viewers-min))
 				if(self.data[i].height > highestHigh) highestHigh = self.data[i].height
 			}
-			if(highestHigh < 100) {
+			if(highestHigh <= 0 || isNaN(highestHigh)) {
 				for(var i = 0; i < self.data.length; i++) {
 					self.data[i].height = 100
 				}
