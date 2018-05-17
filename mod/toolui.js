@@ -91,6 +91,15 @@ class ToolUI {
 				open() { document.querySelector('#content_about').style.display = 'block' }
 				close() { document.querySelector('#content_about').style.display = 'none' }
 			}('About'));
+			this.addPage(new class extends UIPage {
+				constructor(name) {
+					super(name)
+					document.querySelector('#nav-changelog').onclick = () => { self.openPage('Changelog') }
+				}
+				get showInViewsList() { return false }
+				open() { document.querySelector('#content_changelog').style.display = 'block' }
+				close() { document.querySelector('#content_changelog').style.display = 'none' }
+			}('Changelog'));
 		})
 
 		

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>TTVST Changelog</title>
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'">
+
+		<style type="text/css" id="metro-style"></style>
+		<script type="application/javascript">
+			const {remote} = require('electron')
+			const {systemPreferences} = remote
+			const fs = require('fs')
+			const less = require('less')
+			const path = require('path')
+		</script>
+		<script type="application/javascript" src="../res/metro.js"></script>
+	</head>
+	<body>
+		<p>This changelog will only be served in english.</p>
+		<h3>0.<span class="highlight">4</span>.0 <small><code class="tag">minor</code></small></h3>
+		<ul>
+			<li>Press F5 on follows page to refresh</li>
+			<li>Option to hide viewer amount</li>
+			<li>Made it less likely that the viewerplotter is not plotting right</li>
+			<li>Changing versioning policy to Major.Minor.Patch</li>
+		</ul>
+		<hr>
+		<h3>0.3.<span class="highlight">11</span> <small><code class="tag">patch</code></small></h3>
+		<ul>
+			<li>Stop tile grid to flow off the grid</li>
+			<li>Add streamelements as a known bot to filter out</li>
+			<li>Performance adjustments for the user list</li>
+			<li>Properly remove player when channel goes offline</li>
+			<li>Keep the @ when mentioning a user</li>
+			<li>Finally keeping the viewer-plotter from "floating"</li>
+			<li>You can now follow a host by clicking on the channel name</li>
+			<li>Fixing stream status and game update not working</li>
+		</ul>
+		<hr>
+		<h3>0.3.<span class="highlight">10</span> <small><code class="tag">patch</code></small></h3>
+		<ul>
+			<li>Autocomplete now works again with stream player active</li>
+			<li>Fullscreen now hides the sidebar and can be activated by pressing F11</li>
+		</ul>
+		<hr>
+		<h3>0.3.<span class="highlight">9</span> <small><code class="tag">patch</code></small></h3>
+		<ul>
+			<li>Helix hybrid mode: The new twitch api named Helix is now used where I was able to apply it. For anything else the old twitch api is used.</li>
+			<li>Offline follows will be grayscaled</li>
+			<li>Added an option to hide notification/action stream</li>
+			<li>You can now open a twitch stream player by clicking on the bar above the chat when channel is online</li>
+			<li>Two basic chat filters are now available to help you keep track of important stuff</li>
+		</ul>
+		<hr>
+		<h3>0.3.<span class="highlight">7</span> <small><code class="tag">patch</code></small></h3>
+		<ul>
+			<li>Updated electron to version 2.0.0</li>
+		</ul>
+		<p>
+			With the Electron 2.0.0 came a feature to hint to some possible security concerns. Complying to these some changes had to be made, making current addons incompatible. So I had to add a check to which version the addon is compatible and not load it if not. All official addons were have an update you can install to make them work again.
+		</p>
+	</body>
+</html>

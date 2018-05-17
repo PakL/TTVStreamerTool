@@ -1,33 +1,35 @@
-Tool.on('load', () => {
-	let menuCollapses = document.querySelectorAll('.menu-collapse')
-	menuCollapses.forEach((link) => {
-		link.onclick = () => {
-			link.parentElement.parentElement.parentElement.classList.toggle('collapsed')
-		}
-	})
-
-	let menus = document.querySelectorAll('.side-nav')
-	menus.forEach((menu) => {
-		let menulinks = menu.querySelectorAll('a')
-		menulinks.forEach((link) => {
-			if(typeof(link.dataset.submenu) == 'string') {
-				link.addEventListener('click', () => {
-					document.querySelector('#'+link.dataset.submenu).classList.toggle('open')
-				})
+if(typeof(Tool) !== 'undefined') {
+	Tool.on('load', () => {
+		let menuCollapses = document.querySelectorAll('.menu-collapse')
+		menuCollapses.forEach((link) => {
+			link.onclick = () => {
+				link.parentElement.parentElement.parentElement.classList.toggle('collapsed')
 			}
 		})
-	})
 
-	let submenus = document.querySelectorAll('.side-nav ul.submenu')
-	submenus.forEach((menu) => {
-		let menulinks = menu.querySelectorAll('a')
-		menulinks.forEach((link) => {
-			link.addEventListener('click', () => {
-				menu.classList.remove('open')
+		let menus = document.querySelectorAll('.side-nav')
+		menus.forEach((menu) => {
+			let menulinks = menu.querySelectorAll('a')
+			menulinks.forEach((link) => {
+				if(typeof(link.dataset.submenu) == 'string') {
+					link.addEventListener('click', () => {
+						document.querySelector('#'+link.dataset.submenu).classList.toggle('open')
+					})
+				}
+			})
+		})
+
+		let submenus = document.querySelectorAll('.side-nav ul.submenu')
+		submenus.forEach((menu) => {
+			let menulinks = menu.querySelectorAll('a')
+			menulinks.forEach((link) => {
+				link.addEventListener('click', () => {
+					menu.classList.remove('open')
+				})
 			})
 		})
 	})
-})
+}
 
 const refreshTileColors = () => {
 	let metroTiles = document.querySelectorAll('.metro-tile')
