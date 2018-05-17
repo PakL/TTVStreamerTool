@@ -418,5 +418,8 @@
 	},
 	"This filters out any messages beginning with an exclamation mark (!) and messages by known bots (Moobot, StreamElements).": {
 		"de": "Dieser Filter entfernt alle Nachrichten die mit einem Ausrufezeichen (!) beginnen oder von einem bekannten Bot (Moobot, StreamElements) stammen."
+	},
+	"Show amount of viewers": {
+		"de": "Zuschaueranzahl anzeigen"
 	}
 }
