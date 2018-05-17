@@ -256,7 +256,7 @@ class ToolUI {
 		if(this.loadingElement != null) return
 
 		this.loadingElement = document.createElement('modal')
-		this.loadingElement.innerHTML = '<img src="res/hourglass.gif" alt="" />'
+		this.loadingElement.innerHTML = '<img src="../res/hourglass.gif" alt="" />'
 
 		document.querySelector('#contents').style.filter = 'blur(3px)'
 		document.querySelector('body').appendChild(this.loadingElement)

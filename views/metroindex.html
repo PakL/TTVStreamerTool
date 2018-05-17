@@ -6,10 +6,10 @@
 		
 		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://*.jtvnw.net https://*.twitch.tv https://*.cloudfront.net; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'">
 
-		<link rel="stylesheet" type="text/css" href="res/icons/style.css">
+		<link rel="stylesheet" type="text/css" href="../res/icons/style.css">
 
-		<script type="application/javascript" src="node_modules/riot/riot.csp.js"></script>
-		<script type="application/javascript" src="lib/chathelper.js"></script>
+		<script type="application/javascript" src="../node_modules/riot/riot.csp.js"></script>
+		<script type="application/javascript" src="../lib/chathelper.js"></script>
 
 
 		<style type="text/css" id="metro-style"></style>
@@ -27,13 +27,13 @@
 				shell.openExternal(url)
 			}
 
-			const Tool = require('./mod/tool')
+			const Tool = require('../mod/tool')
 
 			if (typeof module === 'object') {window.module = module; module = undefined;}
 		</script>
 
-		<script type="application/javascript" src="res/color-thief.min.js"></script>
-		<script type="application/javascript" src="res/metro.js"></script>
+		<script type="application/javascript" src="../res/color-thief.min.js"></script>
+		<script type="application/javascript" src="../res/metro.js"></script>
 		<script type="application/javascript">if (window.module) module = window.module;</script>
 	</head>
 	<body>
@@ -84,43 +84,6 @@
 
 			<div id="content_overlays">
 				<settingsset id="overlay_hotkeys_set"></settingsset>
-
-				<!--<div style="padding:5px;">
-					<fieldset id="overlays_overlay_urls">
-						<legend><script type="application/javascript">document.write(Tool.i18n.__('Installed Overlays'))</script></legend>
-					</fieldset>
-					<fieldset>
-						<legend><script type="application/javascript">document.write(Tool.i18n.__('Overlay hotkeys'))</script></legend>
-
-						<overlayhotkeys id="overlay_hotkeys"></overlayhotkeys>
-					</fieldset>
-					<fieldset>
-						<legend><script type="application/javascript">document.write(Tool.i18n.__('Music Overlay'))</script></legend>
-						<label>
-							<script type="application/javascript">document.write(Tool.i18n.__('Youtube playlist id: (has to be public)'))</script>
-							<input type="text" id="overlay_music_playlistid">
-							<small><script type="application/javascript">document.write(Tool.i18n.__('Press Enter when finished to save'))</script></small>
-						</label>
-						<label>
-							<script type="application/javascript">document.write(Tool.i18n.__('Default volume'))</script>
-							<input type="range" id="overlay_music_volume" min="0" max="100" step="5">
-						</label>
-						<label>
-							<script type="application/javascript">document.write(Tool.i18n.__('Live volume control'))</script>
-							<input type="range" id="overlay_music_volume_control" min="0" max="100">
-						</label>
-						<label>
-							<script type="application/javascript">document.write(Tool.i18n.__('Overlay URL'))</script>
-							<input type="text" id="overlay_music_url" readonly>
-							<small><script type="application/javascript">document.write(Tool.i18n.__('Add #black to the end of the URL to get black text with white borders instead of white text with black borders.'))</script></small>
-						</label>
-						<label>
-							<script type="application/javascript">document.write(Tool.i18n.__('Overlay volume control URL'))</script>
-							<input type="text" id="overlay_music_volume_control_url" readonly>
-							<small><script type="application/javascript">document.write(Tool.i18n.__('This is a completely transparent overlay you can use in different OBS scenes to control the volume on scene changes. Change the number at the end to anything between 0 (mute) to 100 (way to loud).'))</script></small>
-						</label>
-					</fieldset>
-				</div>-->
 			</div>
 
 			<div id="content_settings"></div>
@@ -211,21 +174,21 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 		<autocomplete id="ac_channel_game"></autocomplete>
 		<autocomplete id="ac_message_usernames"></autocomplete>
 
-		<script type="application/javascript" src="var/tags/raw.js"></script>
+		<script type="application/javascript" src="../var/tags/raw.js"></script>
 		
-		<script type="application/javascript" src="var/tags/autocomplete.js"></script>
-		<script type="application/javascript" src="var/tags/message.js"></script>
-		<script type="application/javascript" src="var/tags/chat.js"></script>
-		<script type="application/javascript" src="var/tags/userlist.js"></script>
-		<script type="application/javascript" src="var/tags/actionstream.js"></script>
-		<script type="application/javascript" src="var/tags/viewerplotter.js"></script>
-		<script type="application/javascript" src="var/tags/modal.js"></script>
-		<script type="application/javascript" src="var/tags/channel.js"></script>
-		<script type="application/javascript" src="var/tags/channellist.js"></script>
-		<script type="application/javascript" src="var/tags/hotkey.js"></script>
-		<script type="application/javascript" src="var/tags/overlayhotkeys.js"></script>
-		<script type="application/javascript" src="var/tags/emoticons.js"></script>
-		<script type="application/javascript" src="var/tags/setting.js"></script>
-		<script type="application/javascript" src="var/tags/settingsset.js"></script>
+		<script type="application/javascript" src="../var/tags/autocomplete.js"></script>
+		<script type="application/javascript" src="../var/tags/message.js"></script>
+		<script type="application/javascript" src="../var/tags/chat.js"></script>
+		<script type="application/javascript" src="../var/tags/userlist.js"></script>
+		<script type="application/javascript" src="../var/tags/actionstream.js"></script>
+		<script type="application/javascript" src="../var/tags/viewerplotter.js"></script>
+		<script type="application/javascript" src="../var/tags/modal.js"></script>
+		<script type="application/javascript" src="../var/tags/channel.js"></script>
+		<script type="application/javascript" src="../var/tags/channellist.js"></script>
+		<script type="application/javascript" src="../var/tags/hotkey.js"></script>
+		<script type="application/javascript" src="../var/tags/overlayhotkeys.js"></script>
+		<script type="application/javascript" src="../var/tags/emoticons.js"></script>
+		<script type="application/javascript" src="../var/tags/setting.js"></script>
+		<script type="application/javascript" src="../var/tags/settingsset.js"></script>
 	</body>
 </html>

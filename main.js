@@ -20,27 +20,17 @@ if(require('electron-squirrel-startup')) app.quit();
 else {
 
 	function createWindow () {
-		/*win = new BrowserWindow({width: 800, height: 600})
-
-		//EAU.init({ 'api': 'https://vs.paklweb.de/ttvst/update.php' })
-
-		win.loadURL(url.format({
-			pathname: path.join(__dirname, 'index.html'),
-			protocol: 'file:',
-			slashes: true
-		}))*/
 		autoUpdater.on('update-available', () => {
 			doNotOpenMainWindow = true
 		})
 
 		splash = new BrowserWindow({width: 130, height: 145, frame: false, skipTaskbar: true, alwaysOnTop: true})
 		splash.loadURL(url.format({
-			pathname: path.join(__dirname, 'splash.html'),
+			pathname: path.join(__dirname, 'views', 'splash.html'),
 			protocol: 'file:',
 			slashes: true
 		}))
 
-		//win.webContents.openDevTools()
 		splash.on('close', () => {
 			if(doNotOpenMainWindow) return
 
@@ -57,7 +47,7 @@ else {
 				icon: 'res/icon.ico'
 			})
 			win.loadURL(url.format({
-				pathname: path.join(__dirname, 'metroindex.html'),
+				pathname: path.join(__dirname, 'views', 'metroindex.html'),
 				protocol: 'file:',
 				slashes: true
 			}))
