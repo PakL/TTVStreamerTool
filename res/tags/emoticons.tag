@@ -1,6 +1,6 @@
 <emoticons>
 	<div each={ e in emotes }>
-		<a each={ e }><span style="background-image:url(https://static-cdn.jtvnw.net/emoticons/v1/{ id }/1.0)" data-code={ code } title={ code }></a>
+		<a each={ e }><span style="background-image:url({ url })" data-code={ code } title={ code }></a>
 	</div>
 
 	<style>
@@ -43,9 +43,27 @@
 
 		setemotes(emotes) {
 			self.emotes = [];
-			for(i in emotes.emoticon_sets) {
-				if(emotes.emoticon_sets.hasOwnProperty(i))
-					self.emotes.unshift(emotes.emoticon_sets[i]);
+			if(emotes.hasOwnProperty('emoticon_sets')) {
+				for(let i in emotes.emoticon_sets) {
+					if(emotes.emoticon_sets.hasOwnProperty(i)) {
+						for(let j = 0; j < emotes.emoticon_sets[i].length; j++) {
+							emotes.emoticon_sets[i][j].url = 'https://static-cdn.jtvnw.net/emoticons/v1/' + emotes.emoticon_sets[i][j].id + '/1.0'
+						}
+						self.emotes.unshift(emotes.emoticon_sets[i]);
+					}
+				}
+			} else if(Array.isArray(emotes)) {
+				for(let i = 0; i < emotes.length; i++) {
+					if(Array.isArray(emotes[i])) {
+						let validEmotes = []
+						for(let j = 0; j < emotes[i].length; j++) {
+							if(emotes[i][j].hasOwnProperty('url') && emotes[i][j].hasOwnProperty('code')) {
+								validEmotes.push(emotes[i][j])
+							}
+						}
+						self.emotes.push(validEmotes)
+					}
+				}
 			}
 			self.update()
 		}
@@ -63,7 +81,7 @@
 
 		addemote(e) {
 			var code = e.target.dataset.code;
-			var raex = new RandExp(code.replace("\\&lt\\;", "<").replace("\\&gt\\;", ">")).gen();
+			var raex = new RandExp(code.replace("\\&lt\\;", "<").replace("\\&gt\\;", ">").replace('(', '\\(').replace(')', '\\)')).gen();
 			document.getElementById('chat_message').value += " " + raex;
 		}
 	</script>
