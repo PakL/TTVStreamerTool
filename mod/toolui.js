@@ -307,17 +307,19 @@ class ToolUI {
 	 * 
 	 * @param {Error} error The error you want to display. If an invalid error is given an unknown error message is shown.
 	 * @param {Boolean} [autohide=false]  If this is set to true the message is being hidden after 5 seconds. Defaults to false.
+	 * @param {Boolean} [showbutton=true]  If this is set to false the OK button is not displayed. Defaults to true.
 	 * @returns {HTMLElement}
 	 */
-	showErrorMessage(error, autohide) {
+	showErrorMessage(error, autohide, showbutton) {
 		if(typeof(autohide) != "boolean") autohide = false
+		if(typeof(showbutton) != "boolean") showbutton = true
 
 		this.stopLoading() // Stop loading
 		if(typeof(error) == 'string') error = new Error(error)
 		if(error == null || !error.hasOwnProperty('message')) error = new Error(this._tool.i18n.__('Unkown error'))
 		if(!autohide) console.error(error)
 		const modal = document.createElement('modal')
-		modal.innerHTML = error.message.replace('<', '&gt;').replace('>', '&lt;').replace('\n', '<br>') + '<div style="text-align:center;margin-top:10px;"><button>' + this._tool.i18n.__('OK') + '</button></div>'
+		modal.innerHTML = error.message.replace('<', '&gt;').replace('>', '&lt;').replace('\n', '<br>') + (showbutton ? '<div style="text-align:center;margin-top:10px;"><button>' + this._tool.i18n.__('OK') + '</button></div>' : '')
 		modal.onclick = function() {
 			this.parentElement.removeChild(this)
 		}
