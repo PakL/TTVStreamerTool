@@ -130,8 +130,9 @@ class TwitchHelix {
 	 * 
 	 * @param {String} uri The URI to the api endpoint. Only the path is required, the host api.twitch.tv is prepended when the uri does not start with https://
 	 * @param {Object} query An object with all request parameters. Is being encoded for the uri. Must be passed but can be empty.
-	 * @param {Boolean} authNeeded Is user authorization required for this request. Oauth token is then passed on the request.
+	 * @param {Boolean} [authNeeded=false] Is user authorization required for this request. Oauth token is then passed on the request.
 	 * @param {Object} [postdata={}] Optional post data. If there are properties in this object authNeeded is set to true and request method is set to put. Post data is serialized to a JSON string.
+	 * @param {Boolean} [noretry=false] If this is set to true the request will not be retried after a server error response
 	 * @returns {Promise} Returns a Promise that resolves with a single response object if the request is done
 	 * @example
 	 * twitchtv.requestAPI(
@@ -149,10 +150,11 @@ class TwitchHelix {
 	 *     // Do something with data
 	 * })
 	 */
-	requestAPI(uri, query, authNeeded, postdata) {
+	requestAPI(uri, query, authNeeded, postdata, noretry) {
 		const self = this
 		if(typeof(authNeeded) != 'boolean') authNeeded = false
 		if(typeof(query) != 'object' || query == null) query = {}
+		if(typeof(noretry) != 'boolean') noretry = false
 
 		if(typeof(postdata) !== 'object') {
 			postdata = {}
@@ -242,8 +244,21 @@ class TwitchHelix {
 				if(response.statusCode !== 200) {
 					if(response.statusCode == 429) {
 						self.ratelimitreset = parseInt(response.headers['ratelimit-reset']) * 1000
+					} else if(response.statusCode >= 500 && response.statusCode < 600) {
+						self.requestAPI(uri, {}, authNeeded, postdata, true).then((b) => {
+							resolve(b)
+						}).catch((er) => {
+							reject(er)
+						})
+						return
 					}
-					reject(new Error(body))
+					if(typeof(body) == 'object' && body.hasOwnProperty('message')) {
+						reject(new Error(body.message))
+					} else if(body == 'object') {
+						reject(new Error(JSON.stringify(body)))
+					} else {
+						reject(new Error(body))
+					}
 					return
 				}
 

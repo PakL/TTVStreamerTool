@@ -235,6 +235,8 @@ class TwitchTv {
 						}*/
 						if(typeof(data) === 'object' && data.hasOwnProperty('message')) {
 							reject(new Error('API error response: (' + response.statusCode + ') ' + data.message))
+						} else if(typeof(data) === 'object') {
+							reject(new Error(JSON.stringify(body)))
 						} else {
 							reject(new Error(body))
 						}
