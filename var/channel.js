@@ -78,7 +78,12 @@ class Channel extends EventEmitter {
 			this.tool.ui.showErrorMessage(err, true)
 		}
 
-		if(stream !== null && stream.hasOwnProperty('data') && stream.data.length > 0) {
+		if(stream == null) {
+			this.timer = setTimeout(() => { self.fetchData() }, (30000 - (new Date().getTime() % 30000)))
+			return
+		}
+
+		if(stream.hasOwnProperty('data') && stream.data.length > 0) {
 			let emitonline = !this.streamobject.hasOwnProperty('id')
 			let oldstatus = ''
 			let oldgame = ''
@@ -97,6 +102,7 @@ class Channel extends EventEmitter {
 			try {
 				game = await this.helix.getGames(this.streamobject.game_id)
 			} catch (err) {
+				this.streamobject.gamename = oldgame
 				console.error(err)
 			}
 			if(game !== null && game.hasOwnProperty('data') && game.data.length > 0) {
