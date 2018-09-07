@@ -72,6 +72,7 @@
 			#player {
 				position: absolute;
 				top: -600px;
+				left: 0;
 			}
 		</style>
 	</head>
@@ -81,7 +82,7 @@
 
 		<script type="application/javascript">
 			var tag = document.createElement('script');
-			var ready = false; var paused = true;
+			var ready = false; var paused = true; var reshuffled = false;
 
 			tag.src = "https://www.youtube.com/iframe_api";
 			var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -118,15 +119,20 @@
 			}
 
 			function onPlayerStateChange(event) {
-				var v = player.getVideoData();
-				document.getElementById("video_title").innerHTML = "Aktuell läuft: <b>" + v.title + "</b>";
-				resizeFont();
-				if(starting || event == YT.PlayerState.ENDED) {
+				if(starting && event.data < 0) {
+					player.setShuffle(true);
+					reshuffled = true;
+				}
+				if(reshuffled && event.data == YT.PlayerState.PLAYING) {
+					player.nextVideo();
+					reshuffled = false;
+				} else if (event.data == YT.PlayerState.PLAYING) {
+					var v = player.getVideoData();
+					document.getElementById("video_title").innerHTML = "Aktuell läuft: <b>" + v.title + "</b>";
+					resizeFont();
+				}
+				if(starting || event.data == YT.PlayerState.ENDED) {
 					starting = false;
-					setTimeout(function(){
-						player.setShuffle(1);
-						player.nextVideo();
-					}, 1000);
 				}
 			}
 
