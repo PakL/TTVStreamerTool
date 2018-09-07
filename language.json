@@ -421,5 +421,14 @@
 	},
 	"Show amount of viewers": {
 		"de": "Zuschaueranzahl anzeigen"
+	},
+	"Overlay skip track command": {
+		"de": "Track-Überspring-Befehl"
+	},
+	"Use this command in an hotkey to skip to the next track.": {
+		"de": "Benutze diesen Befehl in einem Hotkey um zum nächsten Song zu springen."
+	},
+	"Skip now": {
+		"de": "Jetzt überspringen"
 	}
 }
