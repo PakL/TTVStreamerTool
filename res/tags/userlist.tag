@@ -48,11 +48,18 @@
 			}
 		})
 
+		throttleUpdate() {
+			if(self.isupdating) return
+			self.isupdating = true
+			self.update()
+		}
+
 		shouldUpdate() {
-			if(self.isupdating) return false
 			if(self.lastLength != Object.keys(self.userDictonary).length) return true
 			let time = new Date().getTime()
 			if(self.lastSorting < (time-5000)) return true
+
+			self.isupdating = false
 			return false
 		}
 		this.on('update', () => {
@@ -193,7 +200,7 @@
 				self.userDictonary[user.user] = user
 			}
 			if(!noupdate && Tool.settings.showViewerList)
-				self.update()
+				self.throttleUpdate()
 		}
 		partusr(username) {
 			if(self.userDictonary.hasOwnProperty(username)) {
