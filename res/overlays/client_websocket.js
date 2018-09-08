@@ -24,6 +24,9 @@ WebsocketHelper.prototype.send = function(message) {
 WebsocketHelper.prototype.reconnect = function() {
 	var self = this;
 	this.connection = new WebSocket('ws://localhost:{__WS_PORT__}/');
+	this.connection.onopen = function() {
+		self.send('please_repeat');
+	}
 	this.connection.onmessage = function(e){self.onmsg(e);};
 	this.connection.onerror = function() {
 	}
