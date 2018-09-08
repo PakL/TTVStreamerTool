@@ -430,5 +430,20 @@
 	},
 	"Skip now": {
 		"de": "Jetzt überspringen"
+	},
+	"Countdown Overlay": {
+		"de": "Countdown Overlay"
+	},
+	"Overlay add time command": {
+		"de": "Zeit-Hinzufügen-Befehl"
+	},
+	"Overlay set time target command": {
+		"de": "Countdown-Zu-Zeitpunkt-Befehl"
+	},
+	"Use this command in an hotkey to add time the countdown overlay. You can add time in this format: ##h##m##s; ##h adds hours, ##m adds minutes, ##s adds seconds. Every part is optional. Example: timer_add=1h30m0s or timer_add=90m": {
+		"de": "Benutze diesen Befehl in einem Hotkey um Zeit zum Countdown hinzuzufügen. Du kannst Zeit in diesem Format hinzufügen:  ##h##m##s; ##h für Stunden, ##m für Minuten, ##s für Sekunden. Jeder Teil ist optional. Beispiel: timer_add=1h30m0s oder timer_add=90m"
+	},
+	"Use this command in an hotkey to let the countdown count down to a specific point in time. Format: YYYY-MM-DD hh:mm:ss; Hours must be in the 24 hour format, date and seconds are optional. If the given date is in the past nothing will happen. Example: timer_set=2018-09-08 13:00:00 or timer_set=15:00": {
+		"de": "Benutze diesen Befehl in einem Hotkey um den Countdown zu einem bestimmten Zeitpunkt laufen zu lassen. Format: JJJJ-MM-TT SS:mm:ss; Stunden müssen im 24-Stunden-Format sein, Datum und Sekunden sind optinal. Wenn das Datum in der Vergangenheit liegt passiert nichts. Beispiel: timer_set=2018-09-08 13:00:00 oder timer_set=15:00"
 	}
 }
