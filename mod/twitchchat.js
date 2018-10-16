@@ -110,7 +110,11 @@ class TwitchChat extends events.EventEmitter {
 			 */
 			self.emit('close', had_error)
 			if((had_error || !self.plannedclose) && self.options.auto_reconnect) {
-				self.socket.connect(self.options.port, self.options.host)
+				self.emit('notice', 'TTVStreamerTool', 'Connection to TMI was lost. Reconnection attempt in 3 seconds...', {})
+				// Wait 3 seconds before reconnecting to minimize looping CPU load
+				setTimeout(() => {
+					self.socket.connect(self.options.port, self.options.host)
+				}, 3000)
 			}
 		})
 		this.socket.on('data', function(data){
