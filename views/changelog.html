@@ -17,11 +17,18 @@
 	</head>
 	<body>
 		<p>This changelog will only be served in english.</p>
+		<h3>0.7.<span class="highlight">1</span> <small><code class="tag">patch</code></small></h3>
+		<ul>
+			<li>Allow for overlay clients from other locations to connect to websocket</li>
+			<li>Localization of reconnection message</li>
+			<li>IRC communication secured via TLS</li>
+		</ul>
 		<h3>0.<span class="highlight">7</span>.0 <small><code class="tag">minor</code></small></h3>
 		<ul>
 			<li>Electron version updated to 3.0.4 <ul><li>This means that the button for clip creation in the twitch player should work now</li></ul></li>
 			<li>Unexpected disconnects from TMI (Twitch Messaging Interface) are now being reconnected properly</li>
 		</ul>
+		<hr>
 		<h3>0.<span class="highlight">6</span>.0 <small><code class="tag">minor</code></small></h3>
 		<ul>
 			<li>Added a overlay command to skip a track in the music overlay</li>
@@ -29,17 +36,16 @@
 			<li>Music overlay volume control is now updating itself again</li>
 			<li>A completely new countdown overlay</li>
 		</ul>
+		<hr>
 		<h3>0.5.<span class="highlight">2</span> <small><code class="tag">patch</code></small></h3>
 		<ul>
 			<li>API call is retried on a server error</li>
 			<li>On an API error the channel is not considered offline but in the state of the last request</li>
 		</ul>
-		<hr>
 		<h3>0.5.<span class="highlight">1</span> <small><code class="tag">patch</code></small></h3>
 		<ul>
 			<li>Fixed the non-working login</li>
 		</ul>
-		<hr>
 		<h3>0.<span class="highlight">5</span>.0 <small><code class="tag">minor</code></small></h3>
 		<ul>
 			<li>Make it possible for addons to replace for example custom emotes in messages</li>
@@ -67,13 +73,11 @@
 			<li>You can now follow a host by clicking on the channel name</li>
 			<li>Fixing stream status and game update not working</li>
 		</ul>
-		<hr>
 		<h3>0.3.<span class="highlight">10</span> <small><code class="tag">patch</code></small></h3>
 		<ul>
 			<li>Autocomplete now works again with stream player active</li>
 			<li>Fullscreen now hides the sidebar and can be activated by pressing F11</li>
 		</ul>
-		<hr>
 		<h3>0.3.<span class="highlight">9</span> <small><code class="tag">patch</code></small></h3>
 		<ul>
 			<li>Helix hybrid mode: The new twitch api named Helix is now used where I was able to apply it. For anything else the old twitch api is used.</li>
@@ -82,7 +86,6 @@
 			<li>You can now open a twitch stream player by clicking on the bar above the chat when channel is online</li>
 			<li>Two basic chat filters are now available to help you keep track of important stuff</li>
 		</ul>
-		<hr>
 		<h3>0.3.<span class="highlight">7</span> <small><code class="tag">patch</code></small></h3>
 		<ul>
 			<li>Updated electron to version 2.0.0</li>

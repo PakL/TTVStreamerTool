@@ -1,4 +1,5 @@
 "use strict"
+const tls = require('tls')
 const net = require('net')
 const util = require('util')
 const events = require('events')
@@ -70,7 +71,7 @@ class TwitchChat extends events.EventEmitter {
 		 */
 		this.options = {
 			'host': 'irc.chat.twitch.tv',
-			'port': 6667,
+			'port': 6697,
 			'auto_reconnect': true
 		}
 		if(typeof(options) == 'object') {
@@ -83,7 +84,18 @@ class TwitchChat extends events.EventEmitter {
 		 * IRC connection
 		 * @member {net.Socket}
 		 */
-		this.socket = new net.Socket()
+		this.socket = null
+
+		this.namelists = {}
+
+		events.EventEmitter.call(this)
+	}
+
+	connect() {
+		const self = this
+
+		this.socket = tls.connect(this.options.port, this.options.host)
+
 		this.socket.setEncoding('utf8')
 		this.socket.on('connect', function(){
 			/**
@@ -110,10 +122,10 @@ class TwitchChat extends events.EventEmitter {
 			 */
 			self.emit('close', had_error)
 			if((had_error || !self.plannedclose) && self.options.auto_reconnect) {
-				self.emit('notice', 'TTVStreamerTool', 'Connection to TMI was lost. Reconnection attempt in 3 seconds...', {})
+				self.emit('reconnect')
 				// Wait 3 seconds before reconnecting to minimize looping CPU load
 				setTimeout(() => {
-					self.socket.connect(self.options.port, self.options.host)
+					self.connect()
 				}, 3000)
 			}
 		})
@@ -132,14 +144,6 @@ class TwitchChat extends events.EventEmitter {
 				self.slaughter(message)
 			}
 		})
-
-		this.namelists = {}
-
-		events.EventEmitter.call(this)
-	}
-
-	connect() {
-		this.socket.connect(this.options.port, this.options.host)
 	}
 	
 	disconnect() {
