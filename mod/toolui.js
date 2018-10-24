@@ -2,6 +2,7 @@
 
 const {remote} = require('electron')
 const {Menu, MenuItem, app} = remote
+const { substr } = require('stringz')
 
 const TTVTool = require('./tool')
 const UIPage = require('./uipage')
@@ -203,7 +204,7 @@ class ToolUI {
 					let linkElement = document.createElement('a')
 					let iconElement = document.createElement('span')
 
-					iconElement.innerText = page.localizedName.substr(0, 1).toUpperCase()
+					iconElement.innerText = substr(page.icon, 0, 1).toUpperCase()
 					linkElement.appendChild(iconElement)
 					linkElement.appendChild(document.createTextNode(page.localizedName))
 					linkElement.addEventListener('click', () => { self.openPage(page.name) })

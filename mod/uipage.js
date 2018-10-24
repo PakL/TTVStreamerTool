@@ -1,6 +1,7 @@
 "use strict"
 
 const EventEmitter = require('events')
+const { substr } = require('stringz')
 
 /**
  * If JavaScript had abstract classes this would have been one. This is just an extendable class for the UI.
@@ -35,6 +36,16 @@ class UIPage extends EventEmitter {
 	 */
 	get localizedName() {
 		return this._name
+	}
+
+	/**
+	 * A single character; use UTF-8 emojis or something
+	 * 
+	 * @member {String}
+	 * @readonly
+	 */
+	get icon() {
+		return substr(this.localizedName, 0, 1).toUpperCase()
 	}
 
 	/**
