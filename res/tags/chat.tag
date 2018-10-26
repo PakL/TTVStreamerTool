@@ -11,6 +11,9 @@
 		chat > div {
 			display: table;
 			width: 100%;
+			
+			user-select: text;
+			-webkit-user-select: text;
 		}
 
 		chat > div > .filtered {
