@@ -43,11 +43,13 @@
 				self.thumbnailImage.onload = () => { self.draw() }
 				self.thumbnailImage.src = self.opts.chnl.stream.thumbnail_url.replace('{width}', '206').replace('{height}', '116') + '?cache=' + (new Date().getTime())
 
-				self.gameImage = new Image
-				self.gameImage.onload = () => { self.draw() }
-				self.gameImage.src = self.opts.chnl.stream.game.box_art_url.replace('{width}', '38').replace('{height}', '50')
+				if(self.opts.chnl.stream.game.box_art_url.length > 0) {
+					self.gameImage = new Image
+					self.gameImage.onload = () => { self.draw() }
+					self.gameImage.src = self.opts.chnl.stream.game.box_art_url.replace('{width}', '38').replace('{height}', '50')
+				}
 
-				self.refs.channelname.innerHTML = self.opts.chnl.stream.title + '<br>' + self.opts.chnl.stream.game.name + '<br><b>' + self.opts.chnl.display_name + '</b>'
+				self.refs.channelname.innerHTML = self.opts.chnl.stream.title + '<br>' + (self.opts.chnl.stream.game.name.length > 0 ? self.opts.chnl.stream.game.name + '<br>' : '') + '<b>' + self.opts.chnl.display_name + '</b>'
 				self.refs.logo.width = '206'
 				self.refs.logo.height = '100'
 			}
@@ -66,7 +68,7 @@
 					canvasContext.fillRect(0, 0, 206, 100)
 					if(self.thumbnailImage.complete)
 						canvasContext.drawImage(self.thumbnailImage, 0, 8, 206, 100, 0, 0, 206, 100)
-					if(self.gameImage.complete)
+					if(self.gameImage !== null && self.gameImage.complete)
 						canvasContext.drawImage(self.gameImage, 0, 50, 38, 50)
 					if(self.logoImage.complete)
 						canvasContext.drawImage(self.logoImage, 156, 50, 50, 50)
