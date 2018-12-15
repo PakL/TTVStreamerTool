@@ -517,6 +517,22 @@ class TwitchChat extends events.EventEmitter {
 					this.emit('clearchat', channel, tags)
 				}
 				break
+			// CLEARMSG is sent if a moderator is deleting a single message
+			case (action == 'CLEARMSG'):
+				var args = attach.split(' :', 2)
+				var channel = args[0]
+				if(channel.substr(0, 1) == '#') channel = channel.substr(1)
+				var user = tags['login']
+				var msgId = tags['target-msg-id']
+				/**
+				 * Fires when messages of a specific message was deleted.
+				 * @event TwitchChat#clearmsg
+				 * @param {String} channel The channel the messages were deleted in
+				 * @param {String} user The user the messages were deleted from
+				 * @param {String} msgId The message UUID that is being deleted
+				 */
+				this.emit('clearmsg', channel, user, msgId)
+				break
 
 			// twitch.tv/tags
 			case (action == 'USERSTATE'):

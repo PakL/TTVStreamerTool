@@ -195,6 +195,15 @@
 			})
 		}
 
+		clearmessage(uuid) {
+			window.requestAnimationFrame(() => {
+				var messages = self.messageDrop.querySelectorAll('message')
+				for(var i = 0; i < messages.length; i++) {
+					messages[i]._tag.deleteifuuid(uuid)
+				}
+			})
+		}
+
 		clearmessages() {
 			self.messageDrop.innerHTML = ''
 			self.update()

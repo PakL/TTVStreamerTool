@@ -82,10 +82,13 @@
 	<script>
 		const self = this
 
+		this.uuid = opts.msg.id
 		this.timestamp = opts.msg.timestamp
 		this.user = opts.msg.user
 		this.nickname = opts.msg.nickname
 		this.message = opts.msg.message
+
+		this.deleted = false
 
 		this.on("mount", () => {
 			self.realformat()
@@ -111,13 +114,27 @@
 		})
 		this.on("updated", () => self.realformat() )
 
+		deletemessage() {
+			self.deleted = true
+			self.opts.msg.old_message = self.opts.msg.message_html
+			if(!Tool.settings.autoRecoverMessages) {
+				self.opts.msg.message_html = `&lt; ${Tool.i18n.__('Message was deleted')} &gt;`
+			}
+			self.realformat()
+		}
+
+		deleteifuuid(uuid) {
+			console.log(self.uuid)
+			if(self.uuid == uuid) {
+				self.deletemessage()
+				return true
+			}
+			return false
+		}
+
 		deleteifuser(username) {
 			if(username == self.opts.msg.user && !self.opts.msg.hasOwnProperty('old_message')) {
-				self.opts.msg.old_message = self.opts.msg.message_html
-				if(!Tool.settings.autoRecoverMessages) {
-					self.opts.msg.message_html = `&lt; ${Tool.i18n.__('Message was deleted')} &gt;`
-				}
-				self.realformat()
+				self.deletemessage()
 				return true
 			}
 			return false
@@ -125,7 +142,17 @@
 
 		realformat() {
 			self.refs.msg.innerHTML = self.opts.msg.message_html
-			self.refs.badges.innerHTML = self.opts.msg.badges_html
+			if(self.uuid.length > 0 && !self.deleted) {
+				self.refs.badges.innerHTML = '<a class="removemsg">🗑️</a> ' + self.opts.msg.badges_html
+				
+				self.refs.badges.querySelector('.removemsg').onclick = function(){
+					if(typeof(Tool.cockpit.openChannelObject.login) == 'string') {
+						Tool.chat.sendmsg(Tool.cockpit.openChannelObject.login, '/delete ' + self.uuid)
+					}
+				}
+			} else {
+				self.refs.badges.innerHTML = self.opts.msg.badges_html
+			}
 
 			if(self.opts.msg.type >= 20) {
 				self.root.classList.add('deleted')

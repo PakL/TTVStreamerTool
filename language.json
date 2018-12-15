@@ -448,5 +448,8 @@
 	},
 	"Connection to TMI was lost. Reconnection attempt in 3 seconds...": {
 		"de": "Verbindung zum TMI verloren. In 3 Sekunden wird ein neuer Verbindungsversuch versucht..."
+	},
+	"A message was deleted.": {
+		"de": "Eine Nachricht wurde gelöscht."
 	}
 }
