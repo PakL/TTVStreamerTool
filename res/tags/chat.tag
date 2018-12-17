@@ -158,7 +158,7 @@
 					}
 				}
 				if(Tool.settings.filterBotCommands) {
-					if(message.message.startsWith('!') || ['moobot', 'streamelements'].indexOf(message.user) >= 0) {
+					if(message.message.startsWith('!') || ['moobot', 'streamelements', 'nightbot'].indexOf(message.user) >= 0) {
 						self.filter(message)
 						return
 					}
@@ -198,8 +198,10 @@
 		clearmessage(uuid) {
 			window.requestAnimationFrame(() => {
 				var messages = self.messageDrop.querySelectorAll('message')
-				for(var i = 0; i < messages.length; i++) {
-					messages[i]._tag.deleteifuuid(uuid)
+				for(var i = messages.length-1; i >= 0; i--) {
+					if(messages[i]._tag.deleteifuuid(uuid)) {
+						break;
+					}
 				}
 			})
 		}

@@ -451,5 +451,8 @@
 	},
 	"A message was deleted.": {
 		"de": "Eine Nachricht wurde gelöscht."
+	},
+	"Delete message": {
+		"de": "Nachricht löschen"
 	}
 }

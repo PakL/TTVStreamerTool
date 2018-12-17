@@ -142,8 +142,8 @@
 
 		realformat() {
 			self.refs.msg.innerHTML = self.opts.msg.message_html
-			if(self.uuid.length > 0 && !self.deleted) {
-				self.refs.badges.innerHTML = '<a class="removemsg">🗑️</a> ' + self.opts.msg.badges_html
+			if(self.uuid.length > 0 && !self.deleted && !self.opts.msg.badges_html.match(/title="(Moderator|Broadcaster)"/) && Tool.cockpit.channelModerator) {
+				self.refs.badges.innerHTML = self.opts.msg.badges_html + ' <a class="removemsg" title="' + Tool.i18n.__('Delete message') + '">🗑️</a>'
 				
 				self.refs.badges.querySelector('.removemsg').onclick = function(){
 					if(typeof(Tool.cockpit.openChannelObject.login) == 'string') {
