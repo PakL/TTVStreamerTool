@@ -460,5 +460,17 @@
 	},
 	"This filters out subscription messages from chat. They will still be displayed in the action stream if not disabled below.": {
 		"de": "Dieser Filter versteckt alle Abonnement-Nachrichten aus dem Chat. Sie werden weiterhin in der Benachrichtigungsleiste angezeigt wenn nicht unten deaktiviert."
+	},
+	"Emotes only": {
+		"de": "Nur Emotes"
+	},
+	"Followers only": {
+		"de": "Nur Follower"
+	},
+	"Slow mode": {
+		"de": "Langsamer Modus"
+	},
+	"Subscribers only": {
+		"de": "Nur Abonnenten"
 	}
 }
