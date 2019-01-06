@@ -454,5 +454,11 @@
 	},
 	"Delete message": {
 		"de": "Nachricht löschen"
+	},
+	"Filter subscription messages": {
+		"de": "Abonnement-Nachrichten filtern"
+	},
+	"This filters out subscription messages from chat. They will still be displayed in the action stream if not disabled below.": {
+		"de": "Dieser Filter versteckt alle Abonnement-Nachrichten aus dem Chat. Sie werden weiterhin in der Benachrichtigungsleiste angezeigt wenn nicht unten deaktiviert."
 	}
 }
