@@ -149,12 +149,10 @@
 
 			if(!ignorefilter) {
 				if(Tool.settings.filterEmoteSpam) {
-					if(message.message.trim().split(' ').length >= 3) {
-						let messageWOTags = message.message_html.replace(/(<([^>]+)>)/ig, '').replace(/( |\t)/g, '')
-						if(messageWOTags.length <= 0) {
-							self.filter(message)
-							return
-						}
+					let messageWOTags = message.message_html.replace(/(<([^>]+)>)/ig, '').replace(/( |\t)/g, '')
+					if(messageWOTags.length <= 0) {
+						self.filter(message)
+						return
 					}
 				}
 				if(Tool.settings.filterBotCommands) {
