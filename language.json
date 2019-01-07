@@ -410,8 +410,8 @@
 	"Filter emote spam": {
 		"de": "Emote-Spam filtern"
 	},
-	"This filters out any messages that are only emotes and contains at least 3 emotes.": {
-		"de": "Dieser Filter entfernt alle Nachrichten die nur aus Emotes besteht und aus mindestens 3 Emotes bestehen."
+	"This filters out any messages that are only emotes.": {
+		"de": "Dieser Filter entfernt alle Nachrichten die nur aus Emotes besteht."
 	},
 	"Filter bot commands": {
 		"de": "Bot-Befehle filtern"
@@ -472,5 +472,11 @@
 	},
 	"Subscribers only": {
 		"de": "Nur Abonnenten"
+	},
+	"Show emote stream instead": {
+		"de": "Emote-Stream stattdessen anzeigen"
+	},
+	"Now that we have no emote spam you can display emotes in a single row stream below the chat to still get a feealing for the chat.": {
+		"de": "Da wir jetzt keinen Emote-Spam mehr haben, zeige die Emotes in einer Zeile unter dem Chat um weiterhin ein Gefühl für den Chat zu haben."
 	}
 }
