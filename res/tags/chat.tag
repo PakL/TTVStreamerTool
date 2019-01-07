@@ -44,7 +44,7 @@
 			}
 		}
 		chat > div.emote-stream {
-			display: block;
+			display: none;
 			padding-left: 5px;
 			padding-right: 5px;
 			height: 38px;
