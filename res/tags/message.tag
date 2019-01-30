@@ -115,6 +115,7 @@
 		this.on("updated", () => self.realformat() )
 
 		deletemessage() {
+			if(self.deleted) return
 			self.deleted = true
 			self.opts.msg.old_message = self.opts.msg.message_html
 			if(!Tool.settings.autoRecoverMessages) {
