@@ -478,5 +478,8 @@
 	},
 	"Now that we have no emote spam you can display emotes in a single row stream below the chat to still get a feealing for the chat.": {
 		"de": "Da wir jetzt keinen Emote-Spam mehr haben, zeige die Emotes in einer Zeile unter dem Chat um weiterhin ein Gefühl für den Chat zu haben."
+	},
+	"Moderation": {
+		"de": "Moderation"
 	}
 }

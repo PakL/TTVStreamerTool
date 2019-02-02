@@ -118,6 +118,10 @@
 				},
 				{ type: 'separator' },
 				{
+					label: Tool.i18n.__('Moderation'),
+					click() { if(Tool.cockpit.openChannelObject.hasOwnProperty('login')) { Tool.chat.sendmsg(Tool.cockpit.openChannelObject.login, '/user ' + username) } }
+				},
+				{
 					label: Tool.i18n.__('Ban'),
 					click() { if(Tool.cockpit.openChannelObject.hasOwnProperty('login')) { Tool.chat.sendmsg(Tool.cockpit.openChannelObject.login, '/ban ' + username) } }
 				},
