@@ -20,7 +20,7 @@ Download the Setup.exe of the latest release and execute it. The application wil
 
 ### Screenshot
 
-![Cockpit Screenshot](https://paklweb.de/TTVStreamerTool/ttvst_screen.gif)
+![Cockpit Screenshot](https://pakl.dev/TTVStreamerTool/ttvst_screen.gif)
 
 ### Report issues
 
