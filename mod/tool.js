@@ -36,6 +36,9 @@ class TTVTool extends EventEmitter {
 
 		this.setMaxListeners(50)
 
+
+		remote.BrowserWindow.getAllWindows()[0].removeAllListeners();
+
 		this._settings = new ToolSettings(this)
 		this._i18n = new i18n(this._settings.language, './../../language.json')
 		this._twitchapi = new TwitchTv({
