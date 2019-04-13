@@ -10,6 +10,7 @@
 
 		<script type="application/javascript" src="../node_modules/riot/riot.csp.js"></script>
 		<script type="application/javascript" src="../lib/chathelper.js"></script>
+		<script type="application/javascript" src="../lib/cockpit-resize-helper.js"></script>
 
 
 		<style type="text/css" id="metro-style"></style>
@@ -64,18 +65,25 @@
 				</div>
 
 				<div id="stream_video"></div>
-				<div id="chat_column"><chat id="channelchat"></chat></div>
+				<div id="chat_column">
+					<div id="chat_column_chat">
+						<chat id="channelchat"></chat>
+					</div>
+					<div id="chat_message_column">
+						<div><script type="application/javascript">document.write(`<input type="text" id="chat_message" placeholder="${Tool.i18n.__('Write a message...')}">`)</script></div>
+						<div id="chat_message_emotes">
+							<input type="search" id="chat_message_emotes_search">
+							<emoticons id="chat_message_emotes_emoticons"></emoticons>
+						</div>
+						<button id="chat_message_emotes_button"><img src="https://static-cdn.jtvnw.net/emoticons/v1/25/1.0" alt="🙂"></button>
+					</div>
+				</div>
 				<div id="chat_users_column"><userlist id="channeluser"></userlist></div>
 				<div id="cockpit_action_stream"><actionstream id="channelactions"></actionstream></div>
-				
-				<div id="chat_message_column">
-					<div><script type="application/javascript">document.write(`<input type="text" id="chat_message" placeholder="${Tool.i18n.__('Write a message...')}">`)</script></div>
-					<div id="chat_message_emotes">
-						<input type="search" id="chat_message_emotes_search">
-						<emoticons id="chat_message_emotes_emoticons"></emoticons>
-					</div>
-					<button id="chat_message_emotes_button"><img src="https://static-cdn.jtvnw.net/emoticons/v1/25/1.0" alt="🙂"></button>
-				</div>
+
+				<div id="cockpit_chat_resize" class="dragger"></div>
+				<div id="cockpit_viewers_resize" class="dragger"></div>
+				<div id="cockpit_action_resize" class="dragger"></div>
 			</div>
 
 			<div id="content_follows">
@@ -110,7 +118,7 @@
 				<table style="width:100%;height:100%;">
 					<tr>
 						<td style="text-align: center;vertical-align:middle;">
-							TTVStreamerTool was created by <a onclick="openLinkExternal('https://paklweb.de/')">Pascal Pohl</a><br>
+							TTVStreamerTool was created by <a onclick="openLinkExternal('https://pakl.dev/')">Pascal Pohl</a><br>
 							<small>You currently have version <code><script type="application/javascript">document.write(app.getVersion())</script></code> installed.</small>
 							<p>
 								Twitch and the Twitch logo are registered trademarks<br>
