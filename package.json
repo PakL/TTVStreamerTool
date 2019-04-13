@@ -6,7 +6,7 @@
 	"author": {
 		"email": "pakl@paklweb.de",
 		"name": "Pascal Pohl",
-		"url": "https://paklweb.de/"
+		"url": "https://pakl.dev/"
 	},
 	"scripts": {
 		"start": ".\\node_modules\\electron\\dist\\electron.exe .\\",
@@ -18,7 +18,7 @@
 		"electron-asar-updater": "1.1.3",
 		"electron-squirrel-startup": "1.0.0",
 		"electron-window-state": "5.0.3",
-		"follow-redirects": "1.6.1",
+		"follow-redirects": "1.7.0",
 		"i18n-nodejs": "3.0.0",
 		"nodejs-websocket": "1.7.2",
 		"randexp": "0.5.3",
@@ -30,10 +30,10 @@
 		"stringz": "1.0.0"
 	},
 	"devDependencies": {
-		"electron": "3.0.11",
-		"electron-rebuild": "1.8.2",
+		"electron": "4.1.4",
+		"electron-rebuild": "1.8.4",
 		"jsdoc": "3.5.5",
 		"tui-jsdoc-template": "1.2.2",
-		"electron-winstaller": "2.7.0"
+		"electron-winstaller": "3.0.4"
 	}
 }

@@ -24,7 +24,7 @@ else {
 			doNotOpenMainWindow = true
 		})
 
-		splash = new BrowserWindow({width: 130, height: 145, frame: false, skipTaskbar: true, alwaysOnTop: true})
+		splash = new BrowserWindow({width: 130, height: 145, frame: false, skipTaskbar: true, alwaysOnTop: true, webPreferences: { nodeIntegration: true }})
 		splash.loadURL(url.format({
 			pathname: path.join(__dirname, 'views', 'splash.html'),
 			protocol: 'file:',
