@@ -38,6 +38,11 @@
 			}
 		}
 
+		clear() {
+			self.settings = []
+			self.update()
+		}
+
 		addSetting(options) {
 			self.settings.push(options)
 			self.update()

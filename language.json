@@ -484,5 +484,14 @@
 	},
 	"Moderation": {
 		"de": "Moderation"
+	},
+	"Cockpit options": {
+		"de": "Cockpit-Einstellungen"
+	},
+	"Current channel": {
+		"de": "Aktuelle Kanal"
+	},
+	"Overwrite global settings with these": {
+		"de": "Globale Einstellungen mit diesen überschreiben"
 	}
 }
