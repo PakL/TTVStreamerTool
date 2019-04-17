@@ -493,5 +493,11 @@
 	},
 	"Overwrite global settings with these": {
 		"de": "Globale Einstellungen mit diesen überschreiben"
+	},
+	"Classic chat": {
+		"de": "Klassischer Chat"
+	},
+	"Instead of positioning messages below the username and aligning badges to the right, this mode will give you a more classic twitch look, with badges in front of usernames and messages direcly inline.": {
+		"de": "Statt die Nachrichten immer unter dem Namen zu positionieren wird dieser Modus dir einen klassischen Twitch-Look bieten; die Abzeichen vor den Benutzernamen und die Nachricht direkt dahinter."
 	}
 }

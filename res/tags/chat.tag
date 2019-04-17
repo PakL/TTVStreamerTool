@@ -63,6 +63,20 @@
 		chat > div.emote-stream img {
 			vertical-align: bottom;
 		}
+
+		chat.classic message .user {
+			display: inline;
+		}
+		chat.classic message .user .badges {
+			float: none;
+		}
+		chat.classic message .user .badges img {
+			vertical-align: bottom;
+		}
+		chat.classic message .user .nickname::after {
+			content: ': ';
+			user-select: all;
+		}
 	</style>
 	<script>
 		const self = this
