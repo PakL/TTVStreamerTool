@@ -1,10 +1,8 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Source: var/channel.js | TTVST</title>
+    <title>Class: ResizeDragger | TTVST</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -52,189 +50,1063 @@
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>"use strict"
+        <h2><span class="attribs"><span class="type-signature"></span></span>ResizeDragger<span class="signature">()</span><span class="type-signature"></span></h2>
+        
+    
+</header>
 
-const EventEmitter = require('events')
+<article>
+    
+        <div class="container-overview">
+        
+            
 
-/**
- * This module polls channel and stream data on a regular basis and emits events on changes
- * 
- * @class Channel
- * @extends {EventEmitter}
- * @param {TTVTool} tool
- * @fires {Channel#channelonline}
- * @fires {Channel#channeloffline}
- * @fires {Channel#gamechange}
- * @fires {Channel#statuschange}
- * @fires {Channel#viewers}
- */
-class Channel extends EventEmitter {
+<dt>
+    
+        <h4 class="name" id="ResizeDragger">
+            
+                new <span class="type-signature"></span>ResizeDragger<span class="signature">()</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="lib_cockpit-resize-helper.js.html">lib/cockpit-resize-helper.js</a></code>,
+                <code><a href="lib_cockpit-resize-helper.js.html#line1">line 1</a></code>
+            </div>
+            
+        </h4>
 
-	constructor(tool) {
-		super()
+        
+    
+</dt>
+<dd>
 
-		this.tool = tool
-		this.channelobject = {}
-		this.streamobject =  {}
-		this.timer = null
-		
-		const self = this
-		this.tool.cockpit.on('channelopen', () => {
-			self.fetchData()
-		})
-		this.tool.cockpit.on('channelleft', () => {
-			this.channelobject = {}
-			this.streamobject =  {}
-			clearTimeout(self.timer)
-		})
-	}
+    
+    <div class="description">
+        This is a helper class that manages the resize feature in the cockpit
+    </div>
+    
 
-	/**
-	 * Shortcut to the twitch api object
-	 * 
-	 * @readonly
-	 * @private
-	 */
-	get api() {
-		return this.tool.twitchapi
-	}
+    
 
-	get helix() {
-		return this.tool.twitchhelix
-	}
+    
 
-	/**
-	 * Shortcut to the cockpit
-	 * 
-	 * @readonly
-	 * @private
-	 */
-	get cockpit() {
-		return this.tool.cockpit
-	}
+    
 
-	/**
-	 * Fetches data every 30 seconds. Do not call this manually.
-	 * 
-	 * @async
-	 * @private
-	 */
-	async fetchData() {
-		const self = this
-		if(this.cockpit.openChannelId.length &lt;= 0) return
+    
 
-		let stream = null
-		let channel = null
-		try {
-			stream = await this.helix.getStreams({ user_id: this.cockpit.openChannelId })
-		} catch (err) {
-			if(err.hasOwnProperty('message')) err.message += '\n' + this.tool.i18n.__('Click here to dismiss this message')
-			this.tool.ui.showErrorMessage(err, true)
-		}
+    
 
-		if(stream == null) {
-			this.timer = setTimeout(() => { self.fetchData() }, (30000 - (new Date().getTime() % 30000)))
-			return
-		}
+    
 
-		if(stream.hasOwnProperty('data') &amp;&amp; stream.data.length > 0) {
-			let emitonline = !this.streamobject.hasOwnProperty('id')
-			let oldstatus = ''
-			let oldgame = ''
-			if(this.channelobject.hasOwnProperty('_id')) {
-				oldgame = this.channelobject.game
-				oldstatus = this.channelobject.status
-			} else if(this.streamobject.hasOwnProperty('id')) {
-				oldgame = this.streamobject.gamename
-				oldstatus = this.streamobject.title
-			}
-			this.streamobject = stream.data[0]
-			this.streamobject.gamename = ''
-			this.channelobject = {}
+    
 
-			let game = null
-			try {
-				game = await this.helix.getGames(this.streamobject.game_id)
-			} catch (err) {
-				this.streamobject.gamename = oldgame
-				console.error(err)
-			}
-			if(game !== null &amp;&amp; game.hasOwnProperty('data') &amp;&amp; game.data.length > 0) {
-				this.streamobject.gamename = game.data[0].name
-			}
+    
+
+    
+
+    
+
+    
 
 
-			/**
-			 * Fires when the channel goes online.
-			 * @event Channel#channelonline
-			 */
-			if(emitonline) this.emit('channelonline')
-			/**
-			 * Fires when the game of the channel changes
-			 * @event Channel#gamechange
-			 * @param {String} newgame The new game of the channel
-			 */
-			if(oldgame != this.streamobject.gamename) this.emit('gamechange', this.streamobject.gamename)
-			/** 
-			 * Fires when the channel status/title changes
-			 * @event Channel#statuschange
-			 * @param {String} newtitle The new title/status of the channel
-			 */
-			if(oldstatus != this.streamobject.title) this.emit('statuschange', this.streamobject.title)
-			/**
-			 * Fires on every data polling and brings you the current viewers count
-			 * @event Channel#viewers
-			 * @param {Number} viewers Number of current viewers
-			 */
-			this.emit('viewers', this.streamobject.viewer_count)
-		} else {
-			try {
-				channel = await this.api.getChannel(this.cockpit.openChannelId)
-			} catch(err) {
-				if(err.hasOwnProperty('message')) err.message += '\n' + this.tool.i18n.__('Click here to dismiss this message')
-				this.tool.ui.showErrorMessage(err, true)
-			}
+<dl class="details">
 
-			if(channel != null &amp;&amp; channel.hasOwnProperty('name')) {
-				let emitoffline = (this.streamobject.hasOwnProperty('_id') || !this.channelobject.hasOwnProperty('_id'))
-				let oldstatus = ''
-				let oldgame = ''
-				if(this.channelobject.hasOwnProperty('_id')) {
-					oldgame = this.channelobject.game
-					oldstatus = this.channelobject.status
-				} else if(this.streamobject.hasOwnProperty('id')) {
-					oldgame = this.streamobject.gamename
-					oldstatus = this.streamobject.title
-				}
-				this.streamobject = {}
-				this.channelobject = channel
+    
 
-				/**
-				 * Fires when the channel goes offline.
-				 * @event Channel#channeloffline
-				 */
-				if(emitoffline) this.emit('channeloffline')
-				if(oldgame != this.channelobject.game) this.emit('gamechange', this.channelobject.game)
-				if(oldstatus != this.channelobject.status) this.emit('statuschange', this.channelobject.status)
-				this.emit('viewers', 0)
-			} else {
-				let err =  this.tool.i18n.__('Unexpected response') + '\n' + this.tool.i18n.__('Click here to dismiss this message')
-				this.tool.ui.showErrorMessage(err, true)
-			}
-		}
+    
 
-		this.timer = setTimeout(() => { self.fetchData() }, (30000 - (new Date().getTime() % 30000)))
-	}
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
-}
+    
 
-module.exports = Channel</code></pre>
-        </article>
-    </section>
+</dd>
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+                
+
+<dt>
+    
+        <h4 class="name" id=".getVarNameFor">
+            
+                <span class="type-signature"><span class="icon green">static</span> </span>getVarNameFor<span class="signature">(element, property)</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="lib_cockpit-resize-helper.js.html">lib/cockpit-resize-helper.js</a></code>,
+                <code><a href="lib_cockpit-resize-helper.js.html#line89">line 89</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLElement</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>property</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="toPercent">
+            
+                <span class="type-signature"></span>toPercent<span class="signature">(value, height<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="lib_cockpit-resize-helper.js.html">lib/cockpit-resize-helper.js</a></code>,
+                <code><a href="lib_cockpit-resize-helper.js.html#line222">line 222</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>height</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>ResizeDragger<span class="signature">(mainContainer, dragger, resizeElement, spaceMaker)</span><span class="type-signature"></span></h2>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+<dt>
+    
+        <h4 class="name" id="ResizeDragger">
+            
+                new <span class="type-signature"></span>ResizeDragger<span class="signature">(mainContainer, dragger, resizeElement, spaceMaker)</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="lib_cockpit-resize-helper.js.html">lib/cockpit-resize-helper.js</a></code>,
+                <code><a href="lib_cockpit-resize-helper.js.html#line14">line 14</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>mainContainer</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLElement</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The main container that all elements are in and that the elements are sized to.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dragger</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLElement</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The element that is being dragged to define the new size.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>resizeElement</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLElement</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The element that is being resized.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>spaceMaker</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;HTMLElement></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Elements that must be resized to make space for the resizeElement.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+                
+
+<dt>
+    
+        <h4 class="name" id=".getVarNameFor">
+            
+                <span class="type-signature"><span class="icon green">static</span> </span>getVarNameFor<span class="signature">(element, property)</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="lib_cockpit-resize-helper.js.html">lib/cockpit-resize-helper.js</a></code>,
+                <code><a href="lib_cockpit-resize-helper.js.html#line89">line 89</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLElement</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>property</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="toPercent">
+            
+                <span class="type-signature"></span>toPercent<span class="signature">(value, height<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="lib_cockpit-resize-helper.js.html">lib/cockpit-resize-helper.js</a></code>,
+                <code><a href="lib_cockpit-resize-helper.js.html#line222">line 222</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>height</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
@@ -251,7 +1123,7 @@ module.exports = Channel</code></pre>
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = '_sub'.replace(/"/g, '_');
+        var id = 'ResizeDragger_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 
