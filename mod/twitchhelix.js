@@ -203,7 +203,7 @@ class TwitchHelix {
 			headers['Content-Type'] = 'application/json'
 		}
 
-		console.log(`Request for ${uri} started... authNeeded:${authNeeded}`)
+		console.log(`[API] Request for ${uri} started... authNeeded:${authNeeded}`)
 
 		let overridehost = 'api.twitch.tv'
 		if(uri.startsWith('https://')) {

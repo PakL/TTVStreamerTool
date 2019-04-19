@@ -499,5 +499,11 @@
 	},
 	"Instead of positioning messages below the username and aligning badges to the right, this mode will give you a more classic twitch look, with badges in front of usernames and messages direcly inline.": {
 		"de": "Statt die Nachrichten immer unter dem Namen zu positionieren wird dieser Modus dir einen klassischen Twitch-Look bieten; die Abzeichen vor den Benutzernamen und die Nachricht direkt dahinter."
+	},
+	"Debug logging enabled": {
+		"de": "Debug-Aufzeichnung aktivieren"
+	},
+	"Enabling will result in a higher memory usage. This is only for debugging purposes.": {
+		"de": "Diese Option zu aktivieren resultiert in erhöter Speichernutzung. Dies ist nur zur Fehlerbehebung notwenig."
 	}
 }

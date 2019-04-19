@@ -24,7 +24,7 @@ else {
 			doNotOpenMainWindow = true
 		})
 
-		splash = new BrowserWindow({width: 130, height: 145, frame: false, skipTaskbar: true, alwaysOnTop: true, webPreferences: { nodeIntegration: true }})
+		splash = new BrowserWindow({width: 130, height: 145, frame: false, skipTaskbar: true, alwaysOnTop: true, webPreferences: { nodeIntegration: true, webviewTag: false }})
 		splash.loadURL(url.format({
 			pathname: path.join(__dirname, 'views', 'splash.html'),
 			protocol: 'file:',
@@ -44,7 +44,8 @@ else {
 				minWidth: 800,
 				minHeight: 600,
 				autoHideMenuBar: true,
-				icon: 'res/icon.ico'
+				icon: 'res/icon.ico',
+				webPreferences: { nodeIntegration: true, webviewTag: true }
 			})
 			win.loadURL(url.format({
 				pathname: path.join(__dirname, 'views', 'metroindex.html'),
