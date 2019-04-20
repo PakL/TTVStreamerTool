@@ -374,8 +374,8 @@ class Addons extends UIPage {
 		tableBody.parentNode.appendChild(tfoot)
 	}
 
-	static get waitForExitSnippet() {
-		return '@echo off\r\n:LOOP\r\ntasklist | find /i "TTVStreamerTool" >nul 2>&amp;1\r\nIF ERRORLEVEL 1 (\r\nGOTO CONTINUE\r\n) ELSE (\r\ntimeout /T 1 /Nobreak >nul\r\nGOTO LOOP\)\r\n:CONTINUE\r\n'
+	static getRetryDeleteSnippet(file) {
+		return ':LOOP\r\ndel "' + file + '"\r\nIF EXIST "' + file + '" (\r\ntimeout /T 1 /Nobreak >nul\r\nGOTO LOOP\r\n)\r\n'
 	}
 
 	/**
@@ -390,7 +390,7 @@ class Addons extends UIPage {
 				let modal = this.tool.ui.showErrorMessage(new Error(this.tool.i18n.__('Uninstalling {{addon}} now... Program will restart.', {addon: addonname})), false, false)
 				modal.onclick = () => {}
 				setTimeout(() => {
-					fs.writeFileSync('deleteAddon.bat', Addons.waitForExitSnippet + 'del "' + this.package_infos[addonname].file.replace(/\//g, '\\') + '"\r\nstart "" "' + process.execPath + '"\r\nexit')
+					fs.writeFileSync('deleteAddon.bat', '@echo off\r\n' + Addons.getRetryDeleteSnippet(this.package_infos[addonname].file.replace(/\//g, '\\')) + '"\r\nstart "" "' + process.execPath + '"\r\nexit')
 					spawn('start', ['deleteAddon.bat'], {cwd: process.cwd(), env: process.env, shell: true, detached: true, windowsHide: false })
 					app.quit()
 				}, 5000);
@@ -453,7 +453,7 @@ class Addons extends UIPage {
 					fs.writeFileSync('resources/' + addonname + '.part', Buffer.alloc(0))
 					resp.on('data', (chunk) => { fs.appendFileSync('resources/' + addonname + '.part', chunk) })
 					resp.on('end', () => {
-						fs.writeFileSync('updateAddon.bat', Addons.waitForExitSnippet + 'del "' + this.package_infos[addonname].file.replace(/\//g, '\\') + '"\r\ncopy resources\\' + addonname + '.part resources\\' + addonname + '.asar\r\ndel resources\\' + addonname + '.part\r\nstart "" "' + process.execPath + '"\r\nexit')
+						fs.writeFileSync('updateAddon.bat', '@echo off\r\n' + Addons.getRetryDeleteSnippet(this.package_infos[addonname].file.replace(/\//g, '\\')) + '"\r\ncopy resources\\' + addonname + '.part resources\\' + addonname + '.asar\r\ndel resources\\' + addonname + '.part\r\nstart "" "' + process.execPath + '"\r\nexit')
 						spawn('start', ['updateAddon.bat'], {cwd: process.cwd(), env: process.env, shell: true, detached: true, windowsHide: false })
 						app.quit()
 					})
