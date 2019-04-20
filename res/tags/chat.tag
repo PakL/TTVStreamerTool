@@ -259,6 +259,10 @@
 				for(var i = 0; i < messages.length; i++) {
 					messages[i]._tag.deleteifuser(username)
 				}
+				if(self.autoscroll) {
+					self.nowautoscrollring = true
+					self.root.scrollTop = self.root.scrollHeight
+				}
 			})
 		}
 
@@ -269,6 +273,10 @@
 					if(messages[i]._tag.deleteifuuid(uuid)) {
 						break;
 					}
+				}
+				if(self.autoscroll) {
+					self.nowautoscrollring = true
+					self.root.scrollTop = self.root.scrollHeight
 				}
 			})
 		}
