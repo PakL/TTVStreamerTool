@@ -505,5 +505,8 @@
 	},
 	"Enabling will result in a higher memory usage. This is only for debugging purposes.": {
 		"de": "Diese Option zu aktivieren resultiert in erhöter Speichernutzung. Dies ist nur zur Fehlerbehebung notwenig."
+	},
+	"was playing {{game}} last": {
+		"de": "spielte zuletzt {{game}}"
 	}
 }
