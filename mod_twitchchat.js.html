@@ -1,0 +1,707 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: mod/twitchchat.js | TTVST</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/tui-doc.css">
+
+    
+</head>
+<body>
+<nav class="lnb" id="lnb">
+    <div class="logo" style="width: 0px; height: 0px">
+        
+            <img src="img/toast-ui.png" width="100%" height="100%">
+        
+    </div>
+    <div class="title">
+        <h1><a href="index.html" class="link">TTVST</a></h1>
+        
+    </div>
+    <div class="search-container" id="search-container">
+        <input type="text" placeholder="Search">
+        <ul></ul>
+    </div>
+    
+        <ol class="lnb-tab">
+            <li id="api-tab">
+                <a href="#"><h4>API</h4></a>
+            </li>
+            <li id="examples-tab">
+                <a href="#"><h4>Tutorials</h4></a>
+            </li>
+        </ol>
+    
+    <div class="lnb-examples hidden"><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Getting Started_sub"></div></li></ul></div><div class="lnb-api hidden"><h3>Classes</h3><ul><li><a href="Addons.html">Addons</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Addons_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Addons.html#menu">menu</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Addons.html#addonInstalled">addonInstalled</a></li><li><a href="Addons.html#findAndReplaceInMessage">findAndReplaceInMessage</a></li><li><a href="Addons.html#getAddon">getAddon</a></li><li><a href="Addons.html#getInstalledAddonDescription">getInstalledAddonDescription</a></li><li><a href="Addons.html#getInstalledAddonVersion">getInstalledAddonVersion</a></li></ul></div></li><li><a href="Channel.html">Channel</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Channel_sub"><div class="member-type">Events</div><ul class="inner"><li><a href="Channel.html#event:channeloffline">channeloffline</a></li><li><a href="Channel.html#event:channelonline">channelonline</a></li><li><a href="Channel.html#event:gamechange">gamechange</a></li><li><a href="Channel.html#event:statuschange">statuschange</a></li><li><a href="Channel.html#event:viewers">viewers</a></li></ul></div></li><li><a href="Chat.html">Chat</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Chat_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Chat.html#connected">connected</a></li><li><a href="Chat.html#irc">irc</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Chat.html#auth">auth</a></li><li><a href="Chat.html#disconnect">disconnect</a></li><li><a href="Chat.html#getUserObjByTags">getUserObjByTags</a></li><li><a href="Chat.html#join">join</a></li><li><a href="Chat.html#openViewercard">openViewercard</a></li><li><a href="Chat.html#part">part</a></li><li><a href="Chat.html#sendmsg">sendmsg</a></li><li><a href="Chat.html#showmsg">showmsg</a></li></ul><div class="member-type">Events</div><ul class="inner"><li><a href="Chat.html#event:autohostingyou">autohostingyou</a></li><li><a href="Chat.html#event:chatmessage">chatmessage</a></li><li><a href="Chat.html#event:cheer">cheer</a></li><li><a href="Chat.html#event:clearchat">clearchat</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:connected">connected</a></li><li><a href="Chat.html#event:hostingyou">hostingyou</a></li><li><a href="Chat.html#event:join">join</a></li><li><a href="Chat.html#event:names">names</a></li><li><a href="Chat.html#event:part">part</a></li><li><a href="Chat.html#event:roomstate">roomstate</a></li><li><a href="Chat.html#event:usernotice">usernotice</a></li><li><a href="Chat.html#event:userstate">userstate</a></li></ul><div class="member-type">Typedef</div><ul class="inner"><li><a href="Chat.html#~userObject">userObject</a></li></ul></div></li><li><a href="Cockpit.html">Cockpit</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Cockpit_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Cockpit.html#icon">icon</a></li><li><a href="Cockpit.html#isChannelOnline">isChannelOnline</a></li><li><a href="Cockpit.html#localizedName">localizedName</a></li><li><a href="Cockpit.html#name">name</a></li><li><a href="Cockpit.html#openChannelId">openChannelId</a></li><li><a href="Cockpit.html#openChannelObject">openChannelObject</a></li><li><a href="Cockpit.html#showInViewsList">showInViewsList</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Cockpit.html#close">close</a></li><li><a href="Cockpit.html#leaveChannel">leaveChannel</a></li><li><a href="Cockpit.html#loadMoreFollows">loadMoreFollows</a></li><li><a href="Cockpit.html#open">open</a></li><li><a href="Cockpit.html#openChannel">openChannel</a></li><li><a href="Cockpit.html#searchGame">searchGame</a></li></ul><div class="member-type">Events</div><ul class="inner"><li><a href="Cockpit.html#event:channelleft">channelleft</a></li><li><a href="Cockpit.html#event:channelopen">channelopen</a></li></ul></div></li><li><a href="Follows.html">Follows</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Follows_sub"><div class="member-type">Events</div><ul class="inner"><li><a href="Follows.html#event:follow">follow</a></li></ul><div class="member-type">Typedef</div><ul class="inner"><li><a href="Follows.html#~userObject">userObject</a></li></ul></div></li><li><a href="Overlays.html">Overlays</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Overlays_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Overlays.html#allowedFiles">allowedFiles</a></li><li><a href="Overlays.html#icon">icon</a></li><li><a href="Overlays.html#localizedName">localizedName</a></li><li><a href="Overlays.html#name">name</a></li><li><a href="Overlays.html#overlayport">overlayport</a></li><li><a href="Overlays.html#overlayserver">overlayserver</a></li><li><a href="Overlays.html#showInViewsList">showInViewsList</a></li><li><a href="Overlays.html#wsport">wsport</a></li><li><a href="Overlays.html#wsserver">wsserver</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Overlays.html#appendSetting">appendSetting</a></li><li><a href="Overlays.html#broadcastWsMessage">broadcastWsMessage</a></li><li><a href="Overlays.html#close">close</a></li><li><a href="Overlays.html#disableOverlayHotkeys">disableOverlayHotkeys</a></li><li><a href="Overlays.html#open">open</a></li></ul><div class="member-type">Events</div><ul class="inner"><li><a href="Overlays.html#event:hotkeys-unregistered">hotkeys-unregistered</a></li></ul></div></li><li><a href="ResizeDragger.html">ResizeDragger</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ResizeDragger_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="ResizeDragger.html#.getVarNameFor">getVarNameFor</a></li><li><a href="ResizeDragger.html#toPercent">toPercent</a></li></ul></div></li><li><a href="ToolSettings.html">ToolSettings</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ToolSettings_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ToolSettings.html#autoRecoverMessages">autoRecoverMessages</a></li><li><a href="ToolSettings.html#displayClassicChat">displayClassicChat</a></li><li><a href="ToolSettings.html#flashActions">flashActions</a></li><li><a href="ToolSettings.html#highlights">highlights</a></li><li><a href="ToolSettings.html#language">language</a></li><li><a href="ToolSettings.html#lightDesignMode">lightDesignMode</a></li><li><a href="ToolSettings.html#menu">menu</a></li><li><a href="ToolSettings.html#showActionStream">showActionStream</a></li><li><a href="ToolSettings.html#showBanAlert">showBanAlert</a></li><li><a href="ToolSettings.html#showCheerAlert">showCheerAlert</a></li><li><a href="ToolSettings.html#showFollowAlert">showFollowAlert</a></li><li><a href="ToolSettings.html#showHostAlert">showHostAlert</a></li><li><a href="ToolSettings.html#showLocalizedNames">showLocalizedNames</a></li><li><a href="ToolSettings.html#showRaidAlert">showRaidAlert</a></li><li><a href="ToolSettings.html#showSubscriptionAlert">showSubscriptionAlert</a></li><li><a href="ToolSettings.html#showTimeoutAlert">showTimeoutAlert</a></li><li><a href="ToolSettings.html#showViewerList">showViewerList</a></li><li><a href="ToolSettings.html#showViewersAmount">showViewersAmount</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="ToolSettings.html#addHighlight">addHighlight</a></li><li><a href="ToolSettings.html#appendSetting">appendSetting</a></li><li><a href="ToolSettings.html#getBoolean">getBoolean</a></li><li><a href="ToolSettings.html#getJSON">getJSON</a></li><li><a href="ToolSettings.html#getString">getString</a></li><li><a href="ToolSettings.html#remove">remove</a></li><li><a href="ToolSettings.html#setBoolean">setBoolean</a></li><li><a href="ToolSettings.html#setJSON">setJSON</a></li><li><a href="ToolSettings.html#setLanguage">setLanguage</a></li><li><a href="ToolSettings.html#setString">setString</a></li></ul></div></li><li><a href="ToolUI.html">ToolUI</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ToolUI_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ToolUI.html#currentPage">currentPage</a></li><li><a href="ToolUI.html#loadingElement">loadingElement</a></li><li><a href="ToolUI.html#pageBefore">pageBefore</a></li><li><a href="ToolUI.html#pages">pages</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="ToolUI.html#addMenu">addMenu</a></li><li><a href="ToolUI.html#addPage">addPage</a></li><li><a href="ToolUI.html#findPage">findPage</a></li><li><a href="ToolUI.html#getMenuItemById">getMenuItemById</a></li><li><a href="ToolUI.html#openPage">openPage</a></li><li><a href="ToolUI.html#showErrorMessage">showErrorMessage</a></li><li><a href="ToolUI.html#startLoading">startLoading</a></li><li><a href="ToolUI.html#stopLoading">stopLoading</a></li></ul></div></li><li><a href="TTVLogin.html">TTVLogin</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="TTVLogin_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="TTVLogin.html#menu">menu</a></li><li><a href="TTVLogin.html#userid">userid</a></li><li><a href="TTVLogin.html#username">username</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="TTVLogin.html#auth">auth</a></li></ul><div class="member-type">Events</div><ul class="inner"><li><a href="TTVLogin.html#event:complete">complete</a></li></ul></div></li><li><a href="TTVTool.html">TTVTool</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="TTVTool_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="TTVTool.html#addons">addons</a></li><li><a href="TTVTool.html#auth">auth</a></li><li><a href="TTVTool.html#channel">channel</a></li><li><a href="TTVTool.html#chat">chat</a></li><li><a href="TTVTool.html#cockpit">cockpit</a></li><li><a href="TTVTool.html#follows">follows</a></li><li><a href="TTVTool.html#i18n">i18n</a></li><li><a href="TTVTool.html#overlays">overlays</a></li><li><a href="TTVTool.html#settings">settings</a></li><li><a href="TTVTool.html#subscriptions">subscriptions</a></li><li><a href="TTVTool.html#twitchapi">twitchapi</a></li><li><a href="TTVTool.html#twitchhelix">twitchhelix</a></li><li><a href="TTVTool.html#ui">ui</a></li></ul><div class="member-type">Events</div><ul class="inner"><li><a href="TTVTool.html#event:exit">exit</a></li><li><a href="TTVTool.html#event:load">load</a></li></ul></div></li><li><a href="TwitchChat.html">TwitchChat</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="TwitchChat_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="TwitchChat.html#options">options</a></li><li><a href="TwitchChat.html#socket">socket</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="TwitchChat.html#join">join</a></li><li><a href="TwitchChat.html#part">part</a></li><li><a href="TwitchChat.html#say">say</a></li><li><a href="TwitchChat.html#sendCLRF">sendCLRF</a></li></ul><div class="member-type">Events</div><ul class="inner"><li><a href="TwitchChat.html#event:action">action</a></li><li><a href="TwitchChat.html#event:autohostingyou">autohostingyou</a></li><li><a href="TwitchChat.html#event:capack">capack</a></li><li><a href="TwitchChat.html#event:clearchat">clearchat</a></li><li><a href="TwitchChat.html#event:clearmsg">clearmsg</a></li><li><a href="TwitchChat.html#event:clearuser">clearuser</a></li><li><a href="TwitchChat.html#event:close">close</a></li><li><a href="TwitchChat.html#event:connect">connect</a></li><li><a href="TwitchChat.html#event:error">error</a></li><li><a href="TwitchChat.html#event:hostingyou">hostingyou</a></li><li><a href="TwitchChat.html#event:incoming">incoming</a></li><li><a href="TwitchChat.html#event:join">join</a></li><li><a href="TwitchChat.html#event:message">message</a></li><li><a href="TwitchChat.html#event:mode">mode</a></li><li><a href="TwitchChat.html#event:mode+">mode+</a></li><li><a href="TwitchChat.html#event:mode-">mode-</a></li><li><a href="TwitchChat.html#event:motd">motd</a></li><li><a href="TwitchChat.html#event:names">names</a></li><li><a href="TwitchChat.html#event:notice">notice</a></li><li><a href="TwitchChat.html#event:outgoing">outgoing</a></li><li><a href="TwitchChat.html#event:part">part</a></li><li><a href="TwitchChat.html#event:raw">raw</a></li><li><a href="TwitchChat.html#event:registered">registered</a></li><li><a href="TwitchChat.html#event:roomstate">roomstate</a></li><li><a href="TwitchChat.html#event:usernotice">usernotice</a></li><li><a href="TwitchChat.html#event:userstate">userstate</a></li><li><a href="TwitchChat.html#event:whisper">whisper</a></li></ul></div></li><li><a href="TwitchHelix.html">TwitchHelix</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="TwitchHelix_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="TwitchHelix.html#clientid">clientid</a></li><li><a href="TwitchHelix.html#redirecturi">redirecturi</a></li><li><a href="TwitchHelix.html#scope">scope</a></li><li><a href="TwitchHelix.html#userid">userid</a></li><li><a href="TwitchHelix.html#userobj">userobj</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="TwitchHelix.html#getAuthImplicitGrantFlowUrl">getAuthImplicitGrantFlowUrl</a></li><li><a href="TwitchHelix.html#getAuthToken">getAuthToken</a></li><li><a href="TwitchHelix.html#getGames">getGames</a></li><li><a href="TwitchHelix.html#getStreams">getStreams</a></li><li><a href="TwitchHelix.html#getUsers">getUsers</a></li><li><a href="TwitchHelix.html#getUsersFollows">getUsersFollows</a></li><li><a href="TwitchHelix.html#isLoggedIn">isLoggedIn</a></li><li><a href="TwitchHelix.html#requestAPI">requestAPI</a></li><li><a href="TwitchHelix.html#setAuthToken">setAuthToken</a></li><li><a href="TwitchHelix.html#verifyState">verifyState</a></li></ul></div></li><li><a href="TwitchTv.html">TwitchTv</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="TwitchTv_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="TwitchTv.html#channelid">channelid</a></li><li><a href="TwitchTv.html#channelobj">channelobj</a></li><li><a href="TwitchTv.html#clientid">clientid</a></li><li><a href="TwitchTv.html#redirecturi">redirecturi</a></li><li><a href="TwitchTv.html#scope">scope</a></li><li><a href="TwitchTv.html#userid">userid</a></li><li><a href="TwitchTv.html#userobj">userobj</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="TwitchTv.html#getAuthImplicitGrantFlowUrl">getAuthImplicitGrantFlowUrl</a></li><li><a href="TwitchTv.html#getAuthToken">getAuthToken</a></li><li><a href="TwitchTv.html#getChannel">getChannel</a></li><li><a href="TwitchTv.html#getChannelFollowers">getChannelFollowers</a></li><li><a href="TwitchTv.html#getChannelSubscribers">getChannelSubscribers</a></li><li><a href="TwitchTv.html#getChannelVideos">getChannelVideos</a></li><li><a href="TwitchTv.html#getChatBadgesByChannel">getChatBadgesByChannel</a></li><li><a href="TwitchTv.html#getChatBadgeSetsByChannel">getChatBadgeSetsByChannel</a></li><li><a href="TwitchTv.html#getChatEmoticonsBySet">getChatEmoticonsBySet</a></li><li><a href="TwitchTv.html#getCheermotes">getCheermotes</a></li><li><a href="TwitchTv.html#getCollectionsByChannel">getCollectionsByChannel</a></li><li><a href="TwitchTv.html#getStreamByUser">getStreamByUser</a></li><li><a href="TwitchTv.html#getTeam">getTeam</a></li><li><a href="TwitchTv.html#getUser">getUser</a></li><li><a href="TwitchTv.html#getUserByName">getUserByName</a></li><li><a href="TwitchTv.html#getUserFollows">getUserFollows</a></li><li><a href="TwitchTv.html#isLoggedIn">isLoggedIn</a></li><li><a href="TwitchTv.html#requestAPI">requestAPI</a></li><li><a href="TwitchTv.html#searchGames">searchGames</a></li><li><a href="TwitchTv.html#setAuthToken">setAuthToken</a></li><li><a href="TwitchTv.html#updateChannel">updateChannel</a></li><li><a href="TwitchTv.html#verifyState">verifyState</a></li></ul></div></li><li><a href="UIPage.html">UIPage</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="UIPage_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="UIPage.html#icon">icon</a></li><li><a href="UIPage.html#localizedName">localizedName</a></li><li><a href="UIPage.html#name">name</a></li><li><a href="UIPage.html#showInViewsList">showInViewsList</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="UIPage.html#close">close</a></li><li><a href="UIPage.html#open">open</a></li></ul></div></li></ul></div><div class="lnb-api hidden"><h3>Global</h3><ul><li><a href="global.html#cockpitAdjustFontSize">cockpitAdjustFontSize</a></li></ul></div>
+</nav>
+<div id="resizer"></div>
+
+<div class="main" id="main">
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict"
+const tls = require('tls')
+const net = require('net')
+const util = require('util')
+const events = require('events')
+
+/**
+ * This module connects to the twitch irc and parses messages
+ * 
+ * @class TwitchChat
+ * @extends {EventEmitter}
+ * @param {Object} [options] Optional connections options
+ * @fires TwitchChat#connect
+ * @fires TwitchChat#error
+ * @fires TwitchChat#close
+ * @fires TwitchChat#incoming
+ * @fires TwitchChat#raw
+ * @fires TwitchChat#registered
+ * @fires TwitchChat#motd
+ * @fires TwitchChat#hostingyou
+ * @fires TwitchChat#autohostingyou
+ * @fires TwitchChat#action
+ * @fires TwitchChat#message
+ * @fires TwitchChat#whisper
+ * @fires TwitchChat#capack
+ * @fires TwitchChat#names
+ * @fires TwitchChat#join
+ * @fires TwitchChat#part
+ * @fires TwitchChat#mode+
+ * @fires TwitchChat#mode-
+ * @fires TwitchChat#mode
+ * @fires TwitchChat#notice
+ * @fires TwitchChat#usernotice
+ * @fires TwitchChat#clearuser
+ * @fires TwitchChat#clearchat
+ * @fires TwitchChat#userstate
+ * @fires TwitchChat#roomstate
+ * @fires TwitchChat#outgoing
+ */
+class TwitchChat extends events.EventEmitter {
+
+	constructor(options) {
+		super()
+		const self = this
+		/**
+		 * Buffers chunk until line break comes
+		 * @private
+		 * @member {String}
+		 */
+		this.buffer = ''
+		/**
+		 * String that contains a standard CRLF
+		 * @static
+		 * @private
+		 * @member {String}
+		 */
+		this.clrf = '\r\n'
+		/**
+		 * Is connection closing planned?
+		 * @private
+		 * @member {Boolean}
+		 */
+		this.plannedclose = false
+
+		/**
+		 * Connection options
+		 * @member {Object}
+		 * @property {String} host
+		 * @property {Number} port
+		 * @property {Boolean} auto_reconnect
+		 */
+		this.options = {
+			'host': 'irc.chat.twitch.tv',
+			'port': 6697,
+			'auto_reconnect': true
+		}
+		if(typeof(options) == 'object') {
+			for(var i in options) {
+				if(options.hasOwnProperty(i))
+					this.options[i] = options[i]
+			}
+		}
+		/**
+		 * IRC connection
+		 * @member {net.Socket}
+		 */
+		this.socket = null
+
+		this.namelists = {}
+
+		events.EventEmitter.call(this)
+	}
+
+	connect() {
+		const self = this
+
+		this.socket = tls.connect(this.options.port, this.options.host)
+
+		this.socket.setEncoding('utf8')
+		this.socket.on('connect', function(){
+			/**
+			 * Is fired when connection is established
+			 * @event TwitchChat#connect
+			 * @param {net.Socket}
+			 * @see {@link https://nodejs.org/api/net.html#net_class_net_socket}
+			 */
+			self.emit('connect', self.socket)
+		})
+		this.socket.on('error', function(e){
+			/**
+			 * Is fired on any connection error
+			 * @event TwitchChat#error
+			 * @param {Error}
+			 */
+			self.emit('error', e)
+		})
+		this.socket.on('close', function(had_error){
+			/**
+			 * Fired when connection is closing
+			 * @event TwitchChat#close
+			 * @param {Boolean} had_error Did the socket close because of an error?
+			 */
+			self.emit('close', had_error)
+			if((had_error || !self.plannedclose) &amp;&amp; self.options.auto_reconnect) {
+				self.emit('reconnect')
+				// Wait 3 seconds before reconnecting to minimize looping CPU load
+				setTimeout(() => {
+					self.connect()
+				}, 3000)
+			}
+		})
+		this.socket.on('data', function(data){
+			self.buffer += data
+			while(self.buffer.indexOf(self.clrf) >= 0) {
+				var i = self.buffer.indexOf(self.clrf)
+				var message = self.buffer.substring(0, i)
+				self.buffer = self.buffer.substring(i + self.clrf.length)
+				/**
+				 * Is fired on any CRLF that is send
+				 * @event TwitchChat#incoming
+				 * @param {String} message Undoctored message as it came in (without the CRLF)
+				 */
+				self.emit("incoming", message)
+				self.slaughter(message)
+			}
+		})
+	}
+	
+	disconnect() {
+		if(typeof(this.socket) != "undefined") {
+			this.plannedclose = true
+			this.socket.end()
+		}
+	}
+	auth(username, oauthkey) {
+		var self = this
+		this.once('motd', () => { self.capreq() })
+		this.sendCLRF('PASS oauth:' + oauthkey)
+		this.sendCLRF('NICK ' + username)
+	}
+	capreq() {
+		this.capMembership = false
+		this.capCommands = false
+		this.capTags = false
+		this.sendCLRF('CAP REQ :twitch.tv/membership')
+		this.sendCLRF('CAP REQ :twitch.tv/commands')
+		this.sendCLRF('CAP REQ :twitch.tv/tags')
+	}
+	slaughter(msg) {
+		var p = msg.substr(0, 1)
+		var tags = ''
+		var prefix = {'user': '', 'host': ''}
+		// Message has IRCv3 tags
+		if(p == '@') {
+			tags = msg.substring(1, msg.indexOf(' ', 1))
+			msg = msg.substr(msg.indexOf(' ', 1)+1)
+			p = msg.substr(0, 1)
+		}
+		// Actual message
+		if(p == ':') {
+			prefix = msg.substring(1, msg.indexOf(' ', 1))
+			var matches = prefix.match(/^((.*?)!(.*?)@)?(.*?)$/)
+			if(typeof(matches[3]) != 'string')
+				matches[3] = ''
+			prefix = {'user': matches[3], 'host': matches[4] }
+			msg = msg.substr(msg.indexOf(' ', 1)+1)
+		}
+		var action = msg.substring(0, msg.indexOf(' ', 1));
+		var attach = msg.substr(msg.indexOf(' ')+1);
+
+		/**
+		 * A more splitted message than {@link TwitchChat#incoming}
+		 * @event TwitchChat#raw
+		 * @param {String} tags String of the tags
+		 * @param {Object} prefix String of the prefix
+		 * @param {String} prefix.user Username in the prefix
+		 * @param {String} prefix.host Host in the prefix
+		 * @param {String} action IRC action code
+		 * @param {String} attach Everything after the IRC action
+		 */
+		this.emit('raw', tags, prefix, action, attach);
+
+		var tags = tags.split(';');
+		var ntags = {};
+		for(var i = 0; i &lt; tags.length; i++) {
+			var sp = tags[i].split('=', 2);
+			if(sp.length &lt; 2) continue;
+			var unescape = sp[1].replace(/\\(:|s|r|n|\\)/g, (match, m1) => { 
+				switch(m1) {
+					default: return m1
+					case ':': return ';'
+					case 's': return ' '
+					case 'r': return '\r'
+					case 'n': return '\n'
+				}
+			});
+			ntags[sp[0]] = unescape;
+		}
+		tags = ntags;
+
+		switch(true) {
+			// Send an automatic answer for a ping request
+			case (action == 'PING'):
+				this.sendCLRF('PONG ' + attach)
+				break
+			// Server answer code 004 is the last of the welcome message with a successful login
+			case (action == '004'):
+				/**
+				 * Fired when user was successfully logged in
+				 * @event TwitchChat#registered
+				 */
+				this.emit('registered')
+				break
+			// Server answer code 372 is part message of the day
+			case (action == '372'):
+				var params = attach.split(" :", 2)
+				this.motd += params[1].trim()
+				break
+			// Server answer code 376 is the last part of the message of the day
+			case (action == '376'):
+				/**
+				 * Fired when the message of the day was sent, usually directly after the welcom message
+				 * @event TwitchChat#motd
+				 * @param {String} motd Message of the day
+				 */
+				this.emit('motd', this.motd)
+				break
+			// Normal chat message are sent to you via PRIVMSG action
+			case (action == 'PRIVMSG'):
+				var params = attach.split(' :', 2)
+				if(params.length >= 2) {
+					// Determine if message is actually an action (/me)
+					var actionprefix = new RegExp('^ ?\x01ACTION ')
+					var to = params[0]
+					if(to.substr(0, 1) == '#') to = to.substr(1)
+					var msg = attach.substr(attach.indexOf(' :')+2)
+					if(prefix.user == 'jtv') {
+						if(msg.match(/is now hosting/)) {
+							var viewers = 0
+							var match = msg.match(/( )([0-9]+)(\.| |$)/)
+							if(match != null) {
+								viewers = parseInt(match[2])
+							}
+							/**
+							 * Fires when someone is hosting the channel. Only the channel owner will receive these.
+							 * @event TwitchChat#hostingyou
+							 * @param {String} channel Channel that the message was sent to
+							 * @param {String} user The user that hosts you
+							 * @param {Number} viewers How many viewers are being hosted
+							 * @param {String} message The system message
+							 * @param {Object} tags Tag object
+							 */
+							this.emit('hostingyou', to, msg.substr(0, msg.indexOf(' ')), viewers, msg, tags)
+						} else if(msg.match(/is now auto hosting/)) {
+							var viewers = 0
+							var match = msg.match(/( )([0-9]+)(\.| |$)/)
+							if(match != null) {
+								viewers = parseInt(match[2])
+							}
+							/**
+							 * Fires when someone is auto hosting the channel. Only the channel owner will receive these.
+							 * @event TwitchChat#autohostingyou
+							 * @param {String} channel Channel that the message was sent to
+							 * @param {String} user The user that hosts you
+							 * @param {Number} viewers How many viewers are being hosted
+							 * @param {String} message The system message
+							 * @param {Object} tags Tag object
+							 */
+							this.emit('autohostingyou', to, msg.substr(0, msg.indexOf(' ')), viewers, msg, tags)
+						}
+					} else {
+						if(msg.match(actionprefix)) {
+							msg = msg.replace(actionprefix, '').replace('\x01', '')
+							/**
+							 * Fires when a user sends an action message. It's exactly like a normal message but is usually display in the user name color.
+							 * @event TwitchChat#action
+							 * @param {Object} prefix Message prefix - there is usually nothing interesting here
+							 * @param {String} prefix.user Username in the prefix
+							 * @param {String} prefix.host Host in the prefix
+							 * @param {String} user Username that sent the message
+							 * @param {String} channel Channel that the message was sent to
+							 * @param {String} message The message that was sent
+							 * @param {Object} tags The message tags
+							 * @see {@link https://dev.twitch.tv/docs/v5/guides/irc/#twitch-irc-capability-tags}
+							 */
+							this.emit('action', prefix, prefix.user, to, msg, tags)
+						} else {
+							/**
+							 * Fires when a user sends an message
+							 * @event TwitchChat#message
+							 * @param {Object} prefix Message prefix - there is usually nothing interesting here
+							 * @param {String} prefix.user Username in the prefix
+							 * @param {String} prefix.host Host in the prefix
+							 * @param {String} user Username that sent the message
+							 * @param {String} channel Channel that the message was sent to
+							 * @param {String} message The message that was sent
+							 * @param {Object} tags The message tags
+							 * @see {@link https://dev.twitch.tv/docs/v5/guides/irc/#twitch-irc-capability-tags}
+							 */
+							this.emit('message', prefix, prefix.user, to, msg, tags)
+						}
+					}
+				}
+				break
+			// Whisper messages are sent via the WHISPER action
+			case (action == 'WHISPER'):
+				var params = attach.split(' :', 2)
+				if(params.length >= 2) {
+					var to = params[0]
+					var msg = attach.substr(attach.indexOf(' :')+2)
+					/**
+					 * Fires if a user whispers to the logged in user.
+					 * @event TwitchChat#whisper
+					 * @param {Object} prefix Message prefix - there is usually nothing interesting here
+					 * @param {String} prefix.user Username in the prefix
+					 * @param {String} prefix.host Host in the prefix
+					 * @param {String} user Username that sent the message
+					 * @param {String} message Message the user sent
+					 * @param {Object} tags The message tags
+					 */
+					this.emit('whisper', prefix, prefix.user, prefix.user, msg, tags)
+				}
+				break
+
+			// ACK answers for cap requests
+			case (action == 'CAP'):
+				if(attach == '* ACK :twitch.tv/membership')
+					this.capMembership = true
+				if(attach == '* ACK :twitch.tv/commands')
+					this.capCommands = true
+				if(attach == '* ACK :twitch.tv/tags')
+					this.capTags = true
+
+				if(this.capMembership &amp;&amp; this.capCommands &amp;&amp; this.capTags) {
+					/**
+					 * Fires when all capabilies were acknowledged
+					 * @event TwitchChat#capack
+					 */
+					this.emit('capack')
+				}
+				break
+
+			// Server answer code 353 is used for listing user in a channel
+			case (action == '353'):
+				var args = attach.split(' :')
+				if(args.length == 2) {
+					var a = args[0].split(' ')
+					var channel = a[2].substr(1)
+					if(!this.namelists.hasOwnProperty(channel) || typeof(this.namelists[channel]) == 'undefined')
+						this.namelists[channel] = []
+					var names = args[1].split(' ')
+					for(var i = 0; i &lt; names.length; i++) {
+						this.namelists[channel].push(names[i])
+					}
+				}
+				break
+			// Server answer code 366 is the end of user listing
+			case (action == '366'):
+				var args = attach.split(' ', 3)
+				if(args.length >= 2) {
+					var channel = args[1].substr(1)
+					if(!this.namelists.hasOwnProperty(channel) || typeof(this.namelists[channel]) == 'undefined')
+						this.namelists[channel] = []
+
+					/**
+					 * Fires when a channel name list were being sent
+					 * @event TwitchChat#names
+					 * @param {String} channel The channel the list is for
+					 * @param {Array&lt;String>} namelist An array of names of users in the channel
+					 */
+					this.emit('names', channel, this.namelists[channel])
+					this.namelists[channel] = undefined
+				}
+				break
+			// JOIN action is sent if a user joins a channel you're in
+			case (action == 'JOIN'):
+				if(attach.startsWith('#')) attach = attach.substr(1)
+				/**
+				 * Fires when someone joins a channel the user is in
+				 * @event TwitchChat#join
+				 * @param {String} user The user that joined
+				 * @param {String} channel The channel the user joined to
+				 */
+				this.emit('join', prefix.user, attach)
+				break
+			// PART action is sent if a user leaves a channel you're in
+			case (action == 'PART'):
+				if(attach.startsWith('#')) attach = attach.substr(1)
+				/**
+				 * Fires when someone leaves a channel the user is in.
+				 * @event TwitchChat#part
+				 * @param user The user that left the channel
+				 * @param channel The channel the user left from
+				 */
+				this.emit('part', prefix.user, attach)
+				break
+			// MODE action is sent if a users moderation rights are being changed
+			// This shouldn't be used. The tags are far more detailed
+			case (action == 'MODE'):
+				var args = attach.split(' ', 3)
+				if(args.length == 3) {
+					var channel = args[0]
+					if(channel.substr(0, 1) == '#') channel = channel.substr(1)
+					var mode = args[1]
+					var user = args[2]
+					if(mode.substr(0, 1) == '+')
+						/**
+						 * Fires when a user's mode was added
+						 * @event TwitchChat#mode+
+						 * @param {String} channel The channel the mode was changed in
+						 * @param {String} mode The mode that was added
+						 * @param {String} user The user that received the mode
+						 */
+						this.emit('mode+', channel, mode, user)
+					else
+						/**
+						 * Fires when a user's mode was removed
+						 * @event TwitchChat#mode-
+						 * @param {String} channel The channel the mode was changed in
+						 * @param {String} mode The mode that was removed
+						 * @param {String} user The user that the mode was revoked from
+						 */
+						this.emit('mode-', channel, mode, user)
+
+					
+					/**
+					 * Fires on every mode change
+					 * @event TwitchChat#mode
+					 * @param {String} channel The channel the mode was changed in
+					 * @param {String} mode The mode that was changed
+					 * @param {String} user The user that the mode was change of
+					 */
+					this.emit('mode', channel, mode, user)
+				}
+				break
+
+			// NOTICE actions are information about actions that aren't nessesary to see
+			case (action == 'NOTICE'):
+				var args = attach.split(' :', 2)
+				if(args.length == 2) {
+					var channel = args[0]
+					if(channel.substr(0, 1) == '#') channel = channel.substr(1)
+					var msg = args[1]
+					/**
+					 * Fires when the server sends a notice. These are general system messages.
+					 * @event TwitchChat#notice
+					 * @param {String} channel The channel the notice was sent in
+					 * @param {String} message The message that was sent
+					 * @param {String} tags Tags of the message
+					 */
+					this.emit("notice", channel, msg, tags)
+				}
+				break
+			// USERNOTICE sends subscriptions
+			case (action == 'USERNOTICE'):
+				channel = attach
+				if(channel.startsWith('#')) channel = channel.substr(1)
+				var messageIndex = attach.indexOf(' :')
+				var message = ''
+				if(messageIndex >= 0) {
+					message = attach.substr(messageIndex+2)
+					channel = attach.substr(0, messageIndex)
+					if(channel.startsWith('#')) channel = channel.substr(1)
+				}
+				/**
+				 * Fires when the server sends a usernotice. This is used for sending subscriptions.
+				 * @event TwitchChat#usernotice
+				 * @param {String} channel The channel the usernotice was sent to
+				 * @param {Object} tags The message tags
+				 * @param {String} message The message the user added to the sub share. Might be empty if no message was added.
+				 */
+				this.emit('usernotice', channel, tags, message)
+				break
+			// CLEARCHAT is sent if a moderator is clearing the chat or timeouted/banned a user
+			case (action == 'CLEARCHAT'):
+				if(attach.indexOf(' :') >= 0) {
+					var args = attach.split(' :', 2)
+					var channel = args[0]
+					if(channel.substr(0, 1) == '#') channel = channel.substr(1)
+					var user = args[1]
+					/**
+					 * Fires when messages of a specific user was deleted.
+					 * @event TwitchChat#clearuser
+					 * @param {String} channel The channel the messages were deleted in
+					 * @param {String} user The user the messages were deleted from
+					 * @param {String} tags The message tags
+					 */
+					this.emit('clearuser', channel, user, tags)
+				} else {
+					var channel = attach;
+					/**
+					 * Fires when the entire chat is being cleared
+					 * @event TwitchChat#clearchat
+					 * @param {String} channel The channel that is being cleared
+					 * @param {Object} tags The message tags
+					 */
+					this.emit('clearchat', channel, tags)
+				}
+				break
+			// CLEARMSG is sent if a moderator is deleting a single message
+			case (action == 'CLEARMSG'):
+				var args = attach.split(' :', 2)
+				var channel = args[0]
+				if(channel.substr(0, 1) == '#') channel = channel.substr(1)
+				var user = tags['login']
+				var msgId = tags['target-msg-id']
+				/**
+				 * Fires when messages of a specific message was deleted.
+				 * @event TwitchChat#clearmsg
+				 * @param {String} channel The channel the messages were deleted in
+				 * @param {String} user The user the messages were deleted from
+				 * @param {String} msgId The message UUID that is being deleted
+				 */
+				this.emit('clearmsg', channel, user, msgId)
+				break
+
+			// twitch.tv/tags
+			case (action == 'USERSTATE'):
+				var channel = attach
+				if(channel.substr(0, 1) == '#') channel = channel.substr(1)
+				/**
+				 * Fires when the server sends a userstate. This is send on every message the user sends and when he joins a channel.
+				 * @event TwitchChat#userstate
+				 * @param {String} channel The channel the tags are meant for
+				 * @param {Object} tags The user tags for the logged in user
+				 */
+				this.emit('userstate', channel, tags)
+				break
+			case (action == 'ROOMSTATE'):
+				var channel = attach
+				if(channel.substr(0, 1) == '#') channel = channel.substr(1)
+				/**
+				 * Fires when the server sends a roomstate. Usually when a user joins a channel to get the current sate the channel is in.
+				 * @event TwitchChat#roomstate
+				 * @param {String} channel The channel the tags are meant for
+				 * @param {Object} tags The channel tags
+				 */
+				this.emit('roomstate', channel, tags)
+				break
+		}
+	}
+
+	/**
+	 * Join a channel
+	 * 
+	 * @param {String} channel The channel that should be joined
+	 */
+	join(channel) {
+		if(channel.substr(0, 1) == '#') channel = channel.substr(1)
+		this.sendCLRF('JOIN #' + channel.toLowerCase())
+	}
+
+	/**
+	 * Leave a channel
+	 * 
+	 * @param {String} channel The channel that should be left
+	 * @param {Function} cb A callback that is called when the channel was left
+	 */
+	part(channel, cb) {
+		if(channel.substr(0, 1) == '#') channel = channel.substr(1)
+		this.sendCLRF('PART #' + channel.toLowerCase())
+		if(typeof(cb) == 'function') {
+			this.once('part', cb)
+		}
+	}
+
+	/**
+	 * Send a message to a channel
+	 * 
+	 * @param {String} dest The channel that the channel is sent to
+	 * @param {String} msg The message that is being sent
+	 */
+	say(dest, msg) {
+		if(dest.substr(0, 1) == '#') dest = dest.substr(1)
+		this.sendCLRF('PRIVMSG #' + dest.toLowerCase() + ' :' + msg)
+	}
+
+	/**
+	 * Send a raw command to the server
+	 * 
+	 * @param {String} message The command or message that is being sent
+	 */
+	sendCLRF(message) {
+		if(typeof(this.socket) != 'undefined') {
+			this.socket.write(message + this.clrf, 'utf8')
+			if(message.substr(0, 5) == 'PASS ') {
+				var pwlength = (message.length-5)
+				message = 'PASS '
+				for(var i = 0; i &lt; pwlength; i++) message = message + '*'
+			}
+			/**
+			 * Fires when a message is being sent to server
+			 * @event TwitchChat#outgoing
+			 * @param {String} message The raw message that is being sent to the server (without CRLF)
+			 */
+			this.emit('outgoing', message)
+		}
+	}
+}
+
+module.exports = TwitchChat</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<footer>
+    <img class="logo" src="img/toast-ui.png" style="width: 0px; height: 0px">
+    <div class="footer-text">Code by PakL</div>
+</footer>
+<script>prettyPrint();</script>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/tui-doc.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+    <script>
+        var id = '_sub'.replace(/"/g, '_');
+        var selectedApi = document.getElementById(id); // do not use jquery selector
+        var $selectedApi = $(selectedApi);
+
+        $selectedApi.removeClass('hidden');
+        $selectedApi.parent().find('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        showLnbApi();
+    </script>
+
+</body>
+</html>
