@@ -8,7 +8,7 @@
 		<style type="text/css" id="metro-style"></style>
 		<script type="application/javascript">
 			const {remote} = require('electron')
-			const {systemPreferences} = remote
+			const {systemPreferences, app} = remote
 			const fs = require('fs')
 			const less = require('less')
 			const path = require('path')
@@ -17,6 +17,13 @@
 	</head>
 	<body>
 		<p>This changelog will only be served in english.</p>
+		<h3>0.10.<span class="highlight">5</span> <small><code class="tag">path</code></small></h3>
+		<ul>
+			<li>Made some changes to the stylesheet load, to make it easier for addons to use it</li>
+			<li>Fixing Unicode emoji destroying everything</li>
+			<li>Fixed emotes in resub messages</li>
+			<li>Fixing some layout issues in classic chat</li>
+		</ul>
 		<h3>0.10.<span class="highlight">4</span> <small><code class="tag">path</code></small></h3>
 		<ul>
 			<li>Fixed not displaying last played game by hoster on raid</li>
