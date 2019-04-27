@@ -66,6 +66,12 @@
 
 		chat.classic message .user {
 			display: inline;
+			overflow-wrap: break-word;
+			word-wrap: break-word;
+			word-break: break-word;
+			white-space: initial;
+			text-overflow: initial;
+			overflow: initial;
 		}
 		chat.classic message .user .badges {
 			float: none;

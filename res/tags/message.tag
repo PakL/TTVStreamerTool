@@ -31,7 +31,11 @@
 			vertical-align: top;
 			color: #777;
 			padding-right: 5px;
+			padding-left: 5px;
 			width: 40px;
+		}
+		message.important .timestamp {
+			padding-right: 5px;
 			padding-left: 5px;
 		}
 		message .user {
