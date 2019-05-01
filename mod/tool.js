@@ -76,32 +76,6 @@ class TTVTool extends EventEmitter {
 			if(self._settings.lightDesignMode) {
 				document.querySelector('body').classList.add('invert')
 			}
-
-			/*EAU.check((e) => {
-				if(e != null && e.length > 0) {
-					if(e === 'no_update_available') return
-					self.ui.showErrorMessage(new Error(e))
-				} else {
-					let errormsg_download = self.ui.showErrorMessage(new Error(self.i18n.__('There is a new update. Downloading now...')))
-					EAU.download((er) => {
-						if(e != null && e.length > 0) {
-							self.ui.showErrorMessage(new Error(e))
-							return
-						}
-						try { errormsg_download.parentElement.removeChild(errormsg_download) } catch(e) {}
-
-						let errormsg_restart = self.ui.showErrorMessage(new Error(self.i18n.__('Update ready. Program will restart automatically!')))
-						errormsg_restart.onclick = () => {}
-						setTimeout(() => {
-							let exPa = process.execPath
-							if(exPa.startsWith('\\')) exPa = exPa.substr(1)
-							if(exPa.indexOf(' ') > 0) exPa = '"' + exPa + '"'
-							spawn('cmd', ['/Q', '/C', 'copy resources\\update.asar resources\\app.asar /Y & del resources\\update.asar & start ' + exPa], {'detached': true})
-							app.quit()
-						}, 5000);
-					})
-				}
-			})*/
 		})
 
 		window.onload = (e) => {
