@@ -30,9 +30,8 @@
 	},
 	"devDependencies": {
 		"electron": "4.1.4",
-		"electron-rebuild": "1.8.4",
-		"jsdoc": "3.5.5",
-		"tui-jsdoc-template": "1.2.2",
-		"electron-winstaller": "3.0.4"
+		"electron-winstaller": "3.0.4",
+		"jsdoc": "3.6.1",
+		"tui-jsdoc-template": "1.2.2"
 	}
 }
