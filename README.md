@@ -4,7 +4,7 @@ TTVST is an application aimed at Twitch streamer. On the main view you will be a
 
 ------
 
-To make TTVST unique for your streaming needs it's possible to create your own overlays and addons. I will document how to do that in the coming future. To start of, read the [Getting Started Guide](/TTVStreamerTool/tutorial-Getting Started.html).
+To make TTVST unique for your streaming needs it's possible to create your own overlays and addons. I will document how to do that in the coming future. To start of, read the [Getting Started Guide](https://pakl.dev/TTVStreamerTool/tutorial-Getting Started.html).
 
 ### Platform
 
@@ -25,3 +25,4 @@ Download the Setup.exe of the latest release and execute it. The application wil
 ### Report issues
 
 To report issues or request improvements/features, please use the [github issues page](https://github.com/PakL/TTVStreamerTool/issues).
+
