@@ -14,6 +14,9 @@ let splash
 let doNotOpenMainWindow = false
 
 app.setAppUserModelId('com.squirrel.ttvst.TTVStreamerTool')
+if(!app.requestSingleInstanceLock()) {
+	app.quit();
+}
 autoUpdater.setFeedURL('https://dl.pohlarsystem.de/ttvst/')
 
 if(require('electron-squirrel-startup')) app.quit();
@@ -52,8 +55,11 @@ else {
 				protocol: 'file:',
 				slashes: true
 			}))
-			win.on('closed', () => {
-				win = null
+			app.on('second-instance', (event, commandLine, workingDirectory) => {
+				if (win) {
+					if(win.isMinimized()) win.restore()
+					win.focus()
+				}
 			})
 			mainWindowState.manage(win)
 		})
