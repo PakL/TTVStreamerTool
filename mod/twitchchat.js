@@ -86,6 +86,8 @@ class TwitchChat extends events.EventEmitter {
 		 */
 		this.socket = null
 
+		this.reconnectWait = 0
+
 		this.namelists = {}
 
 		events.EventEmitter.call(this)
@@ -96,6 +98,7 @@ class TwitchChat extends events.EventEmitter {
 
 		this.socket = tls.connect(this.options.port, this.options.host)
 
+		this.socket.setTimeout(30000)
 		this.socket.setEncoding('utf8')
 		this.socket.on('connect', function(){
 			/**
@@ -114,6 +117,11 @@ class TwitchChat extends events.EventEmitter {
 			 */
 			self.emit('error', e)
 		})
+		this.socket.on('timeout', () => {
+			let checkTimeout = setTimeout(() => { self.socket.end() }, 3000)
+			self.once('pong', () => { clearTimeout(checkTimeout) })
+			self.sendCLRF('PING :tmi.twitch.tv')
+		})
 		this.socket.on('close', function(had_error){
 			/**
 			 * Fired when connection is closing
@@ -122,11 +130,17 @@ class TwitchChat extends events.EventEmitter {
 			 */
 			self.emit('close', had_error)
 			if((had_error || !self.plannedclose) && self.options.auto_reconnect) {
-				self.emit('reconnect')
-				// Wait 3 seconds before reconnecting to minimize looping CPU load
+				/**
+				 * Is fired when connection being retried automatically in n seconds
+				 * @event TwitchChat#reconnect
+				 * @param {number} timeout Timeout before reconnection is tried
+				 */
+				self.emit('reconnect', self.reconnectWait)
 				setTimeout(() => {
 					self.connect()
-				}, 3000)
+				}, self.reconnectWait*1000)
+				self.reconnectWait = (self.reconnectWait == 0 ? 1 : self.reconnectWait*2)
+				if(self.reconnectWait > 5) self.reconnectWait = 5
 			}
 		})
 		this.socket.on('data', function(data){
@@ -223,6 +237,9 @@ class TwitchChat extends events.EventEmitter {
 			case (action == 'PING'):
 				this.sendCLRF('PONG ' + attach)
 				break
+			case (action == 'PONG'):
+				this.emit('pong')
+				break
 			// Server answer code 004 is the last of the welcome message with a successful login
 			case (action == '004'):
 				/**
@@ -230,6 +247,7 @@ class TwitchChat extends events.EventEmitter {
 				 * @event TwitchChat#registered
 				 */
 				this.emit('registered')
+				this.reconnectWait = 0
 				break
 			// Server answer code 372 is part message of the day
 			case (action == '372'):

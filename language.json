@@ -449,8 +449,11 @@
 	"Use this command in an hotkey to let the countdown count down to a specific point in time. Format: YYYY-MM-DD hh:mm:ss; Hours must be in the 24 hour format, date and seconds are optional. If the given date is in the past nothing will happen. Example: timer_set=2018-09-08 13:00:00 or timer_set=15:00": {
 		"de": "Benutze diesen Befehl in einem Hotkey um den Countdown zu einem bestimmten Zeitpunkt laufen zu lassen. Format: JJJJ-MM-TT SS:mm:ss; Stunden müssen im 24-Stunden-Format sein, Datum und Sekunden sind optinal. Wenn das Datum in der Vergangenheit liegt passiert nichts. Beispiel: timer_set=2018-09-08 13:00:00 oder timer_set=15:00"
 	},
-	"Connection to TMI was lost. Reconnection attempt in 3 seconds...": {
-		"de": "Verbindung zum TMI verloren. In 3 Sekunden wird ein neuer Verbindungsversuch versucht..."
+	"Connection to TMI was lost. Next reconnection attempt in {{timeout}} seconds...": {
+		"de": "Verbindung zum TMI verloren. In {{timeout}} Sekunden wird ein neuer Verbindungsversuch versucht..."
+	},
+	"Connection to TMI was lost. Reconnecting...": {
+		"de": "Verbindung zum TMI verloren. Verbindung wird neu aufgebaut..."
 	},
 	"A message was deleted.": {
 		"de": "Eine Nachricht wurde gelöscht."
