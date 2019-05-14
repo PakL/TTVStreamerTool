@@ -17,28 +17,39 @@
 	</head>
 	<body>
 		<p>This changelog will only be served in english.</p>
-		<h3>0.10.<span class="highlight">5</span> <small><code class="tag">path</code></small></h3>
+		<h3>0.10.<span class="highlight">6</span> <small><code class="tag">patch</code></small></h3>
+		<ul>
+			<li>Fixing Unicode emoji destroying everything for your messages</li>
+			<li>Single instance lock to avoid issues</li>
+			<li>Timeout handling and faster reconnecting
+				<ul>
+					<li>If no message was received from server for 30 seconds the connection is tested by forcing the server to respond (simple PING-PONG exchange)</li>
+					<li>Disconnects are now immediately reconnected. If more retries are needed, they will be spaced out more and more (up to 5 seconds).</li>
+				</ul>
+			</li>
+		</ul>
+		<h3>0.10.<span class="highlight">5</span> <small><code class="tag">patch</code></small></h3>
 		<ul>
 			<li>Made some changes to the stylesheet load, to make it easier for addons to use it</li>
 			<li>Fixing Unicode emoji destroying everything</li>
 			<li>Fixed emotes in resub messages</li>
 			<li>Fixing some layout issues in classic chat</li>
 		</ul>
-		<h3>0.10.<span class="highlight">4</span> <small><code class="tag">path</code></small></h3>
+		<h3>0.10.<span class="highlight">4</span> <small><code class="tag">patch</code></small></h3>
 		<ul>
 			<li>Fixed not displaying last played game by hoster on raid</li>
 		</ul>
-		<h3>0.10.<span class="highlight">3</span> <small><code class="tag">path</code></small></h3>
+		<h3>0.10.<span class="highlight">3</span> <small><code class="tag">patch</code></small></h3>
 		<ul>
 			<li>Fixed various issues with cockpit resizing</li>
 			<li>Fixed auto scrolling on resizing</li>
 			<li>Display the game a hosting channel was playing last (if possible to obtain)</li>
 		</ul>
-		<h3>0.10.<span class="highlight">2</span> <small><code class="tag">path</code></small></h3>
+		<h3>0.10.<span class="highlight">2</span> <small><code class="tag">patch</code></small></h3>
 		<ul>
 			<li>Did some more testing in a real environment, addon updating should work flawlessly now </li>
 		</ul>
-		<h3>0.10.<span class="highlight">1</span> <small><code class="tag">path</code></small></h3>
+		<h3>0.10.<span class="highlight">1</span> <small><code class="tag">patch</code></small></h3>
 		<ul>
 			<li>Hopefully making addon updates, uninstalls more stable</li>
 			<li>Better debug logging</li>
@@ -49,7 +60,7 @@
 			<li>Add an optional classic chat view</li>
 		</ul>
 		<hr>
-		<h3>0.9.<span class="highlight">1</span> <small><code class="tag">path</code></small></h3>
+		<h3>0.9.<span class="highlight">1</span> <small><code class="tag">patch</code></small></h3>
 		<ul>
 			<li>Fixed a bug that prevented the emoticon drawer to open</li>
 		</ul>
@@ -61,7 +72,7 @@
 			<li>Fixed dark theme in pop out user moderation window</li>
 		</ul>
 		<hr>
-		<h3>0.8.<span class="highlight">1</span> <small><code class="tag">path</code></small></h3>
+		<h3>0.8.<span class="highlight">1</span> <small><code class="tag">patch</code></small></h3>
 		<ul>
 			<li>Added support for cumulative subscription counter</li>
 		</ul>
