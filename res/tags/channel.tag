@@ -53,6 +53,8 @@
 				self.refs.logo.width = '206'
 				self.refs.logo.height = '100'
 			}
+
+			self.draw()
 		}
 
 		draw() {
@@ -60,11 +62,13 @@
 				let canvasContext = self.refs.logo.getContext('2d')
 				canvasContext.imageSmoothingEnabled = true
 				canvasContext.imageSmoothingQuality = 'high'
-				canvasContext.fillStyle = '#ffffff'
+				canvasContext.fillStyle = '#000000'
 				if(self.opts.chnl.stream == null) {
+					if(self.logoImage.complete) canvasContext.fillStyle = '#ffffff'
 					canvasContext.fillRect(0, 0, 100, 100)
-					canvasContext.drawImage(self.logoImage, 0, 0, 100, 100)
+					if(self.logoImage.complete) canvasContext.drawImage(self.logoImage, 0, 0, 100, 100)
 				} else {
+					if(self.logoImage.complete) canvasContext.fillStyle = '#ffffff'
 					canvasContext.fillRect(0, 0, 206, 100)
 					if(self.thumbnailImage.complete)
 						canvasContext.drawImage(self.thumbnailImage, 0, 8, 206, 100, 0, 0, 206, 100)
