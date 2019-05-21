@@ -80,7 +80,7 @@
 			text-decoration: underline;
 		}
 		message.deleted {
-			background-color: #303030;
+			opacity: 0.4;
 		}
 	</style>
 	<script>
