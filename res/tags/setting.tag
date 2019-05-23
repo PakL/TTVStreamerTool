@@ -50,13 +50,14 @@
 			let inputElement = null
 			if(options.type == 'select') {
 				inputElement = document.createElement('select')
+				let selectedIndex = Tool.settings.getString(options.setting, options.default)
 				for(let index in options.selection) {
 					if(!options.selection.hasOwnProperty(index)) continue
 
 					let optionElement = document.createElement('option')
 					optionElement.value = index
 					optionElement.innerText = options.selection[index]
-					if(Tool.settings.getString(options.setting) == index) {
+					if(selectedIndex == index) {
 						optionElement.setAttribute('selected', true)
 					}
 					inputElement.appendChild(optionElement)
