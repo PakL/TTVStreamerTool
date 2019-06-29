@@ -1,8 +1,8 @@
 <actionstream>
-	<div each={ actions } class="actionstream_action" >
-		<span class="actionstream_nickname" style="color:{color}">{ nickname }</span>
-		<span class="actionstream_timestamp">{ timestamp }</span>
-		<span class="actionstream_message"><raw content={ message } /></span>
+	<div each={ action in actions } class="actionstream_action" >
+		<span class="actionstream_nickname" style={{ color: action.color }}>{ action.nickname }</span>
+		<span class="actionstream_timestamp">{ action.timestamp }</span>
+		<span class="actionstream_message"><raw content={ action.message } /></span>
 	</div>
 
 	<style>
@@ -77,63 +77,52 @@
 		}
 	</style>
 	<script>
-		const self = this
-		this.actions = []
-		this.nextid = 0
+		export default {
+			onBeforeMount() {
+				this.actions = []
+				this.nextid = 0
+				this.makeAccessible()
+			},
+			addAction(user, message, timestamp) {
+				let actionElement = document.createElement('div')
+				actionElement.classList.add('actionstream_action')
 
-		/*this.on('updated', () => {
-			self.root.scrollTop = self.root.scrollHeight
-		})*/
+				let actionNickname = document.createElement('span')
+				actionNickname.classList.add('actionstream_nickname')
+				actionNickname.style.color = user.color
+				actionNickname.innerText = user.name
+				actionElement.appendChild(actionNickname)
 
-		addAction(user, message, timestamp) {
-			/*self.actions.push({
-				id: self.nextid,
-				color: user.color,
-				nickname: user.name,
-				message: message,
-				timestamp: timestamp
-			})
-			self.nextid++*/
+				let actionTimestamp = document.createElement('span')
+				actionTimestamp.classList.add('actionstream_timestamp')
+				actionTimestamp.innerText = timestamp
+				actionElement.appendChild(actionTimestamp)
 
-			let actionElement = document.createElement('div')
-			actionElement.classList.add('actionstream_action')
+				let actionMessage = document.createElement('span')
+				actionMessage.classList.add('actionstream_message')
+				actionMessage.innerHTML = message
+				actionElement.appendChild(actionMessage)
 
-			let actionNickname = document.createElement('span')
-			actionNickname.classList.add('actionstream_nickname')
-			actionNickname.style.color = user.color
-			actionNickname.innerText = user.name
-			actionElement.appendChild(actionNickname)
+				if(this.root.childNodes.length <= 0) {
+					this.root.appendChild(actionElement)
+				} else {
+					this.root.insertBefore(actionElement, this.root.childNodes[0])
+				}
 
-			let actionTimestamp = document.createElement('span')
-			actionTimestamp.classList.add('actionstream_timestamp')
-			actionTimestamp.innerText = timestamp
-			actionElement.appendChild(actionTimestamp)
-
-			let actionMessage = document.createElement('span')
-			actionMessage.classList.add('actionstream_message')
-			actionMessage.innerHTML = message
-			actionElement.appendChild(actionMessage)
-
-			if(self.root.childNodes.length <= 0) {
-				self.root.appendChild(actionElement)
-			} else {
-				self.root.insertBefore(actionElement, self.root.childNodes[0])
+				if(this.root.childNodes.length > 200) {
+					this.root.removeChild(this.root.childNodes[this.root.childNodes.length-1])
+				}
+				if(Tool.settings.flashActions && !this.root.classList.contains('flash')) {
+					this.root.classList.add('flash')
+				} else if(!Tool.settings.flashActions && this.root.classList.contains('flash')) {
+					this.root.classList.remove('flash')
+				}
+				this.update()
+			},
+			clearActions() {
+				this.root.innerHTML = ''
+				this.update()
 			}
-
-			if(self.root.childNodes.length > 200) {
-				self.root.removeChild(self.root.childNodes[self.root.childNodes.length-1])
-			}
-			if(Tool.settings.flashActions && !self.root.classList.contains('flash')) {
-				self.root.classList.add('flash')
-			} else if(!Tool.settings.flashActions && self.root.classList.contains('flash')) {
-				self.root.classList.remove('flash')
-			}
-			self.update()
-		}
-		clearActions() {
-			//self.actions = []
-			self.root.innerHTML = ''
-			self.update()
 		}
 	</script>
 </actionstream>

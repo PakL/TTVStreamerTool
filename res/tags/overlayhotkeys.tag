@@ -1,6 +1,6 @@
 <overlayhotkeys>
 	<div ref="hotkeysdisabledwarning"></div>
-	<hotkey each={ hotkey in hotkeys } no-reorder hotkey={ hotkey }></hotkey>
+	<hotkey each={ hotkey in hotkeys } no-reorder hotkey={ hotkey } parent={ this }></hotkey>
 	<hr>
 	<button ref="addhotkey"></button>
 	<button ref="savehotkeys"></button>
@@ -12,41 +12,58 @@
 	</style>
 
 	<script>
-		const self = this
-		this.hotkeys = []
+		export default {
+			onBeforeMount() {
+				this.hotkeys = []
+				this.disabled = true
+				this.makeAccessible()
+			},
 
-		loadHotkeys() {
-			self.hotkeys = []
-			self.hotkeys = Tool.settings.getJSON('overlay_hotkeys', [])
-			self.update()
+			onMounted() {
+				this.refs = {
+					hotkeysdisabledwarning: this.$('[ref=hotkeysdisabledwarning]'),
+					addhotkey: this.$('[ref=addhotkey]'),
+					savehotkeys: this.$('[ref=savehotkeys]')
+				}
+
+				this.loadHotkeys()
+				this.refs.addhotkey.innerText = Tool.i18n.__('Add hotkey')
+				this.refs.savehotkeys.innerText = Tool.i18n.__('Save hotkeys')
+				this.refs.hotkeysdisabledwarning.innerText = Tool.i18n.__('Hotkeys are currently disabled. Save hotkeys to reenable them.')
+				Tool.overlays.renewOverlayHotkeys()
+				this.refs.hotkeysdisabledwarning.style.display = 'none'
+				this.disabled = false
+
+				const self = this
+				this.refs.addhotkey.onclick = () => { self.addahotkey() }
+				this.refs.savehotkeys.onclick = () => { self.savehotkeys() }
+			},
+
+			loadHotkeys() {
+				this.hotkeys = []
+				this.update()
+				this.hotkeys = Tool.settings.getJSON('overlay_hotkeys', [])
+				this.update()
+			},
+
+			changes() {
+				if(!this.disabled) {
+					Tool.overlays.disableOverlayHotkeys()
+					this.refs.hotkeysdisabledwarning.style.display = 'block'
+					this.disabled = true
+				}
+			},
+			addahotkey() {
+				this.hotkeys.push({ accelerator: '', cmd: '' })
+				this.update()
+				this.changes()
+			},
+			savehotkeys() {
+				Tool.overlays.renewOverlayHotkeys()
+				this.loadHotkeys()
+				this.refs.hotkeysdisabledwarning.style.display = 'none'
+				this.disabled = false
+			}
 		}
-
-		this.on('mount', () => {
-			self.loadHotkeys()
-			self.refs.addhotkey.innerText = Tool.i18n.__('Add hotkey')
-			self.refs.savehotkeys.innerText = Tool.i18n.__('Save hotkeys')
-			self.refs.hotkeysdisabledwarning.innerText = Tool.i18n.__('Hotkeys are currently disabled. Save hotkeys to reenable them.')
-			Tool.overlays.renewOverlayHotkeys()
-			self.refs.hotkeysdisabledwarning.style.display = 'none'
-
-			self.refs.addhotkey.onclick = self.addahotkey
-			self.refs.savehotkeys.onclick = self.savehotkeys
-		})
-
-		changes() {
-			Tool.overlays.disableOverlayHotkeys()
-			self.refs.hotkeysdisabledwarning.style.display = 'block'
-		}
-		addahotkey() {
-			self.hotkeys.push({ accelerator: '', cmd: '' })
-			self.update()
-			self.changes()
-		}
-		savehotkeys() {
-			Tool.overlays.renewOverlayHotkeys()
-			self.loadHotkeys()
-			self.refs.hotkeysdisabledwarning.style.display = 'none'
-		}
-
 	</script>
 </overlayhotkeys>

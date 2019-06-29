@@ -85,213 +85,223 @@
 		}
 	</style>
 	<script>
-		const self = this
-		this.messages = []
-		if(typeof(this.opts.messages) == 'object') {
-			this.messages = this.opts.messages
-		}
-
-		this.isupdating = false
-		this.autoscroll = true
-		this.nowautoscrollring = false
-
-		this.messageDrop = null
-		this.nextAutoscroll = false
-
-		this.emoteStream = null
-
-		this.filteredMessages = {}
-		
-		this.on('mount', () => {
-			self.messageDrop = self.root.querySelector('div')
-			self.emoteStream = self.root.querySelector('.emote-stream')
-		})
-
-		this.root.addEventListener("scroll", () => {
-			if(self.nowautoscrollring) {
-				self.nowautoscrollring = false
-				return
-			}
-			//console.log('user scroll')
-			self.autoscroll = true
-			if(!self.scrolled_to_bottom()) {
-				self.autoscroll = false
-			}
-		})
-
-		this.on('update', () => {
-			self.isupdating = true
-		})
-		this.on('updated', () => {
-			window.requestAnimationFrame(() => {
-				self.isupdating = false
-				self.scoll_to_bottom()
-			})
-		})
-		shouldUpdate() {
-			if(self.isupdating) return false
-			return true
-		}
-
-		scoll_to_bottom() {
-			window.requestAnimationFrame(() => {
-				if(self.autoscroll) {
-					self.nowautoscrollring = true
-					self.root.scrollTop = self.root.scrollHeight
+		export default {
+			onBeforeMount() {
+				this.messages = []
+				if(typeof(this.props.messages) == 'object') {
+					this.messages = this.props.messages
 				}
-			})
-		}
+				this.isupdating = false
+				this.autoscroll = true
+				this.nowautoscrollring = false
 
-		scrolled_to_bottom() {
-			if((self.root.offsetHeight + self.root.scrollTop) >= self.root.childNodes[0].offsetHeight) {
-				return true;
-			}
-			return false;
-		}
+				this.messageDrop = null
+				this.nextAutoscroll = false
 
-		unfilter(e) {
-			let el = e.target
-			while(!el.classList.contains('filtered')) {
-				el = el.parentNode
-				if(el.tagName.toUpperCase() == 'BODY') return
-			}
-			let ts = el.dataset.timestamp
+				this.emoteStream = null
 
-			for(let i = 0; i < self.filteredMessages[ts].length; i++) {
-				self.addmessage(self.filteredMessages[ts][i], true)
-			}
-			el.parentNode.removeChild(el)
-			delete self.filteredMessages[ts]
-		}
+				this.filteredMessages = {}
+				
+				this.makeAccessible()
+			},
+			onMounted() {
+				this.messageDrop = this.root.querySelector('div')
+				this.emoteStream = this.root.querySelector('.emote-stream')
 
-		filter(message) {
-			if(typeof(self.filteredMessages[message.timestamp]) === 'undefined') {
-				self.filteredMessages[message.timestamp] = []
-			}
+				const self = this
+				this.root.addEventListener("scroll", () => {
+					if(self.nowautoscrollring) {
+						self.nowautoscrollring = false
+						return
+					}
+					self.autoscroll = true
+					if(!self.scrolled_to_bottom()) {
+						self.autoscroll = false
+					}
+				})
+			},
 
-			self.filteredMessages[message.timestamp].push(message)
-			window.requestAnimationFrame(() => {
-				let filterElement = self.root.querySelector('div.filtered#filter_' + message.timestamp.replace(/[^0-9a-z]/ig, ''))
+			onBeforeUpdate() {
+				this.isupdating = true
+			},
+			onUpdated() {
+				const self = this
+				window.requestAnimationFrame(() => {
+					self.isupdating = false
+					self.scoll_to_bottom()
+				})
+			},
 
-				let messageElement = document.createElement('span')
-				if(filterElement == null) {
-					let timestampElement = document.createElement('span')
-					timestampElement.innerText = message.timestamp
+			shouldUpdate() {
+				if(this.isupdating) return false
+				return true
+			},
 
-					let filterElement = document.createElement('div')
-					filterElement.classList.add('filtered')
-					filterElement.setAttribute('id', 'filter_' + message.timestamp.replace(/[^0-9a-z]/ig, ''))
-					filterElement.dataset.timestamp = message.timestamp
-					filterElement.appendChild(timestampElement)
-					filterElement.appendChild(messageElement)
-					filterElement.onclick = self.unfilter
-
-					self.messageDrop.appendChild(filterElement)
-
-						
+			scoll_to_bottom() {
+				const self = this
+				window.requestAnimationFrame(() => {
 					if(self.autoscroll) {
 						self.nowautoscrollring = true
 						self.root.scrollTop = self.root.scrollHeight
 					}
-				} else {
-					messageElement = filterElement.querySelectorAll('span')[1]
+				})
+			},
+
+			scrolled_to_bottom() {
+				if((this.root.offsetHeight + this.root.scrollTop) >= this.root.childNodes[0].offsetHeight) {
+					return true;
 				}
-				messageElement.innerText = Tool.i18n.__('{{message_count}} messages filtered', {message_count: self.filteredMessages[message.timestamp].length})
-			})
-		}
+				return false;
+			},
 
-		addmessage(message, ignorefilter) {
-			if(typeof(ignorefilter) !== 'boolean') ignorefilter = false
+			unfilter(e) {
+				let el = e.target
+				while(!el.classList.contains('filtered')) {
+					el = el.parentNode
+					if(el.tagName.toUpperCase() == 'BODY') return
+				}
+				let ts = el.dataset.timestamp
 
-			if(!ignorefilter) {
-				if(Tool.settings.filterEmoteSpam) {
-					let messageWOTags = message.message_html.replace(/(<([^>]+)>)/ig, '').replace(/( |\t)/g, '')
-					if(messageWOTags.length <= 0) {
-						if(Tool.settings.showEmoteStream) {
-							let span = document.createElement('span')
-							span.innerHTML = message.message_html
-							self.emoteStream.prepend(span)
-							if(self.emoteStream.style.display != 'block') {
-								self.emoteStream.style.display = 'block'
-							}
-						} else {
-							if(self.emoteStream.style.display != 'none') {
-								self.emoteStream.style.display = 'none'
-							}
-							self.filter(message)
+				for(let i = 0; i < this.filteredMessages[ts].length; i++) {
+					this.addmessage(this.filteredMessages[ts][i], true)
+				}
+				el.parentNode.removeChild(el)
+				delete this.filteredMessages[ts]
+			},
+
+			filter(message) {
+				if(typeof(this.filteredMessages[message.timestamp]) === 'undefined') {
+					this.filteredMessages[message.timestamp] = []
+				}
+
+				const self = this
+				this.filteredMessages[message.timestamp].push(message)
+				window.requestAnimationFrame(() => {
+					let filterElement = self.root.querySelector('div.filtered#filter_' + message.timestamp.replace(/[^0-9a-z]/ig, ''))
+
+					let messageElement = document.createElement('span')
+					if(filterElement == null) {
+						let timestampElement = document.createElement('span')
+						timestampElement.innerText = message.timestamp
+
+						let filterElement = document.createElement('div')
+						filterElement.classList.add('filtered')
+						filterElement.setAttribute('id', 'filter_' + message.timestamp.replace(/[^0-9a-z]/ig, ''))
+						filterElement.dataset.timestamp = message.timestamp
+						filterElement.appendChild(timestampElement)
+						filterElement.appendChild(messageElement)
+						filterElement.onclick = self.unfilter
+
+						self.messageDrop.appendChild(filterElement)
+
+							
+						if(self.autoscroll) {
+							self.nowautoscrollring = true
+							self.root.scrollTop = self.root.scrollHeight
 						}
-						return
+					} else {
+						messageElement = filterElement.querySelectorAll('span')[1]
 					}
-				} else if(self.emoteStream.style.display != 'none') {
-					self.emoteStream.style.display = 'none'
-				}
-				if(Tool.settings.filterBotCommands) {
-					if(message.message.startsWith('!') || ['moobot', 'streamelements', 'nightbot'].indexOf(message.user) >= 0) {
-						self.filter(message)
-						return
+					messageElement.innerText = Tool.i18n.__('{{message_count}} messages filtered', {message_count: self.filteredMessages[message.timestamp].length})
+				})
+			},
+
+			addmessage(message, ignorefilter) {
+				if(typeof(ignorefilter) !== 'boolean') ignorefilter = false
+
+				if(!ignorefilter) {
+					if(Tool.settings.filterEmoteSpam) {
+						let messageWOTags = message.message_html.replace(/(<([^>]+)>)/ig, '').replace(/( |\t)/g, '')
+						if(messageWOTags.length <= 0) {
+							if(Tool.settings.showEmoteStream) {
+								let span = document.createElement('span')
+								span.innerHTML = message.message_html
+								this.emoteStream.prepend(span)
+								if(this.emoteStream.style.display != 'block') {
+									this.emoteStream.style.display = 'block'
+								}
+							} else {
+								if(this.emoteStream.style.display != 'none') {
+									this.emoteStream.style.display = 'none'
+								}
+								this.filter(message)
+							}
+							return
+						}
+					} else if(this.emoteStream.style.display != 'none') {
+						this.emoteStream.style.display = 'none'
+					}
+					if(Tool.settings.filterBotCommands) {
+						if(message.message.startsWith('!') || ['moobot', 'streamelements', 'nightbot'].indexOf(message.user) >= 0) {
+							this.filter(message)
+							return
+						}
 					}
 				}
+
+				const self = this
+				window.requestAnimationFrame(() => {
+					let newMessageElement = document.createElement('message')
+					self.messageDrop.appendChild(newMessageElement)
+					riot.mount(newMessageElement, { msg: message });
+
+					while(self.messageDrop.childNodes.length > 500) {
+						let el = self.messageDrop.childNodes[0]
+						if(el.classList.contains('filtered')) {
+							let ts = el.dataset.timestamp
+							delete self.filteredMessages[ts]
+						}
+						self.messageDrop.removeChild(el)
+					}
+
+					while(self.emoteStream.childNodes.length > 100) {
+						let el = self.emoteStream.childNodes[self.emoteStream.childNodes.length-1]
+						self.emoteStream.removeChild(el)
+					}
+
+					if(self.autoscroll) {
+						self.nowautoscrollring = true
+						self.root.scrollTop = self.root.scrollHeight
+					}
+				})
+			},
+
+			clearuser(username) {
+				const self = this
+				window.requestAnimationFrame(() => {
+					var messages = self.messageDrop.querySelectorAll('message')
+					for(var i = 0; i < messages.length; i++) {
+						messages[i]._tag.deleteifuser(username)
+					}
+					if(self.autoscroll) {
+						self.nowautoscrollring = true
+						self.root.scrollTop = self.root.scrollHeight
+					}
+				})
+			},
+
+			clearmessage(uuid) {
+				const self = this
+				window.requestAnimationFrame(() => {
+					var messages = self.messageDrop.querySelectorAll('message')
+					for(var i = messages.length-1; i >= 0; i--) {
+						if(messages[i]._tag.deleteifuuid(uuid)) {
+							break;
+						}
+					}
+					if(self.autoscroll) {
+						self.nowautoscrollring = true
+						self.root.scrollTop = self.root.scrollHeight
+					}
+				})
+			},
+
+			clearmessages() {
+				this.messageDrop.innerHTML = ''
+				this.emoteStream.innerHTML = ''
+				this.emoteStream.style.display = 'none'
+				this.update()
 			}
-
-			window.requestAnimationFrame(() => {
-				let newMessageElement = document.createElement('message')
-				self.messageDrop.appendChild(newMessageElement)
-				riot.mount(newMessageElement, { msg: message });
-
-				while(self.messageDrop.childNodes.length > 500) {
-					let el = self.messageDrop.childNodes[0]
-					if(el.classList.contains('filtered')) {
-						let ts = el.dataset.timestamp
-						delete self.filteredMessages[ts]
-					}
-					self.messageDrop.removeChild(el)
-				}
-
-				while(self.emoteStream.childNodes.length > 100) {
-					let el = self.emoteStream.childNodes[self.emoteStream.childNodes.length-1]
-					self.emoteStream.removeChild(el)
-				}
-
-				if(self.autoscroll) {
-					self.nowautoscrollring = true
-					self.root.scrollTop = self.root.scrollHeight
-				}
-			})
-		}
-
-		clearuser(username) {
-			window.requestAnimationFrame(() => {
-				var messages = self.messageDrop.querySelectorAll('message')
-				for(var i = 0; i < messages.length; i++) {
-					messages[i]._tag.deleteifuser(username)
-				}
-				if(self.autoscroll) {
-					self.nowautoscrollring = true
-					self.root.scrollTop = self.root.scrollHeight
-				}
-			})
-		}
-
-		clearmessage(uuid) {
-			window.requestAnimationFrame(() => {
-				var messages = self.messageDrop.querySelectorAll('message')
-				for(var i = messages.length-1; i >= 0; i--) {
-					if(messages[i]._tag.deleteifuuid(uuid)) {
-						break;
-					}
-				}
-				if(self.autoscroll) {
-					self.nowautoscrollring = true
-					self.root.scrollTop = self.root.scrollHeight
-				}
-			})
-		}
-
-		clearmessages() {
-			self.messageDrop.innerHTML = ''
-			self.emoteStream.innerHTML = ''
-			self.emoteStream.style.display = 'none'
-			self.update()
 		}
 	</script>
 </chat>

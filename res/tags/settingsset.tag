@@ -18,42 +18,56 @@
 	</style>
 
 	<script>
-		const self = this
-		this.visible = false
-		this.title = opts.title
-		this.settings = opts.settings
-		refresh() {
-			if(self.title.length > 0) {
-				self.refs.title.onclick = self.toggle
-				self.refs.title.style.display = 'initial'
-				if(self.visible) {
-					self.root.classList.remove('collapsed')
-					self.refs.togglebutton.innerHTML = '➖'
-				} else {
-					self.root.classList.add('collapsed')
-					self.refs.togglebutton.innerHTML = '➕'
+		export default {
+			onBeforeMount() {
+				this.visible = false
+				this.title = this.props.title
+				this.settings = this.props.settings
+				this.makeAccessible()
+			},
+
+			onMounted() {
+				this.refs = {
+					title: this.$('[ref=title]'),
+					togglebutton: this.$('[ref=togglebutton]')
 				}
-			} else {
-				self.refs.title.style.display = 'none'
+				this.refresh()
+			},
+
+			onUpdated() {
+				this.refresh()
+			},
+
+			refresh() {
+				if(this.title.length > 0) {
+					this.refs.title.onclick = this.toggle
+					this.refs.title.style.display = 'initial'
+					if(this.visible) {
+						this.root.classList.remove('collapsed')
+						this.refs.togglebutton.innerHTML = '➖'
+					} else {
+						this.root.classList.add('collapsed')
+						this.refs.togglebutton.innerHTML = '➕'
+					}
+				} else {
+					this.refs.title.style.display = 'none'
+				}
+			},
+
+			clear() {
+				this.settings = []
+				this.update()
+			},
+
+			addSetting(options) {
+				this.settings.push(options)
+				this.update()
+			},
+
+			toggle() {
+				this.visible = !this.visible
+				this.refresh()
 			}
 		}
-
-		clear() {
-			self.settings = []
-			self.update()
-		}
-
-		addSetting(options) {
-			self.settings.push(options)
-			self.update()
-		}
-
-		toggle() {
-			this.visible = !this.visible
-			self.refresh()
-		}
-
-		this.on('mount', self.refresh)
-		this.on('updated', self.refresh)
 	</script>
 </settingsset>

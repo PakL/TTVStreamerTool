@@ -8,7 +8,8 @@
 
 		<link rel="stylesheet" type="text/css" href="../res/icons/style.css">
 
-		<script type="application/javascript" src="../node_modules/riot/riot.csp.js"></script>
+		<script type="application/javascript" src="../node_modules/riot/riot+compiler.js"></script>
+		<script type="application/javascript" src="../res/riot-dom-slots-plugin.js"></script>
 		<script type="application/javascript" src="../lib/console-override.js"></script>
 		<script type="application/javascript" src="../lib/chathelper.js"></script>
 		<script type="application/javascript" src="../lib/cockpit-resize-helper.js"></script>
@@ -17,7 +18,6 @@
 		<style type="text/css" id="metro-style"></style>
 
 		<script type="application/javascript">
-
 			const {shell, remote} = require('electron')
 			const {Menu, MenuItem, globalShortcut, systemPreferences, app} = remote
 			const RandExp = require('randexp')
@@ -187,21 +187,22 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 		<autocomplete id="ac_channel_game"></autocomplete>
 		<autocomplete id="ac_message_usernames"></autocomplete>
 
-		<script type="application/javascript" src="../var/tags/raw.js"></script>
 		
-		<script type="application/javascript" src="../var/tags/autocomplete.js"></script>
-		<script type="application/javascript" src="../var/tags/message.js"></script>
-		<script type="application/javascript" src="../var/tags/chat.js"></script>
-		<script type="application/javascript" src="../var/tags/userlist.js"></script>
-		<script type="application/javascript" src="../var/tags/actionstream.js"></script>
-		<script type="application/javascript" src="../var/tags/viewerplotter.js"></script>
-		<script type="application/javascript" src="../var/tags/modal.js"></script>
-		<script type="application/javascript" src="../var/tags/channel.js"></script>
-		<script type="application/javascript" src="../var/tags/channellist.js"></script>
-		<script type="application/javascript" src="../var/tags/hotkey.js"></script>
-		<script type="application/javascript" src="../var/tags/overlayhotkeys.js"></script>
-		<script type="application/javascript" src="../var/tags/emoticons.js"></script>
-		<script type="application/javascript" src="../var/tags/setting.js"></script>
-		<script type="application/javascript" src="../var/tags/settingsset.js"></script>
+		<script type="riot" data-src="../res/tags/raw.tag" type="module"></script>
+
+		<script type="riot" data-src="../res/tags/autocomplete.tag"></script>
+		<script type="riot" data-src="../res/tags/message.tag"></script>
+		<script type="riot" data-src="../res/tags/chat.tag"></script>
+		<script type="riot" data-src="../res/tags/userlist.tag"></script>
+		<script type="riot" data-src="../res/tags/actionstream.tag"></script>
+		<script type="riot" data-src="../res/tags/viewerplotter.tag"></script>
+		<script type="riot" data-src="../res/tags/modal.tag"></script>
+		<script type="riot" data-src="../res/tags/channel.tag"></script>
+		<script type="riot" data-src="../res/tags/channellist.tag"></script>
+		<script type="riot" data-src="../res/tags/hotkey.tag"></script>
+		<script type="riot" data-src="../res/tags/overlayhotkeys.tag"></script>
+		<script type="riot" data-src="../res/tags/emoticons.tag"></script>
+		<script type="riot" data-src="../res/tags/setting.tag"></script>
+		<script type="riot" data-src="../res/tags/settingsset.tag"></script>
 	</body>
 </html>

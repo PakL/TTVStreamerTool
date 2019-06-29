@@ -84,127 +84,143 @@
 		}
 	</style>
 	<script>
-		const self = this
+		export default {
+			onBeforeMount() {
+				this.uuid = this.props.msg.id
+				this.timestamp = this.props.msg.timestamp
+				this.user = this.props.msg.user
+				this.nickname = this.props.msg.nickname
+				this.message = this.props.msg.message
 
-		this.uuid = opts.msg.id
-		this.timestamp = opts.msg.timestamp
-		this.user = opts.msg.user
-		this.nickname = opts.msg.nickname
-		this.message = opts.msg.message
+				this.deleted = false
+				this.makeAccessible()
+			},
 
-		this.deleted = false
+			onMounted() {
+				this.refs = {
+					timestamp: this.$('[ref=timestamp]'),
+					user: this.$('[ref=user]'),
+					badges: this.$('[ref=badges]'),
+					nickname: this.$('[ref=nickname]'),
+					msg: this.$('[ref=msg]')
+				}
 
-		this.on("mount", () => {
-			self.realformat()
-			self.refs.nickname.style.cursor = 'pointer'
-			self.refs.nickname.onclick = function(e) {
-				document.querySelector('#channeluser')._tag.showuseroptions(e.target.dataset.username, e.clientX, e.clientY)
-			}
+				this.realformat()
+				this.refs.nickname.style.cursor = 'pointer'
+				this.refs.nickname.onclick = function(e) {
+					document.querySelector('#channeluser')._tag.showuseroptions(e.target.dataset.username, e.clientX, e.clientY)
+				}
 
-			let emotes = self.root.querySelectorAll('img')
-			for(let i = 0; i < emotes.length; i++) {
-				emotes[i].addEventListener('load', () => {
-					if(self.root.parentNode.parentNode.hasOwnProperty('_tag') && typeof(self.root.parentNode.parentNode._tag.scoll_to_bottom) == 'function') {
-						self.root.parentNode.parentNode._tag.scoll_to_bottom()
+				let emotes = this.root.querySelectorAll('img')
+				const self = this
+				for(let i = 0; i < emotes.length; i++) {
+					emotes[i].addEventListener('load', () => {
+						if(self.root.parentNode.parentNode.hasOwnProperty('_tag') && typeof(self.root.parentNode.parentNode._tag.scoll_to_bottom) == 'function') {
+							self.root.parentNode.parentNode._tag.scoll_to_bottom()
+						}
+					})
+				}
+			},
+
+			onBeforeUpdate() {
+				this.uuid = this.props.msg.id
+				this.timestamp = this.props.msg.timestamp
+				this.user = this.props.msg.user
+				this.nickname = this.props.msg.nickname
+				this.message = this.props.msg.message
+			},
+			onUpdated() {
+				this.realformat()
+			},
+
+			deletemessage() {
+				if(self.deleted) return
+				self.deleted = true
+				self.props.msg.old_message = self.props.msg.message_html
+				if(!Tool.settings.autoRecoverMessages) {
+					self.props.msg.message_html = `&lt; ${Tool.i18n.__('Message was deleted')} &gt;`
+				}
+				self.realformat()
+			},
+
+			deleteifuuid(uuid) {
+				if(this.uuid == uuid) {
+					this.deletemessage()
+					return true
+				}
+				return false
+			},
+
+			deleteifuser(username) {
+				if(username == this.props.msg.user && !this.props.msg.hasOwnProperty('old_message')) {
+					this.deletemessage()
+					return true
+				}
+				return false
+			},
+
+			realformat() {
+				const self = this
+				this.refs.msg.innerHTML = this.props.msg.message_html
+				if(this.uuid.length > 0 && !this.deleted && !this.props.msg.badges_html.match(/title="(Moderator|Broadcaster)"/) && Tool.cockpit.channelModerator) {
+					this.refs.badges.innerHTML = this.props.msg.badges_html + ' <a class="removemsg" title="' + Tool.i18n.__('Delete message') + '">🗑️</a>'
+					
+					this.refs.badges.querySelector('.removemsg').onclick = function(){
+						if(typeof(Tool.cockpit.openChannelObject.login) == 'string') {
+							Tool.chat.sendmsg(Tool.cockpit.openChannelObject.login, '/delete ' + self.uuid)
+						}
 					}
-				})
-			}
-		})
-		this.on('update', () => {
-			this.timestamp = opts.msg.timestamp
-			this.user = opts.msg.user
-			this.nickname = opts.msg.nickname
-			this.message = opts.msg.message
-		})
-		this.on("updated", () => self.realformat() )
-
-		deletemessage() {
-			if(self.deleted) return
-			self.deleted = true
-			self.opts.msg.old_message = self.opts.msg.message_html
-			if(!Tool.settings.autoRecoverMessages) {
-				self.opts.msg.message_html = `&lt; ${Tool.i18n.__('Message was deleted')} &gt;`
-			}
-			self.realformat()
-		}
-
-		deleteifuuid(uuid) {
-			console.log(self.uuid)
-			if(self.uuid == uuid) {
-				self.deletemessage()
-				return true
-			}
-			return false
-		}
-
-		deleteifuser(username) {
-			if(username == self.opts.msg.user && !self.opts.msg.hasOwnProperty('old_message')) {
-				self.deletemessage()
-				return true
-			}
-			return false
-		}
-
-		realformat() {
-			self.refs.msg.innerHTML = self.opts.msg.message_html
-			if(self.uuid.length > 0 && !self.deleted && !self.opts.msg.badges_html.match(/title="(Moderator|Broadcaster)"/) && Tool.cockpit.channelModerator) {
-				self.refs.badges.innerHTML = self.opts.msg.badges_html + ' <a class="removemsg" title="' + Tool.i18n.__('Delete message') + '">🗑️</a>'
-				
-				self.refs.badges.querySelector('.removemsg').onclick = function(){
-					if(typeof(Tool.cockpit.openChannelObject.login) == 'string') {
-						Tool.chat.sendmsg(Tool.cockpit.openChannelObject.login, '/delete ' + self.uuid)
-					}
+				} else {
+					this.refs.badges.innerHTML = this.props.msg.badges_html
 				}
-			} else {
-				self.refs.badges.innerHTML = self.opts.msg.badges_html
-			}
 
-			if(self.opts.msg.type >= 20) {
-				self.root.classList.add('deleted')
-				self.opts.msg.type = self.opts.msg.type-20
-			}
-
-			if(self.opts.msg.type != 5) {
-				self.refs.nickname.style.color = self.opts.msg.color
-			}
-			if(self.opts.msg.type > 0 && self.opts.msg.type < 4) {
-				self.refs.nickname.classList.add('action')
-				self.refs.msg.style.color = self.opts.msg.color
-			}
-			if(self.opts.msg.type == 2) {
-				self.root.classList.add('important')
-				self.refs.user.style.display = 'none'
-			}
-			if(self.opts.msg.type == 3 || self.opts.msg.type == 4) {
-				self.root.classList.add('important')
-			}
-			if(self.opts.msg.type == 4) {
-				self.refs.nickname.classList.add('whisper')
-			}
-			if(self.opts.msg.type == 5) {
-				self.root.classList.add('highlight')
-			}
-
-			if(self.opts.msg.hasOwnProperty('old_message')) {
-				self.root.classList.add('deleted')
-				self.refs.msg.onclick = (e) => {
-					e.preventDefault()
-					self.opts.msg.message_html = self.opts.msg.old_message
-					self.realformat()
+				if(this.props.msg.type >= 20) {
+					this.root.classList.add('deleted')
+					this.props.msg.type = this.props.msg.type-20
 				}
-			} else {
-				self.root.classList.remove('deleted')
-			}
 
-			var links = self.root.querySelectorAll('a')
-			for(var i = 0; i < links.length; i++) {
-				if(self.opts.msg.type != 5) {
-					links[i].style.color = self.opts.msg.color
+				if(this.props.msg.type != 5) {
+					this.refs.nickname.style.color = this.props.msg.color
 				}
-				if(typeof(links[i].onclick) !== 'function') {
-					links[i].onclick = function(e) {
+				if(this.props.msg.type > 0 && this.props.msg.type < 4) {
+					this.refs.nickname.classList.add('action')
+					this.refs.msg.style.color = this.props.msg.color
+				}
+				if(this.props.msg.type == 2) {
+					this.root.classList.add('important')
+					this.refs.user.style.display = 'none'
+				}
+				if(this.props.msg.type == 3 || this.props.msg.type == 4) {
+					this.root.classList.add('important')
+				}
+				if(this.props.msg.type == 4) {
+					this.refs.nickname.classList.add('whisper')
+				}
+				if(this.props.msg.type == 5) {
+					this.root.classList.add('highlight')
+				}
+
+				if(this.props.msg.hasOwnProperty('old_message')) {
+					this.root.classList.add('deleted')
+					this.refs.msg.onclick = (e) => {
 						e.preventDefault()
-						openLinkExternal(this.href)
+						self.props.msg.message_html = self.props.msg.old_message
+						self.realformat()
+					}
+				} else {
+					this.root.classList.remove('deleted')
+				}
+
+				var links = this.root.querySelectorAll('a')
+				for(var i = 0; i < links.length; i++) {
+					if(this.props.msg.type != 5) {
+						links[i].style.color = this.props.msg.color
+					}
+					if(typeof(links[i].onclick) !== 'function') {
+						links[i].onclick = function(e) {
+							e.preventDefault()
+							openLinkExternal(this.href)
+						}
 					}
 				}
 			}

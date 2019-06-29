@@ -10,11 +10,10 @@
 	},
 	"scripts": {
 		"start": ".\\node_modules\\electron\\dist\\electron.exe .\\",
-		"generate-docs": ".\\node_modules\\.bin\\jsdoc -c jsdoc.json",
-		"compile-riot": ".\\node_modules\\.bin\\riot .\\res\\tags\\ .\\var\\tags\\"
+		"generate-docs": ".\\node_modules\\.bin\\jsdoc -c jsdoc.json"
 	},
 	"dependencies": {
-		"compare-versions": "3.4.0",
+		"compare-versions": "3.5.0",
 		"dateformat": "3.0.3",
 		"electron-squirrel-startup": "1.0.0",
 		"electron-window-state": "5.0.3",
@@ -25,13 +24,15 @@
 		"randexp": "0.5.3",
 		"request": "2.88.0",
 		"require-uncached": "2.0.0",
-		"riot": "3.13.2",
-		"stringz": "1.0.0"
+		"riot": "4.3.1",
+		"stringz": "2.0.0"
 	},
 	"devDependencies": {
-		"electron": "4.1.4",
+		"electron": "5.0.6",
 		"electron-winstaller": "3.0.4",
-		"jsdoc": "3.6.1",
-		"tui-jsdoc-template": "1.2.2"
+		"jsdoc": "3.6.2",
+		"tui-jsdoc-template": "1.2.2",
+		"@riotjs/cli": "4.0.2",
+		"@riotjs/compiler": "4.3.2"
 	}
 }

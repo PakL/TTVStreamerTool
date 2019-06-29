@@ -78,17 +78,20 @@ class TTVTool extends EventEmitter {
 			}
 		})
 
-		window.onload = (e) => {
-			//Riot.compile(function() {
-				/**
-				 * Fires after the document was loaded. Basically window.onload. Use this instead
-				 * of window.onload to not overwrite the onload function and breaking the entire
-				 * application. Thank you. :)
-				 * 
-				 * @event TTVTool#load
-				 */
-				self.emit('load')
-			//})
+		window.onload = async (e) => {
+			riot.install((c) => {
+				c.makeAccessible = () => { c.root._tag = c }
+				return c
+			})
+			await riot.compile()
+			/**
+			 * Fires after the document was loaded. Basically window.onload. Use this instead
+			 * of window.onload to not overwrite the onload function and breaking the entire
+			 * application. Thank you. :)
+			 * 
+			 * @event TTVTool#load
+			 */
+			self.emit('load')
 		}
 		window.onbeforeunload = (e) => {
 			/**

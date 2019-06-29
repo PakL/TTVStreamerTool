@@ -1,7 +1,7 @@
 <modal>
 	<div class="modalcell">
-		<div name="content">
-			<yield />
+		<div>
+			<slot/>
 		</div>
 	</div>
 
@@ -35,4 +35,11 @@
 		}
 	</style>
 
+	<script>
+		export default {
+			onBeforeMount() {
+				this.fixSlots()
+			}
+		}
+	</script>
 </modal>

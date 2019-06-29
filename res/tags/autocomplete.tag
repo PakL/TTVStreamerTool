@@ -1,6 +1,6 @@
 <autocomplete>
 	<ul>
-		<li each={ suggestions }>{ display }</li>
+		<li each={ sugg in suggestions }>{ sugg.display }</li>
 	</ul>
 
 	<style>
@@ -29,121 +29,123 @@
 	</style>
 
 	<script>
-		const self = this
+		export default {
+			onBeforeMount() {
+				this.suggestions = []
+				this.selectedindex = 0
+
+				this.parentInput = null
+				this.position = 'above'
+				this.finddata = function() { return [] }
+				this.replacedata = function(){}
+				this.makeAccessible()
+			},
+
+			onMounted() {
+				this.root.style.display = 'none'
+				if(typeof(this.props.callback) == 'function') {
+					this.props.callback()
+				}
+			},
+			onUpdated() {
+				this.setVisible()
+			},
+
+			setParentInput(inputelement, position, finddata, replacedata) {
+				this.parentInput = inputelement
+				this.position = position
+				if(typeof(finddata) == 'function')
+					this.finddata = finddata
+				else
+					this.finddata = function() { return [] }
+				if(typeof(replacedata) == 'function')
+					this.replacedata = replacedata
+				else
+					this.replacedata = function() {}
 
 
-		this.suggestions = []
-		this.selectedindex = 0
 
-		this.parentInput = null
-		this.position = 'above'
-		this.finddata = function() { return [] }
-		this.replacedata = function(){}
+				if(this.parentInput != null) {
+					const self = this
+					this.parentInput.addEventListener('keyup', (e) => {
+						if([13].indexOf(e.which) < 0) {
+							self.typed(e)
+						}
+					})
+					this.parentInput.addEventListener('keydown', (e) => {
+						if(e.which == 38 || e.which == 40) e.preventDefault()
+						if(e.which == 9) { // keycode 9 == TAB
+							e.preventDefault()
+							self.complete(e)
+						}
+					})
+				}
+			},
 
-		this.on('mount', () => {
-			self.root.style.display = 'none'
-			if(typeof(self.opts.callback) == 'function') {
-				self.opts.callback()
-			}
-		})
-		this.on('updated', () => {
-			self.setVisible()
-		})
-
-		setParentInput(inputelement, position, finddata, replacedata) {
-			self.parentInput = inputelement
-			self.position = position
-			if(typeof(finddata) == 'function')
-				self.finddata = finddata
-			else
-				self.finddata = function() { return [] }
-			if(typeof(replacedata) == 'function')
-				self.replacedata = replacedata
-			else
-				self.replacedata = function() {}
-
-
-
-			if(self.parentInput != null) {
-
-				self.parentInput.addEventListener('keyup', (e) => {
-					if([13].indexOf(e.which) < 0) {
-						self.typed(e)
-					}
-				})
-				self.parentInput.addEventListener('keydown', (e) => {
-					if(e.which == 38 || e.which == 40) e.preventDefault()
-					if(e.which == 9) { // keycode 9 == TAB
-						e.preventDefault()
-						self.complete(e)
-					}
-				})
-			}
-		}
-
-		setVisible() {
-			var parentRect = self.parentInput.getBoundingClientRect()
-			var thisRect = self.root.getBoundingClientRect()
-			if(self.position == 'above') {
-				self.root.style.left = parentRect.left + 'px'
-				self.root.style.bottom = (window.innerHeight - parentRect.top) + 'px'
-			} else if(self.position == 'below') {
-				self.root.style.left = parentRect.left + 'px'
-				self.root.style.top = (parentRect.top + parentRect.height) + 'px'
-			}
-			if(self.suggestions.length > 0) {
-				self.root.style.display = 'block'
-				var points = self.root.querySelectorAll('ul > li')
-				if(points.length > self.selectedindex) {
-					for(var i = 0; i < points.length; i++) {
-						points[i].classList.remove('selected')
-						if(i == self.selectedindex) {
-							points[i].classList.add('selected')
+			setVisible() {
+				var parentRect = this.parentInput.getBoundingClientRect()
+				var thisRect = this.root.getBoundingClientRect()
+				if(this.position == 'above') {
+					this.root.style.left = parentRect.left + 'px'
+					this.root.style.bottom = (window.innerHeight - parentRect.top) + 'px'
+				} else if(this.position == 'below') {
+					this.root.style.left = parentRect.left + 'px'
+					this.root.style.top = (parentRect.top + parentRect.height) + 'px'
+				}
+				if(this.suggestions.length > 0) {
+					this.root.style.display = 'block'
+					var points = this.root.querySelectorAll('ul > li')
+					if(points.length > this.selectedindex) {
+						for(var i = 0; i < points.length; i++) {
+							points[i].classList.remove('selected')
+							if(i == this.selectedindex) {
+								points[i].classList.add('selected')
+							}
 						}
 					}
+				} else {
+					this.root.style.display = 'none'
 				}
-			} else {
-				self.root.style.display = 'none'
-			}
-		}
+			},
 
-		setSuggestions(suggestions) {
-			self.suggestions = suggestions
-			self.selectedindex = self.suggestions.length-1
-			if(self.position == 'below') self.selectedindex = 0
-			self.update()
-		}
+			setSuggestions(suggestions) {
+				this.suggestions = suggestions
+				this.selectedindex = this.suggestions.length-1
+				if(this.position == 'below') this.selectedindex = 0
+				this.update()
+			},
 
-		typed(e) {
-			if(e.which == 38) { // keycode 38 == UP
-				e.preventDefault()
-				self.selectedindex--
-				if(self.selectedindex < 0)
-					self.selectedindex = 0
-				self.setVisible()
-			} else if(e.which == 40) { // keycode 40 == DOWN
-				e.preventDefault()
-				self.selectedindex++
-				if(self.selectedindex >= self.suggestions.length)
-					self.selectedindex = self.suggestions.length-1
-				self.setVisible()
-			} else if(e.which == 9) { // keycode 9 == TAB
-				e.preventDefault()
-				self.setSuggestions([])
-			} else {
+			typed(e) {
+				if(e.which == 38) { // keycode 38 == UP
+					e.preventDefault()
+					this.selectedindex--
+					if(this.selectedindex < 0)
+						this.selectedindex = 0
+					this.setVisible()
+				} else if(e.which == 40) { // keycode 40 == DOWN
+					e.preventDefault()
+					this.selectedindex++
+					if(this.selectedindex >= this.suggestions.length)
+						this.selectedindex = this.suggestions.length-1
+					this.setVisible()
+				} else if(e.which == 9) { // keycode 9 == TAB
+					e.preventDefault()
+					this.setSuggestions([])
+				} else {
+					var el = e.target
+					this.suggestions = this.finddata(el.value)
+					this.selectedindex = this.suggestions.length-1
+					if(this.position == 'below') this.selectedindex = 0
+					this.update()
+				}
+			},
+
+			complete(e) {
 				var el = e.target
-				self.suggestions = self.finddata(el.value)
-				self.selectedindex = self.suggestions.length-1
-				if(self.position == 'below') self.selectedindex = 0
-				self.update()
-			}
-		}
-
-		complete(e) {
-			var el = e.target
-			if(self.suggestions.length > 0) {
-				e.preventDefault()
-				self.replacedata(el, self.suggestions[self.selectedindex])
+				if(this.suggestions.length > 0) {
+					e.preventDefault()
+					this.replacedata(el, this.suggestions[this.selectedindex])
+				}
 			}
 		}
 	</script>

@@ -161,7 +161,7 @@ class TwitchChat extends events.EventEmitter {
 	}
 	
 	disconnect() {
-		if(typeof(this.socket) != "undefined") {
+		if(typeof(this.socket) != "undefined" && this.socket !== null) {
 			this.plannedclose = true
 			this.socket.end()
 		}

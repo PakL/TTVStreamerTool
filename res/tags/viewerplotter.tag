@@ -1,7 +1,7 @@
 <viewerplotter>
 	<div class="plotter">
 		<div class="plotlines">
-			<div class="line" each={ data } no-reorder title={ viewers + ' @ ' + timestamp }><div style="height:{ height }%;background:{ color }"></div></div>
+			<div class="line" each={ line in data } no-reorder title={ line.viewers + ' @ ' + line.timestamp }><div style="height:{ line.height }%;background:{ line.color }"></div></div>
 		</div>
 	</div>
 	<div class="currentviewers" style="color:{ color }">{ viewerscount }</div>
@@ -47,73 +47,76 @@
 		}
 	</style>
 	<script>
-		const self = this
+		export default {
+			onBeforeMount() {	
+				this.data = []
+				this.viewerscount = '0'
+				this.colorIndex = -1
+				this.color = defaultColors[0][1]
+				this.makeAccessible()
+			},
 
-		this.data = []
-		this.viewerscount = '0'
-		this.colorIndex = -1
-		this.color = defaultColors[0][1]
+			newColor() {
+				this.colorIndex++
+				if(this.colorIndex >= defaultColors.length) this.colorIndex = 0
+				let c = defaultColors[this.colorIndex][1]
+				if(!isGoodYIQ(c)) c = makeColorLighter(c)
+				this.color = c
+			},
 
-		newColor() {
-			self.colorIndex++
-			if(self.colorIndex >= defaultColors.length) self.colorIndex = 0
-			let c = defaultColors[self.colorIndex][1]
-			if(!isGoodYIQ(c)) c = makeColorLighter(c)
-			self.color = c
-		}
+			clearPlotter() {
+				this.data = []
+				this.viewerscount = '0'
+				this.colorIndex = -1
+				this.color = defaultColors[0][1]
+			},
 
-		clearPlotter() {
-			self.data = []
-			self.viewerscount = '0'
-			self.colorIndex = -1
-			self.color = defaultColors[0][1]
-		}
-
-		plotViewersCount(count, timestamp) {
-			var c = count
-			self.viewerscount = c.toString()
-			if(c >= 10000) {
-				c = c / 1000
-				if(c >= 1000) {
+			plotViewersCount(count, timestamp) {
+				var c = count
+				this.viewerscount = c.toString()
+				if(c >= 10000) {
 					c = c / 1000
-					var decnum = 4 - Math.floor(c).toString().length
-					if(decnum < 1) decnum = 1;
-					self.viewerscount = c.toFixed(decnum) + 'M'
-				} else {
-					var decnum = 4 - Math.floor(c).toString().length
-					if(decnum < 1) decnum = 1;
-					self.viewerscount = c.toFixed(decnum) + 'k'
+					if(c >= 1000) {
+						c = c / 1000
+						var decnum = 4 - Math.floor(c).toString().length
+						if(decnum < 1) decnum = 1;
+						this.viewerscount = c.toFixed(decnum) + 'M'
+					} else {
+						var decnum = 4 - Math.floor(c).toString().length
+						if(decnum < 1) decnum = 1;
+						this.viewerscount = c.toFixed(decnum) + 'k'
+					}
 				}
-			}
-			if(Tool.settings.language == 'de') {
-				self.viewerscount = self.viewerscount.replace(/\./, ',')
-			}
+				if(Tool.settings.language == 'de') {
+					this.viewerscount = this.viewerscount.replace(/\./, ',')
+				}
 
-			self.data.push({ height: 0, viewers: count, timestamp: timestamp, color: self.color })
-			while(self.data.length > 100) {
-				self.data.shift()
-			}
-			var max = 0
-			var min = -1
-			for(var i = 0; i < self.data.length; i++) {
-				if(self.data[i].viewers > max) {
-					max = self.data[i].viewers
+				this.data.push({ height: 0, viewers: count, timestamp: timestamp, color: this.color })
+				while(this.data.length > 100) {
+					this.data.shift()
 				}
-				if(self.data[i].viewers < min || min < 0) {
-					min = self.data[i].viewers
+				var max = 0
+				var min = -1
+				for(var i = 0; i < this.data.length; i++) {
+					if(this.data[i].viewers > max) {
+						max = this.data[i].viewers
+					}
+					if(this.data[i].viewers < min || min < 0) {
+						min = this.data[i].viewers
+					}
 				}
-			}
-			let highestHigh = 0
-			for(var i = 0; i < self.data.length; i++) {
-				self.data[i].height = (100 / (max-min) * (self.data[i].viewers-min))
-				if(self.data[i].height > highestHigh) highestHigh = self.data[i].height
-			}
-			if(highestHigh <= 0 || isNaN(highestHigh)) {
-				for(var i = 0; i < self.data.length; i++) {
-					self.data[i].height = 100
+				let highestHigh = 0
+				for(var i = 0; i < this.data.length; i++) {
+					this.data[i].height = (100 / (max-min) * (this.data[i].viewers-min))
+					if(this.data[i].height > highestHigh) highestHigh = this.data[i].height
 				}
+				if(highestHigh <= 0 || isNaN(highestHigh)) {
+					for(var i = 0; i < this.data.length; i++) {
+						this.data[i].height = 100
+					}
+				}
+				this.update()
 			}
-			self.update()
 		}
 	</script>
 </viewerplotter>

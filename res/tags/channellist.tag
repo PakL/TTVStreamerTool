@@ -23,31 +23,40 @@
 		}
 	</style>
 	<script>
-		const self = this
+		export default {
+			onBeforeMount() {
+				this.channels = []
+				if(typeof(this.props.channels) != 'undefined') {
+					this.channels = this.props.channels
+				}
+				this.makeAccessible()
+			},
+			onMounted() {
+				this.refs = {
+					loadmore: this.$('[ref=loadmore]')
+				}
+				this.refs.loadmore.innerText = Tool.i18n.__('Load more')
+			},
 
-		this.channels = []
-		if(typeof(this.opts.channels) != 'undefined') {
-			this.channels = this.opts
-		}
+			onBeforeUpdate(props, state) {
+				this.channels = state.channels
+			},
 
-		this.on('mount', () => {
-			self.refs.loadmore.innerText = Tool.i18n.__('Load more')
-		})
+			onUpdated() {
+				this.refs.loadmore.onclick = function() {
+					this.refs.loadmore.onclick = () => {}
+					Tool.ui.findPage('Cockpit').loadMoreFollows()
+				}
 
-		this.on('updated', () => {
-			self.refs.loadmore.onclick = function() {
-				self.refs.loadmore.onclick = () => {}
-				Tool.ui.findPage('Cockpit').loadMoreFollows()
+				refreshTileColors()
+			},
+
+			hideButton() {
+				this.refs.loadmore.style.display = 'none'
+			},
+			showButton() {
+				this.refs.loadmore.style.display = 'block'
 			}
-
-			refreshTileColors()
-		})
-
-		hideButton() {
-			self.refs.loadmore.style.display = 'none'
-		}
-		showButton() {
-			self.refs.loadmore.style.display = 'block'
 		}
 	</script>
 </channellist>
