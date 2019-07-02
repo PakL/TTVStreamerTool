@@ -74,7 +74,7 @@ class ToolUI {
 		this.addPage(new Cockpit(this))
 		this.addPage(new Overlays(this))
 
-		this._tool.on('load', () => {
+		this._tool.once('load', () => {
 			self.openPage(self.pages[0].name)
 
 			let navMenu = document.querySelector('#nav-main-menu')
@@ -245,7 +245,7 @@ class ToolUI {
 			this.pageBefore = this.currentPage
 			page.open()
 			this.currentPage = page.name
-			if(this._loadingPages[page.name]) {
+			if(this._loadingPages[page.name] || this._loadingPages['global']) {
 				this._createLoading()
 			}
 		}
@@ -303,7 +303,7 @@ class ToolUI {
 	startLoading(page) {
 		if(!(page instanceof UIPage)) page = { name: 'global' }
 		this._loadingPages[page.name] = true
-		if(this.currentPage == page.name) {
+		if(this.currentPage == page.name || page.name == 'global') {
 			this._createLoading()
 		}
 	}
@@ -322,7 +322,7 @@ class ToolUI {
 	stopLoading(page) {
 		if(!(page instanceof UIPage)) page = { name: 'global' }
 		this._loadingPages[page.name] = false
-		if(this.currentPage == page.name) {
+		if(this.currentPage == page.name || (page.name == 'global' && !this._loadingPages[this.currentPage])) {
 			this._removeLoading()
 		}
 	}
