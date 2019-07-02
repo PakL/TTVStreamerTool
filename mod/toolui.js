@@ -66,6 +66,7 @@ class ToolUI {
 		Menu.setApplicationMenu(Menu.buildFromTemplate(this.menuTemplate))
 
 		this._appendPageViewLinkOnLoad = []
+		this._loadingPages = {'global': false}
 
 		/*this.addMenu(this._tool.auth.menu)
 		this.addMenu(this._tool.settings.menu)*/
@@ -199,6 +200,7 @@ class ToolUI {
 			let lookitup = this.findPage(page.name)
 			if(lookitup == null) {
 				this.pages.push(page)
+				this._loadingPages[page.name] = false
 				if(page.showInViewsList) {
 					let listElement = document.createElement('li')
 					let linkElement = document.createElement('a')
@@ -237,11 +239,15 @@ class ToolUI {
 		if(page != null) {
 			let pageCurrentObject = this.findPage(this.currentPage)
 			if(pageCurrentObject != null) {
+				this._removeLoading()
 				pageCurrentObject.close()
 			}
 			this.pageBefore = this.currentPage
 			page.open()
 			this.currentPage = page.name
+			if(this._loadingPages[page.name]) {
+				this._createLoading()
+			}
 		}
 	}
 
@@ -279,28 +285,46 @@ class ToolUI {
 		return null
 	}
 
-	/**
-	 * Displays the loading overlay.
-	 */
-	startLoading() {
+	_createLoading()
+	{
 		if(this.loadingElement != null) return
 
 		this.loadingElement = document.createElement('modal')
 		this.loadingElement.innerHTML = '<img src="../res/hourglass.gif" alt="" />'
-
 		document.querySelector('#contents').style.filter = 'blur(3px)'
 		document.querySelector('body').appendChild(this.loadingElement)
 		riot.mount(this.loadingElement)
 	}
 
 	/**
-	 * Removes the loading overlay.
+	 * Displays the loading overlay.
+	 * @param {UIPage} [page] The page that is currently loading, so the loading screen is only visible for the loading page
 	 */
-	stopLoading() {
+	startLoading(page) {
+		if(!(page instanceof UIPage)) page = { name: 'global' }
+		this._loadingPages[page.name] = true
+		if(this.currentPage == page.name) {
+			this._createLoading()
+		}
+	}
+
+	_removeLoading()
+	{
 		if(this.loadingElement == null) return
 		document.querySelector('#contents').style.filter = ''
 		this.loadingElement.parentElement.removeChild(this.loadingElement)
 		this.loadingElement = null
+	}
+
+	/**
+	 * Removes the loading overlay.
+	 */
+	stopLoading(page) {
+		if(!(page instanceof UIPage)) page = { name: 'global' }
+		this._loadingPages[page.name] = false
+		if(this.currentPage == page.name) {
+			this._removeLoading()
+		}
 	}
 
 	/**
@@ -315,7 +339,7 @@ class ToolUI {
 		if(typeof(autohide) != "boolean") autohide = false
 		if(typeof(showbutton) != "boolean") showbutton = true
 
-		this.stopLoading() // Stop loading
+		//this.stopLoading() // Stop loading
 		if(typeof(error) == 'string') error = new Error(error)
 		if(error == null || !error.hasOwnProperty('message')) error = new Error(this._tool.i18n.__('Unkown error'))
 		if(!autohide) console.error(error)
