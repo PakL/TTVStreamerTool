@@ -125,15 +125,20 @@ class ToolUI {
 		})
 
 		
+
+		selfWindow.removeAllListeners('enter-full-screen')
 		selfWindow.on('enter-full-screen', () => {
 			document.querySelector('body').classList.add('fullscreen')
 		})
+		selfWindow.removeAllListeners('enter-html-full-screen')
 		selfWindow.on('enter-html-full-screen', () => {
 			document.querySelector('body').classList.add('fullscreen')
 		})
+		selfWindow.removeAllListeners('leave-full-screen')
 		selfWindow.on('leave-full-screen', () => {
 			document.querySelector('body').classList.remove('fullscreen')
 		})
+		selfWindow.removeAllListeners('leave-html-full-screen')
 		selfWindow.on('leave-html-full-screen', () => {
 			document.querySelector('body').classList.remove('fullscreen')
 			selfWindow.setFullScreen(false)
