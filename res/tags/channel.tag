@@ -8,6 +8,11 @@
 			cursor: pointer;
 
 			background-size: cover;
+			transform: scale(0);
+			transition: 'transform' 0.3s ease-out;
+		}
+		channel.loaded {
+			transform: scale(1);
 		}
 		channel > img {
 			display: none;
@@ -44,10 +49,15 @@
 				}
 				this.u()
 			},
-			onUpdated() {
+			onBeforeUpdate(props, state) {
 				this.fadeLogo = 0
 				this.fadeThumbnail = 0
 				this.fadeGame = 0
+
+				if(this.root.classList.contains('loaded')) this.root.classList.remove('loaded')
+				if(this.root.classList.contains('wide')) this.root.classList.remove('wide')
+			},
+			onUpdated() {
 				this.u()
 			},
 
@@ -61,7 +71,6 @@
 
 				this.refs.channelname.innerText = this.props.chnl.display_name
 				if(this.props.chnl.stream == null) {
-					this.root.classList.remove('wide')
 					this.refs.logo.width = '100'
 					this.refs.logo.height = '100'
 
@@ -95,7 +104,8 @@
 					let canvasContext = self.refs.logo.getContext('2d')
 					canvasContext.imageSmoothingEnabled = true
 					canvasContext.imageSmoothingQuality = 'high'
-					canvasContext.fillStyle = '#000000'
+					canvasContext.fillStyle = '#888888'
+					canvasContext.globalAlpha = 1
 
 					let opacityLogo = self.fadeLogo == 0 ? 0 : ((100 / 200 * (new Date().getTime() - self.fadeLogo)) / 100)
 					opacityLogo = (opacityLogo > 1 ? 1 : opacityLogo)
@@ -109,13 +119,17 @@
 						if(self.logoImage.complete) canvasContext.fillStyle = '#ffffff'
 						canvasContext.fillRect(0, 0, 100, 100)
 						canvasContext.globalAlpha = opacityLogo
-						if(self.logoImage.complete) canvasContext.drawImage(self.logoImage, 0, 0, 100, 100)
+						if(self.logoImage.complete) {
+							canvasContext.drawImage(self.logoImage, 0, 0, 100, 100)
+							if(!self.root.classList.contains('loaded')) self.root.classList.add('loaded')
+						}
 					} else {
-						if(self.logoImage.complete) canvasContext.fillStyle = '#ffffff'
 						canvasContext.fillRect(0, 0, 206, 100)
 						canvasContext.globalAlpha = opacityThumbnail
-						if(self.thumbnailImage.complete)
+						if(self.thumbnailImage.complete) {
 							canvasContext.drawImage(self.thumbnailImage, 0, 8, 206, 100, 0, 0, 206, 100)
+							if(!self.root.classList.contains('loaded')) self.root.classList.add('loaded')
+						}
 						canvasContext.globalAlpha = opacityGame
 						if(self.gameImage !== null && self.gameImage.complete)
 							canvasContext.drawImage(self.gameImage, 0, 50, 38, 50)
