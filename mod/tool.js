@@ -1,5 +1,3 @@
-"use strict"
-
 const {remote} = require('electron')
 const EventEmitter = require('events')
 const i18n = require('../node_modules/i18n-nodejs')

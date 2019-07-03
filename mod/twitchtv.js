@@ -1,4 +1,3 @@
-"use strict"
 const https = require('https')
 const url = require('url')
 const zlib = require('zlib')

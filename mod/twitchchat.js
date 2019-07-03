@@ -1,4 +1,3 @@
-"use strict"
 const tls = require('tls')
 const net = require('net')
 const util = require('util')
