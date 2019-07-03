@@ -29,6 +29,7 @@
 		
 		<script type="application/javascript">
 			const fs = require('fs')
+			const originalFs = require('original-fs')
 			const path = require('path')
 			const {remote} = require('electron')
 			const {app, autoUpdater} = remote.require('electron')
@@ -90,12 +91,11 @@
 							appResources.forEach((resource) => {
 								if(resource.toLowerCase().endsWith('.asar') && ['app.asar', 'default_app.asar', 'electron.asar'].indexOf(resource.toLowerCase()) < 0) {
 									try {
-										fs.accessSync(path.join(thisExecDir, 'resources', resource))
-									} catch(er) {
-										exec('copy "' + path.join(appfolder, 'resources', resource) + '" "' +path.join(thisExecDir, 'resources', resource)+ '" /Y')
-										exec('del "' + path.join(appfolder, 'resources', resource) + '"')
-										reinstalledAddon = true
-									}
+										if(!originalFs.existsSync(path.join(thisExecDir, 'resources', resource))) {
+											originalFs.renameSync(path.join(appfolder, 'resources', resource), path.join(thisExecDir, 'resources', resource))
+											reinstalledAddon = true
+										}
+									} catch(er) {}
 								}
 							})
 						}
