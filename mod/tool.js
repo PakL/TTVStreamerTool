@@ -39,6 +39,7 @@ class TTVTool extends EventEmitter {
 
 		remote.BrowserWindow.getAllWindows()[0].removeAllListeners();
 
+		this._loaded = false
 		this._settings = new ToolSettings(this)
 		this._i18n = new i18n(this._settings.language, './../../language.json')
 		this._twitchapi = new TwitchTv({
@@ -72,7 +73,7 @@ class TTVTool extends EventEmitter {
 
 		this._addons = new Addons(this)
 
-		this.on('load', () => {
+		this.once('load', () => {
 			if(self._settings.lightDesignMode) {
 				document.querySelector('body').classList.add('invert')
 			}
@@ -84,6 +85,11 @@ class TTVTool extends EventEmitter {
 				return c
 			})
 			await riot.compile()
+
+			document.querySelectorAll('script[type=riot]').forEach((rt) => {
+				rt.remove()
+			})
+
 			/**
 			 * Fires after the document was loaded. Basically window.onload. Use this instead
 			 * of window.onload to not overwrite the onload function and breaking the entire
@@ -92,6 +98,7 @@ class TTVTool extends EventEmitter {
 			 * @event TTVTool#load
 			 */
 			self.emit('load')
+			self._loaded = true
 		}
 		window.onbeforeunload = (e) => {
 			/**
@@ -106,6 +113,16 @@ class TTVTool extends EventEmitter {
 		
 	}
 
+	/**
+	 * Was the load event fired
+	 * 
+	 * @type {Boolean}
+	 * @readonly
+	 */
+	get loaded()
+	{
+		return this._loaded
+	}
 
 	/**
 	 * Gives you the UI modules

@@ -1,5 +1,5 @@
 if(typeof(Tool) !== 'undefined') {
-	Tool.on('load', () => {
+	Tool.once('load', () => {
 		let menuCollapses = document.querySelectorAll('.menu-collapse')
 		menuCollapses.forEach((link) => {
 			link.onclick = () => {
