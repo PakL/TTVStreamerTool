@@ -539,5 +539,8 @@
 	},
 	"Apply changes and restart": {
 		"de": "Änderungen übernehmen und neustarten"
+	},
+	"Auto scrolling disabled. Click here to re-enable.": {
+		"de": "Automatisches scrollen deaktiviert. Hier klicken zum Reaktivieren."
 	}
 }

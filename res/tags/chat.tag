@@ -1,6 +1,7 @@
 <chat>
 	<div></div>
 	<div class="emote-stream"></div>
+	<div class="autoscroll-note" onclick={ scoll_to_bottom_man }></div>
 
 	<style>
 		chat {
@@ -83,6 +84,20 @@
 			content: ': ';
 			user-select: all;
 		}
+
+		chat > .autoscroll-note {
+			display: none;
+			position: sticky;
+			bottom: 5px;
+			left: 10px;
+			padding: 10px;
+			width: calc(100% - 40px);
+			border-radius: 10px;
+			color: #000000;
+			background: rgba(255, 255, 255, 0.9);
+			text-align: center;
+			cursor: pointer;
+		}
 	</style>
 	<script>
 		export default {
@@ -107,6 +122,8 @@
 			onMounted() {
 				this.messageDrop = this.root.querySelector('div')
 				this.emoteStream = this.root.querySelector('.emote-stream')
+				this.autoscrollNote = this.$('.autoscroll-note')
+				this.autoscrollNote.innerText = Tool.i18n.__('Auto scrolling disabled. Click here to re-enable.')
 
 				const self = this
 				this.root.addEventListener("scroll", () => {
@@ -114,9 +131,13 @@
 						self.nowautoscrollring = false
 						return
 					}
-					self.autoscroll = true
-					if(!self.scrolled_to_bottom()) {
+					let stb = self.scrolled_to_bottom()
+					if(self.autoscroll && !stb) {
+						self.autoscrollNote.style.display = 'block'
 						self.autoscroll = false
+					} else if(!self.autoscroll && stb) {
+						self.autoscrollNote.style.display = 'none'
+						self.autoscroll = true
 					}
 				})
 			},
@@ -135,6 +156,12 @@
 			shouldUpdate() {
 				if(this.isupdating) return false
 				return true
+			},
+
+			scoll_to_bottom_man() {
+				this.autoscrollNote.style.display = 'none'
+				this.autoscroll = true
+				this.scoll_to_bottom()
 			},
 
 			scoll_to_bottom() {
