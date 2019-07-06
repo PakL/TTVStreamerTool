@@ -232,7 +232,7 @@
 						this.emoteStream.style.display = 'none'
 					}
 					if(Tool.settings.filterBotCommands) {
-						if(message.message.startsWith('!') || ['moobot', 'streamelements', 'nightbot'].indexOf(message.user) >= 0) {
+						if(message.message.startsWith('!') || Tool.chat.isBot(message.user)) {
 							this.filter(message)
 							return
 						}
