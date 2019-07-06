@@ -134,13 +134,13 @@
 			},
 
 			deletemessage() {
-				if(self.deleted) return
-				self.deleted = true
-				self.props.msg.old_message = self.props.msg.message_html
+				if(this.deleted) return
+				this.deleted = true
+				this.props.msg.old_message = this.props.msg.message_html
 				if(!Tool.settings.autoRecoverMessages) {
-					self.props.msg.message_html = `&lt; ${Tool.i18n.__('Message was deleted')} &gt;`
+					this.props.msg.message_html = `&lt; ${Tool.i18n.__('Message was deleted')} &gt;`
 				}
-				self.realformat()
+				this.realformat()
 			},
 
 			deleteifuuid(uuid) {
