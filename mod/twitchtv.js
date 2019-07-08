@@ -79,7 +79,7 @@ class TwitchTv {
 		var state = Math.floor(Date.now() / 1000).toString(16)
 		this.validstates.push(state)
 
-		return 'https://api.twitch.tv/kraken/oauth2/authorize' +
+		return 'https://id.twitch.tv/oauth2/authorize' +
 				'?response_type=token' +
 				'&client_id=' + this.clientid +
 				'&redirect_uri=' + encodeURIComponent(this.redirecturi) +

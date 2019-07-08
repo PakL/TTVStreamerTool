@@ -42,13 +42,15 @@ class TTVTool extends EventEmitter {
 			clientid: '11vhuxdssb9pc3s2uqpa7s3s0252hyk',
 			redirecturi: 'http://localhost:8086/',
 			scope: [
+				'user:read:email',
+				'chat:read',
+				'chat:edit',
+				'channel:read:subscriptions',
+				'channel:moderate',
 				'user_read',
 				'channel_check_subscription',
 				'channel_editor',
-				'channel_read',
-				'channel_stream',
-				'channel_subscriptions',
-				'chat_login'
+				'channel_read'
 			]
 		})
 		this._twitchhelix = new TwitchHelix({
