@@ -16,13 +16,19 @@ class Follows extends EventEmitter {
 
 		this.latestFollow = 0
 		this.timer = null
+		this.fetching = false
+		this.stopfetching = false
 		
 		const self = this
 		this.tool.cockpit.on('channelopen', () => {
-			self.fetchData()
+			this.stopfetching = false
+			if(!this.fetching) {
+				self.fetchData()
+			}
 		})
 		this.tool.cockpit.on('channelleft', () => {
 			self.latestFollow = 0
+			this.stopfetching = true
 			clearTimeout(self.timer)
 		})
 	}
@@ -56,6 +62,7 @@ class Follows extends EventEmitter {
 	async fetchData() {
 		const self = this
 		if(this.cockpit.openChannelId.length <= 0) return
+		this.fetching = true
 		
 		let followers = null
 		try {
@@ -98,19 +105,24 @@ class Follows extends EventEmitter {
 						color: this.tool.chat.userselement._tag.getUserColor(f.login)
 					}
 
-					/**
-					 * Fires when a new follower appears in the list
-					 * @event Follows#follow
-					 * @param {Follows~userObject} user The user with username, display name and color
-					 * @param {Object} raw The raw follow object from the api
-					 */
-					this.emit('follow', usr, f)
-					this.latestFollow = new Date(f.followed_at).getTime()
+					if(!this.stopfetching) {
+						/**
+						 * Fires when a new follower appears in the list
+						 * @event Follows#follow
+						 * @param {Follows~userObject} user The user with username, display name and color
+						 * @param {Object} raw The raw follow object from the api
+						 */
+						this.emit('follow', usr, f)
+						this.latestFollow = new Date(f.followed_at).getTime()
+					}
 				}
 			}
 		}
 
-		this.timer = setTimeout(() => { this.fetchData() }, (30000 - (new Date().getTime() % 30000)))
+		if(!this.stopfetching) {
+			this.timer = setTimeout(() => { self.fetchData() }, (30000 - (new Date().getTime() % 30000)))
+			this.fetching = false
+		}
 	}
 
 }

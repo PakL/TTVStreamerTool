@@ -21,14 +21,20 @@ class Channel extends EventEmitter {
 		this.channelobject = {}
 		this.streamobject =  {}
 		this.timer = null
+		this.fetching = false
+		this.stopfetching = false
 		
 		const self = this
 		this.tool.cockpit.on('channelopen', () => {
-			self.fetchData()
+			this.stopfetching = false
+			if(!this.fetching) {
+				self.fetchData()
+			}
 		})
 		this.tool.cockpit.on('channelleft', () => {
 			this.channelobject = {}
 			this.streamobject =  {}
+			this.stopfetching = true
 			clearTimeout(self.timer)
 		})
 	}
@@ -66,6 +72,8 @@ class Channel extends EventEmitter {
 	async fetchData() {
 		const self = this
 		if(this.cockpit.openChannelId.length <= 0) return
+		this.fetching = true
+		this.timer = null
 
 		let stream = null
 		let channel = null
@@ -77,7 +85,10 @@ class Channel extends EventEmitter {
 		}
 
 		if(stream == null) {
-			this.timer = setTimeout(() => { self.fetchData() }, (30000 - (new Date().getTime() % 30000)))
+			if(!this.stopfetching) {
+				this.timer = setTimeout(() => { self.fetchData() }, (30000 - (new Date().getTime() % 30000)))
+				this.fetching = false
+			}
 			return
 		}
 
@@ -108,29 +119,31 @@ class Channel extends EventEmitter {
 			}
 
 
-			/**
-			 * Fires when the channel goes online.
-			 * @event Channel#channelonline
-			 */
-			if(emitonline) this.emit('channelonline')
-			/**
-			 * Fires when the game of the channel changes
-			 * @event Channel#gamechange
-			 * @param {String} newgame The new game of the channel
-			 */
-			if(oldgame != this.streamobject.gamename) this.emit('gamechange', this.streamobject.gamename)
-			/** 
-			 * Fires when the channel status/title changes
-			 * @event Channel#statuschange
-			 * @param {String} newtitle The new title/status of the channel
-			 */
-			if(oldstatus != this.streamobject.title) this.emit('statuschange', this.streamobject.title)
-			/**
-			 * Fires on every data polling and brings you the current viewers count
-			 * @event Channel#viewers
-			 * @param {Number} viewers Number of current viewers
-			 */
-			this.emit('viewers', this.streamobject.viewer_count)
+			if(!this.stopfetching) {
+				/**
+				 * Fires when the channel goes online.
+				 * @event Channel#channelonline
+				 */
+				if(emitonline) this.emit('channelonline')
+				/**
+				 * Fires when the game of the channel changes
+				 * @event Channel#gamechange
+				 * @param {String} newgame The new game of the channel
+				 */
+				if(oldgame != this.streamobject.gamename) this.emit('gamechange', this.streamobject.gamename)
+				/** 
+				 * Fires when the channel status/title changes
+				 * @event Channel#statuschange
+				 * @param {String} newtitle The new title/status of the channel
+				 */
+				if(oldstatus != this.streamobject.title) this.emit('statuschange', this.streamobject.title)
+				/**
+				 * Fires on every data polling and brings you the current viewers count
+				 * @event Channel#viewers
+				 * @param {Number} viewers Number of current viewers
+				 */
+				this.emit('viewers', this.streamobject.viewer_count)
+			}
 		} else {
 			try {
 				channel = await this.api.getChannel(this.cockpit.openChannelId)
@@ -153,21 +166,26 @@ class Channel extends EventEmitter {
 				this.streamobject = {}
 				this.channelobject = channel
 
-				/**
-				 * Fires when the channel goes offline.
-				 * @event Channel#channeloffline
-				 */
-				if(emitoffline) this.emit('channeloffline')
-				if(oldgame != this.channelobject.game) this.emit('gamechange', this.channelobject.game)
-				if(oldstatus != this.channelobject.status) this.emit('statuschange', this.channelobject.status)
-				this.emit('viewers', 0)
+				if(!this.stopfetching) {
+					/**
+					 * Fires when the channel goes offline.
+					 * @event Channel#channeloffline
+					 */
+					if(emitoffline) this.emit('channeloffline')
+					if(oldgame != this.channelobject.game) this.emit('gamechange', this.channelobject.game)
+					if(oldstatus != this.channelobject.status) this.emit('statuschange', this.channelobject.status)
+					this.emit('viewers', 0)
+				}
 			} else {
 				let err =  this.tool.i18n.__('Unexpected response') + '\n' + this.tool.i18n.__('Click here to dismiss this message')
 				this.tool.ui.showErrorMessage(err, true)
 			}
 		}
 
-		this.timer = setTimeout(() => { self.fetchData() }, (30000 - (new Date().getTime() % 30000)))
+		if(!this.stopfetching) {
+			this.timer = setTimeout(() => { self.fetchData() }, (30000 - (new Date().getTime() % 30000)))
+			this.fetching = false
+		}
 	}
 
 
