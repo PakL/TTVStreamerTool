@@ -15,8 +15,6 @@ Similar to a normal node module package.json but the only really important bits 
 ### addon.js
 This should be a node module that has an constructor that takes a TTVTool object (we get to that later) and an optional [i18n object](https://www.npmjs.com/package/i18n-nodejs) when a `language.json` file exist. A simple example would be
 ```javascript
-"use strict"
-
 const path = require("path")
 
 class Addon {
