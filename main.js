@@ -57,7 +57,10 @@ else {
 				slashes: true
 			}))
 			win.on('ready-to-show', () => {
-				splash.close()
+				try {
+					splash.close()
+					splash.webContents.send('main-win-ready')
+				} catch(e) {}
 				win.show()
 			})
 			win.on('closed', () => {

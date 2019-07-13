@@ -53,6 +53,10 @@
 			
 			//thisWindow.webContents.openDevTools()
 
+			ipcRenderer.on('main-win-ready', () => {
+				window.close()
+			})
+
 			let startUpdate = function() {
 				autoUpdater.on('error', (e) => {
 					msgOutput.innerText = 'There was an error 🙁'

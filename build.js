@@ -4,7 +4,7 @@ const { spawnSync } = require('child_process');
 
 const packageJson = JSON.parse(fs.readFileSync('package.json', {'encoding': 'utf8'}))
 
-spawnSync('.\\node_modules\\electron-winstaller\\vendor\\rcedit', ['.\\build\\TTVStreamerTool.exe', '--set-product-version', packageJson.version])
+//spawnSync('.\\node_modules\\electron-winstaller\\vendor\\rcedit', ['.\\build\\TTVStreamerTool.exe', '--set-product-version', packageJson.version])
 
 console.log('Creating Windows installer...')
 
