@@ -10,7 +10,7 @@
 	},
 	"scripts": {
 		"start": ".\\node_modules\\electron\\dist\\electron.exe .\\",
-		"generate-docs": ".\\node_modules\\.bin\\jsdoc -c jsdoc.json"
+		"generate-docs": "jsdoc -c jsdoc.json"
 	},
 	"dependencies": {
 		"compare-versions": "3.5.0",
@@ -29,11 +29,9 @@
 		"stringz": "2.0.0"
 	},
 	"devDependencies": {
-		"electron": "5.0.6",
-		"electron-winstaller": "3.0.4",
-		"jsdoc": "3.6.2",
-		"tui-jsdoc-template": "1.2.2",
 		"@riotjs/cli": "4.0.2",
-		"@riotjs/compiler": "4.3.2"
+		"@riotjs/compiler": "4.3.5",
+		"electron": "5.0.6",
+		"electron-winstaller": "3.0.4"
 	}
 }

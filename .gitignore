@@ -46,3 +46,4 @@ jspm_packages
 /*.php
 /var/tags/*.js
 *.bat
+/jsdoc.json
