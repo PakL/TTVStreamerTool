@@ -133,6 +133,7 @@ class TwitchHelix {
 	 * @param {Boolean} [authNeeded=false] Is user authorization required for this request. Oauth token is then passed on the request.
 	 * @param {Object} [postdata={}] Optional post data. If there are properties in this object authNeeded is set to true and request method is set to put. Post data is serialized to a JSON string.
 	 * @param {Boolean} [noretry=false] If this is set to true the request will not be retried after a server error response
+	 * @param {String} [method=] Overwrite HTTP method
 	 * @returns {Promise} Returns a Promise that resolves with a single response object if the request is done
 	 * @example
 	 * twitchtv.requestAPI(
@@ -150,11 +151,12 @@ class TwitchHelix {
 	 *     // Do something with data
 	 * })
 	 */
-	requestAPI(uri, query, authNeeded, postdata, noretry) {
+	requestAPI(uri, query, authNeeded, postdata, noretry, method) {
 		const self = this
 		if(typeof(authNeeded) != 'boolean') authNeeded = false
 		if(typeof(query) != 'object' || query == null) query = {}
 		if(typeof(noretry) != 'boolean') noretry = false
+		if(typeof(method) !== 'string') method = ''
 
 		if(typeof(postdata) !== 'object') {
 			postdata = {}
@@ -236,6 +238,7 @@ class TwitchHelix {
 				requestOptions.method = 'PUT'
 				requestOptions.body = postdata
 			}
+			if(method.length > 0) requestOptions.method = method.toUpperCase()
 			request(requestOptions, (error, response, body) => {
 				if(error) {
 					reject(error)
@@ -253,6 +256,7 @@ class TwitchHelix {
 						return
 					}
 					if(typeof(body) == 'object' && body.hasOwnProperty('message')) {
+						if(body.message.length <= 0 && typeof(body.status) !== 'undefined' && typeof(body.error) !== 'undefined') body.message = body.status + ' - ' + body.error
 						reject(new Error(body.message))
 					} else if(body == 'object') {
 						reject(new Error(JSON.stringify(body)))
@@ -364,6 +368,31 @@ class TwitchHelix {
 			if(query.hasOwnProperty('user_login') && (Array.isArray(query.user_login) || typeof(query.user_login) == "string")) opt.user_login = query.user_login
 		}
 		return this.requestAPI(uri, opt, false)
+	}
+
+	/**
+	 * Creates a marker in the stream of a user specified by a user ID. A marker is an arbitrary point in a stream that the broadcaster wants to mark; e.g., to easily return to later.
+	 * 
+	 * @param {Object} query An object with request parameters
+	 * @param {String} query.user_id ID of the broadcaster in whose live stream the marker is created.
+	 * @param {String} [query.description] Description of or comments on the marker.
+	 * @returns {Promise} Returns a Promise that resolves with a single response object if the request is done
+	 * @see {@link https://dev.twitch.tv/docs/api/reference/#create-stream-marker}
+	 */
+	createStreamMarker(query)
+	{
+		var uri = '/helix/streams/markers'
+		var post = {}
+		if(typeof(query) == 'object') {
+			if(query.hasOwnProperty('user_id') && typeof(query.user_id) == "string") post.user_id = query.user_id
+			if(query.hasOwnProperty('description') && typeof(query.description) == "string") post.description = query.description
+		}
+		if(typeof(post.user_id) !== 'string') {
+			return new Promise((r, reject) => {
+				reject(new Error('user_id must be defined'))
+			})
+		}
+		return this.requestAPI(uri, {}, true, post, true, 'POST')
 	}
 
 	/**

@@ -542,5 +542,11 @@
 	},
 	"Auto scrolling disabled. Click here to re-enable.": {
 		"de": "Automatisches scrollen deaktiviert. Hier klicken zum Reaktivieren."
+	},
+	"Marker was created at {{time}}": {
+		"de": "Marker bei {{time}} erstellt"
+	},
+	"No marker was created": {
+		"de": "Es wurde kein Marker erstellt"
 	}
 }
