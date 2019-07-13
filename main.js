@@ -1,12 +1,8 @@
-const Electron = require('electron')
-const {app, BrowserWindow, globalShortcut, autoUpdater} = Electron
-//const EAU = require('electron-asar-updater');
+const {app, BrowserWindow, globalShortcut, autoUpdater, ipcMain} = require('electron')
 const windowStateKeeper = require('electron-window-state');
 
 const path = require('path')
 const url = require('url')
-const fs = require('fs')
-const {exec} = require('child_process')
 
 let win
 let splash
@@ -27,14 +23,15 @@ else {
 			doNotOpenMainWindow = true
 		})
 
-		splash = new BrowserWindow({width: 300, height: 450, frame: false, skipTaskbar: true, alwaysOnTop: true, webPreferences: { nodeIntegration: true, webviewTag: false }})
+		splash = new BrowserWindow({width: 300, height: 450, frame: false, skipTaskbar: true, alwaysOnTop: true, webPreferences: { nodeIntegration: true, webviewTag: false }, show: false})
 		splash.loadURL(url.format({
 			pathname: path.join(__dirname, 'views', 'splash.html'),
 			protocol: 'file:',
 			slashes: true
 		}))
+		splash.on('ready-to-show', () => { splash.show() })
 
-		splash.on('close', () => {
+		ipcMain.on('splash-done', () => {
 			if(doNotOpenMainWindow) return
 
 			let mainWindowState = windowStateKeeper({ defaultWidth: 800, defaultHeight: 600 })
@@ -48,20 +45,22 @@ else {
 				minHeight: 600,
 				autoHideMenuBar: true,
 				icon: 'res/icon.ico',
-				webPreferences: { nodeIntegration: true, webviewTag: true }
+				webPreferences: { nodeIntegration: true, webviewTag: true },
+				show: false
 			})
 			win.loadURL(url.format({
 				pathname: path.join(__dirname, 'views', 'metroindex.html'),
 				protocol: 'file:',
 				slashes: true
 			}))
-			app.on('second-instance', (event, commandLine, workingDirectory) => {
-				if (win) {
-					if(win.isMinimized()) win.restore()
-					win.focus()
-				}
+			win.on('ready-to-show', () => {
+				win.show()
+				splash.close()
 			})
 			mainWindowState.manage(win)
+		})
+		
+		splash.on('close', () => {
 		})
 		splash.on('closed', () => {
 			splash = null
@@ -69,6 +68,13 @@ else {
 	}
 
 	app.on('ready', createWindow)
+
+	app.on('second-instance', (event, commandLine, workingDirectory) => {
+		if (win) {
+			if(win.isMinimized()) win.restore()
+			win.focus()
+		}
+	})
 
 	app.on('window-all-closed', () => {
 		globalShortcut.unregisterAll()
