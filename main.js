@@ -32,7 +32,10 @@ else {
 		splash.on('ready-to-show', () => { splash.show() })
 
 		ipcMain.on('splash-done', () => {
-			if(doNotOpenMainWindow) return
+			if(doNotOpenMainWindow) {
+				splash.close()
+				return
+			}
 
 			let mainWindowState = windowStateKeeper({ defaultWidth: 800, defaultHeight: 600 })
 
@@ -54,14 +57,15 @@ else {
 				slashes: true
 			}))
 			win.on('ready-to-show', () => {
-				win.show()
 				splash.close()
+				win.show()
+			})
+			win.on('closed', () => {
+				win = null
 			})
 			mainWindowState.manage(win)
 		})
-		
-		splash.on('close', () => {
-		})
+
 		splash.on('closed', () => {
 			splash = null
 		})

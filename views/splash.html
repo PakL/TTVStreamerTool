@@ -55,20 +55,20 @@
 
 			let startUpdate = function() {
 				autoUpdater.on('error', (e) => {
-					msgOutput.innerText = 'There was an error :('
+					msgOutput.innerText = 'There was an error 🙁'
 					setTimeout(() => {
 						ipcRenderer.send('splash-done')
 					}, 2000)
 				})
 				autoUpdater.on('update-available', () => {
-					msgOutput.innerText = 'Loading update...'
+					msgOutput.innerText = 'Loading update... ' + ['🍕','🍟','🥨','🍙','🍪','🍦','🍌','🥦','🥕'][Math.floor(Math.random()*9)]
 				})
 				autoUpdater.on('update-not-available', () => {
-					msgOutput.innerText = 'No update!'
+					msgOutput.innerText = 'No update! 😎'
 					ipcRenderer.send('splash-done')
 				})
 				autoUpdater.on('update-downloaded', () => {
-					msgOutput.innerText = 'Installing update now...'
+					msgOutput.innerText = 'Installing update now... 🤩'
 					autoUpdater.quitAndInstall()
 				})
 
@@ -76,7 +76,7 @@
 				if(process.argv.indexOf('--squirrel-firstrun') >= 0) {
 					thisWindow.close()
 				} else {
-					msgOutput.innerText = 'Checking for update...'
+					msgOutput.innerText = 'Checking for update... 🔎'
 					autoUpdater.checkForUpdates()
 				}
 			}
