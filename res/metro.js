@@ -63,4 +63,9 @@ async function renderLess(event, newColor) {
 
 renderLess(null, systemPreferences.getAccentColor())
 
+console.log('[CSS] Listening for accent-color-changed event')
 systemPreferences.on('accent-color-changed', renderLess)
+window.addEventListener('beforeunload', () => {
+	console.log('[CSS] Removing accent-color-changed event listener')
+	systemPreferences.removeListener('accent-color-changed', renderLess)
+})
