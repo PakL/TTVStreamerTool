@@ -50,12 +50,7 @@
 			const thisWindow = remote.getCurrentWindow()
 			const msgOutput = document.querySelector('p')
 			const {exec} = require('child_process')
-			
-			//thisWindow.webContents.openDevTools()
 
-			ipcRenderer.on('main-win-ready', () => {
-				window.close()
-			})
 
 			let startUpdate = function() {
 				autoUpdater.on('error', (e) => {
@@ -85,44 +80,45 @@
 				}
 			}
 
-			let thisExecDir = path.dirname(process.execPath)
-			let appsDir = path.resolve(thisExecDir, '../')
-			console.log(appsDir)
-			msgOutput.innerText = 'Checking for old addons...'
-			fs.readdir(appsDir, (err, files) => {
-				if(err) {
-					startUpdate()
-					return
-				}
-
-				let reinstalledAddon = false
-
-				files.forEach((file) => {
-					if(!file.startsWith('app-')) return
-					if(file == 'app-' + app.getVersion()) return
-					try {
-						let appfolder = path.join(appsDir, file)
-						let stats = fs.lstatSync(appfolder)
-						if(stats.isDirectory()) {
-							fs.accessSync(path.join(appfolder, 'resources'))
-							let appResources = fs.readdirSync(path.join(appfolder, 'resources'))
-							appResources.forEach((resource) => {
-								if(resource.toLowerCase().endsWith('.asar') && ['app.asar', 'default_app.asar', 'electron.asar'].indexOf(resource.toLowerCase()) < 0) {
-									try {
-										if(!originalFs.existsSync(path.join(thisExecDir, 'resources', resource))) {
-											originalFs.renameSync(path.join(appfolder, 'resources', resource), path.join(thisExecDir, 'resources', resource))
-											reinstalledAddon = true
-										}
-									} catch(er) {}
-								}
-							})
-						}
-					} catch(e) {
-						console.error(e)
+			window.addEventListener('load', () => {
+				let thisExecDir = path.dirname(process.execPath)
+				let appsDir = path.resolve(thisExecDir, '../')
+				msgOutput.innerText = 'Checking for old addons...'
+				fs.readdir(appsDir, (err, files) => {
+					if(err) {
+						startUpdate()
+						return
 					}
-				})
 
-				startUpdate()
+					let reinstalledAddon = false
+
+					files.forEach((file) => {
+						if(!file.startsWith('app-')) return
+						if(file == 'app-' + app.getVersion()) return
+						try {
+							let appfolder = path.join(appsDir, file)
+							let stats = fs.lstatSync(appfolder)
+							if(stats.isDirectory()) {
+								fs.accessSync(path.join(appfolder, 'resources'))
+								let appResources = fs.readdirSync(path.join(appfolder, 'resources'))
+								appResources.forEach((resource) => {
+									if(resource.toLowerCase().endsWith('.asar') && ['app.asar', 'default_app.asar', 'electron.asar'].indexOf(resource.toLowerCase()) < 0) {
+										try {
+											if(!originalFs.existsSync(path.join(thisExecDir, 'resources', resource))) {
+												originalFs.renameSync(path.join(appfolder, 'resources', resource), path.join(thisExecDir, 'resources', resource))
+												reinstalledAddon = true
+											}
+										} catch(er) {}
+									}
+								})
+							}
+						} catch(e) {
+							console.error(e)
+						}
+					})
+
+					startUpdate()
+				})
 			})
 		</script>
 	</body>

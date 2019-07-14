@@ -29,7 +29,10 @@ else {
 			protocol: 'file:',
 			slashes: true
 		}))
-		splash.on('ready-to-show', () => { splash.show() })
+		splash.on('ready-to-show', () => {
+			if(splash !== null)
+				splash.show()
+		})
 
 		ipcMain.on('splash-done', () => {
 			if(doNotOpenMainWindow) {
@@ -57,11 +60,8 @@ else {
 				slashes: true
 			}))
 			win.on('ready-to-show', () => {
-				try {
-					splash.close()
-					splash.webContents.send('main-win-ready')
-				} catch(e) {}
 				win.show()
+				splash.destroy()
 			})
 			win.on('closed', () => {
 				win = null
