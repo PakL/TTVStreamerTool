@@ -247,6 +247,7 @@ class ToolUI {
 			}
 			this.pageBefore = this.currentPage
 			page.open()
+			document.querySelector('title').innerText = 'TTVStreamerTool - ' + page.localizedName
 			this.currentPage = page.name
 			if(this._loadingPages[page.name] || this._loadingPages['global']) {
 				this._createLoading()
