@@ -61,7 +61,8 @@ else {
 			}))
 			win.on('ready-to-show', () => {
 				win.show()
-				splash.destroy()
+				if(splash !== null)
+					splash.destroy()
 			})
 			win.on('closed', () => {
 				win = null
