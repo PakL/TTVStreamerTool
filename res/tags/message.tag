@@ -120,6 +120,14 @@
 						}
 					})
 				}
+
+				let clipLinkMatch = this.props.msg.message.match(/https?:\/\/((www\.)?twitch\.tv\/([a-z0-9_]+)\/clip|clips\.twitch\.tv)\/([a-z0-9]+)/i)
+				if(clipLinkMatch) {
+					let clipEmbed = document.createElement('clipembed')
+					clipEmbed.setAttribute('id', clipLinkMatch[4])
+					this.$('.m').appendChild(clipEmbed)
+					riot.mount(clipEmbed)
+				}
 			},
 
 			onBeforeUpdate() {

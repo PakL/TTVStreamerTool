@@ -548,5 +548,27 @@
 	},
 	"No marker was created": {
 		"de": "Es wurde kein Marker erstellt"
+	},
+	"Clipped by {{user}}": {
+		"de": "Von {{user}} geclippt"
+	},
+	"{{broadcaster}} played {{game}}": {
+		"de": "{{broadcaster}} spielte {{game}}"
+	},
+	"{{viewsnum}} {{views||viewsnum}}": {
+		"de": "{{viewsnum}} {{views||viewsnum}}"
+	},
+	"views": {
+		"en": {
+			"0": "view",
+			"1": "views"
+		},
+		"de": {
+			"0": "Aufruf",
+			"1": "Aufrufe"
+		}
+	},
+	"An error occured": {
+		"de": "Ein Fehler ist aufgetreten"
 	}
 }

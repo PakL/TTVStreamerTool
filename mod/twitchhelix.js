@@ -421,5 +421,47 @@ class TwitchHelix {
 		}
 		return this.requestAPI(uri, opt, false)
 	}
+
+
+	/**
+	 * Gets clip information by clip ID (one or more), broadcaster ID (one only), or game ID (one only).
+	 * 
+	 * @param {Object} query An object with request parameters
+	 * @param {String[]} [query.id] ID of the clip being queried. Limit: 100.
+	 * @param {String} [query.broadcaster_id] ID of the broadcaster for whom clips are returned. The number of clips returned is determined by the first query-string parameter (default: 20). Results are ordered by view count.
+	 * @param {String} [query.game_id] ID of the game for which clips are returned. The number of clips returned is determined by the first query-string parameter (default: 20). Results are ordered by view count.
+	 * @param {String} [query.after] Cursor for forward pagination: tells the server where to start fetching the next set of results, in a multi-page response. This applies only to queries specifying broadcaster_id or game_id. The cursor value specified here is from the pagination response field of a prior query.
+	 * @param {String} [query.before] Cursor for backward pagination: tells the server where to start fetching the next set of results, in a multi-page response. This applies only to queries specifying broadcaster_id or game_id. The cursor value specified here is from the pagination response field of a prior query.
+	 * @param {String} [query.ended_at] Ending date/time for returned clips, in RFC3339 format. (Note that the seconds value is ignored.) If this is specified, started_at also must be specified; otherwise, the time period is ignored.
+	 * @param {Number} [query.first] Maximum number of objects to return. Maximum: 100. Default: 20.
+	 * @param {String} [query.started_at] Starting date/time for returned clips, in RFC3339 format. (Note that the seconds value is ignored.) If this is specified, ended_at also should be specified; otherwise, the ended_at date/time will be 1 week after the started_at value.
+	 * @returns {Promise} Returns a Promise that resolves with a single response object if the request is done
+	 * @see {@link https://dev.twitch.tv/docs/api/reference/#get-clips}
+	 */
+	getClips(query) {
+		var uri = '/helix/clips'
+		var opt = {}
+
+		if((Array.isArray(query.id) || typeof(query.id) == "string") && query.id.length > 0) opt.id = query.id
+		if(typeof(query.broadcaster_id) == "string" && query.broadcaster_id.length > 0) opt.broadcaster_id = query.broadcaster_id
+		if((typeof(query.game_id) == "string" && query.game_id.length > 0) || typeof(query.game_id) == "number") opt.game_id = query.game_id
+
+		if(typeof(query.after) == "string" && query.after.length > 0) opt.after = query.after
+		if(typeof(query.before) == "string" && query.before.length > 0) opt.before = query.before
+		if(typeof(query.ended_at) == "string" && query.ended_at.length > 0) opt.ended_at = query.ended_at
+		if(typeof(query.first) == "number") opt.first = query.first
+		if(typeof(query.started_at) == "string" && query.started_at.length > 0) opt.started_at = query.started_at
+
+		if(
+			typeof(opt.id) !== 'string' && typeof(opt.broadcaster_id) !== 'string' &&
+			typeof(query.game_id) !== "string" && typeof(query.game_id) !== "number" &&
+			!Array.isArray(opt.id)
+		) {
+			return new Promise((r, reject) => {
+				reject(new Error('One of either id, broadcaster_id or game_id must be defined'))
+			})
+		}
+		return this.requestAPI(uri, opt, false)
+	}
 }
 module.exports = TwitchHelix
