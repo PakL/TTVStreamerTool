@@ -1,5 +1,5 @@
 const {app, BrowserWindow, globalShortcut, autoUpdater, ipcMain} = require('electron')
-const windowStateKeeper = require('electron-window-state');
+const WindowState = require('./mod/window-state');
 
 const path = require('path')
 const url = require('url')
@@ -40,7 +40,7 @@ else {
 				return
 			}
 
-			let mainWindowState = windowStateKeeper({ defaultWidth: 800, defaultHeight: 600 })
+			let mainWindowState = new WindowState({ defaultWidth: 800, defaultHeight: 600 })
 
 			win = new BrowserWindow({
 				x: mainWindowState.x,
@@ -59,10 +59,12 @@ else {
 				protocol: 'file:',
 				slashes: true
 			}))
+			win.once('show', () => {
+				if(splash !== null)
+					splash.close()
+			})
 			win.on('ready-to-show', () => {
 				win.show()
-				if(splash !== null)
-					splash.destroy()
 			})
 			win.on('closed', () => {
 				win = null

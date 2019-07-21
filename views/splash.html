@@ -55,12 +55,7 @@
 			let startUpdate = function() {
 				autoUpdater.on('error', (e) => {
 					msgOutput.innerText = 'There was an error 🙁'
-					setTimeout(() => {
-						ipcRenderer.send('splash-done')
-						setTimeout(() => {
-							window.close()
-						}, 5000)
-					}, 2000)
+					ipcRenderer.send('splash-done')
 				})
 				autoUpdater.on('update-available', () => {
 					msgOutput.innerText = 'Loading update... ' + ['🍕','🍟','🥨','🍙','🍪','🍦','🍌','🥦','🥕'][Math.floor(Math.random()*9)]
@@ -68,9 +63,6 @@
 				autoUpdater.on('update-not-available', () => {
 					msgOutput.innerText = 'No update! 😎'
 					ipcRenderer.send('splash-done')
-					setTimeout(() => {
-						window.close()
-					}, 5000)
 				})
 				autoUpdater.on('update-downloaded', () => {
 					msgOutput.innerText = 'Installing update now... 🤩'
