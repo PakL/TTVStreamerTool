@@ -45,6 +45,8 @@ class TTVTool extends EventEmitter {
 				'user:read:email',
 				'chat:read',
 				'chat:edit',
+				'whispers:read',
+				'whispers:edit',
 				'user:edit:broadcast',
 				'channel:read:subscriptions',
 				'channel:moderate',
