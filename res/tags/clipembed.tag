@@ -85,7 +85,7 @@
 						if(clip !== null) {
 							let games = await Tool.twitchhelix.getGames(clip.game_id)
 							if(games.data.length > 0) {
-								self.channel_game = Tool.i18n.__('{{broadcaster}} played {{game}}', {broadcaster: clip.broadcaster_name, game: games[0].name})
+								self.channel_game = Tool.i18n.__('{{broadcaster}} played {{game}}', {broadcaster: clip.broadcaster_name, game: games.data[0].name})
 							}
 						}
 					} catch(e) {
