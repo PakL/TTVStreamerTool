@@ -1,52 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="utf-8">
-    <title>Class: Chat | TTVST</title>
+    <title>Chat &bull; TTVStreamerTool</title>
 
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
-    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/tui-doc.css">
-
-    
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
 </head>
-<body>
-<nav class="lnb" id="lnb">
-    <div class="logo" style="width: 0px; height: 0px">
-        
-            <img src="img/toast-ui.png" width="100%" height="100%">
-        
-    </div>
-    <div class="title">
-        <h1><a href="index.html" class="link">TTVST</a></h1>
-        
-    </div>
-    <div class="search-container" id="search-container">
-        <input type="text" placeholder="Search">
-        <ul></ul>
-    </div>
-    
-        <ol class="lnb-tab">
-            <li id="api-tab">
-                <a href="#"><h4>API</h4></a>
-            </li>
-            <li id="examples-tab">
-                <a href="#"><h4>Tutorials</h4></a>
-            </li>
-        </ol>
-    
-    <div class="lnb-examples hidden"><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Getting Started_sub"></div></li><li><a href="tutorial-Streamdeck Shortcuts.html">Streamdeck Shortcuts</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Streamdeck Shortcuts_sub"></div></li></ul></div><div class="lnb-api hidden"><h3>Classes</h3><ul><li><a href="Addons.html">Addons</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Addons_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="Addons.html#addonInstalled">addonInstalled</a></li><li><a href="Addons.html#findAndReplaceInMessage">findAndReplaceInMessage</a></li><li><a href="Addons.html#getAddon">getAddon</a></li><li><a href="Addons.html#getInstalledAddonDescription">getInstalledAddonDescription</a></li><li><a href="Addons.html#getInstalledAddonVersion">getInstalledAddonVersion</a></li></ul></div></li><li><a href="Channel.html">Channel</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Channel_sub"><div class="member-type">Events</div><ul class="inner"><li><a href="Channel.html#event:channeloffline">channeloffline</a></li><li><a href="Channel.html#event:channelonline">channelonline</a></li><li><a href="Channel.html#event:gamechange">gamechange</a></li><li><a href="Channel.html#event:statuschange">statuschange</a></li><li><a href="Channel.html#event:viewers">viewers</a></li></ul></div></li><li><a href="Chat.html">Chat</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Chat_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Chat.html#connected">connected</a></li><li><a href="Chat.html#irc">irc</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Chat.html#auth">auth</a></li><li><a href="Chat.html#disconnect">disconnect</a></li><li><a href="Chat.html#getUserObjByTags">getUserObjByTags</a></li><li><a href="Chat.html#join">join</a></li><li><a href="Chat.html#openViewercard">openViewercard</a></li><li><a href="Chat.html#part">part</a></li><li><a href="Chat.html#sendmsg">sendmsg</a></li><li><a href="Chat.html#showmsg">showmsg</a></li></ul><div class="member-type">Events</div><ul class="inner"><li><a href="Chat.html#event:autohostingyou">autohostingyou</a></li><li><a href="Chat.html#event:chatmessage">chatmessage</a></li><li><a href="Chat.html#event:cheer">cheer</a></li><li><a href="Chat.html#event:clearchat">clearchat</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:connected">connected</a></li><li><a href="Chat.html#event:hostingyou">hostingyou</a></li><li><a href="Chat.html#event:join">join</a></li><li><a href="Chat.html#event:names">names</a></li><li><a href="Chat.html#event:part">part</a></li><li><a href="Chat.html#event:roomstate">roomstate</a></li><li><a href="Chat.html#event:sendmessage">sendmessage</a></li><li><a href="Chat.html#event:usernotice">usernotice</a></li><li><a href="Chat.html#event:userstate">userstate</a></li></ul><div class="member-type">Typedef</div><ul class="inner"><li><a href="Chat.html#~userObject">userObject</a></li></ul></div></li><li><a href="Cockpit.html">Cockpit</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Cockpit_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Cockpit.html#icon">icon</a></li><li><a href="Cockpit.html#isChannelOnline">isChannelOnline</a></li><li><a href="Cockpit.html#localizedName">localizedName</a></li><li><a href="Cockpit.html#name">name</a></li><li><a href="Cockpit.html#openChannelId">openChannelId</a></li><li><a href="Cockpit.html#openChannelObject">openChannelObject</a></li><li><a href="Cockpit.html#showInViewsList">showInViewsList</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Cockpit.html#close">close</a></li><li><a href="Cockpit.html#leaveChannel">leaveChannel</a></li><li><a href="Cockpit.html#loadMoreFollows">loadMoreFollows</a></li><li><a href="Cockpit.html#open">open</a></li><li><a href="Cockpit.html#openChannel">openChannel</a></li><li><a href="Cockpit.html#searchGame">searchGame</a></li></ul><div class="member-type">Events</div><ul class="inner"><li><a href="Cockpit.html#event:channelleft">channelleft</a></li><li><a href="Cockpit.html#event:channelopen">channelopen</a></li></ul></div></li><li><a href="Follows.html">Follows</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Follows_sub"><div class="member-type">Events</div><ul class="inner"><li><a href="Follows.html#event:follow">follow</a></li></ul><div class="member-type">Typedef</div><ul class="inner"><li><a href="Follows.html#~userObject">userObject</a></li></ul></div></li><li><a href="Overlays.html">Overlays</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Overlays_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Overlays.html#allowedFiles">allowedFiles</a></li><li><a href="Overlays.html#icon">icon</a></li><li><a href="Overlays.html#localizedName">localizedName</a></li><li><a href="Overlays.html#name">name</a></li><li><a href="Overlays.html#overlayport">overlayport</a></li><li><a href="Overlays.html#overlayserver">overlayserver</a></li><li><a href="Overlays.html#showInViewsList">showInViewsList</a></li><li><a href="Overlays.html#wsport">wsport</a></li><li><a href="Overlays.html#wsserver">wsserver</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Overlays.html#appendSetting">appendSetting</a></li><li><a href="Overlays.html#broadcastWsMessage">broadcastWsMessage</a></li><li><a href="Overlays.html#close">close</a></li><li><a href="Overlays.html#disableOverlayHotkeys">disableOverlayHotkeys</a></li><li><a href="Overlays.html#open">open</a></li></ul><div class="member-type">Events</div><ul class="inner"><li><a href="Overlays.html#event:command">command</a></li><li><a href="Overlays.html#event:hotkeys-unregistered">hotkeys-unregistered</a></li></ul></div></li><li><a href="ToolSettings.html">ToolSettings</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ToolSettings_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ToolSettings.html#autoRecoverMessages">autoRecoverMessages</a></li><li><a href="ToolSettings.html#displayClassicChat">displayClassicChat</a></li><li><a href="ToolSettings.html#flashActions">flashActions</a></li><li><a href="ToolSettings.html#highlights">highlights</a></li><li><a href="ToolSettings.html#language">language</a></li><li><a href="ToolSettings.html#lightDesignMode">lightDesignMode</a></li><li><a href="ToolSettings.html#menu">menu</a></li><li><a href="ToolSettings.html#showActionStream">showActionStream</a></li><li><a href="ToolSettings.html#showBanAlert">showBanAlert</a></li><li><a href="ToolSettings.html#showCheerAlert">showCheerAlert</a></li><li><a href="ToolSettings.html#showFollowAlert">showFollowAlert</a></li><li><a href="ToolSettings.html#showHostAlert">showHostAlert</a></li><li><a href="ToolSettings.html#showLocalizedNames">showLocalizedNames</a></li><li><a href="ToolSettings.html#showRaidAlert">showRaidAlert</a></li><li><a href="ToolSettings.html#showSubscriptionAlert">showSubscriptionAlert</a></li><li><a href="ToolSettings.html#showTimeoutAlert">showTimeoutAlert</a></li><li><a href="ToolSettings.html#showViewerList">showViewerList</a></li><li><a href="ToolSettings.html#showViewersAmount">showViewersAmount</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="ToolSettings.html#addHighlight">addHighlight</a></li><li><a href="ToolSettings.html#appendSetting">appendSetting</a></li><li><a href="ToolSettings.html#getBoolean">getBoolean</a></li><li><a href="ToolSettings.html#getJSON">getJSON</a></li><li><a href="ToolSettings.html#getString">getString</a></li><li><a href="ToolSettings.html#remove">remove</a></li><li><a href="ToolSettings.html#setBoolean">setBoolean</a></li><li><a href="ToolSettings.html#setJSON">setJSON</a></li><li><a href="ToolSettings.html#setLanguage">setLanguage</a></li><li><a href="ToolSettings.html#setString">setString</a></li></ul></div></li><li><a href="ToolUI.html">ToolUI</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ToolUI_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ToolUI.html#currentPage">currentPage</a></li><li><a href="ToolUI.html#loadingElement">loadingElement</a></li><li><a href="ToolUI.html#pageBefore">pageBefore</a></li><li><a href="ToolUI.html#pages">pages</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="ToolUI.html#addMenu">addMenu</a></li><li><a href="ToolUI.html#addPage">addPage</a></li><li><a href="ToolUI.html#findPage">findPage</a></li><li><a href="ToolUI.html#getMenuItemById">getMenuItemById</a></li><li><a href="ToolUI.html#openPage">openPage</a></li><li><a href="ToolUI.html#showErrorMessage">showErrorMessage</a></li><li><a href="ToolUI.html#startLoading">startLoading</a></li><li><a href="ToolUI.html#stopLoading">stopLoading</a></li></ul></div></li><li><a href="TTVLogin.html">TTVLogin</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="TTVLogin_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="TTVLogin.html#menu">menu</a></li><li><a href="TTVLogin.html#userid">userid</a></li><li><a href="TTVLogin.html#username">username</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="TTVLogin.html#auth">auth</a></li></ul><div class="member-type">Events</div><ul class="inner"><li><a href="TTVLogin.html#event:complete">complete</a></li></ul></div></li><li><a href="TTVTool.html">TTVTool</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="TTVTool_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="TTVTool.html#addons">addons</a></li><li><a href="TTVTool.html#auth">auth</a></li><li><a href="TTVTool.html#channel">channel</a></li><li><a href="TTVTool.html#chat">chat</a></li><li><a href="TTVTool.html#cockpit">cockpit</a></li><li><a href="TTVTool.html#follows">follows</a></li><li><a href="TTVTool.html#i18n">i18n</a></li><li><a href="TTVTool.html#loaded">loaded</a></li><li><a href="TTVTool.html#overlays">overlays</a></li><li><a href="TTVTool.html#settings">settings</a></li><li><a href="TTVTool.html#subscriptions">subscriptions</a></li><li><a href="TTVTool.html#twitchapi">twitchapi</a></li><li><a href="TTVTool.html#twitchhelix">twitchhelix</a></li><li><a href="TTVTool.html#ui">ui</a></li></ul><div class="member-type">Events</div><ul class="inner"><li><a href="TTVTool.html#event:exit">exit</a></li><li><a href="TTVTool.html#event:load">load</a></li></ul></div></li><li><a href="TwitchChat.html">TwitchChat</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="TwitchChat_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="TwitchChat.html#options">options</a></li><li><a href="TwitchChat.html#socket">socket</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="TwitchChat.html#join">join</a></li><li><a href="TwitchChat.html#part">part</a></li><li><a href="TwitchChat.html#say">say</a></li><li><a href="TwitchChat.html#sendCLRF">sendCLRF</a></li></ul><div class="member-type">Events</div><ul class="inner"><li><a href="TwitchChat.html#event:action">action</a></li><li><a href="TwitchChat.html#event:autohostingyou">autohostingyou</a></li><li><a href="TwitchChat.html#event:capack">capack</a></li><li><a href="TwitchChat.html#event:clearchat">clearchat</a></li><li><a href="TwitchChat.html#event:clearmsg">clearmsg</a></li><li><a href="TwitchChat.html#event:clearuser">clearuser</a></li><li><a href="TwitchChat.html#event:close">close</a></li><li><a href="TwitchChat.html#event:connect">connect</a></li><li><a href="TwitchChat.html#event:error">error</a></li><li><a href="TwitchChat.html#event:hostingyou">hostingyou</a></li><li><a href="TwitchChat.html#event:incoming">incoming</a></li><li><a href="TwitchChat.html#event:join">join</a></li><li><a href="TwitchChat.html#event:message">message</a></li><li><a href="TwitchChat.html#event:mode">mode</a></li><li><a href="TwitchChat.html#event:mode+">mode+</a></li><li><a href="TwitchChat.html#event:mode-">mode-</a></li><li><a href="TwitchChat.html#event:motd">motd</a></li><li><a href="TwitchChat.html#event:names">names</a></li><li><a href="TwitchChat.html#event:notice">notice</a></li><li><a href="TwitchChat.html#event:outgoing">outgoing</a></li><li><a href="TwitchChat.html#event:part">part</a></li><li><a href="TwitchChat.html#event:raw">raw</a></li><li><a href="TwitchChat.html#event:reconnect">reconnect</a></li><li><a href="TwitchChat.html#event:registered">registered</a></li><li><a href="TwitchChat.html#event:roomstate">roomstate</a></li><li><a href="TwitchChat.html#event:usernotice">usernotice</a></li><li><a href="TwitchChat.html#event:userstate">userstate</a></li><li><a href="TwitchChat.html#event:whisper">whisper</a></li></ul></div></li><li><a href="TwitchHelix.html">TwitchHelix</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="TwitchHelix_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="TwitchHelix.html#clientid">clientid</a></li><li><a href="TwitchHelix.html#redirecturi">redirecturi</a></li><li><a href="TwitchHelix.html#scope">scope</a></li><li><a href="TwitchHelix.html#userid">userid</a></li><li><a href="TwitchHelix.html#userobj">userobj</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="TwitchHelix.html#getAuthImplicitGrantFlowUrl">getAuthImplicitGrantFlowUrl</a></li><li><a href="TwitchHelix.html#getAuthToken">getAuthToken</a></li><li><a href="TwitchHelix.html#getGames">getGames</a></li><li><a href="TwitchHelix.html#getStreams">getStreams</a></li><li><a href="TwitchHelix.html#getUsers">getUsers</a></li><li><a href="TwitchHelix.html#getUsersFollows">getUsersFollows</a></li><li><a href="TwitchHelix.html#isLoggedIn">isLoggedIn</a></li><li><a href="TwitchHelix.html#requestAPI">requestAPI</a></li><li><a href="TwitchHelix.html#setAuthToken">setAuthToken</a></li><li><a href="TwitchHelix.html#verifyState">verifyState</a></li></ul></div></li><li><a href="TwitchTv.html">TwitchTv</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="TwitchTv_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="TwitchTv.html#channelid">channelid</a></li><li><a href="TwitchTv.html#channelobj">channelobj</a></li><li><a href="TwitchTv.html#clientid">clientid</a></li><li><a href="TwitchTv.html#redirecturi">redirecturi</a></li><li><a href="TwitchTv.html#scope">scope</a></li><li><a href="TwitchTv.html#userid">userid</a></li><li><a href="TwitchTv.html#userobj">userobj</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="TwitchTv.html#getAuthImplicitGrantFlowUrl">getAuthImplicitGrantFlowUrl</a></li><li><a href="TwitchTv.html#getAuthToken">getAuthToken</a></li><li><a href="TwitchTv.html#getChannel">getChannel</a></li><li><a href="TwitchTv.html#getChannelFollowers">getChannelFollowers</a></li><li><a href="TwitchTv.html#getChannelSubscribers">getChannelSubscribers</a></li><li><a href="TwitchTv.html#getChannelVideos">getChannelVideos</a></li><li><a href="TwitchTv.html#getChatBadgesByChannel">getChatBadgesByChannel</a></li><li><a href="TwitchTv.html#getChatBadgeSetsByChannel">getChatBadgeSetsByChannel</a></li><li><a href="TwitchTv.html#getChatEmoticonsBySet">getChatEmoticonsBySet</a></li><li><a href="TwitchTv.html#getCheermotes">getCheermotes</a></li><li><a href="TwitchTv.html#getCollectionsByChannel">getCollectionsByChannel</a></li><li><a href="TwitchTv.html#getStreamByUser">getStreamByUser</a></li><li><a href="TwitchTv.html#getTeam">getTeam</a></li><li><a href="TwitchTv.html#getUser">getUser</a></li><li><a href="TwitchTv.html#getUserByName">getUserByName</a></li><li><a href="TwitchTv.html#getUserFollows">getUserFollows</a></li><li><a href="TwitchTv.html#isLoggedIn">isLoggedIn</a></li><li><a href="TwitchTv.html#requestAPI">requestAPI</a></li><li><a href="TwitchTv.html#searchGames">searchGames</a></li><li><a href="TwitchTv.html#setAuthToken">setAuthToken</a></li><li><a href="TwitchTv.html#updateChannel">updateChannel</a></li><li><a href="TwitchTv.html#verifyState">verifyState</a></li></ul></div></li><li><a href="UIPage.html">UIPage</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="UIPage_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="UIPage.html#icon">icon</a></li><li><a href="UIPage.html#localizedName">localizedName</a></li><li><a href="UIPage.html#name">name</a></li><li><a href="UIPage.html#showInViewsList">showInViewsList</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="UIPage.html#close">close</a></li><li><a href="UIPage.html#open">open</a></li></ul></div></li></ul></div>
-</nav>
-<div id="resizer"></div>
 
-<div class="main" id="main">
-    
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                     
+                        <img src="img/logomark-white.svg" alt="logo">
+                    
+                     
+                        <h1 class="navbar-item">TTVStreamerTool</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                 
+                <div class="navbar-menu">
+                    <div class="navbar-end">
+                    
+                        <div class="navbar-item">
+                            <a href="https://github.com/PakL/TTVStreamerTool" target="_blank">Github</a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://pakl.dev/" target="_blank">pakl.dev</a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://dieweltzockt.de/" target="_blank">Die Welt Zockt</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li><li><a href="tutorial-Streamdeck Shortcuts.html">Streamdeck Shortcuts</a></li></ul><h3>Classes</h3><ul><li><a href="Addons.html">Addons</a></li><li><a href="Channel.html">Channel</a></li><li><a href="Chat.html">Chat</a></li><li><a href="Cockpit.html">Cockpit</a></li><li><a href="Follows.html">Follows</a></li><li><a href="Overlays.html">Overlays</a></li><li><a href="ToolSettings.html">ToolSettings</a></li><li><a href="ToolUI.html">ToolUI</a></li><li><a href="TTVLogin.html">TTVLogin</a></li><li><a href="TTVTool.html">TTVTool</a></li><li><a href="TwitchChat.html">TwitchChat</a></li><li><a href="TwitchHelix.html">TwitchHelix</a></li><li><a href="TwitchTv.html">TwitchTv</a></li><li><a href="UIPage.html">UIPage</a></li></ul><h3>Events</h3><ul><li><a href="Channel.html#event:channeloffline">channeloffline</a></li><li><a href="Channel.html#event:channelonline">channelonline</a></li><li><a href="Channel.html#event:gamechange">gamechange</a></li><li><a href="Channel.html#event:statuschange">statuschange</a></li><li><a href="Channel.html#event:viewers">viewers</a></li><li><a href="Chat.html#event:autohostingyou">autohostingyou</a></li><li><a href="Chat.html#event:chatmessage">chatmessage</a></li><li><a href="Chat.html#event:cheer">cheer</a></li><li><a href="Chat.html#event:clearchat">clearchat</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:connected">connected</a></li><li><a href="Chat.html#event:hostingyou">hostingyou</a></li><li><a href="Chat.html#event:join">join</a></li><li><a href="Chat.html#event:names">names</a></li><li><a href="Chat.html#event:part">part</a></li><li><a href="Chat.html#event:roomstate">roomstate</a></li><li><a href="Chat.html#event:sendmessage">sendmessage</a></li><li><a href="Chat.html#event:usernotice">usernotice</a></li><li><a href="Chat.html#event:userstate">userstate</a></li><li><a href="Cockpit.html#event:channelleft">channelleft</a></li><li><a href="Cockpit.html#event:channelopen">channelopen</a></li><li><a href="Follows.html#event:follow">follow</a></li><li><a href="Overlays.html#event:command">command</a></li><li><a href="Overlays.html#event:hotkeys-unregistered">hotkeys-unregistered</a></li><li><a href="TTVLogin.html#event:complete">complete</a></li><li><a href="TTVTool.html#event:exit">exit</a></li><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TwitchChat.html#event:action">action</a></li><li><a href="TwitchChat.html#event:autohostingyou">autohostingyou</a></li><li><a href="TwitchChat.html#event:capack">capack</a></li><li><a href="TwitchChat.html#event:clearchat">clearchat</a></li><li><a href="TwitchChat.html#event:clearmsg">clearmsg</a></li><li><a href="TwitchChat.html#event:clearuser">clearuser</a></li><li><a href="TwitchChat.html#event:close">close</a></li><li><a href="TwitchChat.html#event:connect">connect</a></li><li><a href="TwitchChat.html#event:error">error</a></li><li><a href="TwitchChat.html#event:hostingyou">hostingyou</a></li><li><a href="TwitchChat.html#event:incoming">incoming</a></li><li><a href="TwitchChat.html#event:join">join</a></li><li><a href="TwitchChat.html#event:message">message</a></li><li><a href="TwitchChat.html#event:mode">mode</a></li><li><a href="TwitchChat.html#event:mode+">mode+</a></li><li><a href="TwitchChat.html#event:mode-">mode-</a></li><li><a href="TwitchChat.html#event:motd">motd</a></li><li><a href="TwitchChat.html#event:names">names</a></li><li><a href="TwitchChat.html#event:notice">notice</a></li><li><a href="TwitchChat.html#event:outgoing">outgoing</a></li><li><a href="TwitchChat.html#event:part">part</a></li><li><a href="TwitchChat.html#event:raw">raw</a></li><li><a href="TwitchChat.html#event:reconnect">reconnect</a></li><li><a href="TwitchChat.html#event:registered">registered</a></li><li><a href="TwitchChat.html#event:roomstate">roomstate</a></li><li><a href="TwitchChat.html#event:usernotice">usernotice</a></li><li><a href="TwitchChat.html#event:userstate">userstate</a></li><li><a href="TwitchChat.html#event:whisper">whisper</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Class</p>
+                        <h1>Chat</h1>
+                    </header>
+                    
+                    
 
 
 
@@ -61,46 +88,41 @@
 </header>
 
 <article>
+    <div class="container-overview">
     
-        <div class="container-overview">
         
-            
+            <div class='vertical-section'>
+                <h3 class="title"><span>Constructor</span></h3>
+                <div class="members">
+                    <div class="member">
 
-<dt>
     
-        <h4 class="name" id="Chat">
-            
-                new <span class="type-signature"></span>Chat<span class="signature">(tool)</span><span class="type-signature"></span>
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line6">line 6</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="Chat">
         
+        <span class="code-name">
+            new Chat<span class="signature">(tool)</span><span class="type-signature"></span>
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         This module makes more useable events out of the irc interface
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -121,74 +143,35 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>tool</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>tool</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type"><a href="TTVTool.html">TTVTool</a></span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last"></td>
-        </tr>
+  <td class="description last"></td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-    <h5>Fires:</h5>
-    <ul>
-        <li><a href="Chat.html#event:connected">Chat#event:connected</a></li>
-    
-        <li><a href="Chat.html#event:userstate">Chat#event:userstate</a></li>
-    
-        <li><a href="Chat.html#event:join">Chat#event:join</a></li>
-    
-        <li><a href="Chat.html#event:part">Chat#event:part</a></li>
-    
-        <li><a href="Chat.html#event:names">Chat#event:names</a></li>
-    
-        <li><a href="Chat.html#event:clearuser">Chat#event:clearuser</a></li>
-    
-        <li><a href="Chat.html#event:clearchat">Chat#event:clearchat</a></li>
-    
-        <li><a href="Chat.html#event:usernotice">Chat#event:usernotice</a></li>
-    
-        <li><a href="Chat.html#event:hostingyou">Chat#event:hostingyou</a></li>
-    
-        <li><a href="Chat.html#event:autohostingyou">Chat#event:autohostingyou</a></li>
-    
-        <li><a href="Chat.html#event:chatmessage">Chat#event:chatmessage</a></li>
-    
-        <li><a href="Chat.html#event:sendmessage">Chat#event:sendmessage</a></li>
-    </ul>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -216,22 +199,79 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line6">line 6</a>
+            </span>
+        </p>
     
 </dl>
 
 
-    
 
-</dd>
 
-        
+
+    <div class="method-parameter columns">
+        <div class="column is-2"><label>Fires:</label></div>
+        <div class="column is-10">
+            <ul>
+                <li><a href="Chat.html#event:connected">Chat#event:connected</a></li>
+            
+                <li><a href="Chat.html#event:userstate">Chat#event:userstate</a></li>
+            
+                <li><a href="Chat.html#event:join">Chat#event:join</a></li>
+            
+                <li><a href="Chat.html#event:part">Chat#event:part</a></li>
+            
+                <li><a href="Chat.html#event:names">Chat#event:names</a></li>
+            
+                <li><a href="Chat.html#event:clearuser">Chat#event:clearuser</a></li>
+            
+                <li><a href="Chat.html#event:clearchat">Chat#event:clearchat</a></li>
+            
+                <li><a href="Chat.html#event:usernotice">Chat#event:usernotice</a></li>
+            
+                <li><a href="Chat.html#event:hostingyou">Chat#event:hostingyou</a></li>
+            
+                <li><a href="Chat.html#event:autohostingyou">Chat#event:autohostingyou</a></li>
+            
+                <li><a href="Chat.html#event:chatmessage">Chat#event:chatmessage</a></li>
+            
+                <li><a href="Chat.html#event:sendmessage">Chat#event:sendmessage</a></li>
+            </ul>
         </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+                </div>
+            </div>
+        
     
+    </div>
 
     
         <h3 class="subsection-title">Extends</h3>
@@ -257,36 +297,28 @@
     
 
     
-        <h3 class="subsection-title">Members</h3>
-
-        <dl>
+        <div class='vertical-section'>
+            <h3 class="title"><span>Members</span></h3>
+            <div class="members">
             
+                <div class="member">
 
-<dt>
 <h4 class="name" id="connected">
-    <span class="type-signature"></span>connected<span class="type-signature"></span>
     
-    <div class="container-source members">
-        <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-        <code><a href="lib_chat.js.html#line54">line 54</a></code>
-    </div>
-    
+    <span class="code-name">
+        connected
+    </span>
 </h4>
 
 
-</dt>
-<dd>
-    
-    <div class="description">
-        Is the irc connection established and the user logged in. You can listen to the <a href="Chat.html#event:connected">connected</a> event in case of false.
-    </div>
-    
 
-    <!--
-    
-    -->
 
-    
+<div class="description">
+    Is the irc connection established and the user logged in. You can listen to the <a href="Chat.html#event:connected">connected</a> event in case of false.
+</div>
+
+
+
 
 
 <dl class="details">
@@ -314,58 +346,54 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line54">line 54</a>
+            </span>
+        </p>
     
 </dl>
 
 
-    
 
-    
-</dd>
 
-        
+
+</div>
             
+                <div class="member">
 
-<dt>
-<h4 class="name" id="irc">
-    <span class="type-signature"></span>irc<span class="type-signature"> :<a href="TwitchChat.html">TwitchChat</a></span>
-    
-    <div class="container-source members">
-        <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-        <code><a href="lib_chat.js.html#line60">line 60</a></code>
-    </div>
-    
-</h4>
-
-
-</dt>
-<dd>
-    
-    <div class="description">
-        The irc connection
-    </div>
-    
-
-    <!--
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
 <span class="param-type"><a href="TwitchChat.html">TwitchChat</a></span>
 
 
-            </li>
-        </ul>
-    
-    -->
+    </span>
 
+<h4 class="name" id="irc">
     
+    <span class="code-name">
+        irc
+    </span>
+</h4>
+
+
+
+
+<div class="description">
+    The irc connection
+</div>
+
+
+
 
 
 <dl class="details">
@@ -393,64 +421,66 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line60">line 60</a>
+            </span>
+        </p>
     
 </dl>
 
 
-    
 
-    
-</dd>
 
-        </dl>
-    
 
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        <dl>
-                
-
-<dt>
-    
-        <h4 class="name" id="auth">
+</div>
             
-                <span class="type-signature"></span>auth<span class="signature">(username, authtoken)</span><span class="type-signature"></span>
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line283">line 283</a></code>
             </div>
-            
-        </h4>
-
-        
+        </div>
     
-</dt>
-<dd>
 
+    
+        <div class='vertical-section'>
+            <h3 class="title"><span>Methods</span></h3>
+            <div class="members">
+            
+                <div class="member">
+
+    
+    <h4 class="name" id="auth">
+        
+        <span class="code-name">
+            auth<span class="signature">(username, authtoken)</span><span class="type-signature"></span>
+        </span>
+    </h4>
+    
+
+    
     
     <div class="description">
         Set the username and auth token and connects to the irc
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -471,70 +501,60 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>username</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>username</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The username that is being logged in as</td>
-        </tr>
+  <td class="description last">The username that is being logged in as</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>authtoken</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>authtoken</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The twitch api token to login with</td>
-        </tr>
+  <td class="description last">The twitch api token to login with</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -562,68 +582,72 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line283">line 283</a>
+            </span>
+        </p>
     
 </dl>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
     
-
-</dd>
-
-            
-                
-
-<dt>
-    
-        <h4 class="name" id="disconnect">
-            
-                <span class="type-signature"></span>disconnect<span class="signature">()</span><span class="type-signature"></span>
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line596">line 596</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="disconnect">
         
+        <span class="code-name">
+            disconnect<span class="signature">()</span><span class="type-signature"></span>
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         Planned disconnect from the twitch irc
     </div>
     
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
 
 <dl class="details">
@@ -651,57 +675,73 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line623">line 623</a>
+            </span>
+        </p>
     
 </dl>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
     
-
-</dd>
-
-            
-                
-
-<dt>
-    
-        <h4 class="name" id="getUserObjByTags">
-            
-                <span class="type-signature"></span>getUserObjByTags<span class="signature">(user, tags)</span><span class="type-signature"> &rarr; {<a href="Chat.html#~userObject">Chat~userObject</a>}</span>
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line317">line 317</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="getUserObjByTags">
         
+        <span class="code-name">
+            getUserObjByTags<span class="signature">(user, tags)</span><span class="type-signature"> &rarr; {<a href="Chat.html#~userObject">Chat~userObject</a>}</span>
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         Generate an user object from the username and the tags, that were given with a message
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -722,91 +762,60 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>user</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">A username</td>
-        </tr>
+  <td class="description last">A username</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>tags</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>tags</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Object</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The twitch irc tags that were given</td>
-        </tr>
+  <td class="description last">The twitch irc tags that were given</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <div class="container-returns">
-        <h5>Returns:</h5>
-        
-                
 
 
-
-<span class="param-type"><a href="Chat.html#~userObject">Chat~userObject</a></span>
-
-
-
-
-
-- Always returns a complete object, but properties might be empty or incomplete because of missing tags
-
-
-
-
-            
-    </div>
-    
-
-    
 
 
 <dl class="details">
@@ -834,57 +843,98 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line317">line 317</a>
+            </span>
+        </p>
     
 </dl>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
     
-
-</dd>
-
-            
-                
-
-<dt>
+    <div class='param-desc column is-7'>Always returns a complete object, but properties might be empty or incomplete because of missing tags</div>
     
-        <h4 class="name" id="join">
-            
-                <span class="type-signature"></span>join<span class="signature">(channel)</span><span class="type-signature"></span>
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line484">line 484</a></code>
-            </div>
-            
-        </h4>
-
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
         
-    
-</dt>
-<dd>
+<span class="param-type"><a href="Chat.html#~userObject">Chat~userObject</a></span>
 
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    
+    <h4 class="name" id="join">
+        
+        <span class="code-name">
+            join<span class="signature">(channel)</span><span class="type-signature"></span>
+        </span>
+    </h4>
+    
+
+    
     
     <div class="description">
         Join a channel
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -905,47 +955,35 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channel</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The channel that should be joined</td>
-        </tr>
+  <td class="description last">The channel that should be joined</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -973,57 +1011,73 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line484">line 484</a>
+            </span>
+        </p>
     
 </dl>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
     
-
-</dd>
-
-            
-                
-
-<dt>
-    
-        <h4 class="name" id="openViewercard">
-            
-                <span class="type-signature"></span>openViewercard<span class="signature">(channel, user)</span><span class="type-signature"></span>
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line508">line 508</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="openViewercard">
         
+        <span class="code-name">
+            openViewercard<span class="signature">(channel, user)</span><span class="type-signature"></span>
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         Opens the official popout viewercard with moderation tools
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -1044,70 +1098,60 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channel</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last"></td>
-        </tr>
+  <td class="description last"></td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>user</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last"></td>
-        </tr>
+  <td class="description last"></td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -1135,57 +1179,73 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line508">line 508</a>
+            </span>
+        </p>
     
 </dl>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
     
-
-</dd>
-
-            
-                
-
-<dt>
-    
-        <h4 class="name" id="part">
-            
-                <span class="type-signature"></span>part<span class="signature">(channel, cb)</span><span class="type-signature"></span>
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line496">line 496</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="part">
         
+        <span class="code-name">
+            part<span class="signature">(channel, cb)</span><span class="type-signature"></span>
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         Leave a channel
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -1206,70 +1266,60 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channel</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The channel that should be left</td>
-        </tr>
+  <td class="description last">The channel that should be left</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>cb</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>cb</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">function</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">A callback that is called when the channel was left</td>
-        </tr>
+  <td class="description last">A callback that is called when the channel was left</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -1297,57 +1347,73 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line496">line 496</a>
+            </span>
+        </p>
     
 </dl>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
     
-
-</dd>
-
-            
-                
-
-<dt>
-    
-        <h4 class="name" id="sendmsg">
-            
-                <span class="type-signature"></span>sendmsg<span class="signature">(channel, message, emotes<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line538">line 538</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="sendmsg">
         
+        <span class="code-name">
+            sendmsg<span class="signature">(channel, message, emotes<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         Send a message to a channel
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -1370,119 +1436,111 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channel</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
-                <td class="attributes">
-                
+  
+      <td class="attributes">
+      
 
-                
+      
 
-                
-                </td>
-            
+      
+      </td>
+  
 
-            
+  
 
-            <td class="description last">Channel the message is being send to</td>
-        </tr>
+  <td class="description last">Channel the message is being send to</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>message</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>message</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
-                <td class="attributes">
-                
+  
+      <td class="attributes">
+      
 
-                
+      
 
-                
-                </td>
-            
+      
+      </td>
+  
 
-            
+  
 
-            <td class="description last">The message that is being send. Must not contain CR or LF symbols or everything breaks.</td>
-        </tr>
+  <td class="description last">The message that is being send. Must not contain CR or LF symbols or everything breaks.</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>emotes</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>emotes</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Object</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
 
-                
+      
 
-                
-                </td>
-            
+      
+      </td>
+  
 
-            
+  
 
-            <td class="description last">A twitch api object with the for the user available emoticon sets. This is just for display for the user. The twitch server may decide which emotes the user has and are being displayed.</td>
-        </tr>
+  <td class="description last">A twitch api object with the for the user available emoticon sets. This is just for display for the user. The twitch server may decide which emotes the user has and are being displayed.</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -1510,7 +1568,6 @@
     
 
     
-
     
 
     
@@ -1523,51 +1580,68 @@
         </ul>
     </dd>
     
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line538">line 538</a>
+            </span>
+        </p>
+    
 </dl>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
     
-
-</dd>
-
-            
-                
-
-<dt>
-    
-        <h4 class="name" id="showmsg">
-            
-                <span class="type-signature"></span>showmsg<span class="signature">(prefix, user, to, msg, tags, type)</span><span class="type-signature"></span>
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line396">line 396</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="showmsg">
         
+        <span class="code-name">
+            showmsg<span class="signature">(prefix, user, to, msg, tags, type)</span><span class="type-signature"></span>
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         Prepares a message and emits the chatmessage event. It replaces emotes, checks for highlights and creates a user object by the tags
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -1588,241 +1662,212 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>prefix</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>prefix</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">null</span>
 |
 
 <span class="param-type">Object</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">Might be the prefix object
-                <h6>Properties</h6>
-                
-<table class="params">
-    <thead>
-    <tr>
+  <td class="description last">Might be the prefix object</td>
+</tr>
+
+  
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>user</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">String</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Username in the prefix</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>host</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">String</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Host in the prefix</td>
+</tr>
+
+  
+
+
+    
+
         
-        <th>Name</th>
+<tr class="deep-level-0">
+  
+      <td class="name"><code>user</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">String</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Username of the user that sent the message. Might be empty</td>
+</tr>
+
+
+    
+
         
+<tr class="deep-level-0">
+  
+      <td class="name"><code>to</code></td>
+  
 
-        <th>Type</th>
+  <td class="type">
+  
+      
+<span class="param-type">String</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Channel that the message was sent to</td>
+</tr>
+
+
+    
 
         
+<tr class="deep-level-0">
+  
+      <td class="name"><code>msg</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">String</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">The messages that was sent</td>
+</tr>
+
+
+    
 
         
+<tr class="deep-level-0">
+  
+      <td class="name"><code>tags</code></td>
+  
 
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Username in the prefix</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>host</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Host in the prefix</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Username of the user that sent the message. Might be empty</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>to</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Channel that the message was sent to</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>msg</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The messages that was sent</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>tags</code></td>
-            
-
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Object</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The message tags</td>
-        </tr>
+  <td class="description last">The message tags</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>type</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Number</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The type of message that was sent.                     0 - Default user message                     1 - Action message (message font color similar to user name color)                     2 - Server message (darker background, no username)                     3 - Important user message (darker background)                     4 - Whisper message                     5 - Highlight message</td>
-        </tr>
+  <td class="description last">The type of message that was sent.                     0 - Default user message                     1 - Action message (message font color similar to user name color)                     2 - Server message (darker background, no username)                     3 - Important user message (darker background)                     4 - Whisper message                     5 - Highlight message</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-    <h5>Fires:</h5>
-    <ul>
-        <li><a href="Chat.html#event:chatmessage">Chat#event:chatmessage</a></li>
-    </ul>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -1850,63 +1895,88 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line396">line 396</a>
+            </span>
+        </p>
     
 </dl>
 
 
-    
 
-</dd>
 
-            </dl>
-    
 
-    
-        <h3 class="subsection-title">Type Definitions</h3>
-
-        <dl>
-                
-
-<dt>
-<h4 class="name" id="~userObject">
-    userObject
-    
-    <div class="container-source members">
-        <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-        <code><a href="lib_chat.js.html#line601">line 601</a></code>
+    <div class="method-parameter columns">
+        <div class="column is-2"><label>Fires:</label></div>
+        <div class="column is-10">
+            <ul>
+                <li><a href="Chat.html#event:chatmessage">Chat#event:chatmessage</a></li>
+            </ul>
+        </div>
     </div>
-    
-</h4>
 
 
-</dt>
-<dd>
-    
-    <div class="description">
-        A user object that is used to give more information about a user
-    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
     
 
-    <!--
     
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
+        <div class='vertical-section'>
+            <h3 class="title"><span>Type Definitions</span></h3>
+            <div class="members">
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
 <span class="param-type">Object</span>
 
 
-            </li>
-        </ul>
-    
-    -->
+    </span>
 
+<h4 class="name" id="~userObject">
     
+    <span class="code-name">
+        userObject
+    </span>
+</h4>
+
+
+
+
+<div class="description">
+    A user object that is used to give more information about a user
+</div>
+
+
+
 
 
     <h5 class="subsection-title">Properties:</h5>
@@ -1936,206 +2006,206 @@
 
     <tbody>
     
+        
+<tr class="deep-level-0">
+    
+        <td class="name"><code>user</code></td>
+    
 
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
-
-            <td class="type">
-            
-                
+    <td class="type">
+    
+        
 <span class="param-type">String</span>
 
 
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Twitch user name</td>
-        </tr>
+    
+    </td>
 
     
+        <td class="attributes">
+        
 
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
+        
+        </td>
+    
 
-            <td class="type">
-            
-                
+    
+        <td class="default">
+        
+        </td>
+    
+
+    <td class="description last">Twitch user name</td>
+</tr>
+
+    
+        
+<tr class="deep-level-0">
+    
+        <td class="name"><code>name</code></td>
+    
+
+    <td class="type">
+    
+        
 <span class="param-type">String</span>
 
 
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Twitch display name</td>
-        </tr>
+    
+    </td>
 
     
+        <td class="attributes">
+        
 
-        <tr>
-            
-                <td class="name"><code>color</code></td>
-            
+        
+        </td>
+    
 
-            <td class="type">
-            
-                
+    
+        <td class="default">
+        
+        </td>
+    
+
+    <td class="description last">Twitch display name</td>
+</tr>
+
+    
+        
+<tr class="deep-level-0">
+    
+        <td class="name"><code>color</code></td>
+    
+
+    <td class="type">
+    
+        
 <span class="param-type">String</span>
 
 
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Hex color string prepended by a #</td>
-        </tr>
+    
+    </td>
 
     
+        <td class="attributes">
+        
 
-        <tr>
-            
-                <td class="name"><code>sort</code></td>
-            
+        
+        </td>
+    
 
-            <td class="type">
-            
-                
+    
+        <td class="default">
+        
+        </td>
+    
+
+    <td class="description last">Hex color string prepended by a #</td>
+</tr>
+
+    
+        
+<tr class="deep-level-0">
+    
+        <td class="name"><code>sort</code></td>
+    
+
+    <td class="type">
+    
+        
 <span class="param-type">Number</span>
 
 
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Number to sort the user in a list by</td>
-        </tr>
+    
+    </td>
 
     
+        <td class="attributes">
+        
 
-        <tr>
-            
-                <td class="name"><code>badges</code></td>
-            
+        
+        </td>
+    
 
-            <td class="type">
-            
-                
+    
+        <td class="default">
+        
+        </td>
+    
+
+    <td class="description last">Number to sort the user in a list by</td>
+</tr>
+
+    
+        
+<tr class="deep-level-0">
+    
+        <td class="name"><code>badges</code></td>
+    
+
+    <td class="type">
+    
+        
 <span class="param-type">String</span>
 
 
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">HTML string with badges the user has</td>
-        </tr>
+    
+    </td>
 
     
+        <td class="attributes">
+        
 
-        <tr>
-            
-                <td class="name"><code>nooverwrite</code></td>
-            
+        
+        </td>
+    
 
-            <td class="type">
-            
-                
+    
+        <td class="default">
+        
+        </td>
+    
+
+    <td class="description last">HTML string with badges the user has</td>
+</tr>
+
+    
+        
+<tr class="deep-level-0">
+    
+        <td class="name"><code>nooverwrite</code></td>
+    
+
+    <td class="type">
+    
+        
 <span class="param-type">Boolean</span>
 
 
-            
-            </td>
+    
+    </td>
 
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
+    
+        <td class="attributes">
+        
+            &lt;optional><br>
+        
 
-                
-                </td>
-            
+        
+        </td>
+    
 
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
+    
+        <td class="default">
+        
+            false
+        
+        </td>
+    
 
-            <td class="description last">If set to true it sends the signal that data is definitely not complete. Can be omitted</td>
-        </tr>
+    <td class="description last">If set to true it sends the signal that data is definitely not complete. Can be omitted</td>
+</tr>
 
     
     </tbody>
@@ -2169,64 +2239,65 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line628">line 628</a>
+            </span>
+        </p>
     
 </dl>
 
 
-    
 
-    
-</dd>
 
-            </dl>
+
+</div>
+            
+            </div>
+        </div>
     
 
     
         <h3 class="subsection-title">Events</h3>
 
-        <dl>
-            
-
-<dt>
-    
-        <h4 class="name" id="event:autohostingyou">
-            
-                autohostingyou
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line238">line 238</a></code>
-            </div>
-            
-        </h4>
-
         
-    
-</dt>
-<dd>
+            
 
+    
+    <h4 class="name" id="event:autohostingyou">
+        
+        <span class="code-name">
+            autohostingyou
+        </span>
+    </h4>
+    
+
+    
     
     <div class="description">
         Fires when someone is hosting the channel. Only the channel owner will receive these.
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -2247,139 +2318,135 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channel</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">Channel that the message was sent to</td>
-        </tr>
+  <td class="description last">Channel that the message was sent to</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>user</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type"><a href="Chat.html#~userObject">Chat~userObject</a></span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The user that hosts you</td>
-        </tr>
+  <td class="description last">The user that hosts you</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>viewers</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>viewers</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Number</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">How many viewers are being hosted</td>
-        </tr>
+  <td class="description last">How many viewers are being hosted</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>message</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>message</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The system message</td>
-        </tr>
+  <td class="description last">The system message</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>tags</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>tags</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Object</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">Tag object</td>
-        </tr>
+  <td class="description last">Tag object</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -2407,53 +2474,69 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line238">line 238</a>
+            </span>
+        </p>
     
 </dl>
 
 
-    
 
-</dd>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
 
-<dt>
     
-        <h4 class="name" id="event:chatmessage">
-            
-                chatmessage
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line466">line 466</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="event:chatmessage">
         
-    
-</dt>
-<dd>
-
-    
-
+        <span class="code-name">
+            chatmessage
+        </span>
+    </h4>
     
 
     
-
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
+
 <table class="params">
     <thead>
     <tr>
@@ -2474,185 +2557,185 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channel</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The channel the message was sent to</td>
-        </tr>
+  <td class="description last">The channel the message was sent to</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>timestamp</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>timestamp</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The time the message was sent (or received depending on available data)</td>
-        </tr>
+  <td class="description last">The time the message was sent (or received depending on available data)</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>userobj</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>userobj</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type"><a href="Chat.html#~userObject">Chat~userObject</a></span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The userobject of the sender</td>
-        </tr>
+  <td class="description last">The userobject of the sender</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>message</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>message</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The HTML message with replaces emoticons and useable links.</td>
-        </tr>
+  <td class="description last">The HTML message with replaces emoticons and useable links.</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>org_message</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>org_message</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The original message, how it was sent from the server</td>
-        </tr>
+  <td class="description last">The original message, how it was sent from the server</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>type</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Number</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The type of message that is being displayed; See <a href="Chat.html#showmsg">Chat#showmsg</a> for help on the possible numbers</td>
-        </tr>
+  <td class="description last">The type of message that is being displayed; See <a href="Chat.html#showmsg">Chat#showmsg</a> for help on the possible numbers</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>uuid</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>uuid</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Number</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The uuid of the message (might be empty)</td>
-        </tr>
+  <td class="description last">The uuid of the message (might be empty)</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -2680,53 +2763,69 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line466">line 466</a>
+            </span>
+        </p>
     
 </dl>
 
 
-    
 
-</dd>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
 
-<dt>
     
-        <h4 class="name" id="event:cheer">
-            
-                cheer
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line428">line 428</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="event:cheer">
         
-    
-</dt>
-<dd>
-
-    
-
+        <span class="code-name">
+            cheer
+        </span>
+    </h4>
     
 
     
-
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
+
 <table class="params">
     <thead>
     <tr>
@@ -2747,116 +2846,110 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channel</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The channel the message was sent to</td>
-        </tr>
+  <td class="description last">The channel the message was sent to</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>timestamp</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>timestamp</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The time the message was sent (or received depending on available data)</td>
-        </tr>
+  <td class="description last">The time the message was sent (or received depending on available data)</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>userobj</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>userobj</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type"><a href="Chat.html#~userObject">Chat~userObject</a></span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The userobject of the sender</td>
-        </tr>
+  <td class="description last">The userobject of the sender</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>bits</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>bits</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Number</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The number of total bits that where cheered with the message</td>
-        </tr>
+  <td class="description last">The number of total bits that where cheered with the message</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -2884,57 +2977,73 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line428">line 428</a>
+            </span>
+        </p>
     
 </dl>
 
 
-    
 
-</dd>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
 
-<dt>
     
-        <h4 class="name" id="event:clearchat">
-            
-                clearchat
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line200">line 200</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="event:clearchat">
         
+        <span class="code-name">
+            clearchat
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         Fires when the entire chat is being cleared
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -2955,70 +3064,60 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channel</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The channel that is being cleared</td>
-        </tr>
+  <td class="description last">The channel that is being cleared</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>tags</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>tags</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Object</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The message tags</td>
-        </tr>
+  <td class="description last">The message tags</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -3046,57 +3145,73 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line200">line 200</a>
+            </span>
+        </p>
     
 </dl>
 
 
-    
 
-</dd>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
 
-<dt>
     
-        <h4 class="name" id="event:clearuser">
-            
-                clearuser
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line210">line 210</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="event:clearuser">
         
+        <span class="code-name">
+            clearuser
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         Fires when a specific messages was deleted.
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -3117,93 +3232,85 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channel</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The channel the message were deleted in</td>
-        </tr>
+  <td class="description last">The channel the message were deleted in</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>user</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type"><a href="Chat.html#~userObject">Chat~userObject</a></span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The user the message were deleted from</td>
-        </tr>
+  <td class="description last">The user the message were deleted from</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>msgId</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>msgId</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The message id of the deleted message</td>
-        </tr>
+  <td class="description last">The message id of the deleted message</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -3231,57 +3338,73 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line210">line 210</a>
+            </span>
+        </p>
     
 </dl>
 
 
-    
 
-</dd>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
 
-<dt>
     
-        <h4 class="name" id="event:clearuser">
-            
-                clearuser
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line190">line 190</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="event:clearuser">
         
+        <span class="code-name">
+            clearuser
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         Fires when messages of a specific user was deleted.
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -3302,93 +3425,85 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channel</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The channel the messages were deleted in</td>
-        </tr>
+  <td class="description last">The channel the messages were deleted in</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>user</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type"><a href="Chat.html#~userObject">Chat~userObject</a></span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The user the messages were deleted from</td>
-        </tr>
+  <td class="description last">The user the messages were deleted from</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>tags</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>tags</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The message tags</td>
-        </tr>
+  <td class="description last">The message tags</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -3416,68 +3531,72 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line190">line 190</a>
+            </span>
+        </p>
     
 </dl>
 
 
-    
 
-</dd>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
 
-<dt>
     
-        <h4 class="name" id="event:connected">
-            
-                connected
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line66">line 66</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="event:connected">
         
+        <span class="code-name">
+            connected
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         Fires when the connection is established and a user is logged in
     </div>
     
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
 
 <dl class="details">
@@ -3505,57 +3624,73 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line66">line 66</a>
+            </span>
+        </p>
     
 </dl>
 
 
-    
 
-</dd>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
 
-<dt>
     
-        <h4 class="name" id="event:hostingyou">
-            
-                hostingyou
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line223">line 223</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="event:hostingyou">
         
+        <span class="code-name">
+            hostingyou
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         Fires when someone is hosting the channel. Only the channel owner will receive these.
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -3576,139 +3711,135 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channel</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">Channel that the message was sent to</td>
-        </tr>
+  <td class="description last">Channel that the message was sent to</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>user</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type"><a href="Chat.html#~userObject">Chat~userObject</a></span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The user that hosts you</td>
-        </tr>
+  <td class="description last">The user that hosts you</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>viewers</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>viewers</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Number</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">How many viewers are being hosted</td>
-        </tr>
+  <td class="description last">How many viewers are being hosted</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>message</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>message</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The system message</td>
-        </tr>
+  <td class="description last">The system message</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>tags</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>tags</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Object</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">Tag object</td>
-        </tr>
+  <td class="description last">Tag object</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -3736,57 +3867,73 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line223">line 223</a>
+            </span>
+        </p>
     
 </dl>
 
 
-    
 
-</dd>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
 
-<dt>
     
-        <h4 class="name" id="event:join">
-            
-                join
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line116">line 116</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="event:join">
         
+        <span class="code-name">
+            join
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         Fires when someone joines the channel
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -3807,70 +3954,60 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channel</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last"></td>
-        </tr>
+  <td class="description last"></td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>user</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type"><a href="Chat.html#~userObject">Chat~userObject</a></span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The user object of the joining user. Is definitely incomplete since twitch sends no tags with the join action</td>
-        </tr>
+  <td class="description last">The user object of the joining user. Is definitely incomplete since twitch sends no tags with the join action</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -3898,57 +4035,73 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line116">line 116</a>
+            </span>
+        </p>
     
 </dl>
 
 
-    
 
-</dd>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
 
-<dt>
     
-        <h4 class="name" id="event:names">
-            
-                names
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line140">line 140</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="event:names">
         
+        <span class="code-name">
+            names
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         Fires when the logged in user joines a channel. Twitch sends all user in a channel if the number is under 100. So this array might be empty
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -3969,70 +4122,60 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channel</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The channel this user list belongs to</td>
-        </tr>
+  <td class="description last">The channel this user list belongs to</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>userobjects</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>userobjects</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Array.&lt;<a href="Chat.html#~userObject">Chat~userObject</a>></span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">An array of userobjects that are in this channel</td>
-        </tr>
+  <td class="description last">An array of userobjects that are in this channel</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -4060,57 +4203,73 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line140">line 140</a>
+            </span>
+        </p>
     
 </dl>
 
 
-    
 
-</dd>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
 
-<dt>
     
-        <h4 class="name" id="event:part">
-            
-                part
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line125">line 125</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="event:part">
         
+        <span class="code-name">
+            part
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         Fires when someone leaves the channel
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -4131,70 +4290,60 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channel</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last"></td>
-        </tr>
+  <td class="description last"></td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>user</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type"><a href="Chat.html#~userObject">Chat~userObject</a></span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The user object of the leaving user. Is definitely incomplete since twitch sends no tags with the part action</td>
-        </tr>
+  <td class="description last">The user object of the leaving user. Is definitely incomplete since twitch sends no tags with the part action</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -4222,57 +4371,73 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line125">line 125</a>
+            </span>
+        </p>
     
 </dl>
 
 
-    
 
-</dd>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
 
-<dt>
     
-        <h4 class="name" id="event:roomstate">
-            
-                roomstate
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line93">line 93</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="event:roomstate">
         
+        <span class="code-name">
+            roomstate
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         Fires when the server sends a roomstate and defines the state the joined channel is in
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -4293,70 +4458,60 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channel</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The channel the roomstate was sent to</td>
-        </tr>
+  <td class="description last">The channel the roomstate was sent to</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>tags</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>tags</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Object</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The tags of the roomstate</td>
-        </tr>
+  <td class="description last">The tags of the roomstate</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -4384,7 +4539,6 @@
     
 
     
-
     
 
     
@@ -4397,51 +4551,68 @@
     
 
     
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line93">line 93</a>
+            </span>
+        </p>
+    
 </dl>
 
 
-    
 
-</dd>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
 
-<dt>
     
-        <h4 class="name" id="event:sendmessage">
-            
-                sendmessage
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line560">line 560</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="event:sendmessage">
         
+        <span class="code-name">
+            sendmessage
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         This event is fired when a message is being sent by the user. If a message is not prevented a chatmessage event will follow.Use this event only if you're trying to prevent certain messages from being sent.
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -4462,235 +4633,176 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>event</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>event</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Object</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">An preventable sendmessage event object.
-                <h6>Properties</h6>
-                
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
+  <td class="description last">An preventable sendmessage event object.</td>
+</tr>
 
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
+  
+  
     
+<tr class="deep-level-1">
+  
+      <td class="name"><code>prevent</code></td>
+  
 
-        <tr>
-            
-                <td class="name"><code>prevent</code></td>
-            
-
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Boolean</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">Setting this boolean prevents the message from being sent</td>
-        </tr>
+  <td class="description last">Setting this boolean prevents the message from being sent</td>
+</tr>
 
+  
     
+<tr class="deep-level-1">
+  
+      <td class="name"><code>messageobj</code></td>
+  
 
-        <tr>
-            
-                <td class="name"><code>messageobj</code></td>
-            
-
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Object</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">An object with information about the message that is set to be sent
-                <h6>Properties</h6>
-                
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
+  <td class="description last">An object with information about the message that is set to be sent</td>
+</tr>
 
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
+  
     
+<tr class="deep-level-1">
+  
+      <td class="name"><code>messageobj.channel</code></td>
+  
 
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
-
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The channel that the message is being sent to</td>
-        </tr>
+  <td class="description last">The channel that the message is being sent to</td>
+</tr>
 
+  
     
+<tr class="deep-level-1">
+  
+      <td class="name"><code>messageobj.message</code></td>
+  
 
-        <tr>
-            
-                <td class="name"><code>message</code></td>
-            
-
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The message that is being sent (if not prevented). Changing this will *not* change the message that is being sent</td>
-        </tr>
+  <td class="description last">The message that is being sent (if not prevented). Changing this will *not* change the message that is being sent</td>
+</tr>
 
+  
     
+<tr class="deep-level-1">
+  
+      <td class="name"><code>messageobj.tags</code></td>
+  
 
-        <tr>
-            
-                <td class="name"><code>tags</code></td>
-            
-
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">An emulated tags segment, that the message might have</td>
-        </tr>
+  <td class="description last">An emulated tags segment, that the message might have</td>
+</tr>
 
+  
     
+<tr class="deep-level-1">
+  
+      <td class="name"><code>messageobj.user</code></td>
+  
 
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
-
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">An user object of the sender</td>
-        </tr>
+  <td class="description last">An user object of the sender</td>
+</tr>
+
+  
+
 
     
     </tbody>
 </table>
 
-            </td>
-        </tr>
 
-    
-    </tbody>
-</table>
 
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -4718,57 +4830,73 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line585">line 585</a>
+            </span>
+        </p>
     
 </dl>
 
 
-    
 
-</dd>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
 
-<dt>
     
-        <h4 class="name" id="event:usernotice">
-            
-                usernotice
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line177">line 177</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="event:usernotice">
         
+        <span class="code-name">
+            usernotice
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         Fires when a user shares is (re)subscription. There might be up to two <a href="Chat.html#event:chatmessage">chatmessage</a> events emitted before this.
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -4789,116 +4917,110 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channel</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The channel this usernotice was sent to</td>
-        </tr>
+  <td class="description last">The channel this usernotice was sent to</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>user</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type"><a href="Chat.html#~userObject">Chat~userObject</a></span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The userobject of the subscriber</td>
-        </tr>
+  <td class="description last">The userobject of the subscriber</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>tags</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>tags</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Object</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">All tags of the message</td>
-        </tr>
+  <td class="description last">All tags of the message</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>message</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>message</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The message the user added to his sub share. Might be empty.</td>
-        </tr>
+  <td class="description last">The message the user added to his sub share. Might be empty.</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -4926,57 +5048,73 @@
     
 
     
-
     
 
     
 
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line177">line 177</a>
+            </span>
+        </p>
     
 </dl>
 
 
-    
 
-</dd>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
             
 
-<dt>
     
-        <h4 class="name" id="event:userstate">
-            
-                userstate
-                
-            
-            <div class="container-source members">
-                <code><a href="lib_chat.js.html">lib/chat.js</a></code>,
-                <code><a href="lib_chat.js.html#line104">line 104</a></code>
-            </div>
-            
-        </h4>
-
+    <h4 class="name" id="event:userstate">
         
+        <span class="code-name">
+            userstate
+        </span>
+    </h4>
     
-</dt>
-<dd>
 
+    
     
     <div class="description">
         Fires when the server sends a userstate and defines the state the logged in user is in for this channel (contains badges, permission and such)
     </div>
     
 
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
 <table class="params">
     <thead>
     <tr>
@@ -4997,93 +5135,85 @@
     <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>channel</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channel</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">String</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The channel the userstate was sent to</td>
-        </tr>
+  <td class="description last">The channel the userstate was sent to</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>user</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type"><a href="Chat.html#~userObject">Chat~userObject</a></span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The user object of the logged in user</td>
-        </tr>
+  <td class="description last">The user object of the logged in user</td>
+</tr>
+
 
     
 
-        <tr>
-            
-                <td class="name"><code>tags</code></td>
-            
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>tags</code></td>
+  
 
-            <td class="type">
-            
-                
+  <td class="type">
+  
+      
 <span class="param-type">Object</span>
 
 
-            
-            </td>
+  
+  </td>
 
-            
+  
 
-            
+  
 
-            <td class="description last">The tags of the userstate</td>
-        </tr>
+  <td class="description last">The tags of the userstate</td>
+</tr>
+
 
     
     </tbody>
 </table>
 
-    </div>
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
 
 <dl class="details">
@@ -5111,7 +5241,6 @@
     
 
     
-
     
 
     
@@ -5124,14 +5253,39 @@
     
 
     
+
+    
+        <p class="tag-source">
+            <a href="lib_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_chat.js.html">lib/chat.js</a>, <a href="lib_chat.js.html#line104">line 104</a>
+            </span>
+        </p>
+    
 </dl>
 
 
-    
 
-</dd>
 
-        </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
     
 </article>
 
@@ -5140,26 +5294,23 @@
 
 
 
-</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<footer>
-    <img class="logo" src="img/toast-ui.png" style="width: 0px; height: 0px">
-    <div class="footer-text">Code by PakL</div>
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Mon Jul 29 2019 17:48:54 GMT+0200 (GMT+02:00)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+        </p>
+    </div>
 </footer>
-<script>prettyPrint();</script>
-<script src="scripts/jquery.min.js"></script>
-<script src="scripts/tui-doc.js"></script>
-<script src="scripts/linenumber.js"></script>
 
-    <script>
-        var id = 'Chat_sub'.replace(/"/g, '_');
-        var selectedApi = document.getElementById(id); // do not use jquery selector
-        var $selectedApi = $(selectedApi);
-
-        $selectedApi.removeClass('hidden');
-        $selectedApi.parent().find('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-minus');
-        showLnbApi();
-    </script>
-
+<script> prettyPrint(); </script>
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
 </body>
 </html>
