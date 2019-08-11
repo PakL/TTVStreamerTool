@@ -1,5 +1,5 @@
 const {remote} = require('electron')
-const {Menu, MenuItem, app} = remote
+const {Menu, MenuItem, app, BrowserWindow} = remote
 const { substr } = require('stringz')
 
 const TTVTool = require('./tool')
@@ -8,7 +8,7 @@ const UIPage = require('./uipage')
 const Cockpit = require('../lib/cockpit')
 const Overlays = require('../lib/overlay')
 
-const selfWindow = remote.BrowserWindow.getAllWindows()[0]
+let selfWindow = null
 
 /**
  * This module helps control and manage the user interface. You can add
@@ -21,6 +21,8 @@ class ToolUI {
 
 	constructor(tool) {
 		const self = this
+
+		selfWindow = BrowserWindow.getAllWindows()[0]
 
 		this._tool = tool
 		/**
