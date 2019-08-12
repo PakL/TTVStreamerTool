@@ -1,10 +1,10 @@
-![](https://pakl.dev/TTVStreamerTool/img/logo.svg)
+![](https://ttvst.app/img/logo.svg)
 
 TTVST is an application aimed at Twitch streamer. On the main view you will be able to read the chat, see the people who are in the chat, the current number of viewers and notifications for follows, subscriptions, bans, timeouts and other stuff. There is also a local http host in there for OBS or Xsplit overlays. You can set up hotkeys to control these.
 
 ------
 
-To make TTVST unique for your streaming needs it's possible to create your own overlays and addons. I will document how to do that in the coming future. To start of, read the [Getting Started Guide](https://pakl.dev/TTVStreamerTool/tutorial-Getting%20Started.html).
+To make TTVST unique for your streaming needs it's possible to create your own overlays and addons. I will document how to do that in the coming future. To start of, read the [Getting Started Guide](https://ttvst.app/tutorial-Getting%20Started.html).
 
 ### Platform
 
@@ -20,7 +20,7 @@ Download the Setup.exe of the latest release and execute it. The application wil
 
 ### Screenshot
 
-![Cockpit Screenshot](https://pakl.dev/TTVStreamerTool/img/ttvst_screen.gif)
+![Cockpit Screenshot](https://ttvst.app/img/ttvst_screen.gif)
 
 ### Report issues
 
