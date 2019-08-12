@@ -9,7 +9,7 @@ let splash
 
 let doNotOpenMainWindow = false
 
-app.setAppUserModelId('com.squirrel.ttvst.TTVStreamerTool')
+app.setAppUserModelId('dev.pakl.TTVStreamerTool')
 if(!app.requestSingleInstanceLock()) {
 	app.quit();
 }
