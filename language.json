@@ -573,5 +573,32 @@
 	},
 	"Check for updates": {
 		"de": "Auf Updates prüfen"
+	},
+	"Cloud": {
+		"de": "Cloud"
+	},
+	"Save settings in Cloud": {
+		"de": "Einstellungen in der Cloud speichern"
+	},
+	"Enabling this will allow you to save your settings in the cloud. You have to be logged in to twitch. All data is encrypted with the password below. Your twitch token is used to authenticate you, but is never stored on the remote server.": {
+		"de": "Mit dieser Option wird die Speicherung der Einstellungen in der Cloud aktiviert. Du musst bei Twitch angemeldet sein. Alle Daten werden mit dem Passwort unten verschlüsselt. Dein Twitch-Token wird benutzt um dich zu authentifizieren, wird aber niemals auf dem Server gespeichert."
+	},
+	"Cloud password": {
+		"de": "Cloud-Passwort"
+	},
+	"This password is used to en- and decrypt your settings.": {
+		"de": "Dieses Passwort wird verwendet um die Einstellungen zu ent- und verschlüsseln."
+	},
+	"The cloud save on the server is <b>newer</b> than yours. Do you want to load the settings from the cloud or overwrite them with you local settings?": {
+		"de": "Die Cloud-Daten auf dem Server sind <b>neuer</b> als deine. Möchtest du die Einstellungen von der Cloud laden und die lokalen Einstellungen verwerfen?"
+	},
+	"The cloud save on the server is <b>older</b> than yours. Do you want to load the settings from the cloud or overwrite them with you local settings?": {
+		"de": "Die Cloud-Daten auf dem Server sind <b>älter</b> als deine. Möchtest du die Einstellungen von der Cloud laden und die lokalen Einstellungen verwerfen?"
+	},
+	"Load settings from cloud and overwrite local": {
+		"de": "Einstellungen aus der Cloud laden und lokale überschreiben"
+	},
+	"Keep current settings and overwrite cloud": {
+		"de": "Lokale Einstellungen beibehalten und Cloud-Daten überschreiben"
 	}
 }
