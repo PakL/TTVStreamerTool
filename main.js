@@ -13,7 +13,7 @@ app.setAppUserModelId('dev.pakl.TTVStreamerTool')
 if(!app.requestSingleInstanceLock()) {
 	app.quit();
 }
-autoUpdater.setFeedURL('https://dl.pohlarsystem.de/ttvst/')
+autoUpdater.setFeedURL('https://update.ttvst.app/')
 
 if(require('electron-squirrel-startup')) app.quit();
 else {
