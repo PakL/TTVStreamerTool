@@ -1,4 +1,4 @@
-const TwitchChat = require('../mod/twitchchat')
+const TwitchChat = require('../lib/twitchchat')
 const EventEmitter = require('events')
 const {BrowserWindow} = require('electron').remote
 const request = require('request')

@@ -14,9 +14,9 @@ let result = electronInstaller.createWindowsInstaller({
 	outputDirectory: './dist',
 	name: "ttvst",
 	exe: 'TTVStreamerTool.exe',
-	loadingGif: 'res/install.gif',
+	loadingGif: 'res/img/install.gif',
 	iconUrl: 'https://update.ttvst.app/icon.ico',
-	setupIcon: 'res/icon.ico',
+	setupIcon: 'res/img/icon.ico',
 	noMsi: true,
 	
 	authors: packageJson.author.name,

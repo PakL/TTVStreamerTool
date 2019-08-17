@@ -8,7 +8,7 @@ To make TTVST unique for your streaming needs it's possible to create your own o
 
 ### Platform
 
-The TTVStreamerTool is developed and tested on an Windows 10 x64 system. I guess everything >= Windows 8 should work.
+The TTVStreamerTool is developed and tested on a Windows 10 x64 system. I guess everything >= Windows 8 should work.
 
 Linux or MacOS are **not** supported. (And propably never will be.)
 
@@ -20,7 +20,7 @@ Download the Setup.exe of the latest release and execute it. The application wil
 
 ### Screenshot
 
-![Cockpit Screenshot](https://ttvst.app/img/ttvst_screen.gif)
+![Cockpit Screenshot](https://ttvst.app/docs/img/ttvst_screen.gif)
 
 ### Report issues
 

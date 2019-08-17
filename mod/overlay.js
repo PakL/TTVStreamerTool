@@ -1,11 +1,11 @@
-const ws = require('../node_modules/nodejs-websocket')
+const ws = require('nodejs-websocket')
 const fs = require('fs')
 const url = require('url')
 const http = require('http')
 const {remote} = require('electron')
 const {globalShortcut} = remote
 
-const UIPage = require('../mod/uipage')
+const UIPage = require('./uipage')
 
 /**
  * This module creates a http host for OBS/Xsplit overlays. Has an UI for setting hotkeys and controling 

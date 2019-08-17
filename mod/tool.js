@@ -1,22 +1,17 @@
-const {remote} = require('electron')
 const EventEmitter = require('events')
 const i18n = require('../node_modules/i18n-nodejs')
 
 const ToolUI = require('./toolui')
-const ToolSettings = require('../lib/settings')
-const TwitchTv = require('./twitchtv')
-const TwitchHelix = require('./twitchhelix')
-const TTVLogin = require('../lib/auth')
-const Chat = require('../lib/chat')
+const ToolSettings = require('./settings')
+const TwitchTv = require('../lib/twitchtv')
+const TwitchHelix = require('../lib/twitchhelix')
+const TTVLogin = require('./auth')
+const Chat = require('./chat')
 
 const Channel = require('../var/channel')
 const Follows = require('../var/follows')
-const Subscriptions = require('../var/subscriptions')
 
-const Addons = require('../lib/addons')
-//const EAU = remote.require('electron-asar-updater')
-const {app, autoUpdater} = remote.require('electron')
-const spawn = require('child_process').spawn;
+const Addons = require('./addons')
 
 /**
  * This module initializes pretty much everything and other modules have access to other modules over here.
@@ -33,7 +28,6 @@ class TTVTool extends EventEmitter {
 		const self = this
 
 		this.setMaxListeners(50)
-
 
 		this._loaded = false
 		this._settings = new ToolSettings(this)
@@ -69,8 +63,6 @@ class TTVTool extends EventEmitter {
 		
 		this._channel = new Channel(this)
 		this._follows = new Follows(this)
-		// All subscriptions are coming via chat now
-		//this._subscriptions = new Subscriptions(this)
 
 		this._addons = new Addons(this)
 

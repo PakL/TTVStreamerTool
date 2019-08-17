@@ -49,8 +49,8 @@ const refreshTileColors = () => {
 }
 
 
-let style_metro_less = fs.readFileSync(path.join(app.getAppPath(), 'res', 'metro.less'), {encoding: 'utf8'})
-let style_ui_lesss = fs.readFileSync(path.join(app.getAppPath(), 'res', 'ui.less'), {encoding: 'utf8'})
+let style_metro_less = fs.readFileSync(path.join(app.getAppPath(), 'res', 'style', 'metro.less'), {encoding: 'utf8'})
+let style_ui_lesss = fs.readFileSync(path.join(app.getAppPath(), 'res', 'style', 'ui.less'), {encoding: 'utf8'})
 async function renderLess(event, newColor) {
 	console.log('[CSS] Rendering less to css')
 	style_metro_less = style_metro_less.replace(/@accentColor: darken\(#([0-9A-F]{6})/i, '@accentColor: darken(#' + newColor.substr(0, 6))

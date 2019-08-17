@@ -1,5 +1,5 @@
 const {app, BrowserWindow, globalShortcut, autoUpdater, ipcMain} = require('electron')
-const WindowState = require('./mod/window-state');
+const WindowState = require('./lib/window-state');
 
 const path = require('path')
 const url = require('url')
@@ -50,7 +50,7 @@ else {
 				minWidth: 800,
 				minHeight: 600,
 				autoHideMenuBar: true,
-				icon: 'res/icon.ico',
+				icon: path.join(__dirname, 'res/img/icon.ico'),
 				webPreferences: { nodeIntegration: true, webviewTag: true },
 				show: false
 			})

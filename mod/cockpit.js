@@ -1,4 +1,4 @@
-const UIPage = require('../mod/uipage')
+const UIPage = require('./uipage')
 
 /**
  * This is the main page. It contains the channel selection and chat

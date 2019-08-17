@@ -1,7 +1,7 @@
 const {remote} = require('electron')
 const {Menu, MenuItem, app} = remote
 
-const UIPage = require('../mod/uipage')
+const UIPage = require('./uipage')
 
 const crypto = require('crypto')
 const request = require('request-promise-native')

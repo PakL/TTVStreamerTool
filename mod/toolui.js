@@ -5,8 +5,8 @@ const { substr } = require('stringz')
 const TTVTool = require('./tool')
 const UIPage = require('./uipage')
 
-const Cockpit = require('../lib/cockpit')
-const Overlays = require('../lib/overlay')
+const Cockpit = require('./cockpit')
+const Overlays = require('./overlay')
 
 let selfWindow = null
 
@@ -296,7 +296,7 @@ class ToolUI {
 		if(this.loadingElement != null) return
 
 		this.loadingElement = document.createElement('modal')
-		this.loadingElement.innerHTML = '<img src="../res/hourglass.gif" alt="" />'
+		this.loadingElement.innerHTML = '<img src="../res/img/hourglass.gif" alt="" />'
 		document.querySelector('#contents').style.filter = 'blur(3px)'
 		document.querySelector('body').appendChild(this.loadingElement)
 		riot.mount(this.loadingElement)
