@@ -25,6 +25,8 @@ class Overlays extends UIPage {
 
 		this._visible = false
 
+		this._subscriptions = {}
+
 		/**
 		 * The port for the WebSocket server. Connect to this port to listen for events.
 		 * @member {Number}
@@ -187,20 +189,33 @@ class Overlays extends UIPage {
 			if(str.startsWith('music_volume_update=')) {
 				document.querySelector('#music_live_control').value = str.substr(20)
 			}
-			if(str.startsWith('please_repeat')) {
-				let repeats = []
-				self.repeatForNewClients.forEach((val) => {
-					if(new Date().getTime() - 1000 <= val.time) {
-						repeats.push(val)
-						console.log('[Overlay][Websocket] Repeating for new client: < ' + val.msg)
-						conn.sendText(val.msg)
-					}
-				})
-				self.repeatForNewClients = repeats
+			if(str.startsWith(':')) {
+				if(str.startsWith(':please_repeat')) {
+					self.repeatBroadcast(this)
+				} else if(str.startsWith(':subscribe:')) {
+					let cmd = str.substr(11)
+					if(typeof(self._subscriptions[cmd]) == 'undefined') self._subscriptions[cmd] = []
+					self._subscriptions[cmd].push(this)
+				}
 			}
 		})
 		conn.on('close', function (code, reason) {
 			console.log('[Overlay] Websocket connection closed')
+
+			// Clean client out of subscriptions
+			for(let cmd in self._subscriptions) {
+				if(!self._subscriptions.hasOwnProperty(cmd)) continue;
+				let newSub = []
+				let sub = self._subscriptions[cmd]
+				for(let i = 0; i < sub.length; i++) {
+					if(sub[i] !== this) newSub.push(sub[i])
+				}
+				if(newSub.length == 0) {
+					delete self._subscriptions[cmd]
+				} else {
+					self._subscriptions[cmd] = newSub
+				}
+			}
 			//self.wsConnections.splice(self.wsConnections.indexOf(conn), 1)
 		})
 	}
@@ -213,11 +228,16 @@ class Overlays extends UIPage {
 	broadcastWsMessage(message) {
 		if(typeof(message) != 'string') return
 		this.repeatForNewClients.push({msg: message, time: new Date().getTime()})
-		for(let i = 0; i < this.wsserver.connections.length; i++) {
-			this.wsserver.connections[i].sendText(message)
+
+		let sent = 0
+		let subs = this.getSubscriptionsForMessage(message)
+		for(let i = 0; i < subs.length; i++) {
+			subs[i].sendText(message)
+			sent++
 		}
-		if(this.wsserver.connections.length > 0)
-			console.log('[Overlay][Websocket] < ' + message)
+
+		if(sent > 0)
+			console.log('[Overlay][Websocket] < ' + message + ' (' + sent + 'x)')
 
 		/**
 		 * Fires when a command is fired (wether or not a overlay has received it)
@@ -225,6 +245,34 @@ class Overlays extends UIPage {
 		 * @param {String} command The command or message string that was sent
 		 */
 		this.emit('command', message)
+	}
+
+	repeatBroadcast(client) {
+		let repeats = []
+		this.repeatForNewClients.forEach((val) => {
+			if(new Date().getTime() - 1000 <= val.time) {
+				repeats.push(val)
+				let subs = this.getSubscriptionsForMessage(message)
+				if(subs.indexOf(client) >= 0) {
+					console.log('[Overlay][Websocket] Repeating for new client: < ' + val.msg)
+					client.sendText(val.msg)
+				}
+			}
+		})
+		this.repeatForNewClients = repeats
+	}
+
+	getSubscriptionsForMessage(message) {
+		let subs = []
+		for(let cmd in this._subscriptions) {
+			if(!this._subscriptions.hasOwnProperty(cmd)) continue;
+			if(!message.startsWith(cmd)) continue;
+			let sub = this._subscriptions[cmd]
+			for(let i = 0; i < sub.length; i++) {
+				subs.push(sub[i])
+			}
+		}
+		return subs
 	}
 
 	/**
