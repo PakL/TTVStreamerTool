@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>TTVStreamerTool</title>
+	<title>Customization &bull; TTVStreamerTool</title>
 
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 	<script src="docs/scripts/prettify/prettify.js"></script>
@@ -15,24 +15,6 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 	<link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
 	<link type="text/css" rel="stylesheet" href="docs/styles/app.min.css">
-	<style type="text/css">
-		.download-stage {
-			text-align: center;
-			padding: 20px 0;
-		}
-		.download-stage > a {
-			display: inline-block;
-			padding: 10px 20px;
-			color: #ffffff;
-			background: #05b80e;
-			border: 1px solid #0a8d10;
-			font-weight: bold;
-			font-size: 1.5em;
-		}
-		.download-stage > small {
-			color: #999999;
-		}
-	</style>
 </head>
 <body>
 	<div id="stickyNavbarOverlay"></div>
@@ -92,31 +74,37 @@
 			<div class="column is-9-desktop">
 				<div class="content" id="main-content-wrapper">
 					<header class="page-title">
-						<h1 style="display:none;">TTVStreamerTool</h1>
-						<img src="https://ttvst.app/img/logo.svg" alt="">
+						<p>Features</p>
+						<h1>Customization</h1>
 					</header>
 					<h3> </h3>
 					<section>
 						<article>
-							<p>TTVStreamerTool (TTVST) is an application aimed at Twitch streamer. On the main view you will be 
-								able to read the chat, see the people who are in the chat, the current number of viewers
-								and notifications for follows, subscriptions, bans, timeouts and other stuff. There is
-								also a local http host in there for OBS or Xsplit overlays. You can set up hotkeys to
-								control these.</p>
-							<p class="download-stage">
-								<a href="https://update.ttvst.app/Setup.exe">Download latest</a><br>
-								<small>Windows 8/8.1/10 x64 - v1.4.0</small>
-							</p>
+							<p>Since everyone has different needs and priorities, you can customize a lot in the normal cockpit/chat view.</p>
 
-							<h3>Platform</h3>
-							<p>
-								The TTVStreamerTool is developed and tested on an Windows 10 x64 system. I guess everything >= Windows 8 should work.<br>
-								Linux or MacOS are <strong>not</strong> supported. (And propably never will be.)
-							</p>
+							<h3>Autorecover deleted messages</h3>
+							<p>If a broadcaster or mod deleted messages or timeouts a user these deleted messages will be recovered. Otherwise you have to click on the message to recover the original message.</p>
+							
+							<h3>Show localized display names</h3>
+							<p>Twitch allows users to use non-ASCII characters to localize their usernames. If this option is disabled all non-ASCII display names will be disregarded and the login name displayed instead.</p>
 
-							<h3>How it looks like</h3>
-							<p>If you're using TTVST on Windows 10, it will take on the accent color of your system.</p>
-							<img src="docs/img/ttvst_screen.gif" alt="">
+							<h3>Show viewer list</h3>
+							<p>Disabling this option will hide the list of current viewers/chatters from you cockpit view.</p>
+
+							<h3>Show action stream</h3>
+							<p>Disabling this option will hide the action stream (new follows, subscribers, hosts, etc.) from you cockpit view. To customize which alert you'd like to see in the action stream check out the alert options.</p>
+
+							<h3>Show amount of viewers</h3>
+							<p>Disabling this option will hide the number of viewers from you cockpit view.</p>
+
+							<h3>Classic chat</h3>
+							<p>Enabling this option will dispaly messages next to the username with the user badges before the user name, instead of the message beneath the username and badges.</p>
+
+							<h3>Sizing & Zooming</h3>
+							<p>In the cockpit view, you can resize the columns by dragging the edge. The cursor shows you where you can drag from. Double click the edge to reset column size. Additionally you can change the text size per column by holding Ctrl and scrolling with the mouse wheel. Pressing Ctrl and middle mouse button to reset the zooming.</p>
+
+							<h3>Per channel settings</h3>
+							<p>All those settings can be set on a per channel basis.</p>
 						</article>
 					</section>
 				</div>

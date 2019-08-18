@@ -1,0 +1,334 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>mod/auth.js &bull; TTVStreamerTool</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                     
+                        <img src="img/logomark-white.svg" alt="logo">
+                    
+                     
+                        <h1 class="navbar-item">TTVStreamerTool</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                 
+                <div class="navbar-menu">
+                    <div class="navbar-end">
+                    
+                        <div class="navbar-item">
+                            <a href="https://github.com/PakL/TTVStreamerTool" target="_blank">Github</a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://pakl.dev/" target="_blank">pakl.dev</a>
+                        </div>
+                    
+                        <div class="navbar-item">
+                            <a href="https://dieweltzockt.de/" target="_blank">Die Welt Zockt</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li><li><a href="tutorial-Streamdeck Shortcuts.html">Streamdeck Shortcuts</a></li></ul><h3>Classes</h3><ul><li><a href="Addons.html">Addons</a></li><li><a href="Channel.html">Channel</a></li><li><a href="Chat.html">Chat</a></li><li><a href="Cockpit.html">Cockpit</a></li><li><a href="Follows.html">Follows</a></li><li><a href="Overlays.html">Overlays</a></li><li><a href="ToolSettings.html">ToolSettings</a></li><li><a href="ToolUI.html">ToolUI</a></li><li><a href="TTVLogin.html">TTVLogin</a></li><li><a href="TTVTool.html">TTVTool</a></li><li><a href="TwitchChat.html">TwitchChat</a></li><li><a href="TwitchHelix.html">TwitchHelix</a></li><li><a href="TwitchTv.html">TwitchTv</a></li><li><a href="UIPage.html">UIPage</a></li></ul><h3>Events</h3><ul><li><a href="Channel.html#event:channeloffline">channeloffline</a></li><li><a href="Channel.html#event:channelonline">channelonline</a></li><li><a href="Channel.html#event:gamechange">gamechange</a></li><li><a href="Channel.html#event:statuschange">statuschange</a></li><li><a href="Channel.html#event:viewers">viewers</a></li><li><a href="Chat.html#event:autohostingyou">autohostingyou</a></li><li><a href="Chat.html#event:chatmessage">chatmessage</a></li><li><a href="Chat.html#event:cheer">cheer</a></li><li><a href="Chat.html#event:clearchat">clearchat</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:connected">connected</a></li><li><a href="Chat.html#event:hostingyou">hostingyou</a></li><li><a href="Chat.html#event:join">join</a></li><li><a href="Chat.html#event:names">names</a></li><li><a href="Chat.html#event:part">part</a></li><li><a href="Chat.html#event:roomstate">roomstate</a></li><li><a href="Chat.html#event:sendmessage">sendmessage</a></li><li><a href="Chat.html#event:usernotice">usernotice</a></li><li><a href="Chat.html#event:userstate">userstate</a></li><li><a href="Cockpit.html#event:channelleft">channelleft</a></li><li><a href="Cockpit.html#event:channelopen">channelopen</a></li><li><a href="Follows.html#event:follow">follow</a></li><li><a href="Overlays.html#event:command">command</a></li><li><a href="Overlays.html#event:hotkeys-unregistered">hotkeys-unregistered</a></li><li><a href="TTVLogin.html#event:complete">complete</a></li><li><a href="TTVTool.html#event:exit">exit</a></li><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TwitchChat.html#event:action">action</a></li><li><a href="TwitchChat.html#event:autohostingyou">autohostingyou</a></li><li><a href="TwitchChat.html#event:capack">capack</a></li><li><a href="TwitchChat.html#event:clearchat">clearchat</a></li><li><a href="TwitchChat.html#event:clearmsg">clearmsg</a></li><li><a href="TwitchChat.html#event:clearuser">clearuser</a></li><li><a href="TwitchChat.html#event:close">close</a></li><li><a href="TwitchChat.html#event:connect">connect</a></li><li><a href="TwitchChat.html#event:error">error</a></li><li><a href="TwitchChat.html#event:hostingyou">hostingyou</a></li><li><a href="TwitchChat.html#event:incoming">incoming</a></li><li><a href="TwitchChat.html#event:join">join</a></li><li><a href="TwitchChat.html#event:message">message</a></li><li><a href="TwitchChat.html#event:mode">mode</a></li><li><a href="TwitchChat.html#event:mode+">mode+</a></li><li><a href="TwitchChat.html#event:mode-">mode-</a></li><li><a href="TwitchChat.html#event:motd">motd</a></li><li><a href="TwitchChat.html#event:names">names</a></li><li><a href="TwitchChat.html#event:notice">notice</a></li><li><a href="TwitchChat.html#event:outgoing">outgoing</a></li><li><a href="TwitchChat.html#event:part">part</a></li><li><a href="TwitchChat.html#event:raw">raw</a></li><li><a href="TwitchChat.html#event:reconnect">reconnect</a></li><li><a href="TwitchChat.html#event:registered">registered</a></li><li><a href="TwitchChat.html#event:roomstate">roomstate</a></li><li><a href="TwitchChat.html#event:usernotice">usernotice</a></li><li><a href="TwitchChat.html#event:userstate">userstate</a></li><li><a href="TwitchChat.html#event:whisper">whisper</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>mod/auth.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const EventEmitter = require('events')
+const http = require('http')
+const {remote} = require('electron')
+const {Menu, MenuItem, BrowserWindow} = remote
+
+/**
+ * This module manages the login flow
+ * 
+ * @class TTVLogin
+ * @extends {EventEmitter}
+ * @param {TTVTool} tool
+ * @fires TTVLogin#complete
+ */
+class TTVLogin extends EventEmitter {
+
+	constructor(tool) {
+		super()
+
+		this._tool = tool
+		this._username = ''
+		this._userid = ''
+		this.logindialog = null
+		this.loginbutton = null
+		this.authwindow = null
+		this.authresponseserver = null
+
+		const self = this
+		this._tool.once('load', () => {
+			self.logindialog = document.querySelector('#logindialog')
+
+			self._tool.cockpit.on('channelopen', () => {
+				let mi = self._tool.ui.getMenuItemById('menu_changechannel')
+				if(mi != null)
+					mi.enabled = true
+			})
+			self._tool.cockpit.on('channelleft', () => {
+				let mi = self._tool.ui.getMenuItemById('menu_changechannel')
+				if(mi != null)
+					mi.enabled = false
+			})
+
+			riot.mount(self.logindialog)
+
+			self.loginbutton = document.querySelector('#starttwitchauth')
+			self.loginbutton.onclick = () => { self.auth() }
+
+			self.continueafterauth()
+		})
+	}
+
+	/**
+	 * Gives you the username of the logged in user. Is empty when not logged in.
+	 * 
+	 * @type {String}
+	 * @readonly
+	 */
+	get username() {
+		return this._username
+	}
+
+	/**
+	 * Gives you the userid of the logged in user. Is empty when not logged in.
+	 * 
+	 * @type {String}
+	 * @readonly
+	 */
+	get userid() {
+		return this._userid
+	}
+
+	/**
+	 * Gives you a new instance of the twitch menu
+	 * 
+	 * @type {MenuItem}
+	 * @readonly
+	 */
+	get menu() {
+		const self = this
+		return new MenuItem({
+			label: 'Twitch',
+			submenu: Menu.buildFromTemplate([
+				{
+					label: this._tool.i18n.__('Change channel'),
+					enabled: false,
+					id: 'menu_changechannel',
+					click() {
+						self._tool.cockpit.leaveChannel()
+					}
+				},
+				{
+					type: 'separator'
+				},
+				{
+					label: this._tool.i18n.__('Logout'),
+					click() {
+						window.localStorage.removeItem('tw_auth_token')
+						window.location.reload()
+					}
+				}
+			])
+		})
+	}
+
+	/**
+	 * Starts the authorization flow
+	 */
+	auth() {
+		const self = this
+		this.loginbutton.innerText = this._tool.i18n.__('Please wait...')
+		this.authresponseserver = http.createServer((req, resp) => {
+			var response = "&lt;!DOCTYPE html>\r\n&lt;html>&lt;head>&lt;meta charset=\"utf-8\">&lt;title>OAUTH RESPONSE&lt;/title>&lt;/head>&lt;body>This should only be visible for a second...&lt;/body>&lt;/html>"
+			resp.writeHead(200, {'Content-Length': response.length, 'Content-Type': 'text/html; charset=utf-8'})
+			resp.end(response)
+		})
+		this.authresponseserver.on('error', (err) => {
+			self._tool.ui.showErrorMessage(err)
+			if(self.authwindow != null) self.authwindow.close()
+			self.authresponseserver.close()
+			self.authresponseserver = null
+		})
+		this.authresponseserver.on('close', () => { self.authresponseserver = null })
+		this.authresponseserver.on('listening', () => {
+			self.loginbutton.innerText = self._tool.i18n.__('Login window should be opening...')
+			let url = self._tool.twitchapi.getAuthImplicitGrantFlowUrl()
+			self.authwindow = new BrowserWindow({ width: 400, height: 500, show: false, icon: __dirname + '/../res/icon.ico', modal: true, autoHideMenuBar: true, webPreferences: { nodeIntegration: true, webviewTag: false } })
+			self.authwindow.loadURL(url)
+			self.authwindow.on('page-title-updated', (e, t) => { self.authtitlechange(e, t) })
+			self.authwindow.show()
+			self.authwindow.on('closed', () => {
+				self.authwindow = null
+				if(self.authresponseserver != null) {
+					self.authresponseserver.close()
+					self.authresponse({})
+				}
+			})
+		})
+		self.authresponseserver.listen(8086, 'localhost')
+	}
+
+	/**
+	 * Is called when the title of the login window changes, so we know that it was completed
+	 * 
+	 * @private
+	 * @param {Event} event Event of the title change
+	 * @param {String} title New title of the window
+	 */
+	authtitlechange(event, title) {
+		if(title == 'OAUTH RESPONSE') {
+			let url = this.authwindow.webContents.getURL()
+
+			this.authresponseserver.close()
+			this.authwindow.close()
+
+			let hashindex = url.lastIndexOf('#')
+			if(hashindex > 0) {
+				let hashstr = url.substring(hashindex+1)
+				let hashargs = hashstr.split('&amp;')
+				let hash = {}
+				for(let i = 0; i &lt; hashargs.length; i++) {
+					let kv = hashargs[i].split('=', 2)
+					let k = kv[0]
+					let v = decodeURIComponent(kv[1])
+					hash[k] = v
+				}
+				this.authresponse(hash)
+			}
+		}
+	}
+
+	/**
+	 * Checks for the right hash information and saves the token
+	 * 
+	 * @private
+	 * @param {String} hash The hash of the url that was redirected to from the authorization flow
+	 */
+	authresponse(hash) {
+		if(typeof(hash.access_token) != 'undefined' &amp;&amp; typeof(hash.state) != 'undefined') {
+			if(this._tool.twitchapi.verifyState(hash.state)) {
+				this.loginbutton.innerText = this._tool.i18n.__('Logged in')
+				this._tool.twitchapi.setAuthToken(hash.access_token)
+				this._tool.twitchhelix.token = hash.access_token
+				this.continueafterauth()
+			} else {
+				this.loginbutton.innerText = this._tool.i18n.__('Invalid token')
+			}
+		} else {
+			this.loginbutton.innerText = this._tool.i18n.__('Canceled by user')
+		}
+	}
+
+	/**
+	 * Checks if user is logged in and fires complete event
+	 * 
+	 * @private
+	 * @async
+	 */
+	async continueafterauth() {
+		if(this._tool.twitchapi.isLoggedIn()) {
+			this.logindialog.style.display = 'none'
+
+			let usr = null
+			try {
+				usr = await this._tool.twitchapi.getUser()
+			} catch(e) {
+				this._tool.ui.showErrorMessage(e)
+			}
+			if(usr != null &amp;&amp; usr.hasOwnProperty('_id')) {
+				this._username = usr.name
+				this._userid = usr._id
+				/**
+				 * Fires when user is sucessfully is logged in
+				 * 
+				 * @event TTVLogin#complete
+				 */
+				this.emit('complete')
+			}
+		} else {
+			this.logindialog.style.display = 'table'
+		}
+	}
+
+}
+
+module.exports = TTVLogin</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Sun Aug 18 2019 12:47:45 GMT+0200 (GMT+02:00)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+        </p>
+    </div>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
