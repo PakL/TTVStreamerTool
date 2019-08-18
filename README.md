@@ -1,4 +1,4 @@
-![](https://ttvst.app/img/logo.svg)
+![](https://ttvst.app/docs/img/logo.svg)
 
 TTVST is an application aimed at Twitch streamer. On the main view you will be able to read the chat, see the people who are in the chat, the current number of viewers and notifications for follows, subscriptions, bans, timeouts and other stuff. There is also a local http host in there for OBS or Xsplit overlays. You can set up hotkeys to control these.
 
