@@ -57,6 +57,7 @@ class ToolSettings extends UIPage {
 
 			self.appendSetting('tw_auth_token', self._tool.i18n.__('Logout'), 'button', { set: 'twitch', setLabel: 'Twitch', description: self._tool.i18n.__('Click this button to log out of twitch. You will prompted to login again.'), onclick: () => {
 				self.remove('tw_auth_token')
+				self.remove('cloud-token')
 				window.location.reload()
 			} })
 
