@@ -600,5 +600,11 @@
 	},
 	"Keep current settings and overwrite cloud": {
 		"de": "Lokale Einstellungen beibehalten und Cloud-Daten überschreiben"
+	},
+	"Show newest messages on top": {
+		"de": "Zeige neuste Nachrichten oben an"
+	},
+	"Instead of adding new messages to the bottom, new messages will be added to the top of chat.": {
+		"de": "Statt die Nachrichten unten an den Chat zu hängen werden neue Nachrichten oberhalb hinzugefügt."
 	}
 }

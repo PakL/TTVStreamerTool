@@ -131,8 +131,9 @@
 						self.nowautoscrollring = false
 						return
 					}
+					let chattotop = Tool.settings.displayChatToTop
 					let stb = self.scrolled_to_bottom()
-					if(self.autoscroll && !stb) {
+					if(!chattotop && self.autoscroll && !stb) {
 						self.autoscrollNote.style.display = 'block'
 						self.autoscroll = false
 					} else if(!self.autoscroll && stb) {
@@ -167,7 +168,8 @@
 			scoll_to_bottom() {
 				const self = this
 				window.requestAnimationFrame(() => {
-					if(self.autoscroll) {
+					let chattotop = Tool.settings.displayChatToTop
+					if(!chattotop && self.autoscroll) {
 						self.nowautoscrollring = true
 						self.root.scrollTop = self.root.scrollHeight
 					}
@@ -221,8 +223,8 @@
 
 						self.messageDrop.appendChild(filterElement)
 
-							
-						if(self.autoscroll) {
+						let chattotop = Tool.settings.displayChatToTop
+						if(!chattotop && self.autoscroll) {
 							self.nowautoscrollring = true
 							self.root.scrollTop = self.root.scrollHeight
 						}
@@ -268,12 +270,18 @@
 
 				const self = this
 				window.requestAnimationFrame(() => {
+					let chattotop = Tool.settings.displayChatToTop
+
 					let newMessageElement = document.createElement('message')
-					self.messageDrop.appendChild(newMessageElement)
+					if(chattotop) {
+						self.messageDrop.prepend(newMessageElement)
+					} else {
+						self.messageDrop.appendChild(newMessageElement)
+					}
 					riot.mount(newMessageElement, { msg: message });
 
 					while(self.messageDrop.childNodes.length > 500) {
-						let el = self.messageDrop.childNodes[0]
+						let el = self.messageDrop.childNodes[(chattotop ? self.messageDrop.childNodes.length-1 : 0)]
 						if(el.classList.contains('filtered')) {
 							let ts = el.dataset.timestamp
 							delete self.filteredMessages[ts]
@@ -286,7 +294,7 @@
 						self.emoteStream.removeChild(el)
 					}
 
-					if(self.autoscroll) {
+					if(!chattotop && self.autoscroll) {
 						self.nowautoscrollring = true
 						self.root.scrollTop = self.root.scrollHeight
 					}
@@ -296,11 +304,12 @@
 			clearuser(username) {
 				const self = this
 				window.requestAnimationFrame(() => {
+					let chattotop = Tool.settings.displayChatToTop
 					var messages = self.messageDrop.querySelectorAll('message')
 					for(var i = 0; i < messages.length; i++) {
 						messages[i]._tag.deleteifuser(username)
 					}
-					if(self.autoscroll) {
+					if(!chattotop && self.autoscroll) {
 						self.nowautoscrollring = true
 						self.root.scrollTop = self.root.scrollHeight
 					}
@@ -310,13 +319,14 @@
 			clearmessage(uuid) {
 				const self = this
 				window.requestAnimationFrame(() => {
+					let chattotop = Tool.settings.displayChatToTop
 					var messages = self.messageDrop.querySelectorAll('message')
 					for(var i = messages.length-1; i >= 0; i--) {
 						if(messages[i]._tag.deleteifuuid(uuid)) {
 							break;
 						}
 					}
-					if(self.autoscroll) {
+					if(!chattotop && self.autoscroll) {
 						self.nowautoscrollring = true
 						self.root.scrollTop = self.root.scrollHeight
 					}
