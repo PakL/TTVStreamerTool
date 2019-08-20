@@ -106,6 +106,8 @@
 				if(typeof(this.props.messages) == 'object') {
 					this.messages = this.props.messages
 				}
+				this.totopmode = false
+
 				this.isupdating = false
 				this.autoscroll = true
 				this.nowautoscrollring = false
@@ -242,9 +244,18 @@
 
 			addmessage(message, ignorefilter) {
 				if(typeof(ignorefilter) !== 'boolean') ignorefilter = false
+				let chattotop = Tool.settings.displayChatToTop
 
 				if(!ignorefilter) {
 					if(Tool.settings.filterEmoteSpam) {
+						if(this.totopmode && !chattotop) {
+							this.root.append(this.emoteStream)
+							this.totopmode = false
+						} else if(!this.totopmode && chattotop) {
+							this.root.prepend(this.emoteStream)
+							this.totopmode = true
+						}
+
 						let messageWOTags = message.message_html.replace(/(<([^>]+)>)/ig, '').replace(/( |\t)/g, '')
 						if(messageWOTags.length <= 0) {
 							if(Tool.settings.showEmoteStream) {
@@ -275,7 +286,6 @@
 
 				const self = this
 				window.requestAnimationFrame(() => {
-					let chattotop = Tool.settings.displayChatToTop
 
 					let newMessageElement = document.createElement('message')
 					if(chattotop) {
