@@ -99,7 +99,8 @@ class ToolSettings extends UIPage {
 		if(set !== null) set._tag.clear()
 		this.appendSetting('filteremotespam', this._tool.i18n.__('Filter emote spam'), 'checkbox', { set: 'chat_filter', setLabel: this._tool.i18n.__('Chat filter'), description: this._tool.i18n.__('This filters out any messages that are only emotes.'), default: false })
 		this.appendSetting('showemotestream', this._tool.i18n.__('Show emote stream instead'), 'checkbox', { set: 'chat_filter', description: this._tool.i18n.__('Now that we have no emote spam you can display emotes in a single row stream below the chat to still get a feealing for the chat.'), default: false })
-		this.appendSetting('filterbotcommands', this._tool.i18n.__('Filter bot commands'), 'checkbox', { set: 'chat_filter', description: this._tool.i18n.__('This filters out any messages beginning with an exclamation mark (!) and messages by known bots (Moobot, StreamElements).'), default: false })
+		this.appendSetting('filterbotcommands', this._tool.i18n.__('Filter bot commands'), 'checkbox', { set: 'chat_filter', description: this._tool.i18n.__('This filters out any messages beginning with an exclamation mark (!) and messages by known bots (Moobot, StreamElements, etc.).'), default: false })
+		this.appendSetting('filteruserlist', this._tool.i18n.__('Filter user'), 'text', { set: 'chat_filter', description: this._tool.i18n.__('List users (or bots) that should be filtered. Comma seperated.'), default: '' })
 		this.appendSetting('filtersubscriptions', this._tool.i18n.__('Filter subscription messages'), 'checkbox', { set: 'chat_filter', description: this._tool.i18n.__('This filters out subscription messages from chat. They will still be displayed in the action stream if not disabled below.'), default: false })
 		
 		set = document.querySelector('#settings_set_alert_options')

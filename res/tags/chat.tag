@@ -282,6 +282,16 @@
 							return
 						}
 					}
+					if(Tool.settings.getString('filteruserlist', '').length > 0) {
+						let users = Tool.settings.getString('filteruserlist', '').split(',')
+						for(let i = 0; i < users.length; i++) {
+							let u = users[i].trim().toLowerCase()
+							if(u == message.user.toLowerCase()) {
+								this.filter(message)
+								return
+							}
+						}
+					}
 				}
 
 				const self = this

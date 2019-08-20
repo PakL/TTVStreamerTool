@@ -438,8 +438,8 @@
 	"Filter bot commands": {
 		"de": "Bot-Befehle filtern"
 	},
-	"This filters out any messages beginning with an exclamation mark (!) and messages by known bots (Moobot, StreamElements).": {
-		"de": "Dieser Filter entfernt alle Nachrichten die mit einem Ausrufezeichen (!) beginnen oder von einem bekannten Bot (Moobot, StreamElements) stammen."
+	"This filters out any messages beginning with an exclamation mark (!) and messages by known bots (Moobot, StreamElements, etc.).": {
+		"de": "Dieser Filter entfernt alle Nachrichten die mit einem Ausrufezeichen (!) beginnen oder von einem bekannten Bot (Moobot, StreamElements, etc.) stammen."
 	},
 	"Show amount of viewers": {
 		"de": "Zuschaueranzahl anzeigen"
@@ -606,5 +606,11 @@
 	},
 	"Instead of adding new messages to the bottom, new messages will be added to the top of chat.": {
 		"de": "Statt die Nachrichten unten an den Chat zu hängen werden neue Nachrichten oberhalb hinzugefügt."
+	},
+	"Filter user": {
+		"de": "Benutzer filtern"
+	},
+	"List users (or bots) that should be filtered. Comma seperated.": {
+		"de": "Benutzer (oder Bots) auflisten, die gefiltert werden sollen. Mit Komma getrennt."
 	}
 }
