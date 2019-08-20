@@ -127,7 +127,7 @@ class ToolSettings extends UIPage {
 			this.appendSetting(this._openchannel + 'showactionstream', this._tool.i18n.__('Show action stream'), 'checkbox', { set: 'channel_cockpit_options', default: true })
 			this.appendSetting(this._openchannel + 'showviewersamount', this._tool.i18n.__('Show amount of viewers'), 'checkbox', { set: 'channel_cockpit_options', default: true })
 			this.appendSetting(this._openchannel + 'classicchat', this._tool.i18n.__('Classic chat'), 'checkbox', { set: 'channel_cockpit_options', description: this._tool.i18n.__('Instead of positioning messages below the username and aligning badges to the right, this mode will give you a more classic twitch look, with badges in front of usernames and messages direcly inline.'), default: false })
-			this.appendSetting(this._openchannel + 'chattotop', this._tool.i18n.__('Show newest messages on top'), 'checkbox', { set: 'cockpit_options', description: this._tool.i18n.__('Instead of adding new messages to the bottom, new messages will be added to the top of chat.'), default: false })
+			this.appendSetting(this._openchannel + 'chattotop', this._tool.i18n.__('Show newest messages on top'), 'checkbox', { set: 'channel_cockpit_options', description: this._tool.i18n.__('Instead of adding new messages to the bottom, new messages will be added to the top of chat.'), default: false })
 		}
 
 		set = document.querySelector('#settings_set_channel_chat_filter')

@@ -132,13 +132,15 @@
 						return
 					}
 					let chattotop = Tool.settings.displayChatToTop
-					let stb = self.scrolled_to_bottom()
-					if(!chattotop && self.autoscroll && !stb) {
-						self.autoscrollNote.style.display = 'block'
-						self.autoscroll = false
-					} else if(!self.autoscroll && stb) {
-						self.autoscrollNote.style.display = 'none'
-						self.autoscroll = true
+					if(!chattotop) {
+						let stb = self.scrolled_to_bottom()
+						if(self.autoscroll && !stb) {
+							self.autoscrollNote.style.display = 'block'
+							self.autoscroll = false
+						} else if(!self.autoscroll && stb) {
+							self.autoscrollNote.style.display = 'none'
+							self.autoscroll = true
+						}
 					}
 				})
 			},
@@ -221,12 +223,15 @@
 						filterElement.appendChild(messageElement)
 						filterElement.onclick = self.unfilter
 
-						self.messageDrop.appendChild(filterElement)
-
 						let chattotop = Tool.settings.displayChatToTop
-						if(!chattotop && self.autoscroll) {
-							self.nowautoscrollring = true
-							self.root.scrollTop = self.root.scrollHeight
+						if(chattotop) {
+							self.messageDrop.prepend(filterElement)
+						} else {
+							self.messageDrop.appendChild(filterElement)
+							if(self.autoscroll) {
+								self.nowautoscrollring = true
+								self.root.scrollTop = self.root.scrollHeight
+							}
 						}
 					} else {
 						messageElement = filterElement.querySelectorAll('span')[1]
