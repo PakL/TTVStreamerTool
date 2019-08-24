@@ -1,5 +1,6 @@
 const dateFormat = require('dateformat')
 const stringz = require('stringz')
+const dns = require('dns').promises
 
 let timestamp = function(ts, returnday){
 	var d = new Date()
@@ -103,7 +104,7 @@ var findEmoticons = function(text, emoticons){
 	}
 	return emotestring
 };
-var replaceEmoticons = function(text, emotes, cheermotes, bits){
+var replaceEmoticons = async function(text, emotes, cheermotes, bits){
 	if(typeof(cheermotes) != 'object') cheermotes = []
 	if(typeof(bits) != 'number') bits = 0
 	var replacings = []
@@ -180,11 +181,22 @@ var replaceEmoticons = function(text, emotes, cheermotes, bits){
 		} catch(e) {}
 	}*/
 
-	var regex = new RegExp('(^|\\s)((http(s?):\\/\\/)?([a-z0-9_\\-\\.]+)?[a-z0-9_\\-]\\.[a-z0-9_\\-]([a-z]+)(\\/[a-z0-9_\\-\\/%\\.\\?=#&\\*\\+]+)?)', 'gi')
+	var regex = new RegExp('(^|\\s)((http(s?):\\/\\/)?(([a-z0-9_\\-\\.]+)?[a-z0-9_\\-]\\.[a-z0-9_\\-]([a-z]+))(\\/[a-z0-9_\\-\\/%\\.\\?=#&\\*\\+]+)?)', 'gi')
 	while(match = regex.exec(text)) {
 		//console.dir(match)
 		var url = match[2]
-		if(typeof(match[3]) == 'undefined' || match[3].length == 0) url = 'https://' + url
+		if(typeof(match[3]) == 'undefined' || match[3].length == 0) {
+			if(typeof(match[8]) !== 'undefined') {
+				url = 'https://' + url
+			} else {
+				try {
+					let dnsResult = await dns.resolveNs(match[5])
+					url = 'https://' + url
+				} catch(e) {
+					continue
+				}
+			}
+		}
 
 		var start = match.index + match[1].length;
 		var end = start+match[2].length-1

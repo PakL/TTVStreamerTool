@@ -377,6 +377,7 @@ class Chat extends EventEmitter {
 	/**
 	 * Prepares a message and emits the chatmessage event. It replaces emotes, checks for highlights and creates a user object by the tags
 	 * 
+	 * @async
 	 * @param {(null|Object)} prefix Might be the prefix object
 	 * @param {String} prefix.user Username in the prefix
 	 * @param {String} prefix.host Host in the prefix
@@ -393,7 +394,7 @@ class Chat extends EventEmitter {
 	 *                      5 - Highlight message
 	 * @fires Chat#chatmessage
 	 */
-	showmsg(prefix, user, to, msg, tags, type) {
+	async showmsg(prefix, user, to, msg, tags, type) {
 			
 		var self = this
 		var org_msg = msg
@@ -409,7 +410,7 @@ class Chat extends EventEmitter {
 			bits = parseInt(tags.bits)
 
 
-		msg = replaceEmoticons(msg, emotes, this.channelcheers, bits)
+		msg = await replaceEmoticons(msg, emotes, this.channelcheers, bits)
 		
 		if(typeof(tags.channellink) === 'string') {
 			msg = msg.replace(tags.channellink, '<a onclick="Tool.cockpit.leaveChannel(true);Tool.cockpit.openChannelByName(\'' + tags.channellink + '\')">' + tags.channellink + '</a>')
