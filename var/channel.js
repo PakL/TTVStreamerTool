@@ -26,14 +26,15 @@ class Channel extends EventEmitter {
 		
 		const self = this
 		this.tool.cockpit.on('channelopen', () => {
+			this.channelobject = {}
+			this.streamobject =  {}
 			this.stopfetching = false
+			this.lastminute = -1
 			if(!this.fetching) {
 				self.fetchData()
 			}
 		})
 		this.tool.cockpit.on('channelleft', () => {
-			this.channelobject = {}
-			this.streamobject =  {}
 			this.stopfetching = true
 			clearTimeout(self.timer)
 		})
@@ -64,7 +65,7 @@ class Channel extends EventEmitter {
 	}
 
 	/**
-	 * Fetches data every 30 seconds. Do not call this manually.
+	 * Fetches data every 5 seconds. Do not call this manually.
 	 * 
 	 * @async
 	 * @private
@@ -96,26 +97,32 @@ class Channel extends EventEmitter {
 			let emitonline = !this.streamobject.hasOwnProperty('id')
 			let oldstatus = ''
 			let oldgame = ''
+			let oldgameid = 0
 			if(this.channelobject.hasOwnProperty('_id')) {
 				oldgame = this.channelobject.game
 				oldstatus = this.channelobject.status
 			} else if(this.streamobject.hasOwnProperty('id')) {
 				oldgame = this.streamobject.gamename
 				oldstatus = this.streamobject.title
+				oldgameid = this.streamobject.game_id
 			}
 			this.streamobject = stream.data[0]
 			this.streamobject.gamename = ''
 			this.channelobject = {}
 
-			let game = null
-			try {
-				game = await this.helix.getGames(this.streamobject.game_id)
-			} catch (err) {
+			if(oldgameid == this.streamobject.game_id) {
 				this.streamobject.gamename = oldgame
-				console.error(err)
-			}
-			if(game !== null && game.hasOwnProperty('data') && game.data.length > 0) {
-				this.streamobject.gamename = game.data[0].name
+			} else {
+				let game = null
+				try {
+					game = await this.helix.getGames(this.streamobject.game_id)
+				} catch (err) {
+					this.streamobject.gamename = oldgame
+					console.error(err)
+				}
+				if(game !== null && game.hasOwnProperty('data') && game.data.length > 0) {
+					this.streamobject.gamename = game.data[0].name
+				}
 			}
 
 
@@ -183,8 +190,55 @@ class Channel extends EventEmitter {
 		}
 
 		if(!this.stopfetching) {
-			this.timer = setTimeout(() => { self.fetchData() }, (30000 - (new Date().getTime() % 30000)))
+			this.timer = setTimeout(() => { self.fetchData() }, (5000 - (new Date().getTime() % 5000)))
 			this.fetching = false
+		}
+	}
+
+	async updatedStatusViaCockpit(status)
+	{
+		let changed = false
+		if(this.channelobject.hasOwnProperty('status')) {
+			if(this.channelobject.status != status) {
+				this.channelobject.status = status
+				changed = true
+			}
+		}
+		if(this.streamobject.hasOwnProperty('title')) {
+			if(this.streamobject.title != status) {
+				this.streamobject.title = status
+				changed = true
+			}
+		}
+		if(changed) {
+			this.emit('statuschange', status)
+		}
+	}
+
+	async updatedGameViaCockpit(game)
+	{
+		if(this.channelobject.hasOwnProperty('game')) {
+			if(this.channelobject.game != game) {
+				this.channelobject.game = game
+				this.emit('gamechange', this.channelobject.game)
+			}
+		} else if(this.streamobject.hasOwnProperty('game_id')) {
+			if(!this.streamobject.hasOwnProperty('gamename') || this.streamobject.gamename != game) {
+				let gameReq = null
+				try {
+					gameReq = await this.helix.getGames([], [game])
+				} catch (err) {
+					console.error(err)
+				}
+				if(gameReq !== null && gameReq.hasOwnProperty('data') && gameReq.data.length > 0) {
+					this.streamobject.game_id = game.data[0].id
+					this.streamobject.gamename = game.data[0].name
+				} else {
+					this.streamobject.game_id = 0
+					this.streamobject.gamename = ''
+				}
+				this.emit('gamechange', this.streamobject.gamename)
+			}
 		}
 	}
 

@@ -71,6 +71,11 @@
 				this.color = defaultColors[0][1]
 			},
 
+			updateViewersCountOnly(count) {
+				this.viewerscount = count.toString()
+				this.update()
+			},
+
 			plotViewersCount(count, timestamp) {
 				var c = count
 				this.viewerscount = c.toString()

@@ -644,8 +644,10 @@ class Cockpit extends UIPage {
 			if(response != null) {
 				if(data.hasOwnProperty('status') && response.hasOwnProperty('status')) {
 					input.value = response.status
+					this.tool.channel.updatedStatusViaCockpit(response.status)
 				} else if(data.hasOwnProperty('game') && response.hasOwnProperty('game')) {
 					input.value = response.game
+					this.tool.channel.updatedGameViaCockpit(response.game)
 				}
 			}
 		} catch(error) {
@@ -761,6 +763,8 @@ class Cockpit extends UIPage {
 		if(cMinute != this.prevMinute) {
 			this.channelViewersplotter._tag.plotViewersCount(viewers, timestamp(new Date().getTime()))
 			this.prevMinute = cMinute
+		} else {
+			this.channelViewersplotter._tag.updateViewersCountOnly(viewers)
 		}
 	}
 
