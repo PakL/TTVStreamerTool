@@ -498,6 +498,7 @@ class Cockpit extends UIPage {
 			document.querySelector('#nav-main-menu').appendChild(self._leaveChannelButton)
 		}
 
+		this.setupVideoplayer()
 		if(this._visible) {
 			this.open()
 			this._ui.openPage(this.name)
@@ -717,9 +718,6 @@ class Cockpit extends UIPage {
 			this.tool.i18n.__('Channel is now online'),
 			timestamp(new Date().getTime(), true)
 		)
-		
-		document.querySelector('#content_cockpit').classList.add('online')
-		this.setupVideoplayer()
 	}
 
 	onChannelOffline() {
