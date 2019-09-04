@@ -252,7 +252,7 @@ class Overlays extends UIPage {
 		this.repeatForNewClients.forEach((val) => {
 			if(new Date().getTime() - 1000 <= val.time) {
 				repeats.push(val)
-				let subs = this.getSubscriptionsForMessage(message)
+				let subs = this.getSubscriptionsForMessage(val.msg)
 				if(subs.indexOf(client) >= 0) {
 					console.log('[Overlay][Websocket] Repeating for new client: < ' + val.msg)
 					client.sendText(val.msg)
