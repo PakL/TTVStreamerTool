@@ -89,7 +89,7 @@ class Cockpit extends UIPage {
 	}
 
 	get icon() {
-		return '💬'
+		return 'CannedChat'
 	}
 
 	get localizedName() {
@@ -488,7 +488,8 @@ class Cockpit extends UIPage {
 			let leaveButton = document.createElement('li')
 			let leaveButtonLink = document.createElement('a')
 			let leaveButtonIcon = document.createElement('span')
-			leaveButtonIcon.classList.add('icon-exit')
+			leaveButtonIcon.classList.add('ms-Icon')
+			leaveButtonIcon.classList.add('ms-Icon--Leave')
 			leaveButtonLink.appendChild(leaveButtonIcon)
 			leaveButtonLink.appendChild(document.createTextNode(self.i18n.__('Change channel')))
 			leaveButton.appendChild(leaveButtonLink)

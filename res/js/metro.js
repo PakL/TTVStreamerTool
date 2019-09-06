@@ -7,6 +7,12 @@ if(typeof(Tool) !== 'undefined') {
 			}
 		})
 
+		document.querySelector('body').addEventListener('click', (e) => {
+			if(!e.target.classList.contains('menu-collapse') && !e.target.parentElement.classList.contains('menu-collapse')) {
+				menuCollapses.forEach((link) => { link.parentElement.parentElement.parentElement.classList.add('collapsed') })
+			}
+		})
+
 		let menus = document.querySelectorAll('.side-nav')
 		menus.forEach((menu) => {
 			let menulinks = menu.querySelectorAll('a')

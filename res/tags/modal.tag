@@ -14,6 +14,7 @@
 			height: 100%;
 			top: 0;
 			left: 0;
+			backdrop-filter: blur(3px);
 		}
 		modal > .modalcell {
 			display: table-cell;

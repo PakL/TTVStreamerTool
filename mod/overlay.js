@@ -159,7 +159,7 @@ class Overlays extends UIPage {
 	}
 
 	get icon() {
-		return '🖼️'
+		return 'PhotoCollection'
 	}
 
 	/**

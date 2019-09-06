@@ -195,6 +195,18 @@ class ToolUI {
 		return null
 	}
 
+	static iconExists(iconname)
+	{
+		for(let i = 0; i < document.styleSheets.length; i++) {
+			let rules = document.styleSheets[i].rules || document.styleSheets[i].cssRules;
+			for(let x in rules) {
+				if(rules.hasOwnProperty(x) && typeof rules[x].selectorText == 'string' && rules[x].selectorText == '.ms-Icon--' + iconname + '::before')
+					return true
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Adds a page and creates a menu entry.
 	 * @param {UIPage} page The page you want to add
@@ -211,7 +223,13 @@ class ToolUI {
 					let linkElement = document.createElement('a')
 					let iconElement = document.createElement('span')
 
-					iconElement.innerText = substr(page.icon, 0, 1).toUpperCase()
+					if(ToolUI.iconExists(page.icon)) {
+						iconElement.classList.add('ms-Icon')
+						iconElement.classList.add('ms-Icon--' + page.icon)
+					} else {
+						iconElement.innerText = substr(page.icon, 0, 1).toUpperCase()
+					}
+					linkElement.setAttribute('title', page.localizedName)
 					linkElement.appendChild(iconElement)
 					linkElement.appendChild(document.createTextNode(page.localizedName))
 					linkElement.addEventListener('click', () => { self.openPage(page.name) })
@@ -297,7 +315,7 @@ class ToolUI {
 
 		this.loadingElement = document.createElement('modal')
 		this.loadingElement.innerHTML = '<img src="../res/img/hourglass.gif" alt="" />'
-		document.querySelector('#contents').style.filter = 'blur(3px)'
+		//document.querySelector('#contents').style.filter = 'blur(3px)'
 		document.querySelector('body').appendChild(this.loadingElement)
 		riot.mount(this.loadingElement)
 	}
@@ -317,7 +335,7 @@ class ToolUI {
 	_removeLoading()
 	{
 		if(this.loadingElement == null) return
-		document.querySelector('#contents').style.filter = ''
+		//document.querySelector('#contents').style.filter = ''
 		this.loadingElement.parentElement.removeChild(this.loadingElement)
 		this.loadingElement = null
 	}
