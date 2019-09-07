@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>TTVStreamerTool</title>
+	<title>Overlays &bull; TTVStreamerTool</title>
 
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 	<script src="docs/scripts/prettify/prettify.js"></script>
@@ -15,24 +15,6 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 	<link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
 	<link type="text/css" rel="stylesheet" href="docs/styles/app.min.css">
-	<style type="text/css">
-		.download-stage {
-			text-align: center;
-			padding: 20px 0;
-		}
-		.download-stage > a {
-			display: inline-block;
-			padding: 10px 20px;
-			color: #ffffff;
-			background: #05b80e;
-			border: 1px solid #0a8d10;
-			font-weight: bold;
-			font-size: 1.5em;
-		}
-		.download-stage > small {
-			color: #999999;
-		}
-	</style>
 </head>
 <body>
 	<div id="stickyNavbarOverlay"></div>
@@ -92,37 +74,15 @@
 			<div class="column is-9-desktop">
 				<div class="content" id="main-content-wrapper">
 					<header class="page-title">
-						<h1 style="display:none;">TTVStreamerTool</h1>
-						<img src="https://ttvst.app/docs/img/logo.svg" alt="">
+						<p>Features</p>
+						<h1>Overlays</h1>
 					</header>
 					<h3> </h3>
 					<section>
 						<article>
-							<p>TTVStreamerTool (TTVST) is an application aimed at Twitch streamer. On the main view you will be 
-								able to read the chat, see the people who are in the chat, the current number of viewers
-								and notifications for follows, subscriptions, bans, timeouts and other stuff. There is
-								also a local http host in there for OBS or Xsplit overlays. You can set up hotkeys to
-								control these.</p>
-							<p class="download-stage">
-								<a href="https://update.ttvst.app/Setup.exe">Download latest</a><br>
-								<small>Windows 8/8.1/10 x64 - v1.6.3</small>
-							</p>
-
-							<h3>Platform</h3>
-							<p>
-								The TTVStreamerTool is developed and tested on an Windows 10 x64 system. I guess everything >= Windows 8 should work.<br>
-								Linux or MacOS are <strong>not</strong> supported. (And propably never will be.)
-							</p>
-							
-							<h3>SmartScreen issue</h3>
-							<p>
-								Microsofts SmartScreen for Windows will (most likely) block the execution of this Setup file. This is because I have no interest to invest a lot of money in a code signing certificate. You can still execute the setup by clicking "More info" on the SmartScreen screen.<br>
-								<b>Please make sure that you only execute files from sources that you trust!</b>
-							</p>
-
-							<h3>What it looks like</h3>
-							<p>If you're using TTVST on Windows 10, it will take on the accent color of your system.</p>
-							<img src="docs/img/ttvst_screen.gif" alt="">
+							<p>TTVStreamerTool comes with a overlay host that runs in the background and can be accessed under `http://localhost:8090`.</p>
+							<p>By default TTVST only comes with a music overlay with which you can play a youtube playlist and a countdown overlay. More overlays can be added via addons, that you can create yourself.</p>
+							<p>Other than a lot of other overlay provider these overlays can be controlled with Hotkeys or HTTP request. This makes them highly customizable, controllable through different methods and automatable.</p>
 						</article>
 					</section>
 				</div>
