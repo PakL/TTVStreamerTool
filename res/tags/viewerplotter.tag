@@ -72,11 +72,6 @@
 			},
 
 			updateViewersCountOnly(count) {
-				this.viewerscount = count.toString()
-				this.update()
-			},
-
-			plotViewersCount(count, timestamp) {
 				var c = count
 				this.viewerscount = c.toString()
 				if(c >= 10000) {
@@ -95,6 +90,11 @@
 				if(Tool.settings.language == 'de') {
 					this.viewerscount = this.viewerscount.replace(/\./, ',')
 				}
+				this.update()
+			},
+
+			plotViewersCount(count, timestamp) {
+				this.updateViewersCountOnly(count)
 
 				this.data.push({ height: 0, viewers: count, timestamp: timestamp, color: this.color })
 				while(this.data.length > 100) {
