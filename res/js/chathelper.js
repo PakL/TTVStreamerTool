@@ -1,6 +1,7 @@
 const dateFormat = require('dateformat')
 const stringz = require('stringz')
 const dns = require('dns').promises
+const request = require('request-promise-native')
 
 let timestamp = function(ts, returnday){
 	var d = new Date()
@@ -104,6 +105,8 @@ var findEmoticons = function(text, emoticons){
 	}
 	return emotestring
 };
+
+let validSponsoredCheers = {}
 var replaceEmoticons = async function(text, emotes, cheermotes, bits){
 	if(typeof(cheermotes) != 'object') cheermotes = []
 	if(typeof(bits) != 'number') bits = 0
@@ -144,46 +147,9 @@ var replaceEmoticons = async function(text, emotes, cheermotes, bits){
 		textWoe = text
 	}
 
-	//if(typeof(username) != 'undefined') {
-	/*	var regex = new RegExp('(@[a-z0-9_-]+)', 'gi')
-		var match = text.match(regex)
-		if(match !== null) match = match[0]
-		if(match && textWoe.match(regex)) {
-			gui.Window.get().requestAttention(3)
-			var start = text.indexOf(match)
-			var end = start+(match.length-1)
-			replacings.push({ 'replaceWith': '<span class="nick">{__NEEDLE__}</span>', 'start': start, 'end': end })
-		}*/
-	//}
-
-	/*var highlights = loadHighlights()
-	var highlightMessage = false
-	var highlightMessageCol = ''
-	for(var i = 0; i < highlights.length; i++) {
-		try {
-			var regex = new RegExp(highlights[i].regex, 'gi')
-			if(textWoe.match(regex) && text.match(regex)) {
-				gui.Window.get().requestAttention(1)
-				switch(highlights[i].type) {
-					case '1':
-						var match = text.match(regex)
-						if(match !== null) match = match[0]
-						var start = text.indexOf(match)
-						var end = start+(match.length-1)
-						replacings.push({ 'replaceWith': '<span style="font-weight:bold;'+(highlights[i].color.length > 0 ? 'color:'+highlights[i].color+';' : '')+'">{__NEEDLE__}</span>', 'start': start, 'end': end })
-						break
-					case '2':
-						highlightMessage = true
-						highlightMessageCol = highlights[i].color
-						break
-				}
-			}
-		} catch(e) {}
-	}*/
 
 	var regex = new RegExp('(^|\\s)((http(s?):\\/\\/)?(([a-z0-9_\\-\\.]+)?[a-z0-9_\\-]\\.[a-z0-9_\\-]([a-z]+))(\\/[a-z0-9_\\-\\/%\\.\\?=#&\\*\\+]+)?)', 'gi')
 	while(match = regex.exec(text)) {
-		//console.dir(match)
 		var url = match[2]
 		if(typeof(match[3]) == 'undefined' || match[3].length == 0) {
 			if(typeof(match[8]) !== 'undefined') {
@@ -217,6 +183,8 @@ var replaceEmoticons = async function(text, emotes, cheermotes, bits){
 				let usedBits = parseInt(match[3])
 				if(usedBits > bits) continue;
 
+				bits -= usedBits
+
 				let color = '';
 				let images = [];
 				let minbits = 0;
@@ -236,6 +204,78 @@ var replaceEmoticons = async function(text, emotes, cheermotes, bits){
 
 				regex.lastIndex--;
 			}
+		}
+
+		let tiers = [
+			{ p: 1, c: '#979797' },
+			{ p: 100, c: '#9c3ee8' },
+			{ p: 1000, c: '#1db2a5' },
+			{ p: 5000, c: '#0099fe' },
+			{ p: 10000, c: '#f43021' },
+		]
+		if(bits > 0) {
+			let regex = new RegExp('(^|\\s)(([a-z]+)(\\d+))(\\s|$)', 'gi')
+			let match = null
+			while(match = regex.exec(text)) {
+				let usedBits = parseInt(match[4])
+				if(usedBits > bits) continue
+				if(match[3] == 'bonus') continue
+
+				let biggestTier = tiers[0]
+				for(let i = 0; i < tiers.length; i++) {
+					if(usedBits >= tiers[i].p) {
+						biggestTier = tiers[i]
+					}
+				}
+
+				let imageUrl = ''
+				if(validSponsoredCheers.hasOwnProperty(match[3])) {
+					if(validSponsoredCheers[match[3]] !== false) {
+						imageUrl = 'https://d3aqoihi2n8ty8.cloudfront.net/sponsored-actions/' + validSponsoredCheers[match[3]] + '/dark/animated/' + biggestTier.p + '/1.gif'
+					}
+				} else {
+					try {
+						imageUrl = 'https://d3aqoihi2n8ty8.cloudfront.net/sponsored-actions/' + match[3] + '/dark/animated/' + biggestTier.p + '/1.gif'
+						let avail = await request.get(imageUrl, { timeout: 10000 })
+						bits -= usedBits
+						validSponsoredCheers[match[3]] = match[3]
+					} catch(e) {
+						imageUrl = ''
+						try {
+							imageUrl = 'https://d3aqoihi2n8ty8.cloudfront.net/sponsored-actions/' + match[3].toLowerCase() + '/dark/animated/' + biggestTier.p + '/1.gif'
+							let avail = await request.get(imageUrl, { timeout: 10000 })
+							bits -= usedBits
+							validSponsoredCheers[match[3]] = match[3].toLowerCase()
+						} catch(e) {
+							imageUrl = ''
+							validSponsoredCheers[match[3]] = false
+						}
+					}
+				}
+
+				if(imageUrl.length > 0) {
+					var start = match.index + match[1].length
+					var end = start+match[2].length + match[5].length-1
+					replacings.push({ 'replaceWith': ' <img src="' + imageUrl + '" alt="' + match[3] + '" title="' + match[3] + '" class="emote"><span style="color:' + biggestTier.c + ';font-weight:bold;">' + usedBits + '</span> ', 'start': start, 'end': end })
+				}
+			}
+		}
+
+		let regex = new RegExp('(^|\\s)((bonus)(\\d+))(\\s|$)', 'g')
+		let match = null
+		while(match = regex.exec(text)) {
+			let usedBits = parseInt(match[4])
+			let biggestTier = tiers[0]
+			for(let i = 0; i < tiers.length; i++) {
+				if(usedBits >= tiers[i].p) {
+					biggestTier = tiers[i]
+				}
+			}
+
+			let imageUrl = 'https://d3aqoihi2n8ty8.cloudfront.net/sponsored-actions/bonus/dark/animated/' + biggestTier.p + '/1.gif'
+			let start = match.index + match[1].length
+			let end = start+match[2].length + match[5].length-1
+			replacings.push({ 'replaceWith': ' <img src="' + imageUrl + '" alt="' + match[3] + '" title="' + match[3] + '" class="emote"><span style="color:' + biggestTier.c + ';font-weight:bold;">' + usedBits + '</span> ', 'start': start, 'end': end })
 		}
 	}
 
