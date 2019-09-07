@@ -8,6 +8,11 @@
 		"name": "Pascal Pohl",
 		"url": "https://pakl.dev/"
 	},
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/PakL/TTVStreamerTool.git"
+	},
 	"scripts": {
 		"start": ".\\node_modules\\electron\\dist\\electron.exe .\\",
 		"generate-docs": "jsdoc -c jsdoc.json"
@@ -16,6 +21,7 @@
 		"compare-versions": "3.5.1",
 		"dateformat": "3.0.3",
 		"electron-squirrel-startup": "1.0.0",
+		"fluent-reveal-effect": "^1.1.1",
 		"follow-redirects": "1.8.1",
 		"i18n-nodejs": "3.0.0",
 		"less": "3.10.3",

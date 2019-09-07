@@ -490,6 +490,7 @@ class Cockpit extends UIPage {
 			let leaveButtonIcon = document.createElement('span')
 			leaveButtonIcon.classList.add('ms-Icon')
 			leaveButtonIcon.classList.add('ms-Icon--Leave')
+			leaveButtonLink.setAttribute('title', self.i18n.__('Change channel'))
 			leaveButtonLink.appendChild(leaveButtonIcon)
 			leaveButtonLink.appendChild(document.createTextNode(self.i18n.__('Change channel')))
 			leaveButton.appendChild(leaveButtonLink)
@@ -497,6 +498,8 @@ class Cockpit extends UIPage {
 			self._leaveChannelButton = leaveButton
 			self._leaveChannelButton.onclick = () => { self.leaveChannel() }
 			document.querySelector('#nav-main-menu').appendChild(self._leaveChannelButton)
+			this._ui.__proto__.constructor.applyRevealEffectToNavigation()
+			//this._ui.applyRevealEffectToNavigation()
 		}
 
 		this.setupVideoplayer()

@@ -82,8 +82,8 @@ class ToolUI {
 				navMenu.appendChild(pageLink)
 			})
 			self._appendPageViewLinkOnLoad = []
+			ToolUI.applyRevealEffectToNavigation()
 
-			
 			this.addPage(new class extends UIPage {
 				constructor(name) {
 					super(name)
@@ -207,6 +207,22 @@ class ToolUI {
 		return false;
 	}
 
+	static applyRevealEffectToNavigation()
+	{
+		FluentRevealEffect.applyEffect(".side-nav", {
+			clickEffect: false,
+			lightColor: "rgba(255,255,255,0.4)",
+			gradientSize: 120,
+			isContainer: true,
+			children: {
+				borderSelector: "li",
+				elementSelector: "a",
+				lightColor: "rgba(255,255,255,0.2)",
+				gradientSize: 150
+			}
+		})
+	}
+
 	/**
 	 * Adds a page and creates a menu entry.
 	 * @param {UIPage} page The page you want to add
@@ -240,6 +256,7 @@ class ToolUI {
 						self._appendPageViewLinkOnLoad.push(listElement)
 					} else {
 						navMenu.appendChild(listElement)
+						ToolUI.applyRevealEffectToNavigation()
 					}
 					/*let menu = this.getMenuItemById('menu_view')
 					menu.submenu.append(new MenuItem({

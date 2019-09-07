@@ -44,11 +44,11 @@ const refreshTileColors = () => {
 		let tileImage = tile.querySelector('img')
 		if(tileImage != null && tileImage.complete) {
 			let color = ct.getColor(tileImage, 8)
-			tile.style.backgroundColor = 'rgb(' + color.join(',') + ')'
+			tile.querySelector('.face-bottom').style.backgroundColor = 'rgb(' + color.join(',') + ')'
 		} else if(tileImage != null && !tileImage.complete) {
 			tileImage.onload = () => {
 				let color = ct.getColor(tileImage, 8)
-				tile.style.backgroundColor = 'rgb(' + color.join(',') + ')'
+				tile.querySelector('.face-bottom').style.backgroundColor = 'rgb(' + color.join(',') + ')'
 			}
 		}
 	})

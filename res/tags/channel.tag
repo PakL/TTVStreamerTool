@@ -1,6 +1,8 @@
 <channel>
-	<canvas ref="logo" class="slideout"></canvas>
-	<a ref="channelname" class="channelname label slidein"></a>
+	<div class="cube">
+		<canvas ref="logo" class="cube-face face-front"></canvas>
+		<div class="cube-face face-bottom"><a ref="channelname" class="channelname label"></a></div>
+	</div>
 	<img ref="hiddenlogo">
 
 	<style>
@@ -14,14 +16,14 @@
 		channel.loaded {
 			transform: scale(1);
 		}
-		channel > img {
+		channel img {
 			display: none;
 		}
-		channel > canvas {
+		channel canvas {
 			width: 100px;
 			height: 100px;
 		}
-		channel.wide > canvas {
+		channel.wide canvas {
 			width: 206px;
 		}
 	</style>
