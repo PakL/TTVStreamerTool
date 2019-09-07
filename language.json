@@ -118,7 +118,7 @@
 			"1": "Zuschauer"
 		}
 	},
-	"mm.dd.yyyy hh:MMtt": {
+	"mm/dd/yyyy hh:MMtt": {
 		"de": "dd.mm.yyyy HH:MM"
 	},
 	"hh:MMtt": {

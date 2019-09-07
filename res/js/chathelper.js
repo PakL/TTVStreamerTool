@@ -11,7 +11,7 @@ let timestamp = function(ts, returnday){
 	if(typeof(returnday) != 'boolean')
 		returnday = false
 
-	return dateFormat(d, (returnday ? Tool.i18n.__('mm.dd.yyyy hh:MMtt') : Tool.i18n.__('hh:MMtt')))
+	return dateFormat(d, (returnday ? Tool.i18n.__('mm/dd/yyyy hh:MMtt') : Tool.i18n.__('hh:MMtt')))
 }
 
 
