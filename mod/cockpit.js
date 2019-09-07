@@ -499,7 +499,6 @@ class Cockpit extends UIPage {
 			self._leaveChannelButton.onclick = () => { self.leaveChannel() }
 			document.querySelector('#nav-main-menu').appendChild(self._leaveChannelButton)
 			this._ui.__proto__.constructor.applyRevealEffectToNavigation()
-			//this._ui.applyRevealEffectToNavigation()
 		}
 
 		this.setupVideoplayer()
@@ -722,7 +721,8 @@ class Cockpit extends UIPage {
 				color: this.tool.chat.userselement._tag.getUserColor(this.openChannelObject.login)
 			},
 			this.tool.i18n.__('Channel is now online'),
-			timestamp(new Date().getTime(), true)
+			timestamp(new Date().getTime(), true),
+			'PlugConnected'
 		)
 	}
 
@@ -733,7 +733,8 @@ class Cockpit extends UIPage {
 				color: this.tool.chat.userselement._tag.getUserColor(this.openChannelObject.login)
 			},
 			this.tool.i18n.__('Channel is now offline'),
-			timestamp(new Date().getTime(), true)
+			timestamp(new Date().getTime(), true),
+			'PlugDisconnected'
 		)
 	}
 	
@@ -746,7 +747,8 @@ class Cockpit extends UIPage {
 				color: this.tool.chat.userselement._tag.getUserColor(this.openChannelObject.login)
 			},
 			this.tool.i18n.__('Game information changed to «{{game}}»', { game: game }),
-			timestamp(new Date().getTime(), true)
+			timestamp(new Date().getTime(), true),
+			'Soccer'
 		)
 	}
 
@@ -758,7 +760,8 @@ class Cockpit extends UIPage {
 				color: this.tool.chat.userselement._tag.getUserColor(this.openChannelObject.login)
 			},
 			this.tool.i18n.__('Stream title changed to «{{status}}»', {status: status}),
-			timestamp(new Date().getTime(), true)
+			timestamp(new Date().getTime(), true),
+			'Tag'
 		)
 	}
 
@@ -774,7 +777,7 @@ class Cockpit extends UIPage {
 
 	onFollow(user, raw) {
 		if(this.tool.settings.showFollowAlert) {
-			this.channelActionsElement._tag.addAction(user, this.tool.i18n.__('is following this channel now'), timestamp(raw.followed_at, true))
+			this.channelActionsElement._tag.addAction(user, this.tool.i18n.__('is following this channel now'), timestamp(raw.followed_at, true), 'Heart')
 		}
 	}
 
@@ -876,23 +879,23 @@ class Cockpit extends UIPage {
 
 		if(tags['msg-id'] == 'raid') {
 			if(!this.tool.settings.showRaidAlert) return
-			this.channelActionsElement._tag.addAction(user,  this.i18n.__('is raiding your channel with {{viewers}} viewers', {viewers: tags['msg-param-viewerCount']}), timestamp(parseInt(tags['tmi-sent-ts']), true))
+			this.channelActionsElement._tag.addAction(user,  this.i18n.__('is raiding your channel with {{viewers}} viewers', {viewers: tags['msg-param-viewerCount']}), timestamp(parseInt(tags['tmi-sent-ts']), true), 'Group')
 			this.checkWhatUserPlayed(user)
 		}
 		if(!this.tool.settings.showSubscriptionAlert) return
 		if(tags['msg-id'] == 'resub') {
 			if(tags['msg-param-should-share-streak'] == '1') {
 				let streak = tags['msg-param-streak-months']
-				this.channelActionsElement._tag.addAction(user,  this.i18n.__('subscribed with {{plan}} for {{months}} months and {{streak}} in a row!', {plan: plan, months: tags['msg-param-cumulative-months'], streak: streak}), timestamp(parseInt(tags['tmi-sent-ts']), true))
+				this.channelActionsElement._tag.addAction(user,  this.i18n.__('subscribed with {{plan}} for {{months}} months and {{streak}} in a row!', {plan: plan, months: tags['msg-param-cumulative-months'], streak: streak}), timestamp(parseInt(tags['tmi-sent-ts']), true), 'FavoriteStar')
 			} else {
-				this.channelActionsElement._tag.addAction(user,  this.i18n.__('subscribed with {{plan}} for {{months}} months!', {plan: plan, months: tags['msg-param-cumulative-months']}), timestamp(parseInt(tags['tmi-sent-ts']), true))
+				this.channelActionsElement._tag.addAction(user,  this.i18n.__('subscribed with {{plan}} for {{months}} months!', {plan: plan, months: tags['msg-param-cumulative-months']}), timestamp(parseInt(tags['tmi-sent-ts']), true), 'FavoriteStar')
 			}
 		}
 		if(tags['msg-id'] == 'sub') {
-			this.channelActionsElement._tag.addAction(user,  this.i18n.__('subscribed with {{plan}} to this channel', {plan: plan}), timestamp(parseInt(tags['tmi-sent-ts']), true))
+			this.channelActionsElement._tag.addAction(user,  this.i18n.__('subscribed with {{plan}} to this channel', {plan: plan}), timestamp(parseInt(tags['tmi-sent-ts']), true), 'FavoriteStar')
 		}
 		if(tags['msg-id'] == 'subgift' || tags['msg-id'] == 'anonsubgift') {
-			this.channelActionsElement._tag.addAction(user,  this.i18n.__('gifted {{recipient}} a {{plan}} subscription', {recipient: tags['msg-param-recipient-display-name'], plan: plan}), timestamp(parseInt(tags['tmi-sent-ts']), true))
+			this.channelActionsElement._tag.addAction(user,  this.i18n.__('gifted {{recipient}} a {{plan}} subscription', {recipient: tags['msg-param-recipient-display-name'], plan: plan}), timestamp(parseInt(tags['tmi-sent-ts']), true), 'Giftbox')
 		}
 	}
 
@@ -910,7 +913,7 @@ class Cockpit extends UIPage {
 			message = this.i18n.__('was timeouted for {{duration}} {{seconds||duration}}', { duration: tags['ban-duration'] })
 		} else if(!this.tool.settings.showBanAlert) return
 
-		this.channelActionsElement._tag.addAction(user, message + '<br>' + reason, timestamp(new Date().getTime(), true))
+		this.channelActionsElement._tag.addAction(user, message + '<br>' + reason, timestamp(new Date().getTime(), true), (tags.hasOwnProperty('ban-duration') ? 'FlameSolid' :'NotImpactedSolid'))
 	}
 
 	onClearchat(channel, tags) {
@@ -924,7 +927,7 @@ class Cockpit extends UIPage {
 		if(channel != this.openChannelObject.login) return
 		if(!this.tool.settings.showTimeoutAlert) return
 		let message = this.i18n.__('A message was deleted.')
-		this.channelActionsElement._tag.addAction(user, message, timestamp(new Date().getTime(), true))
+		this.channelActionsElement._tag.addAction(user, message, timestamp(new Date().getTime(), true), 'DRM')
 	}
 
 	onHostingyou(channel, user, viewers, msg, tags) {
@@ -933,7 +936,7 @@ class Cockpit extends UIPage {
 		if(viewers > 0) {
 			hostmessage = this.i18n.__('is hosting the channel with {{viewernum}} {{viewers||viewernum}}', { viewernum: viewers })
 		}
-		this.channelActionsElement._tag.addAction(user, hostmessage, timestamp(new Date().getTime(), true))
+		this.channelActionsElement._tag.addAction(user, hostmessage, timestamp(new Date().getTime(), true), 'Group')
 		this.checkWhatUserPlayed(user)
 	}
 
@@ -943,7 +946,7 @@ class Cockpit extends UIPage {
 		if(viewers > 0) {
 			hostmessage = this.i18n.__('is auto hosting the channel with {{viewernum}} {{viewers||viewernum}}', { viewernum: viewers })
 		}
-		this.channelActionsElement._tag.addAction(user, hostmessage, timestamp(new Date().getTime(), true))
+		this.channelActionsElement._tag.addAction(user, hostmessage, timestamp(new Date().getTime(), true), 'Group')
 	}
 
 	onChatmessage(channel, ts, user, message, msg_raw, type, uuid) {
@@ -970,7 +973,7 @@ class Cockpit extends UIPage {
 	onCheer(channel, ts, user, bits) {
 		if(!this.tool.settings.showCheerAlert) return
 		let cheermessage = this.i18n.__('just cheered with {{num_bits}} {{bits||num_bits}}', {num_bits: bits})
-		this.channelActionsElement._tag.addAction(user, cheermessage, ts)
+		this.channelActionsElement._tag.addAction(user, cheermessage, ts, 'DiamondSolid')
 	}
 
 	async checkWhatUserPlayed(user)
@@ -981,7 +984,7 @@ class Cockpit extends UIPage {
 				let game_id = stream.data[0].game_id
 				let game = await this.tool.twitchhelix.getGames(game_id)
 				if(game !== null && typeof(game.data) !== 'undefined' && game.data.length > 0) {
-					this.channelActionsElement._tag.addAction(user, this.i18n.__('was playing {{game}} last', { game: game.data[0].name }), timestamp(new Date().getTime(), true))
+					this.channelActionsElement._tag.addAction(user, this.i18n.__('was playing {{game}} last', { game: game.data[0].name }), timestamp(new Date().getTime(), true), 'Soccer')
 				}
 			}
 		} catch(e) {}

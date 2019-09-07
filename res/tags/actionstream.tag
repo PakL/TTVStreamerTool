@@ -1,8 +1,5 @@
 <actionstream>
-	<div each={ action in actions } class="actionstream_action" >
-		<span class="actionstream_nickname" style={{ color: action.color }}>{ action.nickname }</span>
-		<span class="actionstream_timestamp">{ action.timestamp }</span>
-		<span class="actionstream_message"><raw content={ action.message } /></span>
+	<div class="actionstream_action">
 	</div>
 
 	<style>
@@ -11,6 +8,7 @@
 			height: 100%;
 			overflow-y: auto;
 			overflow-x: hidden;
+			clear: both;
 		}
 		@keyframes actionFlash {
 			0% {
@@ -51,12 +49,25 @@
 		actionstream > .actionstream_action {
 			padding-bottom: 10px;
 			margin: 5px;
-			border-bottom: 1px solid #3b3b3b;
+			/*border-bottom: 1px solid #3b3b3b;*/
 			transform: translateX(0);
 			animation-name: actionMoveIn;
 			animation-iteration-count: 1;
 			animation-timing-function: ease-out;
 			animation-duration: 10s;
+		}
+		actionstream > .actionstream_action > div {
+			clear: both;
+		}
+		actionstream > .actionstream_action > .actionstream_icon {
+			display: block;
+			float: left;
+			width: 26px;
+			height: 26px;
+			line-height: 26px;
+			font-size: 16px;
+			text-align: center;
+			margin-right: 10px;
 		}
 		actionstream > .actionstream_action:last-child {
 			border-bottom: 0;
@@ -69,23 +80,37 @@
 			display: block;
 			font-size: 1.2em;
 		}
-		actionstream > .actionstream_action > .actionstream_timestamp {
+		actionstream > .actionstream_action .actionstream_timestamp {
 			float: right;
 			font-size: 0.8em;
 			color: #b2b2b2;
 			margin-left: 10px;
 		}
+		actionstream > .actionstream_action > .actionstream_message {
+			display: block;
+			width: calc(100% - 36px);
+			float: right;
+		}
 	</style>
 	<script>
 		export default {
 			onBeforeMount() {
-				this.actions = []
 				this.nextid = 0
 				this.makeAccessible()
 			},
-			addAction(user, message, timestamp) {
+			addAction(user, message, timestamp, icon) {
 				let actionElement = document.createElement('div')
 				actionElement.classList.add('actionstream_action')
+
+				let actionIcon = document.createElement('span')
+				actionIcon.classList.add('actionstream_icon')
+				actionIcon.classList.add('ms-Icon')
+				if(typeof(icon) !== 'string') icon = 'Pinned'
+				if(Tool.ui.__proto__.constructor.iconExists(icon)) {
+					actionIcon.classList.add('ms-Icon--' + icon)
+				}
+				actionIcon.style.color = user.color
+				actionElement.appendChild(actionIcon)
 
 				let actionNickname = document.createElement('span')
 				actionNickname.classList.add('actionstream_nickname')
@@ -96,12 +121,15 @@
 				let actionTimestamp = document.createElement('span')
 				actionTimestamp.classList.add('actionstream_timestamp')
 				actionTimestamp.innerText = timestamp
-				actionElement.appendChild(actionTimestamp)
 
 				let actionMessage = document.createElement('span')
 				actionMessage.classList.add('actionstream_message')
 				actionMessage.innerHTML = message
+				actionMessage.prepend(actionTimestamp)
 				actionElement.appendChild(actionMessage)
+
+				let actionDiv = document.createElement('div')
+				actionElement.appendChild(actionDiv)
 
 				if(this.root.childNodes.length <= 0) {
 					this.root.appendChild(actionElement)
