@@ -79,7 +79,9 @@ class ToolSettings extends UIPage {
 			})
 
 			if(self.getBoolean('cloud-save', false)) {
-				self.syncCloud()
+				setTimeout(() => {
+					self.syncCloud()
+				}, 10000)
 			}
 		})
 	}
