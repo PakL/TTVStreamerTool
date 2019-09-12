@@ -680,12 +680,10 @@ class Cockpit extends UIPage {
 			document.querySelector('#content_cockpit').classList.add('showPlayer')
 
 			
-			cockpitResetCleanup()
 			cockpitResizeInit()
 		}
 		document.querySelector('#content_cockpit').classList.remove('showPlayer')
 		videoPlayer.innerText = this.tool.i18n.__('Click here to display stream player')
-		cockpitResetCleanup()
 		cockpitResizeInit()
 	}
 

@@ -17,7 +17,11 @@ class ResizeDragger {
 		this.resizeElement = resizeElement
 		this.spaceMaker = spaceMaker
 
-		this.dragDirection = 'h'
+		if(getComputedStyle(this.dragger).cursor == 'row-resize') {
+			this.dragDirection = 'v'
+		} else {
+			this.dragDirection = 'h'
+		}
 		this.active = false
 		this.currentX = 0
 		this.currentY = 0
@@ -55,8 +59,10 @@ class ResizeDragger {
 		this.resizeElement.style.height = Tool.settings.getString(ResizeDragger.getVarNameFor(this.resizeElement, 'height'), '')
 		
 		for(let i = 0; i < this.spaceMaker.length; i++) {
-			this.spaceMaker[i].style.width = Tool.settings.getString(ResizeDragger.getVarNameFor(this.spaceMaker[i], 'width'), '')
-			this.spaceMaker[i].style.height = Tool.settings.getString(ResizeDragger.getVarNameFor(this.spaceMaker[i], 'height'), '')
+			if(!this.spaceMaker[i].classList.contains('dragger') || this.dragDirection == 'v')
+				this.spaceMaker[i].style.width = Tool.settings.getString(ResizeDragger.getVarNameFor(this.spaceMaker[i], 'width'), '')
+			if(!this.spaceMaker[i].classList.contains('dragger') || this.dragDirection == 'h')
+				this.spaceMaker[i].style.height = Tool.settings.getString(ResizeDragger.getVarNameFor(this.spaceMaker[i], 'height'), '')
 		}
 	}
 
@@ -74,9 +80,12 @@ class ResizeDragger {
 	static saveElementProperty(element, property) {
 		if(typeof(element) === 'undefined') return
 		if(typeof(element.style) === 'undefined' || element.style[property] == null || element.style[property].length <= 0) {
-			Tool.settings.remove(ResizeDragger.getVarNameFor(element, property))
+			if(Tool.settings.getString(ResizeDragger.getVarNameFor(element, property), null) !== null) {
+				console.log('[Resize] Removing ' + ResizeDragger.getVarNameFor(element, property))
+				Tool.settings.remove(ResizeDragger.getVarNameFor(element, property))
+			}
 		} else {
-			console.log('[Resize] ' + ResizeDragger.getVarNameFor(element, property) + ' = ' + element.style[property])
+			console.log('[Resize] Saving ' + ResizeDragger.getVarNameFor(element, property) + ' = ' + element.style[property])
 			Tool.settings.setString(ResizeDragger.getVarNameFor(element, property), element.style[property])
 		}
 	}
@@ -273,7 +282,7 @@ function cockpitResizeSave()
 		if(elements.indexOf(crd.dragger) < 0) elements.push(crd.dragger)
 		if(elements.indexOf(crd.resizeElement) < 0) elements.push(crd.resizeElement)
 		for(let j = 0; j < crd.spaceMaker.length; j++) {
-			if(elements.indexOf(crd.spaceMaker[i]) < 0) elements.push(crd.spaceMaker[i])
+			if(elements.indexOf(crd.spaceMaker[j]) < 0) elements.push(crd.spaceMaker[j])
 		}
 	}
 
@@ -334,6 +343,8 @@ function cockpitResetFontSize(e) {
 
 function cockpitResizeInit()
 {
+	cockpitResetCleanup()
+
 	let mainContainer = document.querySelector("#content_cockpit")
 
 	let spaceMakerChoice = [
@@ -346,6 +357,7 @@ function cockpitResizeInit()
 			document.querySelector('#cockpit_chat_resize')
 		],
 		[
+			document.querySelector('#stream_video'),
 			document.querySelector('#chat_column'),
 		],
 		[
