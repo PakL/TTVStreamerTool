@@ -357,7 +357,6 @@ function cockpitResizeInit()
 			document.querySelector('#cockpit_chat_resize')
 		],
 		[
-			document.querySelector('#stream_video'),
 			document.querySelector('#chat_column'),
 		],
 		[
