@@ -258,6 +258,8 @@ var replaceEmoticons = async function(text, emotes, cheermotes, bits){
 					var end = start+match[2].length + match[5].length-1
 					replacings.push({ 'replaceWith': ' <img src="' + imageUrl + '" alt="' + match[3] + '" title="' + match[3] + '" class="emote"><span style="color:' + biggestTier.c + ';font-weight:bold;">' + usedBits + '</span> ', 'start': start, 'end': end })
 				}
+
+				regex.lastIndex--;
 			}
 		}
 
@@ -276,6 +278,8 @@ var replaceEmoticons = async function(text, emotes, cheermotes, bits){
 			let start = match.index + match[1].length
 			let end = start+match[2].length + match[5].length-1
 			replacings.push({ 'replaceWith': ' <img src="' + imageUrl + '" alt="' + match[3] + '" title="' + match[3] + '" class="emote"><span style="color:' + biggestTier.c + ';font-weight:bold;">' + usedBits + '</span> ', 'start': start, 'end': end })
+
+			regex.lastIndex--;
 		}
 	}
 
