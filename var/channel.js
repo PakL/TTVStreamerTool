@@ -88,8 +88,8 @@ class Channel extends EventEmitter {
 		if(stream == null) {
 			if(!this.stopfetching) {
 				this.timer = setTimeout(() => { self.fetchData() }, (30000 - (new Date().getTime() % 30000)))
-				this.fetching = false
 			}
+			this.fetching = false
 			return
 		}
 
@@ -191,8 +191,8 @@ class Channel extends EventEmitter {
 
 		if(!this.stopfetching) {
 			this.timer = setTimeout(() => { self.fetchData() }, (5000 - (new Date().getTime() % 5000)))
-			this.fetching = false
 		}
+		this.fetching = false
 	}
 
 	async updatedStatusViaCockpit(status)
