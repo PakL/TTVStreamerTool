@@ -498,23 +498,31 @@ class Chat extends EventEmitter {
 	 */
 	async join(channel, channelid) {
 		//if(this.currentchannel.length > 0) return
-		try {
-			if(typeof(channelid) === 'undefined') {
+		if(typeof(channelid) === 'undefined') {
+			try {
 				let u = await this.tool.twitchhelix.getUsers({ login: channel })
 				if(u.hasOwnProperty('data') && u.data.length >= 1) {
 					channel = u.data[0].login
 					channelid = u.data[0].id
 				} else {
 					channel = ''
+					channelid = ''
 				}
+			} catch(error) {
+				channel = ''
+				channelid = ''
 			}
-			let b = await this.tool.twitchapi.getChatBadgeSetsByChannel(channelid)
-			this.tool.chat.channelsbadges[channel] = b.badge_sets
-		} catch(error) {
-			channel = ''
 		}
-		if(channel.length > 0) {
-			if(this.channels.indexOf(channel) >= 0) {
+
+		if(channel.length > 0 && channelid.length > 0) {
+			const self = this
+			this.tool.twitchapi.getChatBadgeSetsByChannel(channelid).then((b) => {
+				self.tool.chat.channelsbadges[channel] = b.badge_sets
+			}).catch((e) => {
+				console.error(e)
+			})
+
+			if(this.channels.indexOf(channel) < 0) {
 				this.irc.join(channel)
 				this.channels.push(channel)
 			}
