@@ -466,18 +466,11 @@ class Cockpit extends UIPage {
 		}
 
 
-		// Since this is an undocumented API it could be changed and shouldn't interrupt application's function
-		this.tool.twitchapi.getChatBadgeSetsByChannel(channelid).then((b) => {
-			self.tool.chat.channelbadges = b.badge_sets
-		}).catch((error) => {
-			self._ui.showErrorMessage(error)
-		})
-
 		this._ui.stopLoading(this)
 
 		if(self.openChannelObject.hasOwnProperty('login')) {
 			// Join IRC channel
-			self.tool.chat.join(self.openChannelObject.login)
+			self.tool.chat.join(self.openChannelObject.login, self.openChannelObject.id)
 						
 			/**
 			 * Fires when everything is loaded and ready

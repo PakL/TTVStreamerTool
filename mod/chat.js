@@ -36,7 +36,9 @@ class Chat extends EventEmitter {
 		this.authtoken = ''
 
 		this.channel = {}
+		this.channels = []
 		this.channelbadges = {}
+		this.channelsbadges = {}
 		this.botbadge = {}
 		this.channelemotes = {}
 		this.channelcheers = {}
@@ -70,8 +72,10 @@ class Chat extends EventEmitter {
 			self.emit('connected')
 		})
 		this.irc.on('capack', () => {
-			if(self.tool.cockpit.openChannelId.length > 0) {
-				self.join(self.tool.cockpit.openChannelObject.login)
+			if(self.channels.length > 0) {
+				for(let i = 0; i < self.channels.length; i++) {
+					self.rejoin(self.channels[i])
+				}
 			}
 		})
 		this.irc.on('reconnect', (timeout) => {
@@ -109,7 +113,7 @@ class Chat extends EventEmitter {
 			 * @param {Object} tags The tags of the userstate
 			 * @see {@link TwitchChat#event:userstate}
 			 */
-			self.emit('userstate', to, self.getUserObjByTags(self.username, tags), tags)
+			self.emit('userstate', to, self.getUserObjByTags(self.username, tags, to), tags)
 		})
 
 		this.irc.on('join', (user, to) => {
@@ -162,7 +166,7 @@ class Chat extends EventEmitter {
 			self.showmsg('', '', to, msg, tags, 1)
 		})
 		this.irc.on('usernotice', (to, tags, msg) => {
-			var usr = self.getUserObjByTags(tags.login, tags)
+			var usr = self.getUserObjByTags(tags.login, tags, to)
 			var tagsSystem = Object.assign({}, tags)
 			tagsSystem.emotes = ''
 			if(!self.tool.settings.filterSubscriptions) {
@@ -186,7 +190,7 @@ class Chat extends EventEmitter {
 		})
 
 		this.irc.on('clearuser', (to, user, tags) => {
-			var usr = self.getUserObjByTags(user, tags)
+			var usr = self.getUserObjByTags(user, tags, to)
 			/**
 			 * Fires when messages of a specific user was deleted.
 			 * @event Chat#clearuser
@@ -206,7 +210,7 @@ class Chat extends EventEmitter {
 			this.emit('clearchat', to, tags)
 		})
 		this.irc.on('clearmsg', (to, user, msgId) => {
-			var usr = self.getUserObjByTags(user, {})
+			var usr = self.getUserObjByTags(user, {}, to)
 			/**
 			 * Fires when a specific messages was deleted.
 			 * @event Chat#clearuser
@@ -217,7 +221,7 @@ class Chat extends EventEmitter {
 			this.emit('clearmsg', to, usr, msgId)
 		})
 		this.irc.on('hostingyou', (to, user, viewers, msg, tags) => {
-			var usr = self.getUserObjByTags(user, tags)
+			var usr = self.getUserObjByTags(user, tags, to)
 			self.showmsg('', '', to, msg, self.usertags[to], 2)
 
 			/**
@@ -232,7 +236,7 @@ class Chat extends EventEmitter {
 			self.emit('hostingyou', to, usr, viewers, msg, tags)
 		})
 		this.irc.on('autohostingyou', (to, user, viewers, msg, tags) => {
-			var usr = self.getUserObjByTags(user, tags)
+			var usr = self.getUserObjByTags(user, tags, to)
 			self.showmsg('', '', to, msg, self.usertags[to], 2)
 
 			/**
@@ -312,9 +316,14 @@ class Chat extends EventEmitter {
 	 * 
 	 * @param {String} user A username
 	 * @param {Object} tags The twitch irc tags that were given
+	 * @param {String} [channel] The channel name the user of a message is in
 	 * @returns {Chat~userObject} Always returns a complete object, but properties might be empty or incomplete because of missing tags
 	 */
-	getUserObjByTags(user, tags) {
+	getUserObjByTags(user, tags, channel) {
+		if(typeof(channel) !== 'string') {
+			channel = this.tool.cockpit.openChannelObject.login
+		}
+
 		var display_name = user
 		if(typeof(tags['display-name']) == 'string' && tags['display-name'].length > 0) {
 			display_name = tags['display-name']
@@ -363,8 +372,8 @@ class Chat extends EventEmitter {
 			if(bver[0] == 'moderator' && this.isBot(user)) {
 				badges += this.getBotBadge(true)
 				hasBotBadge = true
-			} else if(typeof(this.channelbadges[bver[0]]) != 'undefined' && typeof(this.channelbadges[bver[0]].versions[bver[1]]) != 'undefined') {
-				badges += '<img src="' + this.channelbadges[bver[0]].versions[bver[1]].image_url_1x + '" title="' + this.channelbadges[bver[0]].versions[bver[1]].title + '">'
+			} else if(typeof(this.channelsbadges[channel][bver[0]]) != 'undefined' && typeof(this.channelsbadges[channel][bver[0]].versions[bver[1]]) != 'undefined') {
+				badges += '<img src="' + this.channelsbadges[channel][bver[0]].versions[bver[1]].image_url_1x + '" title="' + this.channelsbadges[channel][bver[0]].versions[bver[1]].title + '">'
 			}
 		}
 		if(!hasBotBadge && this.isBot(user)) {
@@ -423,7 +432,7 @@ class Chat extends EventEmitter {
 			ts = timestamp()
 		}
 
-		var userobj = this.getUserObjByTags(user, tags)
+		var userobj = this.getUserObjByTags(user, tags, to)
 
 		if(bits > 0) {
 			/**
@@ -477,14 +486,41 @@ class Chat extends EventEmitter {
 		this.emit('chatmessage', to, ts, userobj, msg, org_msg, type, uuid)
 	}
 
+	rejoin(channel) {
+		this.irc.join(channel)
+	}
+
 	/**
 	 * Join a channel
 	 * 
 	 * @param {String} channel The channel that should be joined
+	 * @param {String} [channelid] Optional channel id
 	 */
-	join(channel) {
+	async join(channel, channelid) {
 		//if(this.currentchannel.length > 0) return
-		this.irc.join(channel)
+		try {
+			if(typeof(channelid) === 'undefined') {
+				let u = await this.tool.twitchhelix.getUsers({ login: channel })
+				if(u.hasOwnProperty('data') && u.data.length >= 1) {
+					channel = u.data[0].login
+					channelid = u.data[0].id
+				} else {
+					channel = ''
+				}
+			}
+			let b = await this.tool.twitchapi.getChatBadgeSetsByChannel(channelid)
+			this.tool.chat.channelsbadges[channel] = b.badge_sets
+		} catch(error) {
+			channel = ''
+		}
+		if(channel.length > 0) {
+			if(this.channels.indexOf(channel) >= 0) {
+				this.irc.join(channel)
+				this.channels.push(channel)
+			}
+		} else {
+			this.showmsg('', '', this.tool.auth.username, this.tool.i18n.__('No channel with this name was found.'), {color: '#999999'}, 1)
+		}
 		//this.currentchannel = channel
 	}
 
@@ -497,6 +533,10 @@ class Chat extends EventEmitter {
 	part(channel, cb) {
 		//this.messagelement.onkeyup = function(){}
 		this.irc.part(channel, cb)
+		let index = this.channels.indexOf(channel)
+		if(index >= 0) {
+			this.channels.splice(index, 1)
+		}
 		//this.currentchannel = ''
 	}
 
@@ -549,6 +589,10 @@ class Chat extends EventEmitter {
 			this.part(message.substr(6))
 			return
 		}
+		if(message.toLowerCase().startsWith('/leave ')) {
+			this.part(message.substr(7))
+			return
+		}
 		if(message.toLowerCase().startsWith('/user ')) {
 			let u = message.substr(6)
 			this.openViewercard(channel, u)
@@ -582,7 +626,7 @@ class Chat extends EventEmitter {
 
 		let msgtags = this.usertags[channel]
 		msgtags.emotes = findEmoticons(message, emotes)
-		var userobj = this.getUserObjByTags(this.username, msgtags)
+		var userobj = this.getUserObjByTags(this.username, msgtags, to)
 		/**
 		 * This event is fired when a message is being sent by the user. If a message is not prevented a chatmessage event will follow.
 		 * Use this event only if you're trying to prevent certain messages from being sent.
