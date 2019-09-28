@@ -96,6 +96,7 @@ class ToolSettings extends UIPage {
 		this.appendSetting('showviewersamount', this._tool.i18n.__('Show amount of viewers'), 'checkbox', { set: 'cockpit_options', default: true })
 		this.appendSetting('classicchat', this._tool.i18n.__('Classic chat'), 'checkbox', { set: 'cockpit_options', description: this._tool.i18n.__('Instead of positioning messages below the username and aligning badges to the right, this mode will give you a more classic twitch look, with badges in front of usernames and messages direcly inline.'), default: false })
 		this.appendSetting('chattotop', this._tool.i18n.__('Show newest messages on top'), 'checkbox', { set: 'cockpit_options', description: this._tool.i18n.__('Instead of adding new messages to the bottom, new messages will be added to the top of chat.'), default: false })
+		this.appendSetting('embedchat', this._tool.i18n.__('Embed chat'), 'checkbox', { set: 'cockpit_options', description: this._tool.i18n.__('Embed the orginal twitch chat instead of using the build in one. Some features will not work, like filters, custom emote addons, highlights, etc.'), default: false })
 
 		set = document.querySelector('#settings_set_chat_filter')
 		if(set !== null) set._tag.clear()
@@ -131,6 +132,7 @@ class ToolSettings extends UIPage {
 			this.appendSetting(this._openchannel + 'showviewersamount', this._tool.i18n.__('Show amount of viewers'), 'checkbox', { set: 'channel_cockpit_options', default: true })
 			this.appendSetting(this._openchannel + 'classicchat', this._tool.i18n.__('Classic chat'), 'checkbox', { set: 'channel_cockpit_options', description: this._tool.i18n.__('Instead of positioning messages below the username and aligning badges to the right, this mode will give you a more classic twitch look, with badges in front of usernames and messages direcly inline.'), default: false })
 			this.appendSetting(this._openchannel + 'chattotop', this._tool.i18n.__('Show newest messages on top'), 'checkbox', { set: 'channel_cockpit_options', description: this._tool.i18n.__('Instead of adding new messages to the bottom, new messages will be added to the top of chat.'), default: false })
+			this.appendSetting(this._openchannel + 'embedchat', this._tool.i18n.__('Embed chat'), 'checkbox', { set: 'channel_cockpit_options', description: this._tool.i18n.__('Embed the orginal twitch chat instead of using the build in one. Some features will not work, like filters, custom emote addons, highlights, etc.'), default: false })
 		}
 
 		set = document.querySelector('#settings_set_channel_chat_filter')
@@ -282,6 +284,17 @@ class ToolSettings extends UIPage {
 	get displayChatToTop() {
 		if(this._openchannel.length > 0 && this.getBoolean(this._openchannel + 'overwrite_cockpit_settings', false)) return this.getBoolean(this._openchannel + 'chattotop', false)
 		return this.getBoolean('chattotop', false)
+	}
+
+	/**
+	 * Loads and returns weither or not to embed twitch chat.
+	 * 
+	 * @member {Boolean}
+	 * @readonly
+	 */
+	get displayEmbedChat() {
+		if(this._openchannel.length > 0 && this.getBoolean(this._openchannel + 'overwrite_cockpit_settings', false)) return this.getBoolean(this._openchannel + 'embedchat', false)
+		return this.getBoolean('embedchat', false)
 	}
 
 	/**

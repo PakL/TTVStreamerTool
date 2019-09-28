@@ -247,10 +247,12 @@ class Cockpit extends UIPage {
 		}
 
 		if(this.tool.settings.displayClassicChat) {
-			document.querySelector('#channelchat').classList.add('classic')
+			this.chatelement.classList.add('classic')
 		} else {
-			document.querySelector('#channelchat').classList.remove('classic')
+			this.chatelement.classList.remove('classic')
 		}
+
+		this.setupEmbedChat()
 
 		cockpitResizeInit()
 
@@ -680,6 +682,39 @@ class Cockpit extends UIPage {
 		cockpitResizeInit()
 	}
 
+	setupEmbedChat() {
+		if(this.tool.settings.displayEmbedChat) {
+			if(document.querySelector('#chat_column > div').style.display != 'none') {
+				document.querySelectorAll('#chat_column > div').forEach((d) => { d.style.display = "none" })
+
+				let embedChat = document.createElement('webview')
+				embedChat.setAttribute('src', 'https://www.twitch.tv/embed/' + (this.openChannelObject.hasOwnProperty('login') ? this.openChannelObject.login : '') + '/chat')
+				embedChat.setAttribute('border', '0')
+				let chatColumn = document.querySelector('#chat_column')
+				chatColumn.appendChild(embedChat)
+				embedChat.addEventListener('did-finish-load', () => {
+					embedChat.getWebContents().executeJavaScript('document.querySelector("html").classList.add("tw-root--theme-dark");')
+				})
+				embedChat.addEventListener('new-window', (e) => {
+					if(e.disposition != 'save-to-disk') {
+						shell.openExternal(e.url)
+					}
+				})
+			} else {
+				let embedChat = document.querySelector('#chat_column webview')
+				let embedUrl = 'https://www.twitch.tv/embed/' + (this.openChannelObject.hasOwnProperty('login') ? this.openChannelObject.login : '') + '/chat'
+				if(embedChat.getAttribute('src') !== embedUrl) {
+					embedChat.setAttribute('src', embedUrl)
+				}
+			}
+		} else {
+			if(document.querySelector('#chat_column > div').style.display == 'none') {
+				document.querySelectorAll('#chat_column > div').forEach((d) => { d.style.display = "" })
+				document.querySelector('#chat_column webview').remove()
+			}
+		}
+	}
+
 	onResize() {
 		let tilesDiv = this.followsElement.querySelector('div')
 		tilesDiv.style.width = 'fit-content'
@@ -945,19 +980,21 @@ class Cockpit extends UIPage {
 			user.name = '(#' + channel +') ' + user.name
 			type += 20
 		}*/
-		this.chatelement._tag.addmessage({
-			'id': uuid,
-			'mainchannel': this.openChannelObject.login,
-			'channel': channel,
-			'timestamp': ts,
-			'badges_html': user.badges,
-			'nickname': user.name,
-			'message': msg_raw,
-			'message_html': message,
-			'user': user.user,
-			'color': user.color,
-			'type': type
-		})
+		if(!this.tool.settings.displayEmbedChat) {
+			this.chatelement._tag.addmessage({
+				'id': uuid,
+				'mainchannel': this.openChannelObject.login,
+				'channel': channel,
+				'timestamp': ts,
+				'badges_html': user.badges,
+				'nickname': user.name,
+				'message': msg_raw,
+				'message_html': message,
+				'user': user.user,
+				'color': user.color,
+				'type': type
+			})
+		}
 		if(user.user.length > 0 && type == 0 && channel == this.openChannelObject.login) {
 			this.userselement._tag.joinusr(user)
 		}

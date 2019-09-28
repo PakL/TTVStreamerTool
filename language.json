@@ -612,5 +612,11 @@
 	},
 	"List users (or bots) that should be filtered. Comma seperated.": {
 		"de": "Benutzer (oder Bots) auflisten, die gefiltert werden sollen. Mit Komma getrennt."
+	},
+	"Embed chat": {
+		"de": "Eingebetteter Chat"
+	},
+	"Embed the orginal twitch chat instead of using the build in one. Some features will not work, like filters, custom emote addons, highlights, etc.": {
+		"de": "Bette den original Twitch-Chat ein anstatt den eingebauten zu verwenden. Einige Features werden damit nicht funktionieren, wie zum Beispiel Filter, Emote-Addons, Highlights, usw."
 	}
 }
