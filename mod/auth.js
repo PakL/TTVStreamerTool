@@ -104,7 +104,7 @@ class TTVLogin extends EventEmitter {
 	/**
 	 * Starts the authorization flow
 	 */
-	auth() {
+	auth(partition) {
 		const self = this
 		this.loginbutton.innerText = this._tool.i18n.__('Please wait...')
 		this.authresponseserver = http.createServer((req, resp) => {
@@ -122,7 +122,9 @@ class TTVLogin extends EventEmitter {
 		this.authresponseserver.on('listening', () => {
 			self.loginbutton.innerText = self._tool.i18n.__('Login window should be opening...')
 			let url = self._tool.twitchapi.getAuthImplicitGrantFlowUrl()
-			self.authwindow = new BrowserWindow({ width: 400, height: 500, show: false, icon: __dirname + '/../res/icon.ico', modal: true, autoHideMenuBar: true, webPreferences: { nodeIntegration: true, webviewTag: false } })
+			let webpref = { nodeIntegration: true, webviewTag: false }
+			if(typeof(partition) === 'string') webpref.partition = partition
+			self.authwindow = new BrowserWindow({ width: 400, height: 500, show: false, icon: __dirname + '/../res/icon.ico', modal: true, autoHideMenuBar: true, webPreferences: webpref })
 			self.authwindow.loadURL(url)
 			self.authwindow.on('page-title-updated', (e, t) => { self.authtitlechange(e, t) })
 			self.authwindow.show()
