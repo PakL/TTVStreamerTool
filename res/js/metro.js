@@ -11,6 +11,10 @@ if(typeof(Tool) !== 'undefined') {
 			if(!e.target.classList.contains('menu-collapse') && !e.target.parentElement.classList.contains('menu-collapse')) {
 				menuCollapses.forEach((link) => { link.parentElement.parentElement.parentElement.classList.add('collapsed') })
 			}
+			let sideNavItems = document.querySelectorAll('.side-nav li')
+			sideNavItems.forEach((item) => {
+				item.style.backgroundImage = 'none'
+			})
 		})
 
 		let menus = document.querySelectorAll('.side-nav')
