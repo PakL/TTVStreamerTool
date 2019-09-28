@@ -653,7 +653,7 @@ class Chat extends EventEmitter {
 
 		let msgtags = this.usertags[channel]
 		msgtags.emotes = findEmoticons(message, emotes)
-		var userobj = this.getUserObjByTags(this.username, msgtags, to)
+		var userobj = this.getUserObjByTags(this.username, msgtags, channel)
 		/**
 		 * This event is fired when a message is being sent by the user. If a message is not prevented a chatmessage event will follow.
 		 * Use this event only if you're trying to prevent certain messages from being sent.
