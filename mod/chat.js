@@ -372,7 +372,7 @@ class Chat extends EventEmitter {
 			if(bver[0] == 'moderator' && this.isBot(user)) {
 				badges += this.getBotBadge(true)
 				hasBotBadge = true
-			} else if(typeof(this.channelsbadges[channel][bver[0]]) != 'undefined' && typeof(this.channelsbadges[channel][bver[0]].versions[bver[1]]) != 'undefined') {
+			} else if(typeof(this.channelsbadges[channel]) != 'undefined' && typeof(this.channelsbadges[channel][bver[0]]) != 'undefined' && typeof(this.channelsbadges[channel][bver[0]].versions[bver[1]]) != 'undefined') {
 				badges += '<img src="' + this.channelsbadges[channel][bver[0]].versions[bver[1]].image_url_1x + '" title="' + this.channelsbadges[channel][bver[0]].versions[bver[1]].title + '">'
 			}
 		}

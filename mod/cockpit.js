@@ -941,12 +941,14 @@ class Cockpit extends UIPage {
 	}
 
 	onChatmessage(channel, ts, user, message, msg_raw, type, uuid) {
-		if(channel != this.openChannelObject.login) {
+		/*if(channel != this.openChannelObject.login) {
 			user.name = '(#' + channel +') ' + user.name
 			type += 20
-		}
+		}*/
 		this.chatelement._tag.addmessage({
 			'id': uuid,
+			'mainchannel': this.openChannelObject.login,
+			'channel': channel,
 			'timestamp': ts,
 			'badges_html': user.badges,
 			'nickname': user.name,

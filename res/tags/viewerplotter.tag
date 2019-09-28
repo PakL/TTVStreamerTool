@@ -52,14 +52,14 @@
 				this.data = []
 				this.viewerscount = '0'
 				this.colorIndex = -1
-				this.color = defaultColors[0][1]
+				this.color = getNextColor(this.colorIndex)
+				if(!isGoodYIQ(this.color)) this.color = makeColorLighter(this.color)
 				this.makeAccessible()
 			},
 
 			newColor() {
+				let c = getNextColor(this.colorIndex)
 				this.colorIndex++
-				if(this.colorIndex >= defaultColors.length) this.colorIndex = 0
-				let c = defaultColors[this.colorIndex][1]
 				if(!isGoodYIQ(c)) c = makeColorLighter(c)
 				this.color = c
 			},
@@ -67,8 +67,6 @@
 			clearPlotter() {
 				this.data = []
 				this.viewerscount = '0'
-				this.colorIndex = -1
-				this.color = defaultColors[0][1]
 			},
 
 			updateViewersCountOnly(count) {

@@ -39,27 +39,35 @@ let makeColorLighter = function(hexcolor) {
 	return '#' + r + g + b
 }
 
+function shuffleArray(a) {
+	for (let i = a.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[a[i], a[j]] = [a[j], a[i]];
+	}
+	return a;
+}
+
 let defaultColors = [
-	['Lime', '#bade00'],
-	['Green', '#6ec21a'],
-	['Emerald', '#00a300'],
-	['Teal', '#00c4c2'],
-	['Cyan', '#1eb4fc'],
-	['Cobalt', '#5779ff'],
-	['Indigo', '#8833ff'],
-	['Violet', '#bb33ff'],
-	['Pink', '#ff77d9'],
-	['Magenta', '#f20081'],
-	['Crimson', '#bd002b'],
-	['Red', '#ff1600'],
-	['Orange', '#ff6a00'],
-	['Amber', '#ffad0b'],
-	['Yellow', '#fcde00'],
-	['Brown', '#9c6c35'],
-	['Olive', '#82a177'],
-	['Steel', '#778ca1'],
-	['Mauve', '#8c72a3'],
-	['Taupe', '#a1905d']
+	['Lime',	'#bade00'],
+	['Green',	'#6ec21a'],
+	['Emerald',	'#00a300'],
+	['Teal',	'#00c4c2'],
+	['Cyan',	'#1eb4fc'],
+	['Cobalt',	'#5779ff'],
+	['Indigo',	'#8833ff'],
+	['Violet',	'#bb33ff'],
+	['Pink',	'#ff77d9'],
+	['Magenta',	'#f20081'],
+	['Crimson',	'#bd002b'],
+	['Red',		'#ff1600'],
+	['Orange',	'#ff6a00'],
+	['Amber',	'#ffad0b'],
+	['Yellow',	'#fcde00'],
+	['Brown',	'#9c6c35'],
+	['Olive',	'#82a177'],
+	['Steel',	'#778ca1'],
+	['Mauve',	'#8c72a3'],
+	['Taupe',	'#a1905d']
 ]
 let getColor = function(name) {
 	if(typeof(name) != 'string') name = 'a'
@@ -69,6 +77,15 @@ let getColor = function(name) {
 	var c = defaultColors[ni][1]
 	//if(!isGoodYIQ(c)) c = makeColorLighter(c)
 	return c
+}
+
+let shuffledColorIndexs = []; for(let i = 0; i < defaultColors.length; i++) shuffledColorIndexs.push(i); shuffledColorIndexs = shuffleArray(shuffledColorIndexs);
+let getNextColor = function(lastIndex) {
+	if(typeof(lastIndex) !== 'number') lastIndex = -1
+	if(lastIndex < -1) lastIndex = -1
+
+	let i = ((lastIndex+1) % shuffledColorIndexs.length)
+	return defaultColors[shuffledColorIndexs[i]][1]
 }
 
 var findEmoticons = function(text, emoticons){

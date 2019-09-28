@@ -13,6 +13,9 @@
 			display: table-row;
 			line-height: 1.5em;
 		}
+		message > span:first-child {
+			border-left: 5px solid transparent;
+		}
 		message.important {
 			background-color: #000000;
 		}
@@ -91,6 +94,9 @@
 				this.user = this.props.msg.user
 				this.nickname = this.props.msg.nickname
 				this.message = this.props.msg.message
+
+				this.channelColors = {}
+				this.colorIndex = -1
 
 				this.deleted = false
 				this.makeAccessible()
@@ -182,9 +188,14 @@
 					this.refs.badges.innerHTML = this.props.msg.badges_html
 				}
 
-				if(this.props.msg.type >= 20) {
-					this.root.classList.add('deleted')
-					this.props.msg.type = this.props.msg.type-20
+				if(this.props.msg.channel != this.props.msg.mainchannel) {
+					if(!this.channelColors.hasOwnProperty(this.props.msg.channel)) {
+						this.channelColors[this.props.msg.channel] = getNextColor(this.colorIndex)
+						this.colorIndex++
+					}
+					this.refs.timestamp.style.borderLeftColor = this.channelColors[this.props.msg.channel]
+					this.nickname = '<span style="color:#fff;font-weight:normal;">(#' + this.props.msg.channel + ')</span> ' + this.props.msg.nickname
+					this.refs.nickname.innerHTML = this.nickname
 				}
 
 				if(this.props.msg.type != 5) {
