@@ -549,6 +549,25 @@ class Chat extends EventEmitter {
 	}
 
 	/**
+	 * Leave all joined channels
+	 * 
+	 * @param {Function} cb A callback that is called when all channels were left
+	 */
+	partAll(cb) {
+		this.partsInProcess = this.channels.length
+		const self = this
+		for(let i = 0; i < this.channels.length; i++) {
+			this.irc.part(this.channels[i], () => {
+				self.partsInProcess--
+				if(self.partsInProcess <= 0) {
+					self.channels = []
+					cb()
+				}
+			})
+		}
+	}
+
+	/**
 	 * Opens the official popout viewercard with moderation tools
 	 * 
 	 * @param {String} channel 

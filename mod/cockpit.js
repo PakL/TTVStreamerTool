@@ -531,7 +531,7 @@ class Cockpit extends UIPage {
 		}
 		const self = this
 		this._ui.startLoading(this)
-		this.tool.chat.part(closeingChannel, () => {
+		this.tool.chat.partAll(() => {
 			this._ui.stopLoading(this)
 			self.channelActionsElement._tag.clearActions()
 			self.channelViewersplotter._tag.clearPlotter()
