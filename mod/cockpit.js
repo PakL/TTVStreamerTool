@@ -690,14 +690,19 @@ class Cockpit extends UIPage {
 				let embedChat = document.createElement('webview')
 				embedChat.setAttribute('src', 'https://www.twitch.tv/embed/' + (this.openChannelObject.hasOwnProperty('login') ? this.openChannelObject.login : '') + '/chat')
 				embedChat.setAttribute('border', '0')
+				embedChat.setAttribute('allowpopups', true)
+				embedChat.setAttribute('preload', __dirname + '/../res/js/loadFFZIntoFrame.js')
 				let chatColumn = document.querySelector('#chat_column')
 				chatColumn.appendChild(embedChat)
-				embedChat.addEventListener('did-finish-load', () => {
-					embedChat.getWebContents().executeJavaScript('document.querySelector("html").classList.add("tw-root--theme-dark");')
-				})
 				embedChat.addEventListener('new-window', (e) => {
 					if(e.disposition != 'save-to-disk') {
-						shell.openExternal(e.url)
+						e.options.autoHideMenuBar = true
+						if(e.url.startsWith('https://twitch.tv/') || e.url.startsWith('https://www.twitch.tv/')) {
+							e.options.webPreferences.preload = __dirname + '/../res/js/loadFFZIntoFrame.js'
+						} else {
+							e.preventDefault()
+							shell.openExternal(e.url)
+						}
 					}
 				})
 			} else {

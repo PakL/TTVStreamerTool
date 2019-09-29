@@ -17,6 +17,9 @@ autoUpdater.setFeedURL('https://update.ttvst.app/')
 
 if(require('electron-squirrel-startup')) app.quit();
 else {
+	app.on('browser-window-created',function(e,window) {
+		window.setMenu(null);
+	});
 
 	function createWindow () {
 		autoUpdater.on('update-available', () => {
