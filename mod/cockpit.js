@@ -671,6 +671,12 @@ class Cockpit extends UIPage {
 				if(log.message == 'close_player') {
 					self.setupVideoplayer()
 				}
+				if(log.message == 'ttvst_unmute_frame') {
+					webview.setAudioMuted(false)
+				} else if(log.message == 'ttvst_mute_frame') {
+					webview.setAudioMuted(true)
+				}
+				
 			})
 			document.querySelector('#content_cockpit').classList.add('showPlayer')
 

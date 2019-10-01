@@ -47,7 +47,15 @@
 				opacity: 0;
 				transition: opacity 0.2s ease-out;
 			}
-			body.hover #closebutton {
+			#mutebutton {
+				position: absolute;
+				top: 0;
+				width: 10%;
+				left: 76%;
+				opacity: 0;
+				transition: opacity 0.2s ease-out;
+			}
+			body.hover #closebutton, body.hover #mutebutton {
 				opacity: 1;
 			}
 		</style>
@@ -57,6 +65,7 @@
 		<div id="twitch-embed"></div>
 
 		<button id="closebutton"></button>
+		<button id="mutebutton">🔊</button>
 
 		<!-- Load the Twitch embed script -->
 		<script src="https://embed.twitch.tv/embed/v1.js"></script>
@@ -71,6 +80,19 @@
 			button.innerText = closeButton
 			button.onclick = () => {
 				console.log('close_player')
+			}
+
+			let muted = false
+			let muteButton = document.querySelector('#mutebutton')
+			muteButton.onclick = () => {
+				if(muted) {
+					console.log('ttvst_unmute_frame')
+					muteButton.innerText = '🔊'
+				} else {
+					console.log('ttvst_mute_frame')
+					muteButton.innerText = '🔈'
+				}
+				muted = !muted
 			}
 
 			let body = document.querySelector('body')
