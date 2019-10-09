@@ -636,5 +636,8 @@
 	},
 	"{{moderator}} executed {{command}}": {
 		"de": "{{moderator}} führte '{{command}}' aus"
+	},
+	"Do not use different colors for user names in chat": {
+		"de": "Keine Farben für Benutzernamen im Chat benutzen"
 	}
 }

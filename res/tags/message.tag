@@ -250,7 +250,7 @@
 					this.refs.nickname.innerHTML = this.nickname
 				}
 
-				if(this.props.msg.type != 5) {
+				if(this.props.msg.type != 5 && (!Tool.settings.colorlessNames || (this.props.msg.type > 0 && this.props.msg.type < 4))) {
 					this.refs.nickname.style.color = this.props.msg.color
 				}
 				if(this.props.msg.type > 0 && this.props.msg.type < 4) {

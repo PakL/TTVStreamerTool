@@ -91,6 +91,7 @@ class ToolSettings extends UIPage {
 		if(set !== null) set._tag.clear()
 		this.appendSetting('autorecovermessages', this._tool.i18n.__('Autorecover deleted messages'), 'checkbox', { set: 'cockpit_options', setLabel: this._tool.i18n.__('Cockpit options'), default: false })
 		this.appendSetting('showlocalizednames', this._tool.i18n.__('Show localized display names'), 'checkbox', { set: 'cockpit_options', default: true })
+		this.appendSetting('colorlessnames', this._tool.i18n.__('Do not use different colors for user names in chat'), 'checkbox', { set: 'cockpit_options', default: false })
 		this.appendSetting('showviewerlist', this._tool.i18n.__('Show viewer list'), 'checkbox', { set: 'cockpit_options', default: true })
 		this.appendSetting('showactionstream', this._tool.i18n.__('Show action stream'), 'checkbox', { set: 'cockpit_options', default: true })
 		this.appendSetting('showviewersamount', this._tool.i18n.__('Show amount of viewers'), 'checkbox', { set: 'cockpit_options', default: true })
@@ -127,6 +128,7 @@ class ToolSettings extends UIPage {
 			this.appendSetting('', '', 'separator', { set: 'channel_cockpit_options' })
 			this.appendSetting(this._openchannel + 'autorecovermessages', this._tool.i18n.__('Autorecover deleted messages'), 'checkbox', { set: 'channel_cockpit_options', default: false })
 			this.appendSetting(this._openchannel + 'showlocalizednames', this._tool.i18n.__('Show localized display names'), 'checkbox', { set: 'channel_cockpit_options', default: true })
+			this.appendSetting(this._openchannel + 'colorlessnames', this._tool.i18n.__('Do not use different colors for user names in chat'), 'checkbox', { set: 'channel_cockpit_options', default: false })
 			this.appendSetting(this._openchannel + 'showviewerlist', this._tool.i18n.__('Show viewer list'), 'checkbox', { set: 'channel_cockpit_options', default: true })
 			this.appendSetting(this._openchannel + 'showactionstream', this._tool.i18n.__('Show action stream'), 'checkbox', { set: 'channel_cockpit_options', default: true })
 			this.appendSetting(this._openchannel + 'showviewersamount', this._tool.i18n.__('Show amount of viewers'), 'checkbox', { set: 'channel_cockpit_options', default: true })
@@ -251,6 +253,17 @@ class ToolSettings extends UIPage {
 	get showLocalizedNames() {
 		if(this._openchannel.length > 0 && this.getBoolean(this._openchannel + 'overwrite_cockpit_settings', false)) return this.getBoolean(this._openchannel + 'showlocalizednames', true)
 		return this.getBoolean('showlocalizednames', true)
+	}
+
+	/**
+	 * Loads and returns weither or not to show user colors.
+	 * 
+	 * @member {Boolean}
+	 * @readonly
+	 */
+	get colorlessNames() {
+		if(this._openchannel.length > 0 && this.getBoolean(this._openchannel + 'overwrite_cockpit_settings', false)) return this.getBoolean(this._openchannel + 'colorlessnames', false)
+		return this.getBoolean('colorlessnames', false)
 	}
 
 	/**
