@@ -618,5 +618,23 @@
 	},
 	"Embed the orginal twitch chat instead of using the build in one. Some features will not work, like filters, custom emote addons, highlights, etc.": {
 		"de": "Bette den original Twitch-Chat ein anstatt den eingebauten zu verwenden. Einige Features werden damit nicht funktionieren, wie zum Beispiel Filter, Emote-Addons, Highlights, usw."
+	},
+	"AutoMod rejected this message based on '{{reason}}'": {
+		"de": "AutoMod hat diese Nachricht aufgrund von '{{reason}}' abgelehnt"
+	},
+	"Approve": {
+		"de": "Genehmigen"
+	},
+	"Deny": {
+		"de": "Ablehnen"
+	},
+	"{{moderator}} approved a message by {{author}}": {
+		"de": "{{moderator}} hat eine Nachricht von {{author}} genehmigt"
+	},
+	"{{moderator}} denied a message by {{author}}": {
+		"de": "{{moderator}} hat eine Nachricht von {{author}} abgelehnt"
+	},
+	"{{moderator}} executed {{command}}": {
+		"de": "{{moderator}} führte '{{command}}' aus"
 	}
 }
