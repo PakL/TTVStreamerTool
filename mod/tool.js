@@ -5,6 +5,7 @@ const ToolUI = require('./toolui')
 const ToolSettings = require('./settings')
 const TwitchTv = require('../lib/twitchtv')
 const TwitchHelix = require('../lib/twitchhelix')
+const TwPubSub = require('../lib/twpubsub')
 const TTVLogin = require('./auth')
 const Chat = require('./chat')
 
@@ -44,6 +45,7 @@ class TTVTool extends EventEmitter {
 				'user:edit:broadcast',
 				'channel:read:subscriptions',
 				'channel:moderate',
+				'moderation:read',
 				'user_read',
 				'channel_check_subscription',
 				'channel_editor',
@@ -57,6 +59,8 @@ class TTVTool extends EventEmitter {
 		})
 		this._auth = new TTVLogin(this)
 		this._chat = new Chat(this)
+
+		this._pubsub = new TwPubSub()
 
 		this._ui = new ToolUI(this)
 		this._ui.addPage(this._settings)
@@ -249,6 +253,15 @@ class TTVTool extends EventEmitter {
 		return this._addons
 	}
 
+	/**
+	 * Gives you the PubSub module.
+	 * 
+	 * @type {TwPubSub}
+	 * @readonly
+	 */
+	get pubsub() {
+		return this._pubsub
+	}
 }
 
 const tool = new TTVTool()

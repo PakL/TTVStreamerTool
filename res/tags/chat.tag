@@ -84,6 +84,10 @@
 			content: ': ';
 			user-select: all;
 		}
+		chat.classic message.action .user .nickname::after {
+			content: ' ';
+			user-select: all;
+		}
 
 		chat > .autoscroll-note {
 			display: none;
@@ -363,6 +367,39 @@
 				this.emoteStream.innerHTML = ''
 				this.emoteStream.style.display = 'none'
 				this.update()
+			},
+
+			approveMessage(uuid) {
+				const self = this
+				window.requestAnimationFrame(() => {
+					let chattotop = Tool.settings.displayChatToTop
+					var messages = self.messageDrop.querySelectorAll('message')
+					for(var i = messages.length-1; i >= 0; i--) {
+						if(messages[i]._tag.approveIfUuid(uuid)) {
+							break;
+						}
+					}
+					if(!chattotop && self.autoscroll) {
+						self.nowautoscrollring = true
+						self.root.scrollTop = self.root.scrollHeight
+					}
+				})
+			},
+			denyMessage(uuid) {
+				const self = this
+				window.requestAnimationFrame(() => {
+					let chattotop = Tool.settings.displayChatToTop
+					var messages = self.messageDrop.querySelectorAll('message')
+					for(var i = messages.length-1; i >= 0; i--) {
+						if(messages[i]._tag.denyIfUuid(uuid)) {
+							break;
+						}
+					}
+					if(!chattotop && self.autoscroll) {
+						self.nowautoscrollring = true
+						self.root.scrollTop = self.root.scrollHeight
+					}
+				})
 			}
 		}
 	</script>

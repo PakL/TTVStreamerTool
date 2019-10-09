@@ -181,6 +181,7 @@ class TTVLogin extends EventEmitter {
 				this.loginbutton.innerText = this._tool.i18n.__('Logged in')
 				this._tool.twitchapi.setAuthToken(hash.access_token)
 				this._tool.twitchhelix.token = hash.access_token
+				this._tool.pubsub.setAuthToken(hash.access_token)
 				this.continueafterauth()
 			} else {
 				this.loginbutton.innerText = this._tool.i18n.__('Invalid token')

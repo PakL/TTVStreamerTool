@@ -35,6 +35,8 @@ class Cockpit extends UIPage {
 		this.openChannelObject = {}
 
 		this.channelModerator = false
+
+		this._rememberAndIgnore = []
 		
 		this.userDataObject = {}
 		this.followersCursor = null
@@ -217,6 +219,11 @@ class Cockpit extends UIPage {
 		this.tool.chat.on('autohostingyou',	(c, u, v, m, t)			=> { self.onAutohostingyou(c, u, v, m, t) })
 		this.tool.chat.on('chatmessage',	(c, ts, u, m, mr, t, i)	=> { self.onChatmessage(c, ts, u, m, mr, t, i) })
 		this.tool.chat.on('cheer',			(c, t, u, b)			=> { self.onCheer(c, t, u, b) })
+
+		this.tool.pubsub.on('automod-rejected',	(m, a, i, r)	=> { self.onAutomodRejected(m, a, i, r) })
+		this.tool.pubsub.on('automod-approved',	(m, a, i)		=> { self.onAutomodApproved(m, a, i) })
+		this.tool.pubsub.on('automod-denied',	(m, a, i)		=> { self.onAutomodDenied(m, a, i) })
+		this.tool.pubsub.on('mod-command',		(c, a, m)		=> { self.onModeratorCommand(c, a, m) })
 	}
 
 	/**
@@ -473,6 +480,7 @@ class Cockpit extends UIPage {
 		if(self.openChannelObject.hasOwnProperty('login')) {
 			// Join IRC channel
 			self.tool.chat.join(self.openChannelObject.login, self.openChannelObject.id)
+			self.tool.pubsub.listen('chat_moderator_actions.' + self.tool.auth._userid + '.' + self.openChannelObject.id)
 						
 			/**
 			 * Fires when everything is loaded and ready
@@ -511,6 +519,8 @@ class Cockpit extends UIPage {
 			return
 		}
 		let closeingChannel = this.openChannelObject.login
+
+		this.tool.pubsub.unlisten('chat_moderator_actions.' + this.tool.auth._userid + '.' + this.openChannelObject.id)
 
 		this.openChannelId = ''
 		this.isChannelOnline = true
@@ -991,7 +1001,11 @@ class Cockpit extends UIPage {
 			user.name = '(#' + channel +') ' + user.name
 			type += 20
 		}*/
-		if(!this.tool.settings.displayEmbedChat) {
+		let index = this._rememberAndIgnore.indexOf(uuid)
+		if(index >= 0) {
+			this._rememberAndIgnore.splice(index, 1)
+		}
+		if(!this.tool.settings.displayEmbedChat && index < 0) {
 			this.chatelement._tag.addmessage({
 				'id': uuid,
 				'mainchannel': this.openChannelObject.login,
@@ -1015,6 +1029,79 @@ class Cockpit extends UIPage {
 		if(!this.tool.settings.showCheerAlert) return
 		let cheermessage = this.i18n.__('just cheered with {{num_bits}} {{bits||num_bits}}', {num_bits: bits})
 		this.channelActionsElement._tag.addAction(user, cheermessage, ts, 'DiamondSolid')
+	}
+
+	onAutomodRejected(message, author, msg_id, reason) {
+		let color = this.userselement._tag.getUserColor(author)
+		this.chatelement._tag.addmessage({
+			'id': msg_id,
+			'mainchannel': this.openChannelObject.login,
+			'channel': this.openChannelObject.login,
+			'timestamp': timestamp(),
+			'badges_html': '',
+			'nickname': author,
+			'message': message,
+			'message_html': message,
+			'user': author,
+			'color': color,
+			'type': 6,
+			'reason': reason
+		})
+		this._rememberAndIgnore.push(msg_id)
+	}
+
+	onAutomodApproved(moderator, author, msg_id) {
+		let message = this.i18n.__('{{moderator}} approved a message by {{author}}', { moderator: moderator, author: author })
+		this.chatelement._tag.addmessage({
+			'id': '',
+			'mainchannel': this.openChannelObject.login,
+			'channel': this.openChannelObject.login,
+			'timestamp': timestamp(),
+			'badges_html': '',
+			'nickname': '',
+			'message': message,
+			'message_html': message,
+			'user': '',
+			'color': '#999999',
+			'type': 1
+		})
+		this.chatelement._tag.approveMessage(msg_id)
+	}
+
+	onAutomodDenied(moderator, author, msg_id) {
+		let message = this.i18n.__('{{moderator}} denied a message by {{author}}', { moderator: moderator, author: author })
+		this.chatelement._tag.addmessage({
+			'id': '',
+			'mainchannel': this.openChannelObject.login,
+			'channel': this.openChannelObject.login,
+			'timestamp': timestamp(),
+			'badges_html': '',
+			'nickname': '',
+			'message': message,
+			'message_html': message,
+			'user': '',
+			'color': '#999999',
+			'type': 1
+		})
+		this.chatelement._tag.denyMessage(msg_id)
+	}
+
+	onModeratorCommand(command, args, moderator) {
+		let cmd = '/' + command + (args.length > 0 ? ' ' + args.join(' ') : '')
+		let message = this.i18n.__('{{moderator}} executed {{command}}', { moderator: moderator, command: cmd })
+		this.chatelement._tag.addmessage({
+			'id': '',
+			'mainchannel': this.openChannelObject.login,
+			'channel': this.openChannelObject.login,
+			'timestamp': timestamp(),
+			'badges_html': '',
+			'nickname': '',
+			'message': message,
+			'message_html': message,
+			'user': '',
+			'color': '#999999',
+			'type': 1
+		})
 	}
 
 	async checkWhatUserPlayed(user)

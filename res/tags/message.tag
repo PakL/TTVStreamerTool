@@ -85,6 +85,19 @@
 		message.deleted {
 			opacity: 0.4;
 		}
+		message .m > .automod {
+			background: #333333;
+			padding: 5px;
+		}
+		message .m > .automod > button {
+			background-color: #8a1e1e;
+			margin: 5px;
+			margin-left: 0;
+			margin-bottom: 0;
+		}
+		message .m > .automod > button:nth-child(2) {
+			background-color: #2b8a1e;
+		}
 	</style>
 	<script>
 		export default {
@@ -134,6 +147,25 @@
 					this.$('.m').appendChild(clipEmbed)
 					riot.mount(clipEmbed)
 				}
+
+				if(this.props.msg.type == 6) {
+					this.automodContainer = document.createElement('div')
+					this.automodContainer.classList.add('automod')
+					this.automodContainer.innerText = Tool.i18n.__('AutoMod rejected this message based on \'{{reason}}\'', { reason: this.props.msg.reason })
+					this.automodContainer.appendChild(document.createElement('br'))
+
+					const self = this
+					let buttonApprove = document.createElement('button')
+					buttonApprove.innerText = Tool.i18n.__('Approve')
+					buttonApprove.onclick = () => { Tool.twitchapi.postAutoMod('approve', self.props.msg.id) }
+					this.automodContainer.appendChild(buttonApprove)
+					let buttonDeny = document.createElement('button')
+					buttonDeny.innerText = Tool.i18n.__('Deny')
+					buttonDeny.onclick = () => { Tool.twitchapi.postAutoMod('deny', self.props.msg.id) }
+					this.automodContainer.appendChild(buttonDeny)
+
+					this.$('.m').appendChild(this.automodContainer)
+				}
 			},
 
 			onBeforeUpdate() {
@@ -167,6 +199,26 @@
 
 			deleteifuser(username) {
 				if(username == this.props.msg.user && !this.props.msg.hasOwnProperty('old_message')) {
+					this.deletemessage()
+					return true
+				}
+				return false
+			},
+
+			approveIfUuid(uuid) {
+				if(this.uuid == uuid) {
+					if(typeof(this.automodContainer) !== 'undefined') {
+						this.automodContainer.remove()
+					}
+					return true
+				}
+				return false
+			},
+			denyIfUuid(uuid) {
+				if(this.uuid == uuid) {
+					if(typeof(this.automodContainer) !== 'undefined') {
+						this.automodContainer.remove()
+					}
 					this.deletemessage()
 					return true
 				}
