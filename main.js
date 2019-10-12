@@ -26,7 +26,11 @@ else {
 			doNotOpenMainWindow = true
 		})
 
-		splash = new BrowserWindow({width: 300, height: 450, frame: false, skipTaskbar: true, alwaysOnTop: true, webPreferences: { nodeIntegration: true, webviewTag: false }, show: false})
+		let mainWindowState = new WindowState({ defaultWidth: 800, defaultHeight: 600 })
+
+		let spX = (mainWindowState.x + ((mainWindowState.width - 300) / 2))
+		let spY = (mainWindowState.y + ((mainWindowState.height - 450) / 2))
+		splash = new BrowserWindow({x: spX, y: spY, width: 300, height: 450, frame: false, skipTaskbar: true, alwaysOnTop: true, webPreferences: { nodeIntegration: true, webviewTag: false }, show: false})
 		splash.loadURL(url.format({
 			pathname: path.join(__dirname, 'views', 'splash.html'),
 			protocol: 'file:',
@@ -43,7 +47,6 @@ else {
 				return
 			}
 
-			let mainWindowState = new WindowState({ defaultWidth: 800, defaultHeight: 600 })
 
 			win = new BrowserWindow({
 				x: mainWindowState.x,
