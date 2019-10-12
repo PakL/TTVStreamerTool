@@ -80,6 +80,9 @@ class Cockpit extends UIPage {
 		this.tool.auth.on('complete', () => {
 			self.loadMoreFollows(true)
 		})
+
+		this._noCommercialUntil = 0
+		this._commercialEvent = (cmd) => { if(cmd.startsWith('commercial=')) self.onCommercial(cmd.substr(11)) }
 	}
 
 	get i18n() {
@@ -762,6 +765,7 @@ class Cockpit extends UIPage {
 	 ********************/
 
 	onChannelOnline() {
+		this.tool.overlays.on('command', this._commercialEvent)
 		this.channelActionsElement._tag.addAction(
 			{
 				name: this.openChannelObject.display_name,
@@ -774,6 +778,7 @@ class Cockpit extends UIPage {
 	}
 
 	onChannelOffline() {
+		this.tool.overlays.off('command', this._commercialEvent)
 		this.channelActionsElement._tag.addAction(
 			{
 				name: this.openChannelObject.display_name,
@@ -1116,6 +1121,24 @@ class Cockpit extends UIPage {
 				}
 			}
 		} catch(e) {}
+	}
+
+	async onCommercial(length) {
+		if(this._noCommercialUntil > new Date().getTime()) {
+			let cooldown = Math.floor((this._noCommercialUntil - new Date().getTime()) / 1000)
+			this.tool.ui.showErrorMessage(this.i18n.__('Commercials are on a cooldown please retry in {{cooldown}} {{seconds||cooldown}}', { cooldown: cooldown }), true)
+			return
+		}
+		try {
+			this._noCommercialUntil = new Date().getTime() + 480000
+			let resp = await this.tool.twitchapi.startChannelCommercial(this.openChannelObject.id, parseInt(length))
+			if(typeof(resp.RetryAfter) === 'number') {
+				this._noCommercialUntil = new Date().getTime() + (resp.RetryAfter * 1000)
+			}
+		} catch(e) {
+			this._noCommercialUntil = new Date().getTime()
+			this.tool.ui.showErrorMessage(e, true)
+		}
 	}
 
 }
