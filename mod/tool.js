@@ -49,7 +49,8 @@ class TTVTool extends EventEmitter {
 				'user_read',
 				'channel_check_subscription',
 				'channel_editor',
-				'channel_read'
+				'channel_read',
+				'channel_commercial'
 			]
 		})
 		this._twitchhelix = new TwitchHelix({
