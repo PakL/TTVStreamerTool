@@ -122,6 +122,9 @@ class Overlays extends UIPage {
 		this.appendSetting('', this._ui.i18n.__('Overlay add time command'), 'text', {attrid: 'timer_add_cmd', set: 'timer', readonly: true, default: 'timer_add=5m', 'description': this._ui.i18n.__('Use this command in an hotkey to add time the countdown overlay. You can add time in this format: ##h##m##s; ##h adds hours, ##m adds minutes, ##s adds seconds. Every part is optional. Example: timer_add=1h30m0s or timer_add=90m')})
 		this.appendSetting('', this._ui.i18n.__('Overlay set time target command'), 'text', {attrid: 'timer_set_cmd', set: 'timer', readonly: true, default: 'timer_set=12:00', 'description': this._ui.i18n.__('Use this command in an hotkey to let the countdown count down to a specific point in time. Format: YYYY-MM-DD hh:mm:ss; Hours must be in the 24 hour format, date and seconds are optional. If the given date is in the past nothing will happen. Example: timer_set=2018-09-08 13:00:00 or timer_set=15:00')})
 
+		/** Commercial information */
+		this.appendSetting('', this._ui.i18n.__('Commercial command'), 'text', {set: 'commercial', setLabel: this._ui.i18n.__('Commercials'), readonly: true, default: 'commercial=30', 'description': this._ui.i18n.__('Play a commercial on Twitch. The value defines that length of the commercial in seconds. Valid values are 30, 60, 90, 120, 150, and 180. After executing the command you cannot play another commercial for 8 minutes.')})
+		this.appendSetting('', this._ui.i18n.__('Commercial URL'), 'text', {set: 'commercial', readonly: true, default: 'http://localhost:' + this.overlayport + '/send?commercial=30'})
 
 		this.tool.once('load', () => {
 			let hotkeySet = document.querySelector('#overlay_hotkeys_set')

@@ -642,5 +642,17 @@
 	},
 	"The latest update requires you to re-login in to twitch to use the latest features. You were logged out automatically.": {
 		"de": "Für das aktuelle Update ist ein erneutes Einloggen in Twitch notwendig um die neusten Features zu nutzen. Du wurdest automatisch ausgeloggt."
+	},
+	"Commercials": {
+		"de": "Werbung"
+	},
+	"Commercial command": {
+		"de": "Werbe-Befehl"
+	},
+	"Commercial URL": {
+		"de": "Werbe-URL"
+	},
+	"Play a commercial on Twitch. The value defines that length of the commercial in seconds. Valid values are 30, 60, 90, 120, 150, and 180. After executing the command you cannot play another commercial for 8 minutes.": {
+		"de": "Startet Werbung auf Twitch. Der Wert definiert die Dauer der Werbung in Sekunden. Gültige Werte sind 30, 60, 90, 120, 150, und 180. Nachdem der Befehl ausgeführt wurde kann er für 8 Minuten nicht erneut verwendet werden."
 	}
 }
