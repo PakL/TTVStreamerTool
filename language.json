@@ -639,5 +639,8 @@
 	},
 	"Do not use different colors for user names in chat": {
 		"de": "Keine Farben für Benutzernamen im Chat benutzen"
+	},
+	"The latest update requires you to re-login in to twitch to use the latest features. You were logged out automatically.": {
+		"de": "Für das aktuelle Update ist ein erneutes Einloggen in Twitch notwendig um die neusten Features zu nutzen. Du wurdest automatisch ausgeloggt."
 	}
 }

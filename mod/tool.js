@@ -1,5 +1,6 @@
 const EventEmitter = require('events')
 const i18n = require('../node_modules/i18n-nodejs')
+const compVer = require('compare-versions')
 
 const ToolUI = require('./toolui')
 const ToolSettings = require('./settings')
@@ -13,6 +14,8 @@ const Channel = require('../var/channel')
 const Follows = require('../var/follows')
 
 const Addons = require('./addons')
+
+const {app} = require('electron').remote
 
 /**
  * This module initializes pretty much everything and other modules have access to other modules over here.
@@ -33,6 +36,11 @@ class TTVTool extends EventEmitter {
 		this._loaded = false
 		this._settings = new ToolSettings(this)
 		this._i18n = new i18n(this._settings.language, './../../language.json')
+
+		if(compVer.compare(this._settings.getString('lastversion', '1.9.0'), '1.9.0', '<')) {
+			this._settings.setString('tw_auth_token', '')
+		}
+
 		this._twitchapi = new TwitchTv({
 			clientid: '11vhuxdssb9pc3s2uqpa7s3s0252hyk',
 			redirecturi: 'http://localhost:8086/',
@@ -97,6 +105,11 @@ class TTVTool extends EventEmitter {
 			 */
 			self.emit('load')
 			self._loaded = true
+
+			if(compVer.compare(self.settings.getString('lastversion', '1.9.0'), '1.9.0', '<')) {
+				self.ui.showErrorMessage(self.i18n.__('The latest update requires you to re-login in to twitch to use the latest features. You were logged out automatically.'))
+			}
+			self.settings.setString('lastversion', app.getVersion())
 		}
 		window.onbeforeunload = (e) => {
 			/**

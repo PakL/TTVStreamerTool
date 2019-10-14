@@ -102,9 +102,9 @@ class ToolUI {
 				open() {
 					document.querySelector('#content_changelog').style.display = 'block'
 
-					let latestKnownVersion = self.tool.settings.getString('lastversion', '0.3.11')
+					let latestKnownVersion = self.tool.settings.getString('changelogversion', '0.3.11')
 					if(latestKnownVersion != app.getVersion()) {
-						self.tool.settings.setString('lastversion', app.getVersion())
+						self.tool.settings.setString('changelogversion', app.getVersion())
 						let changelogUpdateIndicator =  document.querySelector('#nav-changelog > span.update')
 						if(changelogUpdateIndicator != null) {
 							changelogUpdateIndicator.parentNode.removeChild(changelogUpdateIndicator)
@@ -113,7 +113,7 @@ class ToolUI {
 				}
 				close() { document.querySelector('#content_changelog').style.display = 'none' }
 			}('Changelog'));
-			let latestKnownVersion = self.tool.settings.getString('lastversion', '0.3.11')
+			let latestKnownVersion = self.tool.settings.getString('changelogversion', '0.3.11')
 			if(latestKnownVersion != app.getVersion()) {
 				let changelogUpdateIndicator =  document.querySelector('#nav-changelog > span.update')
 				if(changelogUpdateIndicator == null) {
