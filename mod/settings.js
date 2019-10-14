@@ -796,18 +796,20 @@ class ToolSettings extends UIPage {
 
 	async cloudAuthenticate()
 	{
-		console.log('[Cloud] Authenticating client')
-		try {
-			let response = await request.post('https://sync.ttvst.app/', { timeout: 10000, json: true, body: {'action': 'authenticate', 'token': this._tool.twitchhelix.token } })
-			this.setString('cloud-token', response.token)
-			return response.token
-		} catch(e) {
-			if(typeof(e.error) !== 'undefined' && typeof(e.error.status) !== 'undefined') {
-				this._tool.ui.showErrorMessage(new Error('Cloud sync error: ' + e.error.error))
-				console.error(e.error)
-			} else {
-				this._tool.ui.showErrorMessage(new Error('Unexpected cloud sync error'))
-				console.error(e)
+		if(typeof(this._tool.twitchhelix.token) == 'string' && this._tool.twitchhelix.token.length > 0) {
+			console.log('[Cloud] Authenticating client')
+			try {
+				let response = await request.post('https://sync.ttvst.app/', { timeout: 10000, json: true, body: {'action': 'authenticate', 'token': this._tool.twitchhelix.token } })
+				this.setString('cloud-token', response.token)
+				return response.token
+			} catch(e) {
+				if(typeof(e.error) !== 'undefined' && typeof(e.error.status) !== 'undefined') {
+					this._tool.ui.showErrorMessage(new Error('Cloud sync error: ' + e.error.error))
+					console.error(e.error)
+				} else {
+					this._tool.ui.showErrorMessage(new Error('Unexpected cloud sync error'))
+					console.error(e)
+				}
 			}
 		}
 		return false
@@ -973,7 +975,7 @@ class ToolSettings extends UIPage {
 				if(result === false) {
 					this._tool.ui.showErrorMessage(new Error('Unexpected cloud sync error: Authentication failed'))
 				}
-			} else {
+			} else if(typeof(this._tool.twitchhelix.token) == 'string' && this._tool.twitchhelix.token.length > 0) {
 				this._tool.ui.showErrorMessage(new Error('Authenticating twitch user was unsuccessful'))
 			}
 		}
