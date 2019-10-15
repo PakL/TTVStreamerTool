@@ -5,10 +5,11 @@
 <head>
     
     <meta charset="utf-8">
-    <title>mod/cockpit.js &bull; TTVStreamerTool</title>
+    <title>JSDoc: mod/cockpit.js</title>
 
-    <script src="scripts/prettify/prettify.js"></script>
-    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -17,6 +18,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
     <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
 </head>
 
 <body>
@@ -64,7 +66,7 @@
             <div class="column is-3" id="sidebarNav">
                 <div class="sidebar">
                     <nav>
-                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li><li><a href="tutorial-Streamdeck Shortcuts.html">Streamdeck Shortcuts</a></li></ul><h3>Classes</h3><ul><li><a href="Addons.html">Addons</a></li><li><a href="Channel.html">Channel</a></li><li><a href="Chat.html">Chat</a></li><li><a href="Cockpit.html">Cockpit</a></li><li><a href="Follows.html">Follows</a></li><li><a href="Overlays.html">Overlays</a></li><li><a href="ToolSettings.html">ToolSettings</a></li><li><a href="ToolUI.html">ToolUI</a></li><li><a href="TTVLogin.html">TTVLogin</a></li><li><a href="TTVTool.html">TTVTool</a></li><li><a href="TwitchChat.html">TwitchChat</a></li><li><a href="TwitchHelix.html">TwitchHelix</a></li><li><a href="TwitchTv.html">TwitchTv</a></li><li><a href="UIPage.html">UIPage</a></li></ul><h3>Events</h3><ul><li><a href="Channel.html#event:channeloffline">channeloffline</a></li><li><a href="Channel.html#event:channelonline">channelonline</a></li><li><a href="Channel.html#event:gamechange">gamechange</a></li><li><a href="Channel.html#event:statuschange">statuschange</a></li><li><a href="Channel.html#event:viewers">viewers</a></li><li><a href="Chat.html#event:autohostingyou">autohostingyou</a></li><li><a href="Chat.html#event:chatmessage">chatmessage</a></li><li><a href="Chat.html#event:cheer">cheer</a></li><li><a href="Chat.html#event:clearchat">clearchat</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:connected">connected</a></li><li><a href="Chat.html#event:hostingyou">hostingyou</a></li><li><a href="Chat.html#event:join">join</a></li><li><a href="Chat.html#event:names">names</a></li><li><a href="Chat.html#event:part">part</a></li><li><a href="Chat.html#event:roomstate">roomstate</a></li><li><a href="Chat.html#event:sendmessage">sendmessage</a></li><li><a href="Chat.html#event:usernotice">usernotice</a></li><li><a href="Chat.html#event:userstate">userstate</a></li><li><a href="Cockpit.html#event:channelleft">channelleft</a></li><li><a href="Cockpit.html#event:channelopen">channelopen</a></li><li><a href="Follows.html#event:follow">follow</a></li><li><a href="Overlays.html#event:command">command</a></li><li><a href="Overlays.html#event:hotkeys-unregistered">hotkeys-unregistered</a></li><li><a href="TTVLogin.html#event:complete">complete</a></li><li><a href="TTVTool.html#event:exit">exit</a></li><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TwitchChat.html#event:action">action</a></li><li><a href="TwitchChat.html#event:autohostingyou">autohostingyou</a></li><li><a href="TwitchChat.html#event:capack">capack</a></li><li><a href="TwitchChat.html#event:clearchat">clearchat</a></li><li><a href="TwitchChat.html#event:clearmsg">clearmsg</a></li><li><a href="TwitchChat.html#event:clearuser">clearuser</a></li><li><a href="TwitchChat.html#event:close">close</a></li><li><a href="TwitchChat.html#event:connect">connect</a></li><li><a href="TwitchChat.html#event:error">error</a></li><li><a href="TwitchChat.html#event:hostingyou">hostingyou</a></li><li><a href="TwitchChat.html#event:incoming">incoming</a></li><li><a href="TwitchChat.html#event:join">join</a></li><li><a href="TwitchChat.html#event:message">message</a></li><li><a href="TwitchChat.html#event:mode">mode</a></li><li><a href="TwitchChat.html#event:mode+">mode+</a></li><li><a href="TwitchChat.html#event:mode-">mode-</a></li><li><a href="TwitchChat.html#event:motd">motd</a></li><li><a href="TwitchChat.html#event:names">names</a></li><li><a href="TwitchChat.html#event:notice">notice</a></li><li><a href="TwitchChat.html#event:outgoing">outgoing</a></li><li><a href="TwitchChat.html#event:part">part</a></li><li><a href="TwitchChat.html#event:raw">raw</a></li><li><a href="TwitchChat.html#event:reconnect">reconnect</a></li><li><a href="TwitchChat.html#event:registered">registered</a></li><li><a href="TwitchChat.html#event:roomstate">roomstate</a></li><li><a href="TwitchChat.html#event:usernotice">usernotice</a></li><li><a href="TwitchChat.html#event:userstate">userstate</a></li><li><a href="TwitchChat.html#event:whisper">whisper</a></li></ul></div>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li><li><a href="tutorial-Streamdeck Shortcuts.html">Streamdeck Shortcuts</a></li></ul><h3>Classes</h3><ul><li><a href="Addons.html">Addons</a></li><li><a href="Channel.html">Channel</a></li><li><a href="Chat.html">Chat</a></li><li><a href="Cockpit.html">Cockpit</a></li><li><a href="Follows.html">Follows</a></li><li><a href="Overlays.html">Overlays</a></li><li><a href="ToolSettings.html">ToolSettings</a></li><li><a href="ToolUI.html">ToolUI</a></li><li><a href="TTVLogin.html">TTVLogin</a></li><li><a href="TTVTool.html">TTVTool</a></li><li><a href="TwitchChat.html">TwitchChat</a></li><li><a href="TwitchHelix.html">TwitchHelix</a></li><li><a href="TwitchTv.html">TwitchTv</a></li><li><a href="TwPubSub.html">TwPubSub</a></li><li><a href="UIPage.html">UIPage</a></li></ul><h3>Events</h3><ul><li><a href="Channel.html#event:channeloffline">channeloffline</a></li><li><a href="Channel.html#event:channelonline">channelonline</a></li><li><a href="Channel.html#event:gamechange">gamechange</a></li><li><a href="Channel.html#event:statuschange">statuschange</a></li><li><a href="Channel.html#event:viewers">viewers</a></li><li><a href="Chat.html#event:autohostingyou">autohostingyou</a></li><li><a href="Chat.html#event:chatmessage">chatmessage</a></li><li><a href="Chat.html#event:cheer">cheer</a></li><li><a href="Chat.html#event:clearchat">clearchat</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:connected">connected</a></li><li><a href="Chat.html#event:hostingyou">hostingyou</a></li><li><a href="Chat.html#event:join">join</a></li><li><a href="Chat.html#event:names">names</a></li><li><a href="Chat.html#event:part">part</a></li><li><a href="Chat.html#event:roomstate">roomstate</a></li><li><a href="Chat.html#event:sendmessage">sendmessage</a></li><li><a href="Chat.html#event:usernotice">usernotice</a></li><li><a href="Chat.html#event:userstate">userstate</a></li><li><a href="Cockpit.html#event:channelleft">channelleft</a></li><li><a href="Cockpit.html#event:channelopen">channelopen</a></li><li><a href="Follows.html#event:follow">follow</a></li><li><a href="Overlays.html#event:command">command</a></li><li><a href="Overlays.html#event:hotkeys-unregistered">hotkeys-unregistered</a></li><li><a href="TTVLogin.html#event:complete">complete</a></li><li><a href="TTVTool.html#event:exit">exit</a></li><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TwitchChat.html#event:action">action</a></li><li><a href="TwitchChat.html#event:autohostingyou">autohostingyou</a></li><li><a href="TwitchChat.html#event:capack">capack</a></li><li><a href="TwitchChat.html#event:clearchat">clearchat</a></li><li><a href="TwitchChat.html#event:clearmsg">clearmsg</a></li><li><a href="TwitchChat.html#event:clearuser">clearuser</a></li><li><a href="TwitchChat.html#event:close">close</a></li><li><a href="TwitchChat.html#event:connect">connect</a></li><li><a href="TwitchChat.html#event:error">error</a></li><li><a href="TwitchChat.html#event:hostingyou">hostingyou</a></li><li><a href="TwitchChat.html#event:incoming">incoming</a></li><li><a href="TwitchChat.html#event:join">join</a></li><li><a href="TwitchChat.html#event:message">message</a></li><li><a href="TwitchChat.html#event:mode">mode</a></li><li><a href="TwitchChat.html#event:mode+">mode+</a></li><li><a href="TwitchChat.html#event:mode-">mode-</a></li><li><a href="TwitchChat.html#event:motd">motd</a></li><li><a href="TwitchChat.html#event:names">names</a></li><li><a href="TwitchChat.html#event:notice">notice</a></li><li><a href="TwitchChat.html#event:outgoing">outgoing</a></li><li><a href="TwitchChat.html#event:part">part</a></li><li><a href="TwitchChat.html#event:raw">raw</a></li><li><a href="TwitchChat.html#event:reconnect">reconnect</a></li><li><a href="TwitchChat.html#event:registered">registered</a></li><li><a href="TwitchChat.html#event:roomstate">roomstate</a></li><li><a href="TwitchChat.html#event:usernotice">usernotice</a></li><li><a href="TwitchChat.html#event:userstate">userstate</a></li><li><a href="TwitchChat.html#event:whisper">whisper</a></li><li><a href="TwPubSub.html#event:automod-approved">automod-approved</a></li><li><a href="TwPubSub.html#event:automod-denied">automod-denied</a></li><li><a href="TwPubSub.html#event:automod-rejected">automod-rejected</a></li><li><a href="TwPubSub.html#event:mod-command">mod-command</a></li></ul></div>
                     </nav>
                 </div>
             </div>
@@ -119,6 +121,8 @@ class Cockpit extends UIPage {
 		this.openChannelObject = {}
 
 		this.channelModerator = false
+
+		this._rememberAndIgnore = []
 		
 		this.userDataObject = {}
 		this.followersCursor = null
@@ -162,6 +166,9 @@ class Cockpit extends UIPage {
 		this.tool.auth.on('complete', () => {
 			self.loadMoreFollows(true)
 		})
+
+		this._noCommercialUntil = 0
+		this._commercialEvent = (cmd) => { if(cmd.startsWith('commercial=')) self.onCommercial(cmd.substr(11)) }
 	}
 
 	get i18n() {
@@ -173,7 +180,7 @@ class Cockpit extends UIPage {
 	}
 
 	get icon() {
-		return '💬'
+		return 'CannedChat'
 	}
 
 	get localizedName() {
@@ -301,6 +308,11 @@ class Cockpit extends UIPage {
 		this.tool.chat.on('autohostingyou',	(c, u, v, m, t)			=> { self.onAutohostingyou(c, u, v, m, t) })
 		this.tool.chat.on('chatmessage',	(c, ts, u, m, mr, t, i)	=> { self.onChatmessage(c, ts, u, m, mr, t, i) })
 		this.tool.chat.on('cheer',			(c, t, u, b)			=> { self.onCheer(c, t, u, b) })
+
+		this.tool.pubsub.on('automod-rejected',	(m, a, i, r)	=> { self.onAutomodRejected(m, a, i, r) })
+		this.tool.pubsub.on('automod-approved',	(m, a, i)		=> { self.onAutomodApproved(m, a, i) })
+		this.tool.pubsub.on('automod-denied',	(m, a, i)		=> { self.onAutomodDenied(m, a, i) })
+		this.tool.pubsub.on('mod-command',		(c, a, m)		=> { self.onModeratorCommand(c, a, m) })
 	}
 
 	/**
@@ -331,10 +343,12 @@ class Cockpit extends UIPage {
 		}
 
 		if(this.tool.settings.displayClassicChat) {
-			document.querySelector('#channelchat').classList.add('classic')
+			this.chatelement.classList.add('classic')
 		} else {
-			document.querySelector('#channelchat').classList.remove('classic')
+			this.chatelement.classList.remove('classic')
 		}
+
+		this.setupEmbedChat()
 
 		cockpitResizeInit()
 
@@ -550,18 +564,12 @@ class Cockpit extends UIPage {
 		}
 
 
-		// Since this is an undocumented API it could be changed and shouldn't interrupt application's function
-		this.tool.twitchapi.getChatBadgeSetsByChannel(channelid).then((b) => {
-			self.tool.chat.channelbadges = b.badge_sets
-		}).catch((error) => {
-			self._ui.showErrorMessage(error)
-		})
-
 		this._ui.stopLoading(this)
 
 		if(self.openChannelObject.hasOwnProperty('login')) {
 			// Join IRC channel
-			self.tool.chat.join(self.openChannelObject.login)
+			self.tool.chat.join(self.openChannelObject.login, self.openChannelObject.id)
+			self.tool.pubsub.listen('chat_moderator_actions.' + self.tool.auth._userid + '.' + self.openChannelObject.id)
 						
 			/**
 			 * Fires when everything is loaded and ready
@@ -572,7 +580,9 @@ class Cockpit extends UIPage {
 			let leaveButton = document.createElement('li')
 			let leaveButtonLink = document.createElement('a')
 			let leaveButtonIcon = document.createElement('span')
-			leaveButtonIcon.classList.add('icon-exit')
+			leaveButtonIcon.classList.add('ms-Icon')
+			leaveButtonIcon.classList.add('ms-Icon--Leave')
+			leaveButtonLink.setAttribute('title', self.i18n.__('Change channel'))
 			leaveButtonLink.appendChild(leaveButtonIcon)
 			leaveButtonLink.appendChild(document.createTextNode(self.i18n.__('Change channel')))
 			leaveButton.appendChild(leaveButtonLink)
@@ -580,8 +590,10 @@ class Cockpit extends UIPage {
 			self._leaveChannelButton = leaveButton
 			self._leaveChannelButton.onclick = () => { self.leaveChannel() }
 			document.querySelector('#nav-main-menu').appendChild(self._leaveChannelButton)
+			this._ui.__proto__.constructor.applyRevealEffectToNavigation()
 		}
 
+		this.setupVideoplayer()
 		if(this._visible) {
 			this.open()
 			this._ui.openPage(this.name)
@@ -596,6 +608,8 @@ class Cockpit extends UIPage {
 			return
 		}
 		let closeingChannel = this.openChannelObject.login
+
+		this.tool.pubsub.unlisten('chat_moderator_actions.' + this.tool.auth._userid + '.' + this.openChannelObject.id)
 
 		this.openChannelId = ''
 		this.isChannelOnline = true
@@ -618,7 +632,7 @@ class Cockpit extends UIPage {
 		}
 		const self = this
 		this._ui.startLoading(this)
-		this.tool.chat.part(closeingChannel, () => {
+		this.tool.chat.partAll(() => {
 			this._ui.stopLoading(this)
 			self.channelActionsElement._tag.clearActions()
 			self.channelViewersplotter._tag.clearPlotter()
@@ -727,8 +741,10 @@ class Cockpit extends UIPage {
 			if(response != null) {
 				if(data.hasOwnProperty('status') &amp;&amp; response.hasOwnProperty('status')) {
 					input.value = response.status
+					this.tool.channel.updatedStatusViaCockpit(response.status)
 				} else if(data.hasOwnProperty('game') &amp;&amp; response.hasOwnProperty('game')) {
 					input.value = response.game
+					this.tool.channel.updatedGameViaCockpit(response.game)
 				}
 			}
 		} catch(error) {
@@ -754,17 +770,59 @@ class Cockpit extends UIPage {
 				if(log.message == 'close_player') {
 					self.setupVideoplayer()
 				}
+				if(log.message == 'ttvst_unmute_frame') {
+					webview.setAudioMuted(false)
+				} else if(log.message == 'ttvst_mute_frame') {
+					webview.setAudioMuted(true)
+				}
+				
 			})
 			document.querySelector('#content_cockpit').classList.add('showPlayer')
 
 			
-			cockpitResetCleanup()
 			cockpitResizeInit()
 		}
 		document.querySelector('#content_cockpit').classList.remove('showPlayer')
 		videoPlayer.innerText = this.tool.i18n.__('Click here to display stream player')
-		cockpitResetCleanup()
 		cockpitResizeInit()
+	}
+
+	setupEmbedChat() {
+		if(this.tool.settings.displayEmbedChat) {
+			if(document.querySelector('#chat_column > div').style.display != 'none') {
+				document.querySelectorAll('#chat_column > div').forEach((d) => { d.style.display = "none" })
+
+				let embedChat = document.createElement('webview')
+				embedChat.setAttribute('src', 'https://www.twitch.tv/embed/' + (this.openChannelObject.hasOwnProperty('login') ? this.openChannelObject.login : '') + '/chat')
+				embedChat.setAttribute('border', '0')
+				embedChat.setAttribute('allowpopups', true)
+				embedChat.setAttribute('preload', __dirname + '/../res/js/loadFFZIntoFrame.js')
+				let chatColumn = document.querySelector('#chat_column')
+				chatColumn.appendChild(embedChat)
+				embedChat.addEventListener('new-window', (e) => {
+					if(e.disposition != 'save-to-disk') {
+						e.options.autoHideMenuBar = true
+						if(e.url.startsWith('https://twitch.tv/') || e.url.startsWith('https://www.twitch.tv/')) {
+							e.options.webPreferences.preload = __dirname + '/../res/js/loadFFZIntoFrame.js'
+						} else {
+							e.preventDefault()
+							shell.openExternal(e.url)
+						}
+					}
+				})
+			} else {
+				let embedChat = document.querySelector('#chat_column webview')
+				let embedUrl = 'https://www.twitch.tv/embed/' + (this.openChannelObject.hasOwnProperty('login') ? this.openChannelObject.login : '') + '/chat'
+				if(embedChat.getAttribute('src') !== embedUrl) {
+					embedChat.setAttribute('src', embedUrl)
+				}
+			}
+		} else {
+			if(document.querySelector('#chat_column > div').style.display == 'none') {
+				document.querySelectorAll('#chat_column > div').forEach((d) => { d.style.display = "" })
+				document.querySelector('#chat_column webview').remove()
+			}
+		}
 	}
 
 	onResize() {
@@ -793,27 +851,28 @@ class Cockpit extends UIPage {
 	 ********************/
 
 	onChannelOnline() {
+		this.tool.overlays.on('command', this._commercialEvent)
 		this.channelActionsElement._tag.addAction(
 			{
 				name: this.openChannelObject.display_name,
 				color: this.tool.chat.userselement._tag.getUserColor(this.openChannelObject.login)
 			},
 			this.tool.i18n.__('Channel is now online'),
-			timestamp(new Date().getTime(), true)
+			timestamp(new Date().getTime(), true),
+			'PlugConnected'
 		)
-		
-		document.querySelector('#content_cockpit').classList.add('online')
-		this.setupVideoplayer()
 	}
 
 	onChannelOffline() {
+		this.tool.overlays.off('command', this._commercialEvent)
 		this.channelActionsElement._tag.addAction(
 			{
 				name: this.openChannelObject.display_name,
 				color: this.tool.chat.userselement._tag.getUserColor(this.openChannelObject.login)
 			},
 			this.tool.i18n.__('Channel is now offline'),
-			timestamp(new Date().getTime(), true)
+			timestamp(new Date().getTime(), true),
+			'PlugDisconnected'
 		)
 	}
 	
@@ -826,7 +885,8 @@ class Cockpit extends UIPage {
 				color: this.tool.chat.userselement._tag.getUserColor(this.openChannelObject.login)
 			},
 			this.tool.i18n.__('Game information changed to «{{game}}»', { game: game }),
-			timestamp(new Date().getTime(), true)
+			timestamp(new Date().getTime(), true),
+			'Soccer'
 		)
 	}
 
@@ -838,7 +898,8 @@ class Cockpit extends UIPage {
 				color: this.tool.chat.userselement._tag.getUserColor(this.openChannelObject.login)
 			},
 			this.tool.i18n.__('Stream title changed to «{{status}}»', {status: status}),
-			timestamp(new Date().getTime(), true)
+			timestamp(new Date().getTime(), true),
+			'Tag'
 		)
 	}
 
@@ -847,12 +908,14 @@ class Cockpit extends UIPage {
 		if(cMinute != this.prevMinute) {
 			this.channelViewersplotter._tag.plotViewersCount(viewers, timestamp(new Date().getTime()))
 			this.prevMinute = cMinute
+		} else {
+			this.channelViewersplotter._tag.updateViewersCountOnly(viewers)
 		}
 	}
 
 	onFollow(user, raw) {
 		if(this.tool.settings.showFollowAlert) {
-			this.channelActionsElement._tag.addAction(user, this.tool.i18n.__('is following this channel now'), timestamp(raw.followed_at, true))
+			this.channelActionsElement._tag.addAction(user, this.tool.i18n.__('is following this channel now'), timestamp(raw.followed_at, true), 'Heart')
 		}
 	}
 
@@ -954,23 +1017,23 @@ class Cockpit extends UIPage {
 
 		if(tags['msg-id'] == 'raid') {
 			if(!this.tool.settings.showRaidAlert) return
-			this.channelActionsElement._tag.addAction(user,  this.i18n.__('is raiding your channel with {{viewers}} viewers', {viewers: tags['msg-param-viewerCount']}), timestamp(parseInt(tags['tmi-sent-ts']), true))
+			this.channelActionsElement._tag.addAction(user,  this.i18n.__('is raiding your channel with {{viewers}} viewers', {viewers: tags['msg-param-viewerCount']}), timestamp(parseInt(tags['tmi-sent-ts']), true), 'Group')
 			this.checkWhatUserPlayed(user)
 		}
 		if(!this.tool.settings.showSubscriptionAlert) return
 		if(tags['msg-id'] == 'resub') {
 			if(tags['msg-param-should-share-streak'] == '1') {
 				let streak = tags['msg-param-streak-months']
-				this.channelActionsElement._tag.addAction(user,  this.i18n.__('subscribed with {{plan}} for {{months}} months and {{streak}} in a row!', {plan: plan, months: tags['msg-param-cumulative-months'], streak: streak}), timestamp(parseInt(tags['tmi-sent-ts']), true))
+				this.channelActionsElement._tag.addAction(user,  this.i18n.__('subscribed with {{plan}} for {{months}} months and {{streak}} in a row!', {plan: plan, months: tags['msg-param-cumulative-months'], streak: streak}), timestamp(parseInt(tags['tmi-sent-ts']), true), 'FavoriteStar')
 			} else {
-				this.channelActionsElement._tag.addAction(user,  this.i18n.__('subscribed with {{plan}} for {{months}} months!', {plan: plan, months: tags['msg-param-cumulative-months']}), timestamp(parseInt(tags['tmi-sent-ts']), true))
+				this.channelActionsElement._tag.addAction(user,  this.i18n.__('subscribed with {{plan}} for {{months}} months!', {plan: plan, months: tags['msg-param-cumulative-months']}), timestamp(parseInt(tags['tmi-sent-ts']), true), 'FavoriteStar')
 			}
 		}
 		if(tags['msg-id'] == 'sub') {
-			this.channelActionsElement._tag.addAction(user,  this.i18n.__('subscribed with {{plan}} to this channel', {plan: plan}), timestamp(parseInt(tags['tmi-sent-ts']), true))
+			this.channelActionsElement._tag.addAction(user,  this.i18n.__('subscribed with {{plan}} to this channel', {plan: plan}), timestamp(parseInt(tags['tmi-sent-ts']), true), 'FavoriteStar')
 		}
 		if(tags['msg-id'] == 'subgift' || tags['msg-id'] == 'anonsubgift') {
-			this.channelActionsElement._tag.addAction(user,  this.i18n.__('gifted {{recipient}} a {{plan}} subscription', {recipient: tags['msg-param-recipient-display-name'], plan: plan}), timestamp(parseInt(tags['tmi-sent-ts']), true))
+			this.channelActionsElement._tag.addAction(user,  this.i18n.__('gifted {{recipient}} a {{plan}} subscription', {recipient: tags['msg-param-recipient-display-name'], plan: plan}), timestamp(parseInt(tags['tmi-sent-ts']), true), 'Giftbox')
 		}
 	}
 
@@ -988,7 +1051,7 @@ class Cockpit extends UIPage {
 			message = this.i18n.__('was timeouted for {{duration}} {{seconds||duration}}', { duration: tags['ban-duration'] })
 		} else if(!this.tool.settings.showBanAlert) return
 
-		this.channelActionsElement._tag.addAction(user, message + '&lt;br>' + reason, timestamp(new Date().getTime(), true))
+		this.channelActionsElement._tag.addAction(user, message + '&lt;br>' + reason, timestamp(new Date().getTime(), true), (tags.hasOwnProperty('ban-duration') ? 'FlameSolid' :'NotImpactedSolid'))
 	}
 
 	onClearchat(channel, tags) {
@@ -1002,7 +1065,7 @@ class Cockpit extends UIPage {
 		if(channel != this.openChannelObject.login) return
 		if(!this.tool.settings.showTimeoutAlert) return
 		let message = this.i18n.__('A message was deleted.')
-		this.channelActionsElement._tag.addAction(user, message, timestamp(new Date().getTime(), true))
+		this.channelActionsElement._tag.addAction(user, message, timestamp(new Date().getTime(), true), 'DRM')
 	}
 
 	onHostingyou(channel, user, viewers, msg, tags) {
@@ -1011,7 +1074,7 @@ class Cockpit extends UIPage {
 		if(viewers > 0) {
 			hostmessage = this.i18n.__('is hosting the channel with {{viewernum}} {{viewers||viewernum}}', { viewernum: viewers })
 		}
-		this.channelActionsElement._tag.addAction(user, hostmessage, timestamp(new Date().getTime(), true))
+		this.channelActionsElement._tag.addAction(user, hostmessage, timestamp(new Date().getTime(), true), 'Group')
 		this.checkWhatUserPlayed(user)
 	}
 
@@ -1021,25 +1084,33 @@ class Cockpit extends UIPage {
 		if(viewers > 0) {
 			hostmessage = this.i18n.__('is auto hosting the channel with {{viewernum}} {{viewers||viewernum}}', { viewernum: viewers })
 		}
-		this.channelActionsElement._tag.addAction(user, hostmessage, timestamp(new Date().getTime(), true))
+		this.channelActionsElement._tag.addAction(user, hostmessage, timestamp(new Date().getTime(), true), 'Group')
 	}
 
 	onChatmessage(channel, ts, user, message, msg_raw, type, uuid) {
-		if(channel != this.openChannelObject.login) {
+		/*if(channel != this.openChannelObject.login) {
 			user.name = '(#' + channel +') ' + user.name
 			type += 20
+		}*/
+		let index = this._rememberAndIgnore.indexOf(uuid)
+		if(index >= 0) {
+			this._rememberAndIgnore.splice(index, 1)
 		}
-		this.chatelement._tag.addmessage({
-			'id': uuid,
-			'timestamp': ts,
-			'badges_html': user.badges,
-			'nickname': user.name,
-			'message': msg_raw,
-			'message_html': message,
-			'user': user.user,
-			'color': user.color,
-			'type': type
-		})
+		if(!this.tool.settings.displayEmbedChat &amp;&amp; index &lt; 0) {
+			this.chatelement._tag.addmessage({
+				'id': uuid,
+				'mainchannel': this.openChannelObject.login,
+				'channel': channel,
+				'timestamp': ts,
+				'badges_html': user.badges,
+				'nickname': user.name,
+				'message': msg_raw,
+				'message_html': message,
+				'user': user.user,
+				'color': user.color,
+				'type': type
+			})
+		}
 		if(user.user.length > 0 &amp;&amp; type == 0 &amp;&amp; channel == this.openChannelObject.login) {
 			this.userselement._tag.joinusr(user)
 		}
@@ -1048,7 +1119,80 @@ class Cockpit extends UIPage {
 	onCheer(channel, ts, user, bits) {
 		if(!this.tool.settings.showCheerAlert) return
 		let cheermessage = this.i18n.__('just cheered with {{num_bits}} {{bits||num_bits}}', {num_bits: bits})
-		this.channelActionsElement._tag.addAction(user, cheermessage, ts)
+		this.channelActionsElement._tag.addAction(user, cheermessage, ts, 'DiamondSolid')
+	}
+
+	onAutomodRejected(message, author, msg_id, reason) {
+		let color = this.userselement._tag.getUserColor(author)
+		this.chatelement._tag.addmessage({
+			'id': msg_id,
+			'mainchannel': this.openChannelObject.login,
+			'channel': this.openChannelObject.login,
+			'timestamp': timestamp(),
+			'badges_html': '',
+			'nickname': author,
+			'message': message,
+			'message_html': message,
+			'user': author,
+			'color': color,
+			'type': 6,
+			'reason': reason
+		})
+		this._rememberAndIgnore.push(msg_id)
+	}
+
+	onAutomodApproved(moderator, author, msg_id) {
+		let message = this.i18n.__('{{moderator}} approved a message by {{author}}', { moderator: moderator, author: author })
+		this.chatelement._tag.addmessage({
+			'id': '',
+			'mainchannel': this.openChannelObject.login,
+			'channel': this.openChannelObject.login,
+			'timestamp': timestamp(),
+			'badges_html': '',
+			'nickname': '',
+			'message': message,
+			'message_html': message,
+			'user': '',
+			'color': '#999999',
+			'type': 1
+		})
+		this.chatelement._tag.approveMessage(msg_id)
+	}
+
+	onAutomodDenied(moderator, author, msg_id) {
+		let message = this.i18n.__('{{moderator}} denied a message by {{author}}', { moderator: moderator, author: author })
+		this.chatelement._tag.addmessage({
+			'id': '',
+			'mainchannel': this.openChannelObject.login,
+			'channel': this.openChannelObject.login,
+			'timestamp': timestamp(),
+			'badges_html': '',
+			'nickname': '',
+			'message': message,
+			'message_html': message,
+			'user': '',
+			'color': '#999999',
+			'type': 1
+		})
+		this.chatelement._tag.denyMessage(msg_id)
+	}
+
+	onModeratorCommand(command, args, moderator) {
+		let cmd = '/' + command + (args.length > 0 ? ' ' + args.join(' ') : '')
+		let message = this.i18n.__('{{moderator}} executed {{command}}', { moderator: moderator, command: cmd })
+		this.chatelement._tag.addmessage({
+			'id': '',
+			'mainchannel': this.openChannelObject.login,
+			'channel': this.openChannelObject.login,
+			'timestamp': timestamp(),
+			'badges_html': '',
+			'nickname': '',
+			'message': message,
+			'message_html': message,
+			'user': '',
+			'color': '#999999',
+			'type': 1
+		})
 	}
 
 	async checkWhatUserPlayed(user)
@@ -1059,10 +1203,28 @@ class Cockpit extends UIPage {
 				let game_id = stream.data[0].game_id
 				let game = await this.tool.twitchhelix.getGames(game_id)
 				if(game !== null &amp;&amp; typeof(game.data) !== 'undefined' &amp;&amp; game.data.length > 0) {
-					this.channelActionsElement._tag.addAction(user, this.i18n.__('was playing {{game}} last', { game: game.data[0].name }), timestamp(new Date().getTime(), true))
+					this.channelActionsElement._tag.addAction(user, this.i18n.__('was playing {{game}} last', { game: game.data[0].name }), timestamp(new Date().getTime(), true), 'Soccer')
 				}
 			}
 		} catch(e) {}
+	}
+
+	async onCommercial(length) {
+		if(this._noCommercialUntil > new Date().getTime()) {
+			let cooldown = Math.floor((this._noCommercialUntil - new Date().getTime()) / 1000)
+			this.tool.ui.showErrorMessage(this.i18n.__('Commercials are on a cooldown please retry in {{cooldown}} {{seconds||cooldown}}', { cooldown: cooldown }), true)
+			return
+		}
+		try {
+			this._noCommercialUntil = new Date().getTime() + 480000
+			let resp = await this.tool.twitchapi.startChannelCommercial(this.openChannelObject.id, parseInt(length))
+			if(typeof(resp.RetryAfter) === 'number') {
+				this._noCommercialUntil = new Date().getTime() + (resp.RetryAfter * 1000)
+			}
+		} catch(e) {
+			this._noCommercialUntil = new Date().getTime()
+			this.tool.ui.showErrorMessage(e, true)
+		}
 	}
 
 }
@@ -1080,15 +1242,14 @@ module.exports = Cockpit</code></pre>
 
 <footer class="footer">
     <div class="content has-text-centered">
-        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Sun Aug 18 2019 12:47:45 GMT+0200 (GMT+02:00)</p>
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Tue Oct 15 2019 17:14:27 GMT+0200 (GMT+02:00)</p>
         <p class="sidebar-created-by">
             <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
-            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
         </p>
     </div>
 </footer>
 
-<script> prettyPrint(); </script>
 <script src="scripts/app.min.js"></script>
 <script src="scripts/linenumber.js"> </script>
 </body>

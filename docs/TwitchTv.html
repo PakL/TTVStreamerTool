@@ -3,10 +3,11 @@
 <head>
     
     <meta charset="utf-8">
-    <title>TwitchTv &bull; TTVStreamerTool</title>
+    <title>JSDoc: TwitchTv</title>
 
-    <script src="scripts/prettify/prettify.js"></script>
-    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -15,6 +16,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
     <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
 </head>
 
 <body>
@@ -62,7 +64,7 @@
             <div class="column is-3" id="sidebarNav">
                 <div class="sidebar">
                     <nav>
-                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li><li><a href="tutorial-Streamdeck Shortcuts.html">Streamdeck Shortcuts</a></li></ul><h3>Classes</h3><ul><li><a href="Addons.html">Addons</a></li><li><a href="Channel.html">Channel</a></li><li><a href="Chat.html">Chat</a></li><li><a href="Cockpit.html">Cockpit</a></li><li><a href="Follows.html">Follows</a></li><li><a href="Overlays.html">Overlays</a></li><li><a href="ToolSettings.html">ToolSettings</a></li><li><a href="ToolUI.html">ToolUI</a></li><li><a href="TTVLogin.html">TTVLogin</a></li><li><a href="TTVTool.html">TTVTool</a></li><li><a href="TwitchChat.html">TwitchChat</a></li><li><a href="TwitchHelix.html">TwitchHelix</a></li><li><a href="TwitchTv.html">TwitchTv</a></li><li><a href="UIPage.html">UIPage</a></li></ul><h3>Events</h3><ul><li><a href="Channel.html#event:channeloffline">channeloffline</a></li><li><a href="Channel.html#event:channelonline">channelonline</a></li><li><a href="Channel.html#event:gamechange">gamechange</a></li><li><a href="Channel.html#event:statuschange">statuschange</a></li><li><a href="Channel.html#event:viewers">viewers</a></li><li><a href="Chat.html#event:autohostingyou">autohostingyou</a></li><li><a href="Chat.html#event:chatmessage">chatmessage</a></li><li><a href="Chat.html#event:cheer">cheer</a></li><li><a href="Chat.html#event:clearchat">clearchat</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:connected">connected</a></li><li><a href="Chat.html#event:hostingyou">hostingyou</a></li><li><a href="Chat.html#event:join">join</a></li><li><a href="Chat.html#event:names">names</a></li><li><a href="Chat.html#event:part">part</a></li><li><a href="Chat.html#event:roomstate">roomstate</a></li><li><a href="Chat.html#event:sendmessage">sendmessage</a></li><li><a href="Chat.html#event:usernotice">usernotice</a></li><li><a href="Chat.html#event:userstate">userstate</a></li><li><a href="Cockpit.html#event:channelleft">channelleft</a></li><li><a href="Cockpit.html#event:channelopen">channelopen</a></li><li><a href="Follows.html#event:follow">follow</a></li><li><a href="Overlays.html#event:command">command</a></li><li><a href="Overlays.html#event:hotkeys-unregistered">hotkeys-unregistered</a></li><li><a href="TTVLogin.html#event:complete">complete</a></li><li><a href="TTVTool.html#event:exit">exit</a></li><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TwitchChat.html#event:action">action</a></li><li><a href="TwitchChat.html#event:autohostingyou">autohostingyou</a></li><li><a href="TwitchChat.html#event:capack">capack</a></li><li><a href="TwitchChat.html#event:clearchat">clearchat</a></li><li><a href="TwitchChat.html#event:clearmsg">clearmsg</a></li><li><a href="TwitchChat.html#event:clearuser">clearuser</a></li><li><a href="TwitchChat.html#event:close">close</a></li><li><a href="TwitchChat.html#event:connect">connect</a></li><li><a href="TwitchChat.html#event:error">error</a></li><li><a href="TwitchChat.html#event:hostingyou">hostingyou</a></li><li><a href="TwitchChat.html#event:incoming">incoming</a></li><li><a href="TwitchChat.html#event:join">join</a></li><li><a href="TwitchChat.html#event:message">message</a></li><li><a href="TwitchChat.html#event:mode">mode</a></li><li><a href="TwitchChat.html#event:mode+">mode+</a></li><li><a href="TwitchChat.html#event:mode-">mode-</a></li><li><a href="TwitchChat.html#event:motd">motd</a></li><li><a href="TwitchChat.html#event:names">names</a></li><li><a href="TwitchChat.html#event:notice">notice</a></li><li><a href="TwitchChat.html#event:outgoing">outgoing</a></li><li><a href="TwitchChat.html#event:part">part</a></li><li><a href="TwitchChat.html#event:raw">raw</a></li><li><a href="TwitchChat.html#event:reconnect">reconnect</a></li><li><a href="TwitchChat.html#event:registered">registered</a></li><li><a href="TwitchChat.html#event:roomstate">roomstate</a></li><li><a href="TwitchChat.html#event:usernotice">usernotice</a></li><li><a href="TwitchChat.html#event:userstate">userstate</a></li><li><a href="TwitchChat.html#event:whisper">whisper</a></li></ul></div>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li><li><a href="tutorial-Streamdeck Shortcuts.html">Streamdeck Shortcuts</a></li></ul><h3>Classes</h3><ul><li><a href="Addons.html">Addons</a></li><li><a href="Channel.html">Channel</a></li><li><a href="Chat.html">Chat</a></li><li><a href="Cockpit.html">Cockpit</a></li><li><a href="Follows.html">Follows</a></li><li><a href="Overlays.html">Overlays</a></li><li><a href="ToolSettings.html">ToolSettings</a></li><li><a href="ToolUI.html">ToolUI</a></li><li><a href="TTVLogin.html">TTVLogin</a></li><li><a href="TTVTool.html">TTVTool</a></li><li><a href="TwitchChat.html">TwitchChat</a></li><li><a href="TwitchHelix.html">TwitchHelix</a></li><li><a href="TwitchTv.html">TwitchTv</a></li><li><a href="TwPubSub.html">TwPubSub</a></li><li><a href="UIPage.html">UIPage</a></li></ul><h3>Events</h3><ul><li><a href="Channel.html#event:channeloffline">channeloffline</a></li><li><a href="Channel.html#event:channelonline">channelonline</a></li><li><a href="Channel.html#event:gamechange">gamechange</a></li><li><a href="Channel.html#event:statuschange">statuschange</a></li><li><a href="Channel.html#event:viewers">viewers</a></li><li><a href="Chat.html#event:autohostingyou">autohostingyou</a></li><li><a href="Chat.html#event:chatmessage">chatmessage</a></li><li><a href="Chat.html#event:cheer">cheer</a></li><li><a href="Chat.html#event:clearchat">clearchat</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:connected">connected</a></li><li><a href="Chat.html#event:hostingyou">hostingyou</a></li><li><a href="Chat.html#event:join">join</a></li><li><a href="Chat.html#event:names">names</a></li><li><a href="Chat.html#event:part">part</a></li><li><a href="Chat.html#event:roomstate">roomstate</a></li><li><a href="Chat.html#event:sendmessage">sendmessage</a></li><li><a href="Chat.html#event:usernotice">usernotice</a></li><li><a href="Chat.html#event:userstate">userstate</a></li><li><a href="Cockpit.html#event:channelleft">channelleft</a></li><li><a href="Cockpit.html#event:channelopen">channelopen</a></li><li><a href="Follows.html#event:follow">follow</a></li><li><a href="Overlays.html#event:command">command</a></li><li><a href="Overlays.html#event:hotkeys-unregistered">hotkeys-unregistered</a></li><li><a href="TTVLogin.html#event:complete">complete</a></li><li><a href="TTVTool.html#event:exit">exit</a></li><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TwitchChat.html#event:action">action</a></li><li><a href="TwitchChat.html#event:autohostingyou">autohostingyou</a></li><li><a href="TwitchChat.html#event:capack">capack</a></li><li><a href="TwitchChat.html#event:clearchat">clearchat</a></li><li><a href="TwitchChat.html#event:clearmsg">clearmsg</a></li><li><a href="TwitchChat.html#event:clearuser">clearuser</a></li><li><a href="TwitchChat.html#event:close">close</a></li><li><a href="TwitchChat.html#event:connect">connect</a></li><li><a href="TwitchChat.html#event:error">error</a></li><li><a href="TwitchChat.html#event:hostingyou">hostingyou</a></li><li><a href="TwitchChat.html#event:incoming">incoming</a></li><li><a href="TwitchChat.html#event:join">join</a></li><li><a href="TwitchChat.html#event:message">message</a></li><li><a href="TwitchChat.html#event:mode">mode</a></li><li><a href="TwitchChat.html#event:mode+">mode+</a></li><li><a href="TwitchChat.html#event:mode-">mode-</a></li><li><a href="TwitchChat.html#event:motd">motd</a></li><li><a href="TwitchChat.html#event:names">names</a></li><li><a href="TwitchChat.html#event:notice">notice</a></li><li><a href="TwitchChat.html#event:outgoing">outgoing</a></li><li><a href="TwitchChat.html#event:part">part</a></li><li><a href="TwitchChat.html#event:raw">raw</a></li><li><a href="TwitchChat.html#event:reconnect">reconnect</a></li><li><a href="TwitchChat.html#event:registered">registered</a></li><li><a href="TwitchChat.html#event:roomstate">roomstate</a></li><li><a href="TwitchChat.html#event:usernotice">usernotice</a></li><li><a href="TwitchChat.html#event:userstate">userstate</a></li><li><a href="TwitchChat.html#event:whisper">whisper</a></li><li><a href="TwPubSub.html#event:automod-approved">automod-approved</a></li><li><a href="TwPubSub.html#event:automod-denied">automod-denied</a></li><li><a href="TwPubSub.html#event:automod-rejected">automod-rejected</a></li><li><a href="TwPubSub.html#event:mod-command">mod-command</a></li></ul></div>
                     </nav>
                 </div>
             </div>
@@ -96,11 +98,14 @@
                 <div class="members">
                     <div class="member">
 
+
     
     <h4 class="name" id="TwitchTv">
         
         <span class="code-name">
-            new TwitchTv<span class="signature">(options)</span><span class="type-signature"></span>
+            
+                new TwitchTv<span class="signature">(options)</span><span class="type-signature"></span>
+            
         </span>
     </h4>
     
@@ -353,7 +358,7 @@
         
     
     </div>
-
+    
     
 
     
@@ -913,11 +918,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="getAuthImplicitGrantFlowUrl">
         
         <span class="code-name">
-            getAuthImplicitGrantFlowUrl<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span>
+            
+                getAuthImplicitGrantFlowUrl<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span>
+            
         </span>
     </h4>
     
@@ -1029,11 +1037,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="getAuthToken">
         
         <span class="code-name">
-            getAuthToken<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span>
+            
+                getAuthToken<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span>
+            
         </span>
     </h4>
     
@@ -1145,11 +1156,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="getChannel">
         
         <span class="code-name">
-            getChannel<span class="signature">(channelid<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+                getChannel<span class="signature">(channelid<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
         </span>
     </h4>
     
@@ -1280,7 +1294,7 @@
         <p class="tag-source">
             <a href="lib_twitchtv.js.html" class="button">View Source</a>
             <span>
-                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line349">line 349</a>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line358">line 358</a>
             </span>
         </p>
     
@@ -1335,11 +1349,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="getChannelFollowers">
         
         <span class="code-name">
-            getChannelFollowers<span class="signature">(channelid<span class="signature-attributes">opt</span>, options)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+                getChannelFollowers<span class="signature">(channelid<span class="signature-attributes">opt</span>, options)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
         </span>
     </h4>
     
@@ -1670,7 +1687,7 @@
         <p class="tag-source">
             <a href="lib_twitchtv.js.html" class="button">View Source</a>
             <span>
-                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line401">line 401</a>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line410">line 410</a>
             </span>
         </p>
     
@@ -1725,11 +1742,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="getChannelSubscribers">
         
         <span class="code-name">
-            getChannelSubscribers<span class="signature">(channelid<span class="signature-attributes">opt</span>, options)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+                getChannelSubscribers<span class="signature">(channelid<span class="signature-attributes">opt</span>, options)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
         </span>
     </h4>
     
@@ -2023,7 +2043,7 @@
         <p class="tag-source">
             <a href="lib_twitchtv.js.html" class="button">View Source</a>
             <span>
-                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line448">line 448</a>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line457">line 457</a>
             </span>
         </p>
     
@@ -2078,11 +2098,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="getChannelVideos">
         
         <span class="code-name">
-            getChannelVideos<span class="signature">(channelid, options)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+                getChannelVideos<span class="signature">(channelid, options)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
         </span>
     </h4>
     
@@ -2450,7 +2473,7 @@
         <p class="tag-source">
             <a href="lib_twitchtv.js.html" class="button">View Source</a>
             <span>
-                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line496">line 496</a>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line505">line 505</a>
             </span>
         </p>
     
@@ -2505,11 +2528,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="getChatBadgesByChannel">
         
         <span class="code-name">
-            getChatBadgesByChannel<span class="signature">(channelid)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+                getChatBadgesByChannel<span class="signature">(channelid)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
         </span>
     </h4>
     
@@ -2628,7 +2654,7 @@
         <p class="tag-source">
             <a href="lib_twitchtv.js.html" class="button">View Source</a>
             <span>
-                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line521">line 521</a>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line546">line 546</a>
             </span>
         </p>
     
@@ -2683,11 +2709,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="getChatBadgeSetsByChannel">
         
         <span class="code-name">
-            getChatBadgeSetsByChannel<span class="signature">(channelid<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+                getChatBadgeSetsByChannel<span class="signature">(channelid<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
         </span>
     </h4>
     
@@ -2811,7 +2840,7 @@
         <p class="tag-source">
             <a href="lib_twitchtv.js.html" class="button">View Source</a>
             <span>
-                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line557">line 557</a>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line582">line 582</a>
             </span>
         </p>
     
@@ -2864,18 +2893,23 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>// Example response:{  "badge_sets": {    "subscriber": {      "versions": {        "0": {          "image_url_1x": "https://static-cdn.jtvnw.net/badges/v1/7821fdef-7fd6-4085-a9b0-eae8952ce299/1",          "image_url_2x": "https://static-cdn.jtvnw.net/badges/v1/7821fdef-7fd6-4085-a9b0-eae8952ce299/2",          "image_url_4x": "https://static-cdn.jtvnw.net/badges/v1/7821fdef-7fd6-4085-a9b0-eae8952ce299/3",          "description": "Subscriber",          "title": "Subscriber",          "click_action": "subscribe_to_channel",          "click_url": ""        }      }    }  }}</code></pre>
+    
+        <pre class="prettyprint"><code>// Example response:{  "badge_sets": {    "subscriber": {      "versions": {        "0": {          "image_url_1x": "https://static-cdn.jtvnw.net/badges/v1/7821fdef-7fd6-4085-a9b0-eae8952ce299/1",          "image_url_2x": "https://static-cdn.jtvnw.net/badges/v1/7821fdef-7fd6-4085-a9b0-eae8952ce299/2",          "image_url_4x": "https://static-cdn.jtvnw.net/badges/v1/7821fdef-7fd6-4085-a9b0-eae8952ce299/3",          "description": "Subscriber",          "title": "Subscriber",          "click_action": "subscribe_to_channel",          "click_url": ""        }      }    }  }}</code></pre>
+    
 
 
 </div>
             
                 <div class="member">
 
+
     
     <h4 class="name" id="getChatEmoticonsBySet">
         
         <span class="code-name">
-            getChatEmoticonsBySet<span class="signature">(emotesets)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+                getChatEmoticonsBySet<span class="signature">(emotesets)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
         </span>
     </h4>
     
@@ -2991,7 +3025,7 @@
         <p class="tag-source">
             <a href="lib_twitchtv.js.html" class="button">View Source</a>
             <span>
-                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line602">line 602</a>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line627">line 627</a>
             </span>
         </p>
     
@@ -3046,11 +3080,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="getCheermotes">
         
         <span class="code-name">
-            getCheermotes<span class="signature">(channel_id<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+                getCheermotes<span class="signature">(channel_id<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
         </span>
     </h4>
     
@@ -3178,7 +3215,7 @@
         <p class="tag-source">
             <a href="lib_twitchtv.js.html" class="button">View Source</a>
             <span>
-                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line728">line 728</a>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line770">line 770</a>
             </span>
         </p>
     
@@ -3233,11 +3270,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="getCollectionsByChannel">
         
         <span class="code-name">
-            getCollectionsByChannel<span class="signature">(channelid, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+                getCollectionsByChannel<span class="signature">(channelid, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
         </span>
     </h4>
     
@@ -3524,7 +3564,7 @@
         <p class="tag-source">
             <a href="lib_twitchtv.js.html" class="button">View Source</a>
             <span>
-                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line705">line 705</a>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line747">line 747</a>
             </span>
         </p>
     
@@ -3579,11 +3619,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="getStreamByUser">
         
         <span class="code-name">
-            getStreamByUser<span class="signature">(channelid<span class="signature-attributes">opt</span>, options)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+                getStreamByUser<span class="signature">(channelid<span class="signature-attributes">opt</span>, options)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
         </span>
     </h4>
     
@@ -3799,7 +3842,7 @@
         <p class="tag-source">
             <a href="lib_twitchtv.js.html" class="button">View Source</a>
             <span>
-                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line620">line 620</a>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line662">line 662</a>
             </span>
         </p>
     
@@ -3854,11 +3897,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="getTeam">
         
         <span class="code-name">
-            getTeam<span class="signature">(teamname)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+                getTeam<span class="signature">(teamname)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
         </span>
     </h4>
     
@@ -3974,7 +4020,7 @@
         <p class="tag-source">
             <a href="lib_twitchtv.js.html" class="button">View Source</a>
             <span>
-                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line686">line 686</a>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line728">line 728</a>
             </span>
         </p>
     
@@ -4029,11 +4075,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="getUser">
         
         <span class="code-name">
-            getUser<span class="signature">(userid<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+                getUser<span class="signature">(userid<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
         </span>
     </h4>
     
@@ -4164,7 +4213,7 @@
         <p class="tag-source">
             <a href="lib_twitchtv.js.html" class="button">View Source</a>
             <span>
-                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line266">line 266</a>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line275">line 275</a>
             </span>
         </p>
     
@@ -4219,11 +4268,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="getUserByName">
         
         <span class="code-name">
-            getUserByName<span class="signature">(username)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+                getUserByName<span class="signature">(username)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
         </span>
     </h4>
     
@@ -4339,7 +4391,7 @@
         <p class="tag-source">
             <a href="lib_twitchtv.js.html" class="button">View Source</a>
             <span>
-                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line285">line 285</a>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line294">line 294</a>
             </span>
         </p>
     
@@ -4394,11 +4446,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="getUserFollows">
         
         <span class="code-name">
-            getUserFollows<span class="signature">(userid<span class="signature-attributes">opt</span>, options)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+                getUserFollows<span class="signature">(userid<span class="signature-attributes">opt</span>, options)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
         </span>
     </h4>
     
@@ -4731,7 +4786,7 @@
         <p class="tag-source">
             <a href="lib_twitchtv.js.html" class="button">View Source</a>
             <span>
-                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line303">line 303</a>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line312">line 312</a>
             </span>
         </p>
     
@@ -4786,11 +4841,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="isLoggedIn">
         
         <span class="code-name">
-            isLoggedIn<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span>
+            
+                isLoggedIn<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span>
+            
         </span>
     </h4>
     
@@ -4902,11 +4960,210 @@
             
                 <div class="member">
 
+
+    
+    <h4 class="name" id="postAutoMod">
+        
+        <span class="code-name">
+            
+                postAutoMod<span class="signature">(action, msg_id)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Approve or deny a message filtered by AutoMod
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>action</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">String</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">A string that is either 'approve' or 'deny'</td>
+</tr>
+
+
+    
+
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>msg_id</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">String</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">A string containing the message's id</td>
+</tr>
+
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_twitchtv.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line640">line 640</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>Returns a Promise that resolves with an empty object</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">Promise</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
     
     <h4 class="name" id="requestAPI">
         
         <span class="code-name">
-            requestAPI<span class="signature">(uri, query, authNeeded, postdata<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+                requestAPI<span class="signature">(uri, query, authNeeded, postdata<span class="signature-attributes">opt</span>, method<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
         </span>
     </h4>
     
@@ -5104,6 +5361,47 @@
 
 
     
+
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>method</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">String</span>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+      <td class="default">
+      
+          GET
+      
+      </td>
+  
+
+  <td class="description last">Optional HTTP method. Defaults to GET (or PUT if postdata contains items)</td>
+</tr>
+
+
+    
     </tbody>
 </table>
 
@@ -5146,7 +5444,7 @@
         <p class="tag-source">
             <a href="lib_twitchtv.js.html" class="button">View Source</a>
             <span>
-                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line145">line 145</a>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line146">line 146</a>
             </span>
         </p>
     
@@ -5201,11 +5499,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="searchGames">
         
         <span class="code-name">
-            searchGames<span class="signature">(query, options)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+                searchGames<span class="signature">(query, options)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
         </span>
     </h4>
     
@@ -5416,7 +5717,7 @@
         <p class="tag-source">
             <a href="lib_twitchtv.js.html" class="button">View Source</a>
             <span>
-                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line665">line 665</a>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line707">line 707</a>
             </span>
         </p>
     
@@ -5471,11 +5772,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="setAuthToken">
         
         <span class="code-name">
-            setAuthToken<span class="signature">(token)</span><span class="type-signature"></span>
+            
+                setAuthToken<span class="signature">(token)</span><span class="type-signature"></span>
+            
         </span>
     </h4>
     
@@ -5614,11 +5918,220 @@
             
                 <div class="member">
 
+
+    
+    <h4 class="name" id="startChannelCommercial">
+        
+        <span class="code-name">
+            
+                startChannelCommercial<span class="signature">(channelid, length)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Starts a commercial (advertisement) on a specified channel. This is valid only for channels that are Twitch partners. You cannot start a commercial more often than once every 8 minutes.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channelid</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Number</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Channel id of the channel you want start commercials for</td>
+</tr>
+
+
+    
+
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>length</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">Number</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">The length of the commercial (in seconds). Valid values are 30, 60, 90, 120, 150, and 180.</td>
+</tr>
+
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://dev.twitch.tv/docs/v5/reference/channels#start-channel-commercial">https://dev.twitch.tv/docs/v5/reference/channels#start-channel-commercial</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="lib_twitchtv.js.html" class="button">View Source</a>
+            <span>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line528">line 528</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>Returns a Promise that resolves with the deserialized json object</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">Promise</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
     
     <h4 class="name" id="updateChannel">
         
         <span class="code-name">
-            updateChannel<span class="signature">(channelid, options)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
+                updateChannel<span class="signature">(channelid, options)</span><span class="type-signature"> &rarr; {Promise}</span>
+            
         </span>
     </h4>
     
@@ -5915,7 +6428,7 @@
         <p class="tag-source">
             <a href="lib_twitchtv.js.html" class="button">View Source</a>
             <span>
-                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line373">line 373</a>
+                <a href="lib_twitchtv.js.html">lib/twitchtv.js</a>, <a href="lib_twitchtv.js.html#line382">line 382</a>
             </span>
         </p>
     
@@ -5970,11 +6483,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="verifyState">
         
         <span class="code-name">
-            verifyState<span class="signature">(state)</span><span class="type-signature"> &rarr; {Boolean}</span>
+            
+                verifyState<span class="signature">(state)</span><span class="type-signature"> &rarr; {Boolean}</span>
+            
         </span>
     </h4>
     
@@ -6155,15 +6671,14 @@
 
 <footer class="footer">
     <div class="content has-text-centered">
-        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Sun Aug 18 2019 12:47:45 GMT+0200 (GMT+02:00)</p>
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Tue Oct 15 2019 17:14:28 GMT+0200 (GMT+02:00)</p>
         <p class="sidebar-created-by">
             <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
-            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
         </p>
     </div>
 </footer>
 
-<script> prettyPrint(); </script>
 <script src="scripts/app.min.js"></script>
 <script src="scripts/linenumber.js"> </script>
 </body>

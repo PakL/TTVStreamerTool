@@ -3,10 +3,11 @@
 <head>
     
     <meta charset="utf-8">
-    <title>TwitchChat &bull; TTVStreamerTool</title>
+    <title>JSDoc: TwitchChat</title>
 
-    <script src="scripts/prettify/prettify.js"></script>
-    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -15,6 +16,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
     <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
 </head>
 
 <body>
@@ -62,7 +64,7 @@
             <div class="column is-3" id="sidebarNav">
                 <div class="sidebar">
                     <nav>
-                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li><li><a href="tutorial-Streamdeck Shortcuts.html">Streamdeck Shortcuts</a></li></ul><h3>Classes</h3><ul><li><a href="Addons.html">Addons</a></li><li><a href="Channel.html">Channel</a></li><li><a href="Chat.html">Chat</a></li><li><a href="Cockpit.html">Cockpit</a></li><li><a href="Follows.html">Follows</a></li><li><a href="Overlays.html">Overlays</a></li><li><a href="ToolSettings.html">ToolSettings</a></li><li><a href="ToolUI.html">ToolUI</a></li><li><a href="TTVLogin.html">TTVLogin</a></li><li><a href="TTVTool.html">TTVTool</a></li><li><a href="TwitchChat.html">TwitchChat</a></li><li><a href="TwitchHelix.html">TwitchHelix</a></li><li><a href="TwitchTv.html">TwitchTv</a></li><li><a href="UIPage.html">UIPage</a></li></ul><h3>Events</h3><ul><li><a href="Channel.html#event:channeloffline">channeloffline</a></li><li><a href="Channel.html#event:channelonline">channelonline</a></li><li><a href="Channel.html#event:gamechange">gamechange</a></li><li><a href="Channel.html#event:statuschange">statuschange</a></li><li><a href="Channel.html#event:viewers">viewers</a></li><li><a href="Chat.html#event:autohostingyou">autohostingyou</a></li><li><a href="Chat.html#event:chatmessage">chatmessage</a></li><li><a href="Chat.html#event:cheer">cheer</a></li><li><a href="Chat.html#event:clearchat">clearchat</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:connected">connected</a></li><li><a href="Chat.html#event:hostingyou">hostingyou</a></li><li><a href="Chat.html#event:join">join</a></li><li><a href="Chat.html#event:names">names</a></li><li><a href="Chat.html#event:part">part</a></li><li><a href="Chat.html#event:roomstate">roomstate</a></li><li><a href="Chat.html#event:sendmessage">sendmessage</a></li><li><a href="Chat.html#event:usernotice">usernotice</a></li><li><a href="Chat.html#event:userstate">userstate</a></li><li><a href="Cockpit.html#event:channelleft">channelleft</a></li><li><a href="Cockpit.html#event:channelopen">channelopen</a></li><li><a href="Follows.html#event:follow">follow</a></li><li><a href="Overlays.html#event:command">command</a></li><li><a href="Overlays.html#event:hotkeys-unregistered">hotkeys-unregistered</a></li><li><a href="TTVLogin.html#event:complete">complete</a></li><li><a href="TTVTool.html#event:exit">exit</a></li><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TwitchChat.html#event:action">action</a></li><li><a href="TwitchChat.html#event:autohostingyou">autohostingyou</a></li><li><a href="TwitchChat.html#event:capack">capack</a></li><li><a href="TwitchChat.html#event:clearchat">clearchat</a></li><li><a href="TwitchChat.html#event:clearmsg">clearmsg</a></li><li><a href="TwitchChat.html#event:clearuser">clearuser</a></li><li><a href="TwitchChat.html#event:close">close</a></li><li><a href="TwitchChat.html#event:connect">connect</a></li><li><a href="TwitchChat.html#event:error">error</a></li><li><a href="TwitchChat.html#event:hostingyou">hostingyou</a></li><li><a href="TwitchChat.html#event:incoming">incoming</a></li><li><a href="TwitchChat.html#event:join">join</a></li><li><a href="TwitchChat.html#event:message">message</a></li><li><a href="TwitchChat.html#event:mode">mode</a></li><li><a href="TwitchChat.html#event:mode+">mode+</a></li><li><a href="TwitchChat.html#event:mode-">mode-</a></li><li><a href="TwitchChat.html#event:motd">motd</a></li><li><a href="TwitchChat.html#event:names">names</a></li><li><a href="TwitchChat.html#event:notice">notice</a></li><li><a href="TwitchChat.html#event:outgoing">outgoing</a></li><li><a href="TwitchChat.html#event:part">part</a></li><li><a href="TwitchChat.html#event:raw">raw</a></li><li><a href="TwitchChat.html#event:reconnect">reconnect</a></li><li><a href="TwitchChat.html#event:registered">registered</a></li><li><a href="TwitchChat.html#event:roomstate">roomstate</a></li><li><a href="TwitchChat.html#event:usernotice">usernotice</a></li><li><a href="TwitchChat.html#event:userstate">userstate</a></li><li><a href="TwitchChat.html#event:whisper">whisper</a></li></ul></div>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li><li><a href="tutorial-Streamdeck Shortcuts.html">Streamdeck Shortcuts</a></li></ul><h3>Classes</h3><ul><li><a href="Addons.html">Addons</a></li><li><a href="Channel.html">Channel</a></li><li><a href="Chat.html">Chat</a></li><li><a href="Cockpit.html">Cockpit</a></li><li><a href="Follows.html">Follows</a></li><li><a href="Overlays.html">Overlays</a></li><li><a href="ToolSettings.html">ToolSettings</a></li><li><a href="ToolUI.html">ToolUI</a></li><li><a href="TTVLogin.html">TTVLogin</a></li><li><a href="TTVTool.html">TTVTool</a></li><li><a href="TwitchChat.html">TwitchChat</a></li><li><a href="TwitchHelix.html">TwitchHelix</a></li><li><a href="TwitchTv.html">TwitchTv</a></li><li><a href="TwPubSub.html">TwPubSub</a></li><li><a href="UIPage.html">UIPage</a></li></ul><h3>Events</h3><ul><li><a href="Channel.html#event:channeloffline">channeloffline</a></li><li><a href="Channel.html#event:channelonline">channelonline</a></li><li><a href="Channel.html#event:gamechange">gamechange</a></li><li><a href="Channel.html#event:statuschange">statuschange</a></li><li><a href="Channel.html#event:viewers">viewers</a></li><li><a href="Chat.html#event:autohostingyou">autohostingyou</a></li><li><a href="Chat.html#event:chatmessage">chatmessage</a></li><li><a href="Chat.html#event:cheer">cheer</a></li><li><a href="Chat.html#event:clearchat">clearchat</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:connected">connected</a></li><li><a href="Chat.html#event:hostingyou">hostingyou</a></li><li><a href="Chat.html#event:join">join</a></li><li><a href="Chat.html#event:names">names</a></li><li><a href="Chat.html#event:part">part</a></li><li><a href="Chat.html#event:roomstate">roomstate</a></li><li><a href="Chat.html#event:sendmessage">sendmessage</a></li><li><a href="Chat.html#event:usernotice">usernotice</a></li><li><a href="Chat.html#event:userstate">userstate</a></li><li><a href="Cockpit.html#event:channelleft">channelleft</a></li><li><a href="Cockpit.html#event:channelopen">channelopen</a></li><li><a href="Follows.html#event:follow">follow</a></li><li><a href="Overlays.html#event:command">command</a></li><li><a href="Overlays.html#event:hotkeys-unregistered">hotkeys-unregistered</a></li><li><a href="TTVLogin.html#event:complete">complete</a></li><li><a href="TTVTool.html#event:exit">exit</a></li><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TwitchChat.html#event:action">action</a></li><li><a href="TwitchChat.html#event:autohostingyou">autohostingyou</a></li><li><a href="TwitchChat.html#event:capack">capack</a></li><li><a href="TwitchChat.html#event:clearchat">clearchat</a></li><li><a href="TwitchChat.html#event:clearmsg">clearmsg</a></li><li><a href="TwitchChat.html#event:clearuser">clearuser</a></li><li><a href="TwitchChat.html#event:close">close</a></li><li><a href="TwitchChat.html#event:connect">connect</a></li><li><a href="TwitchChat.html#event:error">error</a></li><li><a href="TwitchChat.html#event:hostingyou">hostingyou</a></li><li><a href="TwitchChat.html#event:incoming">incoming</a></li><li><a href="TwitchChat.html#event:join">join</a></li><li><a href="TwitchChat.html#event:message">message</a></li><li><a href="TwitchChat.html#event:mode">mode</a></li><li><a href="TwitchChat.html#event:mode+">mode+</a></li><li><a href="TwitchChat.html#event:mode-">mode-</a></li><li><a href="TwitchChat.html#event:motd">motd</a></li><li><a href="TwitchChat.html#event:names">names</a></li><li><a href="TwitchChat.html#event:notice">notice</a></li><li><a href="TwitchChat.html#event:outgoing">outgoing</a></li><li><a href="TwitchChat.html#event:part">part</a></li><li><a href="TwitchChat.html#event:raw">raw</a></li><li><a href="TwitchChat.html#event:reconnect">reconnect</a></li><li><a href="TwitchChat.html#event:registered">registered</a></li><li><a href="TwitchChat.html#event:roomstate">roomstate</a></li><li><a href="TwitchChat.html#event:usernotice">usernotice</a></li><li><a href="TwitchChat.html#event:userstate">userstate</a></li><li><a href="TwitchChat.html#event:whisper">whisper</a></li><li><a href="TwPubSub.html#event:automod-approved">automod-approved</a></li><li><a href="TwPubSub.html#event:automod-denied">automod-denied</a></li><li><a href="TwPubSub.html#event:automod-rejected">automod-rejected</a></li><li><a href="TwPubSub.html#event:mod-command">mod-command</a></li></ul></div>
                     </nav>
                 </div>
             </div>
@@ -96,11 +98,14 @@
                 <div class="members">
                     <div class="member">
 
+
     
     <h4 class="name" id="TwitchChat">
         
         <span class="code-name">
-            new TwitchChat<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+            
+                new TwitchChat<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+            
         </span>
     </h4>
     
@@ -312,7 +317,7 @@
         
     
     </div>
-
+    
     
         <h3 class="subsection-title">Extends</h3>
 
@@ -600,11 +605,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="join">
         
         <span class="code-name">
-            join<span class="signature">(channel)</span><span class="type-signature"></span>
+            
+                join<span class="signature">(channel)</span><span class="type-signature"></span>
+            
         </span>
     </h4>
     
@@ -743,11 +751,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="part">
         
         <span class="code-name">
-            part<span class="signature">(channel, cb)</span><span class="type-signature"></span>
+            
+                part<span class="signature">(channel, cb)</span><span class="type-signature"></span>
+            
         </span>
     </h4>
     
@@ -911,11 +922,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="say">
         
         <span class="code-name">
-            say<span class="signature">(dest, msg)</span><span class="type-signature"></span>
+            
+                say<span class="signature">(dest, msg)</span><span class="type-signature"></span>
+            
         </span>
     </h4>
     
@@ -1079,11 +1093,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="sendCLRF">
         
         <span class="code-name">
-            sendCLRF<span class="signature">(message)</span><span class="type-signature"></span>
+            
+                sendCLRF<span class="signature">(message)</span><span class="type-signature"></span>
+            
         </span>
     </h4>
     
@@ -1227,16 +1244,21 @@
     
 
     
-        <h3 class="subsection-title">Events</h3>
-
-        
+        <div class='vertical-section'>
+            <h3 class="title"><span>Events</span></h3>
+            <div class="members">
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:action">
         
         <span class="code-name">
-            action
+            
+                action
+            
         </span>
     </h4>
     
@@ -1528,14 +1550,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:autohostingyou">
         
         <span class="code-name">
-            autohostingyou
+            
+                autohostingyou
+            
         </span>
     </h4>
     
@@ -1771,14 +1798,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:capack">
         
         <span class="code-name">
-            capack
+            
+                capack
+            
         </span>
     </h4>
     
@@ -1864,14 +1896,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:clearchat">
         
         <span class="code-name">
-            clearchat
+            
+                clearchat
+            
         </span>
     </h4>
     
@@ -2032,14 +2069,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:clearmsg">
         
         <span class="code-name">
-            clearmsg
+            
+                clearmsg
+            
         </span>
     </h4>
     
@@ -2225,14 +2267,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:clearuser">
         
         <span class="code-name">
-            clearuser
+            
+                clearuser
+            
         </span>
     </h4>
     
@@ -2418,14 +2465,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:close">
         
         <span class="code-name">
-            close
+            
+                close
+            
         </span>
     </h4>
     
@@ -2561,14 +2613,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:connect">
         
         <span class="code-name">
-            connect
+            
+                connect
+            
         </span>
     </h4>
     
@@ -2707,14 +2764,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:error">
         
         <span class="code-name">
-            error
+            
+                error
+            
         </span>
     </h4>
     
@@ -2846,14 +2908,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:hostingyou">
         
         <span class="code-name">
-            hostingyou
+            
+                hostingyou
+            
         </span>
     </h4>
     
@@ -3089,14 +3156,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:incoming">
         
         <span class="code-name">
-            incoming
+            
+                incoming
+            
         </span>
     </h4>
     
@@ -3232,14 +3304,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:join">
         
         <span class="code-name">
-            join
+            
+                join
+            
         </span>
     </h4>
     
@@ -3400,14 +3477,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:message">
         
         <span class="code-name">
-            message
+            
+                message
+            
         </span>
     </h4>
     
@@ -3699,14 +3781,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:mode">
         
         <span class="code-name">
-            mode
+            
+                mode
+            
         </span>
     </h4>
     
@@ -3892,14 +3979,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:mode+">
         
         <span class="code-name">
-            mode+
+            
+                mode+
+            
         </span>
     </h4>
     
@@ -4085,14 +4177,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:mode-">
         
         <span class="code-name">
-            mode-
+            
+                mode-
+            
         </span>
     </h4>
     
@@ -4278,14 +4375,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:motd">
         
         <span class="code-name">
-            motd
+            
+                motd
+            
         </span>
     </h4>
     
@@ -4421,14 +4523,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:names">
         
         <span class="code-name">
-            names
+            
+                names
+            
         </span>
     </h4>
     
@@ -4589,14 +4696,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:notice">
         
         <span class="code-name">
-            notice
+            
+                notice
+            
         </span>
     </h4>
     
@@ -4782,14 +4894,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:outgoing">
         
         <span class="code-name">
-            outgoing
+            
+                outgoing
+            
         </span>
     </h4>
     
@@ -4925,14 +5042,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:part">
         
         <span class="code-name">
-            part
+            
+                part
+            
         </span>
     </h4>
     
@@ -5083,14 +5205,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:raw">
         
         <span class="code-name">
-            raw
+            
+                raw
+            
         </span>
     </h4>
     
@@ -5350,14 +5477,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:reconnect">
         
         <span class="code-name">
-            reconnect
+            
+                reconnect
+            
         </span>
     </h4>
     
@@ -5493,14 +5625,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:registered">
         
         <span class="code-name">
-            registered
+            
+                registered
+            
         </span>
     </h4>
     
@@ -5586,14 +5723,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:roomstate">
         
         <span class="code-name">
-            roomstate
+            
+                roomstate
+            
         </span>
     </h4>
     
@@ -5754,14 +5896,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:usernotice">
         
         <span class="code-name">
-            usernotice
+            
+                usernotice
+            
         </span>
     </h4>
     
@@ -5947,14 +6094,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:userstate">
         
         <span class="code-name">
-            userstate
+            
+                userstate
+            
         </span>
     </h4>
     
@@ -6115,14 +6267,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:whisper">
         
         <span class="code-name">
-            whisper
+            
+                whisper
+            
         </span>
     </h4>
     
@@ -6382,7 +6539,10 @@
 
 
 
-        
+                </div>
+            
+            </div>
+        </div>
     
 </article>
 
@@ -6398,15 +6558,14 @@
 
 <footer class="footer">
     <div class="content has-text-centered">
-        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Sun Aug 18 2019 12:47:45 GMT+0200 (GMT+02:00)</p>
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Tue Oct 15 2019 17:14:28 GMT+0200 (GMT+02:00)</p>
         <p class="sidebar-created-by">
             <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
-            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
         </p>
     </div>
 </footer>
 
-<script> prettyPrint(); </script>
 <script src="scripts/app.min.js"></script>
 <script src="scripts/linenumber.js"> </script>
 </body>

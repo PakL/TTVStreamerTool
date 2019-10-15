@@ -5,10 +5,11 @@
 <head>
     
     <meta charset="utf-8">
-    <title>mod/toolui.js &bull; TTVStreamerTool</title>
+    <title>JSDoc: mod/toolui.js</title>
 
-    <script src="scripts/prettify/prettify.js"></script>
-    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -17,6 +18,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
     <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
 </head>
 
 <body>
@@ -64,7 +66,7 @@
             <div class="column is-3" id="sidebarNav">
                 <div class="sidebar">
                     <nav>
-                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li><li><a href="tutorial-Streamdeck Shortcuts.html">Streamdeck Shortcuts</a></li></ul><h3>Classes</h3><ul><li><a href="Addons.html">Addons</a></li><li><a href="Channel.html">Channel</a></li><li><a href="Chat.html">Chat</a></li><li><a href="Cockpit.html">Cockpit</a></li><li><a href="Follows.html">Follows</a></li><li><a href="Overlays.html">Overlays</a></li><li><a href="ToolSettings.html">ToolSettings</a></li><li><a href="ToolUI.html">ToolUI</a></li><li><a href="TTVLogin.html">TTVLogin</a></li><li><a href="TTVTool.html">TTVTool</a></li><li><a href="TwitchChat.html">TwitchChat</a></li><li><a href="TwitchHelix.html">TwitchHelix</a></li><li><a href="TwitchTv.html">TwitchTv</a></li><li><a href="UIPage.html">UIPage</a></li></ul><h3>Events</h3><ul><li><a href="Channel.html#event:channeloffline">channeloffline</a></li><li><a href="Channel.html#event:channelonline">channelonline</a></li><li><a href="Channel.html#event:gamechange">gamechange</a></li><li><a href="Channel.html#event:statuschange">statuschange</a></li><li><a href="Channel.html#event:viewers">viewers</a></li><li><a href="Chat.html#event:autohostingyou">autohostingyou</a></li><li><a href="Chat.html#event:chatmessage">chatmessage</a></li><li><a href="Chat.html#event:cheer">cheer</a></li><li><a href="Chat.html#event:clearchat">clearchat</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:connected">connected</a></li><li><a href="Chat.html#event:hostingyou">hostingyou</a></li><li><a href="Chat.html#event:join">join</a></li><li><a href="Chat.html#event:names">names</a></li><li><a href="Chat.html#event:part">part</a></li><li><a href="Chat.html#event:roomstate">roomstate</a></li><li><a href="Chat.html#event:sendmessage">sendmessage</a></li><li><a href="Chat.html#event:usernotice">usernotice</a></li><li><a href="Chat.html#event:userstate">userstate</a></li><li><a href="Cockpit.html#event:channelleft">channelleft</a></li><li><a href="Cockpit.html#event:channelopen">channelopen</a></li><li><a href="Follows.html#event:follow">follow</a></li><li><a href="Overlays.html#event:command">command</a></li><li><a href="Overlays.html#event:hotkeys-unregistered">hotkeys-unregistered</a></li><li><a href="TTVLogin.html#event:complete">complete</a></li><li><a href="TTVTool.html#event:exit">exit</a></li><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TwitchChat.html#event:action">action</a></li><li><a href="TwitchChat.html#event:autohostingyou">autohostingyou</a></li><li><a href="TwitchChat.html#event:capack">capack</a></li><li><a href="TwitchChat.html#event:clearchat">clearchat</a></li><li><a href="TwitchChat.html#event:clearmsg">clearmsg</a></li><li><a href="TwitchChat.html#event:clearuser">clearuser</a></li><li><a href="TwitchChat.html#event:close">close</a></li><li><a href="TwitchChat.html#event:connect">connect</a></li><li><a href="TwitchChat.html#event:error">error</a></li><li><a href="TwitchChat.html#event:hostingyou">hostingyou</a></li><li><a href="TwitchChat.html#event:incoming">incoming</a></li><li><a href="TwitchChat.html#event:join">join</a></li><li><a href="TwitchChat.html#event:message">message</a></li><li><a href="TwitchChat.html#event:mode">mode</a></li><li><a href="TwitchChat.html#event:mode+">mode+</a></li><li><a href="TwitchChat.html#event:mode-">mode-</a></li><li><a href="TwitchChat.html#event:motd">motd</a></li><li><a href="TwitchChat.html#event:names">names</a></li><li><a href="TwitchChat.html#event:notice">notice</a></li><li><a href="TwitchChat.html#event:outgoing">outgoing</a></li><li><a href="TwitchChat.html#event:part">part</a></li><li><a href="TwitchChat.html#event:raw">raw</a></li><li><a href="TwitchChat.html#event:reconnect">reconnect</a></li><li><a href="TwitchChat.html#event:registered">registered</a></li><li><a href="TwitchChat.html#event:roomstate">roomstate</a></li><li><a href="TwitchChat.html#event:usernotice">usernotice</a></li><li><a href="TwitchChat.html#event:userstate">userstate</a></li><li><a href="TwitchChat.html#event:whisper">whisper</a></li></ul></div>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li><li><a href="tutorial-Streamdeck Shortcuts.html">Streamdeck Shortcuts</a></li></ul><h3>Classes</h3><ul><li><a href="Addons.html">Addons</a></li><li><a href="Channel.html">Channel</a></li><li><a href="Chat.html">Chat</a></li><li><a href="Cockpit.html">Cockpit</a></li><li><a href="Follows.html">Follows</a></li><li><a href="Overlays.html">Overlays</a></li><li><a href="ToolSettings.html">ToolSettings</a></li><li><a href="ToolUI.html">ToolUI</a></li><li><a href="TTVLogin.html">TTVLogin</a></li><li><a href="TTVTool.html">TTVTool</a></li><li><a href="TwitchChat.html">TwitchChat</a></li><li><a href="TwitchHelix.html">TwitchHelix</a></li><li><a href="TwitchTv.html">TwitchTv</a></li><li><a href="TwPubSub.html">TwPubSub</a></li><li><a href="UIPage.html">UIPage</a></li></ul><h3>Events</h3><ul><li><a href="Channel.html#event:channeloffline">channeloffline</a></li><li><a href="Channel.html#event:channelonline">channelonline</a></li><li><a href="Channel.html#event:gamechange">gamechange</a></li><li><a href="Channel.html#event:statuschange">statuschange</a></li><li><a href="Channel.html#event:viewers">viewers</a></li><li><a href="Chat.html#event:autohostingyou">autohostingyou</a></li><li><a href="Chat.html#event:chatmessage">chatmessage</a></li><li><a href="Chat.html#event:cheer">cheer</a></li><li><a href="Chat.html#event:clearchat">clearchat</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:connected">connected</a></li><li><a href="Chat.html#event:hostingyou">hostingyou</a></li><li><a href="Chat.html#event:join">join</a></li><li><a href="Chat.html#event:names">names</a></li><li><a href="Chat.html#event:part">part</a></li><li><a href="Chat.html#event:roomstate">roomstate</a></li><li><a href="Chat.html#event:sendmessage">sendmessage</a></li><li><a href="Chat.html#event:usernotice">usernotice</a></li><li><a href="Chat.html#event:userstate">userstate</a></li><li><a href="Cockpit.html#event:channelleft">channelleft</a></li><li><a href="Cockpit.html#event:channelopen">channelopen</a></li><li><a href="Follows.html#event:follow">follow</a></li><li><a href="Overlays.html#event:command">command</a></li><li><a href="Overlays.html#event:hotkeys-unregistered">hotkeys-unregistered</a></li><li><a href="TTVLogin.html#event:complete">complete</a></li><li><a href="TTVTool.html#event:exit">exit</a></li><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TwitchChat.html#event:action">action</a></li><li><a href="TwitchChat.html#event:autohostingyou">autohostingyou</a></li><li><a href="TwitchChat.html#event:capack">capack</a></li><li><a href="TwitchChat.html#event:clearchat">clearchat</a></li><li><a href="TwitchChat.html#event:clearmsg">clearmsg</a></li><li><a href="TwitchChat.html#event:clearuser">clearuser</a></li><li><a href="TwitchChat.html#event:close">close</a></li><li><a href="TwitchChat.html#event:connect">connect</a></li><li><a href="TwitchChat.html#event:error">error</a></li><li><a href="TwitchChat.html#event:hostingyou">hostingyou</a></li><li><a href="TwitchChat.html#event:incoming">incoming</a></li><li><a href="TwitchChat.html#event:join">join</a></li><li><a href="TwitchChat.html#event:message">message</a></li><li><a href="TwitchChat.html#event:mode">mode</a></li><li><a href="TwitchChat.html#event:mode+">mode+</a></li><li><a href="TwitchChat.html#event:mode-">mode-</a></li><li><a href="TwitchChat.html#event:motd">motd</a></li><li><a href="TwitchChat.html#event:names">names</a></li><li><a href="TwitchChat.html#event:notice">notice</a></li><li><a href="TwitchChat.html#event:outgoing">outgoing</a></li><li><a href="TwitchChat.html#event:part">part</a></li><li><a href="TwitchChat.html#event:raw">raw</a></li><li><a href="TwitchChat.html#event:reconnect">reconnect</a></li><li><a href="TwitchChat.html#event:registered">registered</a></li><li><a href="TwitchChat.html#event:roomstate">roomstate</a></li><li><a href="TwitchChat.html#event:usernotice">usernotice</a></li><li><a href="TwitchChat.html#event:userstate">userstate</a></li><li><a href="TwitchChat.html#event:whisper">whisper</a></li><li><a href="TwPubSub.html#event:automod-approved">automod-approved</a></li><li><a href="TwPubSub.html#event:automod-denied">automod-denied</a></li><li><a href="TwPubSub.html#event:automod-rejected">automod-rejected</a></li><li><a href="TwPubSub.html#event:mod-command">mod-command</a></li></ul></div>
                     </nav>
                 </div>
             </div>
@@ -166,8 +168,8 @@ class ToolUI {
 				navMenu.appendChild(pageLink)
 			})
 			self._appendPageViewLinkOnLoad = []
+			ToolUI.applyRevealEffectToNavigation()
 
-			
 			this.addPage(new class extends UIPage {
 				constructor(name) {
 					super(name)
@@ -186,9 +188,9 @@ class ToolUI {
 				open() {
 					document.querySelector('#content_changelog').style.display = 'block'
 
-					let latestKnownVersion = self.tool.settings.getString('lastversion', '0.3.11')
+					let latestKnownVersion = self.tool.settings.getString('changelogversion', '0.3.11')
 					if(latestKnownVersion != app.getVersion()) {
-						self.tool.settings.setString('lastversion', app.getVersion())
+						self.tool.settings.setString('changelogversion', app.getVersion())
 						let changelogUpdateIndicator =  document.querySelector('#nav-changelog > span.update')
 						if(changelogUpdateIndicator != null) {
 							changelogUpdateIndicator.parentNode.removeChild(changelogUpdateIndicator)
@@ -197,7 +199,7 @@ class ToolUI {
 				}
 				close() { document.querySelector('#content_changelog').style.display = 'none' }
 			}('Changelog'));
-			let latestKnownVersion = self.tool.settings.getString('lastversion', '0.3.11')
+			let latestKnownVersion = self.tool.settings.getString('changelogversion', '0.3.11')
 			if(latestKnownVersion != app.getVersion()) {
 				let changelogUpdateIndicator =  document.querySelector('#nav-changelog > span.update')
 				if(changelogUpdateIndicator == null) {
@@ -279,6 +281,34 @@ class ToolUI {
 		return null
 	}
 
+	static iconExists(iconname)
+	{
+		for(let i = 0; i &lt; document.styleSheets.length; i++) {
+			let rules = document.styleSheets[i].rules || document.styleSheets[i].cssRules;
+			for(let x in rules) {
+				if(rules.hasOwnProperty(x) &amp;&amp; typeof rules[x].selectorText == 'string' &amp;&amp; rules[x].selectorText == '.ms-Icon--' + iconname + '::before')
+					return true
+			}
+		}
+		return false;
+	}
+
+	static applyRevealEffectToNavigation()
+	{
+		FluentRevealEffect.applyEffect(".side-nav", {
+			clickEffect: false,
+			lightColor: "rgba(255,255,255,0.4)",
+			gradientSize: 120,
+			isContainer: true,
+			children: {
+				borderSelector: "li",
+				elementSelector: "a",
+				lightColor: "rgba(255,255,255,0.2)",
+				gradientSize: 150
+			}
+		})
+	}
+
 	/**
 	 * Adds a page and creates a menu entry.
 	 * @param {UIPage} page The page you want to add
@@ -295,7 +325,13 @@ class ToolUI {
 					let linkElement = document.createElement('a')
 					let iconElement = document.createElement('span')
 
-					iconElement.innerText = substr(page.icon, 0, 1).toUpperCase()
+					if(ToolUI.iconExists(page.icon)) {
+						iconElement.classList.add('ms-Icon')
+						iconElement.classList.add('ms-Icon--' + page.icon)
+					} else {
+						iconElement.innerText = substr(page.icon, 0, 1).toUpperCase()
+					}
+					linkElement.setAttribute('title', page.localizedName)
 					linkElement.appendChild(iconElement)
 					linkElement.appendChild(document.createTextNode(page.localizedName))
 					linkElement.addEventListener('click', () => { self.openPage(page.name) })
@@ -306,6 +342,7 @@ class ToolUI {
 						self._appendPageViewLinkOnLoad.push(listElement)
 					} else {
 						navMenu.appendChild(listElement)
+						ToolUI.applyRevealEffectToNavigation()
 					}
 					/*let menu = this.getMenuItemById('menu_view')
 					menu.submenu.append(new MenuItem({
@@ -381,7 +418,7 @@ class ToolUI {
 
 		this.loadingElement = document.createElement('modal')
 		this.loadingElement.innerHTML = '&lt;img src="../res/img/hourglass.gif" alt="" />'
-		document.querySelector('#contents').style.filter = 'blur(3px)'
+		//document.querySelector('#contents').style.filter = 'blur(3px)'
 		document.querySelector('body').appendChild(this.loadingElement)
 		riot.mount(this.loadingElement)
 	}
@@ -401,7 +438,7 @@ class ToolUI {
 	_removeLoading()
 	{
 		if(this.loadingElement == null) return
-		document.querySelector('#contents').style.filter = ''
+		//document.querySelector('#contents').style.filter = ''
 		this.loadingElement.parentElement.removeChild(this.loadingElement)
 		this.loadingElement = null
 	}
@@ -471,15 +508,14 @@ module.exports = ToolUI</code></pre>
 
 <footer class="footer">
     <div class="content has-text-centered">
-        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Sun Aug 18 2019 12:47:45 GMT+0200 (GMT+02:00)</p>
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Tue Oct 15 2019 17:14:27 GMT+0200 (GMT+02:00)</p>
         <p class="sidebar-created-by">
             <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
-            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
         </p>
     </div>
 </footer>
 
-<script> prettyPrint(); </script>
 <script src="scripts/app.min.js"></script>
 <script src="scripts/linenumber.js"> </script>
 </body>

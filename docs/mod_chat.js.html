@@ -5,10 +5,11 @@
 <head>
     
     <meta charset="utf-8">
-    <title>mod/chat.js &bull; TTVStreamerTool</title>
+    <title>JSDoc: mod/chat.js</title>
 
-    <script src="scripts/prettify/prettify.js"></script>
-    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -17,6 +18,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
     <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
 </head>
 
 <body>
@@ -64,7 +66,7 @@
             <div class="column is-3" id="sidebarNav">
                 <div class="sidebar">
                     <nav>
-                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li><li><a href="tutorial-Streamdeck Shortcuts.html">Streamdeck Shortcuts</a></li></ul><h3>Classes</h3><ul><li><a href="Addons.html">Addons</a></li><li><a href="Channel.html">Channel</a></li><li><a href="Chat.html">Chat</a></li><li><a href="Cockpit.html">Cockpit</a></li><li><a href="Follows.html">Follows</a></li><li><a href="Overlays.html">Overlays</a></li><li><a href="ToolSettings.html">ToolSettings</a></li><li><a href="ToolUI.html">ToolUI</a></li><li><a href="TTVLogin.html">TTVLogin</a></li><li><a href="TTVTool.html">TTVTool</a></li><li><a href="TwitchChat.html">TwitchChat</a></li><li><a href="TwitchHelix.html">TwitchHelix</a></li><li><a href="TwitchTv.html">TwitchTv</a></li><li><a href="UIPage.html">UIPage</a></li></ul><h3>Events</h3><ul><li><a href="Channel.html#event:channeloffline">channeloffline</a></li><li><a href="Channel.html#event:channelonline">channelonline</a></li><li><a href="Channel.html#event:gamechange">gamechange</a></li><li><a href="Channel.html#event:statuschange">statuschange</a></li><li><a href="Channel.html#event:viewers">viewers</a></li><li><a href="Chat.html#event:autohostingyou">autohostingyou</a></li><li><a href="Chat.html#event:chatmessage">chatmessage</a></li><li><a href="Chat.html#event:cheer">cheer</a></li><li><a href="Chat.html#event:clearchat">clearchat</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:connected">connected</a></li><li><a href="Chat.html#event:hostingyou">hostingyou</a></li><li><a href="Chat.html#event:join">join</a></li><li><a href="Chat.html#event:names">names</a></li><li><a href="Chat.html#event:part">part</a></li><li><a href="Chat.html#event:roomstate">roomstate</a></li><li><a href="Chat.html#event:sendmessage">sendmessage</a></li><li><a href="Chat.html#event:usernotice">usernotice</a></li><li><a href="Chat.html#event:userstate">userstate</a></li><li><a href="Cockpit.html#event:channelleft">channelleft</a></li><li><a href="Cockpit.html#event:channelopen">channelopen</a></li><li><a href="Follows.html#event:follow">follow</a></li><li><a href="Overlays.html#event:command">command</a></li><li><a href="Overlays.html#event:hotkeys-unregistered">hotkeys-unregistered</a></li><li><a href="TTVLogin.html#event:complete">complete</a></li><li><a href="TTVTool.html#event:exit">exit</a></li><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TwitchChat.html#event:action">action</a></li><li><a href="TwitchChat.html#event:autohostingyou">autohostingyou</a></li><li><a href="TwitchChat.html#event:capack">capack</a></li><li><a href="TwitchChat.html#event:clearchat">clearchat</a></li><li><a href="TwitchChat.html#event:clearmsg">clearmsg</a></li><li><a href="TwitchChat.html#event:clearuser">clearuser</a></li><li><a href="TwitchChat.html#event:close">close</a></li><li><a href="TwitchChat.html#event:connect">connect</a></li><li><a href="TwitchChat.html#event:error">error</a></li><li><a href="TwitchChat.html#event:hostingyou">hostingyou</a></li><li><a href="TwitchChat.html#event:incoming">incoming</a></li><li><a href="TwitchChat.html#event:join">join</a></li><li><a href="TwitchChat.html#event:message">message</a></li><li><a href="TwitchChat.html#event:mode">mode</a></li><li><a href="TwitchChat.html#event:mode+">mode+</a></li><li><a href="TwitchChat.html#event:mode-">mode-</a></li><li><a href="TwitchChat.html#event:motd">motd</a></li><li><a href="TwitchChat.html#event:names">names</a></li><li><a href="TwitchChat.html#event:notice">notice</a></li><li><a href="TwitchChat.html#event:outgoing">outgoing</a></li><li><a href="TwitchChat.html#event:part">part</a></li><li><a href="TwitchChat.html#event:raw">raw</a></li><li><a href="TwitchChat.html#event:reconnect">reconnect</a></li><li><a href="TwitchChat.html#event:registered">registered</a></li><li><a href="TwitchChat.html#event:roomstate">roomstate</a></li><li><a href="TwitchChat.html#event:usernotice">usernotice</a></li><li><a href="TwitchChat.html#event:userstate">userstate</a></li><li><a href="TwitchChat.html#event:whisper">whisper</a></li></ul></div>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li><li><a href="tutorial-Streamdeck Shortcuts.html">Streamdeck Shortcuts</a></li></ul><h3>Classes</h3><ul><li><a href="Addons.html">Addons</a></li><li><a href="Channel.html">Channel</a></li><li><a href="Chat.html">Chat</a></li><li><a href="Cockpit.html">Cockpit</a></li><li><a href="Follows.html">Follows</a></li><li><a href="Overlays.html">Overlays</a></li><li><a href="ToolSettings.html">ToolSettings</a></li><li><a href="ToolUI.html">ToolUI</a></li><li><a href="TTVLogin.html">TTVLogin</a></li><li><a href="TTVTool.html">TTVTool</a></li><li><a href="TwitchChat.html">TwitchChat</a></li><li><a href="TwitchHelix.html">TwitchHelix</a></li><li><a href="TwitchTv.html">TwitchTv</a></li><li><a href="TwPubSub.html">TwPubSub</a></li><li><a href="UIPage.html">UIPage</a></li></ul><h3>Events</h3><ul><li><a href="Channel.html#event:channeloffline">channeloffline</a></li><li><a href="Channel.html#event:channelonline">channelonline</a></li><li><a href="Channel.html#event:gamechange">gamechange</a></li><li><a href="Channel.html#event:statuschange">statuschange</a></li><li><a href="Channel.html#event:viewers">viewers</a></li><li><a href="Chat.html#event:autohostingyou">autohostingyou</a></li><li><a href="Chat.html#event:chatmessage">chatmessage</a></li><li><a href="Chat.html#event:cheer">cheer</a></li><li><a href="Chat.html#event:clearchat">clearchat</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:connected">connected</a></li><li><a href="Chat.html#event:hostingyou">hostingyou</a></li><li><a href="Chat.html#event:join">join</a></li><li><a href="Chat.html#event:names">names</a></li><li><a href="Chat.html#event:part">part</a></li><li><a href="Chat.html#event:roomstate">roomstate</a></li><li><a href="Chat.html#event:sendmessage">sendmessage</a></li><li><a href="Chat.html#event:usernotice">usernotice</a></li><li><a href="Chat.html#event:userstate">userstate</a></li><li><a href="Cockpit.html#event:channelleft">channelleft</a></li><li><a href="Cockpit.html#event:channelopen">channelopen</a></li><li><a href="Follows.html#event:follow">follow</a></li><li><a href="Overlays.html#event:command">command</a></li><li><a href="Overlays.html#event:hotkeys-unregistered">hotkeys-unregistered</a></li><li><a href="TTVLogin.html#event:complete">complete</a></li><li><a href="TTVTool.html#event:exit">exit</a></li><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TwitchChat.html#event:action">action</a></li><li><a href="TwitchChat.html#event:autohostingyou">autohostingyou</a></li><li><a href="TwitchChat.html#event:capack">capack</a></li><li><a href="TwitchChat.html#event:clearchat">clearchat</a></li><li><a href="TwitchChat.html#event:clearmsg">clearmsg</a></li><li><a href="TwitchChat.html#event:clearuser">clearuser</a></li><li><a href="TwitchChat.html#event:close">close</a></li><li><a href="TwitchChat.html#event:connect">connect</a></li><li><a href="TwitchChat.html#event:error">error</a></li><li><a href="TwitchChat.html#event:hostingyou">hostingyou</a></li><li><a href="TwitchChat.html#event:incoming">incoming</a></li><li><a href="TwitchChat.html#event:join">join</a></li><li><a href="TwitchChat.html#event:message">message</a></li><li><a href="TwitchChat.html#event:mode">mode</a></li><li><a href="TwitchChat.html#event:mode+">mode+</a></li><li><a href="TwitchChat.html#event:mode-">mode-</a></li><li><a href="TwitchChat.html#event:motd">motd</a></li><li><a href="TwitchChat.html#event:names">names</a></li><li><a href="TwitchChat.html#event:notice">notice</a></li><li><a href="TwitchChat.html#event:outgoing">outgoing</a></li><li><a href="TwitchChat.html#event:part">part</a></li><li><a href="TwitchChat.html#event:raw">raw</a></li><li><a href="TwitchChat.html#event:reconnect">reconnect</a></li><li><a href="TwitchChat.html#event:registered">registered</a></li><li><a href="TwitchChat.html#event:roomstate">roomstate</a></li><li><a href="TwitchChat.html#event:usernotice">usernotice</a></li><li><a href="TwitchChat.html#event:userstate">userstate</a></li><li><a href="TwitchChat.html#event:whisper">whisper</a></li><li><a href="TwPubSub.html#event:automod-approved">automod-approved</a></li><li><a href="TwPubSub.html#event:automod-denied">automod-denied</a></li><li><a href="TwPubSub.html#event:automod-rejected">automod-rejected</a></li><li><a href="TwPubSub.html#event:mod-command">mod-command</a></li></ul></div>
                     </nav>
                 </div>
             </div>
@@ -120,7 +122,9 @@ class Chat extends EventEmitter {
 		this.authtoken = ''
 
 		this.channel = {}
+		this.channels = []
 		this.channelbadges = {}
+		this.channelsbadges = {}
 		this.botbadge = {}
 		this.channelemotes = {}
 		this.channelcheers = {}
@@ -154,8 +158,10 @@ class Chat extends EventEmitter {
 			self.emit('connected')
 		})
 		this.irc.on('capack', () => {
-			if(self.tool.cockpit.openChannelId.length > 0) {
-				self.join(self.tool.cockpit.openChannelObject.login)
+			if(self.channels.length > 0) {
+				for(let i = 0; i &lt; self.channels.length; i++) {
+					self.rejoin(self.channels[i])
+				}
 			}
 		})
 		this.irc.on('reconnect', (timeout) => {
@@ -193,7 +199,7 @@ class Chat extends EventEmitter {
 			 * @param {Object} tags The tags of the userstate
 			 * @see {@link TwitchChat#event:userstate}
 			 */
-			self.emit('userstate', to, self.getUserObjByTags(self.username, tags), tags)
+			self.emit('userstate', to, self.getUserObjByTags(self.username, tags, to), tags)
 		})
 
 		this.irc.on('join', (user, to) => {
@@ -246,7 +252,7 @@ class Chat extends EventEmitter {
 			self.showmsg('', '', to, msg, tags, 1)
 		})
 		this.irc.on('usernotice', (to, tags, msg) => {
-			var usr = self.getUserObjByTags(tags.login, tags)
+			var usr = self.getUserObjByTags(tags.login, tags, to)
 			var tagsSystem = Object.assign({}, tags)
 			tagsSystem.emotes = ''
 			if(!self.tool.settings.filterSubscriptions) {
@@ -270,7 +276,7 @@ class Chat extends EventEmitter {
 		})
 
 		this.irc.on('clearuser', (to, user, tags) => {
-			var usr = self.getUserObjByTags(user, tags)
+			var usr = self.getUserObjByTags(user, tags, to)
 			/**
 			 * Fires when messages of a specific user was deleted.
 			 * @event Chat#clearuser
@@ -290,7 +296,7 @@ class Chat extends EventEmitter {
 			this.emit('clearchat', to, tags)
 		})
 		this.irc.on('clearmsg', (to, user, msgId) => {
-			var usr = self.getUserObjByTags(user, {})
+			var usr = self.getUserObjByTags(user, {}, to)
 			/**
 			 * Fires when a specific messages was deleted.
 			 * @event Chat#clearuser
@@ -301,7 +307,7 @@ class Chat extends EventEmitter {
 			this.emit('clearmsg', to, usr, msgId)
 		})
 		this.irc.on('hostingyou', (to, user, viewers, msg, tags) => {
-			var usr = self.getUserObjByTags(user, tags)
+			var usr = self.getUserObjByTags(user, tags, to)
 			self.showmsg('', '', to, msg, self.usertags[to], 2)
 
 			/**
@@ -316,7 +322,7 @@ class Chat extends EventEmitter {
 			self.emit('hostingyou', to, usr, viewers, msg, tags)
 		})
 		this.irc.on('autohostingyou', (to, user, viewers, msg, tags) => {
-			var usr = self.getUserObjByTags(user, tags)
+			var usr = self.getUserObjByTags(user, tags, to)
 			self.showmsg('', '', to, msg, self.usertags[to], 2)
 
 			/**
@@ -396,9 +402,14 @@ class Chat extends EventEmitter {
 	 * 
 	 * @param {String} user A username
 	 * @param {Object} tags The twitch irc tags that were given
+	 * @param {String} [channel] The channel name the user of a message is in
 	 * @returns {Chat~userObject} Always returns a complete object, but properties might be empty or incomplete because of missing tags
 	 */
-	getUserObjByTags(user, tags) {
+	getUserObjByTags(user, tags, channel) {
+		if(typeof(channel) !== 'string') {
+			channel = this.tool.cockpit.openChannelObject.login
+		}
+
 		var display_name = user
 		if(typeof(tags['display-name']) == 'string' &amp;&amp; tags['display-name'].length > 0) {
 			display_name = tags['display-name']
@@ -447,8 +458,8 @@ class Chat extends EventEmitter {
 			if(bver[0] == 'moderator' &amp;&amp; this.isBot(user)) {
 				badges += this.getBotBadge(true)
 				hasBotBadge = true
-			} else if(typeof(this.channelbadges[bver[0]]) != 'undefined' &amp;&amp; typeof(this.channelbadges[bver[0]].versions[bver[1]]) != 'undefined') {
-				badges += '&lt;img src="' + this.channelbadges[bver[0]].versions[bver[1]].image_url_1x + '" title="' + this.channelbadges[bver[0]].versions[bver[1]].title + '">'
+			} else if(typeof(this.channelsbadges[channel]) != 'undefined' &amp;&amp; typeof(this.channelsbadges[channel][bver[0]]) != 'undefined' &amp;&amp; typeof(this.channelsbadges[channel][bver[0]].versions[bver[1]]) != 'undefined') {
+				badges += '&lt;img src="' + this.channelsbadges[channel][bver[0]].versions[bver[1]].image_url_1x + '" title="' + this.channelsbadges[channel][bver[0]].versions[bver[1]].title + '">'
 			}
 		}
 		if(!hasBotBadge &amp;&amp; this.isBot(user)) {
@@ -461,6 +472,7 @@ class Chat extends EventEmitter {
 	/**
 	 * Prepares a message and emits the chatmessage event. It replaces emotes, checks for highlights and creates a user object by the tags
 	 * 
+	 * @async
 	 * @param {(null|Object)} prefix Might be the prefix object
 	 * @param {String} prefix.user Username in the prefix
 	 * @param {String} prefix.host Host in the prefix
@@ -477,7 +489,7 @@ class Chat extends EventEmitter {
 	 *                      5 - Highlight message
 	 * @fires Chat#chatmessage
 	 */
-	showmsg(prefix, user, to, msg, tags, type) {
+	async showmsg(prefix, user, to, msg, tags, type) {
 			
 		var self = this
 		var org_msg = msg
@@ -493,7 +505,7 @@ class Chat extends EventEmitter {
 			bits = parseInt(tags.bits)
 
 
-		msg = replaceEmoticons(msg, emotes, this.channelcheers, bits)
+		msg = await replaceEmoticons(msg, emotes, this.channelcheers, bits)
 		
 		if(typeof(tags.channellink) === 'string') {
 			msg = msg.replace(tags.channellink, '&lt;a onclick="Tool.cockpit.leaveChannel(true);Tool.cockpit.openChannelByName(\'' + tags.channellink + '\')">' + tags.channellink + '&lt;/a>')
@@ -506,7 +518,7 @@ class Chat extends EventEmitter {
 			ts = timestamp()
 		}
 
-		var userobj = this.getUserObjByTags(user, tags)
+		var userobj = this.getUserObjByTags(user, tags, to)
 
 		if(bits > 0) {
 			/**
@@ -560,14 +572,49 @@ class Chat extends EventEmitter {
 		this.emit('chatmessage', to, ts, userobj, msg, org_msg, type, uuid)
 	}
 
+	rejoin(channel) {
+		this.irc.join(channel)
+	}
+
 	/**
 	 * Join a channel
 	 * 
 	 * @param {String} channel The channel that should be joined
+	 * @param {String} [channelid] Optional channel id
 	 */
-	join(channel) {
+	async join(channel, channelid) {
 		//if(this.currentchannel.length > 0) return
-		this.irc.join(channel)
+		if(typeof(channelid) === 'undefined') {
+			try {
+				let u = await this.tool.twitchhelix.getUsers({ login: channel })
+				if(u.hasOwnProperty('data') &amp;&amp; u.data.length >= 1) {
+					channel = u.data[0].login
+					channelid = u.data[0].id
+				} else {
+					channel = ''
+					channelid = ''
+				}
+			} catch(error) {
+				channel = ''
+				channelid = ''
+			}
+		}
+
+		if(channel.length > 0 &amp;&amp; channelid.length > 0) {
+			const self = this
+			this.tool.twitchapi.getChatBadgeSetsByChannel(channelid).then((b) => {
+				self.tool.chat.channelsbadges[channel] = b.badge_sets
+			}).catch((e) => {
+				console.error(e)
+			})
+
+			if(this.channels.indexOf(channel) &lt; 0) {
+				this.irc.join(channel)
+				this.channels.push(channel)
+			}
+		} else {
+			this.showmsg('', '', this.tool.auth.username, this.tool.i18n.__('No channel with this name was found.'), {color: '#999999'}, 1)
+		}
 		//this.currentchannel = channel
 	}
 
@@ -580,7 +627,30 @@ class Chat extends EventEmitter {
 	part(channel, cb) {
 		//this.messagelement.onkeyup = function(){}
 		this.irc.part(channel, cb)
+		let index = this.channels.indexOf(channel)
+		if(index >= 0) {
+			this.channels.splice(index, 1)
+		}
 		//this.currentchannel = ''
+	}
+
+	/**
+	 * Leave all joined channels
+	 * 
+	 * @param {Function} cb A callback that is called when all channels were left
+	 */
+	partAll(cb) {
+		this.partsInProcess = this.channels.length
+		const self = this
+		for(let i = 0; i &lt; this.channels.length; i++) {
+			this.irc.part(this.channels[i], () => {
+				self.partsInProcess--
+				if(self.partsInProcess &lt;= 0) {
+					self.channels = []
+					cb()
+				}
+			})
+		}
 	}
 
 	/**
@@ -632,6 +702,10 @@ class Chat extends EventEmitter {
 			this.part(message.substr(6))
 			return
 		}
+		if(message.toLowerCase().startsWith('/leave ')) {
+			this.part(message.substr(7))
+			return
+		}
 		if(message.toLowerCase().startsWith('/user ')) {
 			let u = message.substr(6)
 			this.openViewercard(channel, u)
@@ -665,7 +739,7 @@ class Chat extends EventEmitter {
 
 		let msgtags = this.usertags[channel]
 		msgtags.emotes = findEmoticons(message, emotes)
-		var userobj = this.getUserObjByTags(this.username, msgtags)
+		var userobj = this.getUserObjByTags(this.username, msgtags, channel)
 		/**
 		 * This event is fired when a message is being sent by the user. If a message is not prevented a chatmessage event will follow.
 		 * Use this event only if you're trying to prevent certain messages from being sent.
@@ -734,15 +808,14 @@ module.exports = Chat</code></pre>
 
 <footer class="footer">
     <div class="content has-text-centered">
-        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Sun Aug 18 2019 12:47:45 GMT+0200 (GMT+02:00)</p>
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Tue Oct 15 2019 17:14:27 GMT+0200 (GMT+02:00)</p>
         <p class="sidebar-created-by">
             <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
-            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
         </p>
     </div>
 </footer>
 
-<script> prettyPrint(); </script>
 <script src="scripts/app.min.js"></script>
 <script src="scripts/linenumber.js"> </script>
 </body>

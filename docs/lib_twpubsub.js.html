@@ -1,9 +1,11 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     
     <meta charset="utf-8">
-    <title>JSDoc: Getting Started</title>
+    <title>JSDoc: lib/twpubsub.js</title>
 
     <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -71,47 +73,308 @@
             <div class="column is-9-desktop">
                 <div class="content" id="main-content-wrapper">
                     <header class="page-title">
-                        <p>Tutorial</p>
-                        <h1>Getting Started</h1>
+                        <p>Source</p>
+                        <h1>lib/twpubsub.js</h1>
                     </header>
                     
-                    <section>
+                    
 
-<header>
+
+
     
-</header>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const EventEmitter = require('events')
+const ws = require('nodejs-websocket')
+const _maxReconnectTimeout = 120000
 
-<article>
-    <p>As you surely know by now TTVStreamerTool uses Addons to add optional functionality. This is so that you can have features on a need to have basis and save a few system resources you might need for streaming.</p>
-<p>Since everything is running through <a href="https://electron.atom.io/">Electron</a> you build your addons in JavaScript. You can use node modules so you don't need to reinvent the wheel.</p>
-<p>An addon must be either be placed in an subfolder of the <code>addons</code> folder (you can create on with non exists) or packed into an <code>asar</code> file to put in to the <code>resources</code> folder.
-In every addon root must be a valid <code>package.json</code> and an <code>addon.js</code> file.</p>
-<h3>package.json</h3>
-<p>Similar to a normal node module package.json but the only really important bits are</p>
-<ul>
-<li><strong>name</strong><br>
-Should be readable. I don't really care about it but if you want you can follow the npm rules.</li>
-<li><strong>systems</strong><br>
-An array with supported platforms. Now this is a thing I made because I still hope I can make TTVST cross platform. But this is more dependent on my time than anything.</li>
-</ul>
-<h3>addon.js</h3>
-<p>This should be a node module that has an constructor that takes a TTVTool object (we get to that later) and an optional <a href="https://www.npmjs.com/package/i18n-nodejs">i18n object</a> when a <code>language.json</code> file exist. A simple example would be</p>
-<pre class="prettyprint source lang-javascript"><code>const path = require(&quot;path&quot;)
+/**
+ * This module manages the connection to the PubSub
+ * 
+ * @class TwPubSub
+ */
+class TwPubSub extends EventEmitter {
 
-class Addon {
-	constructor(tool, i18n) {
-		this._tool = tool
+	constructor() {
+		super()
+		this._token = window.localStorage.getItem('tw_auth_token')
+		this._connection = null
+		this._connected = false
+		this._autoreconnect = false
+		this._reconnectTimeout = 1000
+		this._pingTimeout = null
+
+		this._topics = []
+		const self = this
+		window.setInterval(() => { self._ping() }, 270000)
 	}
-}
-module.exports = Addon
-</code></pre>
-<h3>language.json (optional)</h3>
-<p>This is a language json file for the <a href="https://www.npmjs.com/package/i18n-nodejs">i18n-nodejs</a> module. It's optional but recommended.</p>
-<hr>
-<p>From here on you can do basically anything. You can modify the main document and destroy everything or build upon it. Now to the important parts. You get a TTVTool object when the addon is created. With this object you have access to pretty much every function of the tool.</p>
-</article>
 
-</section>
+	/**
+	 * Fills the user token
+	 * 
+	 * @param {String} token The token that is returned by the OAuth2 auth flow
+	 */
+	setAuthToken(token) {
+		this._token = token
+		if(this._topics.length > 0) {
+			this._connect()
+		}
+	}
+
+	/**
+	 * Connects to the PubSub websocket
+	 * 
+	 * @private
+	 */
+	_connect()
+	{
+		const self = this
+		let responded = false
+		return new Promise((res, rej) => {
+			if(self._connection !== null) {
+				res()
+				return
+			}
+	
+			console.log('[PubSub] Connecting to pubsub-edge.twitch.tv')
+			self._connection = ws.connect('wss://pubsub-edge.twitch.tv', () => {
+				console.log('[PubSub] Connection established')
+				self._connected = true
+				self._autoreconnect = true
+				self._reconnectTimeout = 1000
+				if(!responded) {
+					self._connection.on('text', (t) => { self._onMessage(t) })
+					self._connection.on('close', () => { self._onClose() })
+
+					if(self._topics.length > 0) {
+						self._out({ type:'LISTEN',data:{topics: self._topics,auth_token: self._token} })
+					}
+
+					responded = true
+					res()
+				}
+			})
+			self._connection.once('error', (err) => {
+				if(!responded) {
+					responded = true
+					rej(err)
+					self._connection = null
+					self._autoreconnect = true
+					self._onClose()
+				}
+			})
+		})
+	}
+
+	/**
+	 * Sends a payload to the PubSub
+	 * 
+	 * @private
+	 * @param {Object} json JSON serializable object to send
+	 */
+	_out(json) {
+		if(this._connected) {
+			if(typeof(json.data) !== 'undefined' &amp;&amp; typeof(json.data.auth_token) !== 'undefined') {
+				let publicStr = JSON.stringify(Object.assign({}, json, {data: Object.assign({}, json.data, { auth_token: '***' })}))
+				console.log('[PubSub] > ' + publicStr)
+			} else{
+				console.log('[PubSub] > ' + JSON.stringify(json))
+			}
+
+			let str = JSON.stringify(json)
+			this._connection.sendText(str)
+		}
+	}
+
+	/**
+	 * Sends a ping to the PubSub and timeouts connection if now answer returns
+	 * 
+	 * @private
+	 */
+	_ping() {
+		if(this._connected) {
+			this._out({type:'PING'})
+			const self = this
+			this._pingTimeout = window.setTimeout(() => {
+				self._disconnect(true)
+			}, 2000)
+		}
+	}
+
+	/**
+	 * Processes messages from the PubSub
+	 * 
+	 * @private
+	 * @param {String} text JSON payload as a string
+	 */
+	_onMessage(text) {
+		console.log('[PubSub] &lt; ' + text)
+		try {
+			let msg = JSON.parse(text)
+			if(msg.type == 'PING') {
+				this._out({type:'PONG'})
+			} else if(msg.type == 'PONG') {
+				clearTimeout(this._pingTimeout)
+			} else if(msg.type == 'MESSAGE') {
+				let message = JSON.parse(msg.data.message).data
+				if(msg.data.topic.startsWith('chat_moderator_actions.')) {
+					switch(message.moderation_action) {
+						case 'automod_rejected':
+							/**
+							 * Fires when a message was filtered by AutoMod
+							 * @event TwPubSub#automod-rejected
+							 * @param {String} message The message that was filtered
+							 * @param {String} author The user that wrote the message
+							 * @param {String} msgid The message id that was filtered
+							 * @param {String} reason The reason the message was filtered
+							 */
+							this.emit('automod-rejected', message.args[1], message.target_user_login, message.msg_id, message.args[2])
+							break
+						case 'approved_automod_message':
+							/**
+							 * Fires when a moderator approved a messages that was filtered by AutoMod
+							 * @event TwPubSub#automod-approved
+							 * @param {String} moderator The moderator that approved the message
+							 * @param {String} author The user that wrote the message
+							 * @param {String} msgid The message id that was approved
+							 */
+							this.emit('automod-approved', message.created_by, message.args[0], message.msg_id)
+							break
+						case 'denied_automod_message':
+							/**
+							 * Fires when a moderator denies a messages that was filtered by AutoMod
+							 * @event TwPubSub#automod-denied
+							 * @param {String} moderator The moderator that denied the message
+							 * @param {String} author The user that wrote the message
+							 * @param {String} msgid The message id that was denied
+							 */
+							this.emit('automod-denied', message.created_by, message.args[0], message.msg_id)
+							break
+						default:
+							/**
+							 * Fires when a moderator uses a moderation command
+							 * @event TwPubSub#mod-command
+							 * @param {String} command The command that was executed
+							 * @param {String[]} args An string array with the arguments the command was executed with
+							 * @param {String} moderator The moderator that executed the command
+							 */
+							this.emit('mod-command', message.moderation_action, message.args, message.created_by)
+							break
+					}
+				}
+
+			}
+		} catch(e) {
+			console.error('[PubSub]', e)
+		}
+
+		if(this._topics.length == 0) {
+			this._disconnect(false)
+		}
+	}
+
+	/**
+	 * Actions after the connection was closed
+	 * 
+	 * @private
+	 */
+	_onClose() {
+		console.log('[PubSub] Connection closed')
+		this._connection = null
+		this._connected = false
+		if(this._autoreconnect) {
+			let jitter = Math.floor(Math.random()*1000)
+			const self = this
+			console.log('[PubSub] Reconnect in ' + (this._reconnectTimeout + jitter / 1000) + ' seconds')
+			window.setTimeout(() => {
+				self._connect()
+			}, this._reconnectTimeout + jitter)
+			if(this._reconnectTimeout &lt; _maxReconnectTimeout) {
+				this._reconnectTimeout *= 2
+			}
+		}
+	}
+
+	/**
+	 * Disconnects from the PubSub
+	 * 
+	 * @private
+	 * @param {boolean} [reconnect] Should a reconnect be attempted?
+	 */
+	_disconnect(reconnect)
+	{
+		if(this._connected) {
+			if(typeof(reconnect) !== 'boolean') reconnect = false
+			this._autoreconnect = reconnect
+			this._connected = false
+			this._connection.close()
+		}
+	}
+
+	/**
+	 * Add a topic to listen to
+	 * 
+	 * @async
+	 * @param {String} topic 
+	 */
+	async listen(topic)
+	{
+		console.log('[PubSub] LISTEN to topic', topic)
+		let index = this._topics.indexOf(topic)
+		if(index &lt; 0) {
+			this._topics.push(topic)
+		}
+		if(this._token !== null) {
+			try {
+				if(!this._connected) {
+					await this._connect()
+				} else {
+					this._out({
+						type: 'LISTEN',
+						data: {
+							topics: [ topic ],
+							auth_token: this._token
+						}
+					})
+				}
+			} catch(e) {
+				console.error('[PubSub]', e)
+			}
+		}
+	}
+
+	/**
+	 * Unlisten from a topic. If no topics a left to listen for the connection will be closed
+	 * 
+	 * @async
+	 * @param {String} topic 
+	 */
+	async unlisten(topic)
+	{
+		console.log('[PubSub] UNLISTEN from topic', topic)
+		let index = this._topics.indexOf(topic)
+		if(index >= 0) {
+			this._topics.splice(index, 1)
+			if(this._connected) {
+				this._out({
+					type: 'UNLISTEN',
+					data: {
+						topics: [ topic ],
+						auth_token: this._token
+					}
+				})
+			}
+		}
+	}
+
+}
+
+module.exports = TwPubSub</code></pre>
+        </article>
+    </section>
+
+
+
 
                 </div>
             </div>
@@ -120,7 +383,7 @@ module.exports = Addon
 
 <footer class="footer">
     <div class="content has-text-centered">
-        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Tue Oct 15 2019 17:14:28 GMT+0200 (GMT+02:00)</p>
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Tue Oct 15 2019 17:14:27 GMT+0200 (GMT+02:00)</p>
         <p class="sidebar-created-by">
             <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
             <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>

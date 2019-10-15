@@ -3,10 +3,11 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Chat &bull; TTVStreamerTool</title>
+    <title>JSDoc: Chat</title>
 
-    <script src="scripts/prettify/prettify.js"></script>
-    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -15,6 +16,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
     <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
 </head>
 
 <body>
@@ -62,7 +64,7 @@
             <div class="column is-3" id="sidebarNav">
                 <div class="sidebar">
                     <nav>
-                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li><li><a href="tutorial-Streamdeck Shortcuts.html">Streamdeck Shortcuts</a></li></ul><h3>Classes</h3><ul><li><a href="Addons.html">Addons</a></li><li><a href="Channel.html">Channel</a></li><li><a href="Chat.html">Chat</a></li><li><a href="Cockpit.html">Cockpit</a></li><li><a href="Follows.html">Follows</a></li><li><a href="Overlays.html">Overlays</a></li><li><a href="ToolSettings.html">ToolSettings</a></li><li><a href="ToolUI.html">ToolUI</a></li><li><a href="TTVLogin.html">TTVLogin</a></li><li><a href="TTVTool.html">TTVTool</a></li><li><a href="TwitchChat.html">TwitchChat</a></li><li><a href="TwitchHelix.html">TwitchHelix</a></li><li><a href="TwitchTv.html">TwitchTv</a></li><li><a href="UIPage.html">UIPage</a></li></ul><h3>Events</h3><ul><li><a href="Channel.html#event:channeloffline">channeloffline</a></li><li><a href="Channel.html#event:channelonline">channelonline</a></li><li><a href="Channel.html#event:gamechange">gamechange</a></li><li><a href="Channel.html#event:statuschange">statuschange</a></li><li><a href="Channel.html#event:viewers">viewers</a></li><li><a href="Chat.html#event:autohostingyou">autohostingyou</a></li><li><a href="Chat.html#event:chatmessage">chatmessage</a></li><li><a href="Chat.html#event:cheer">cheer</a></li><li><a href="Chat.html#event:clearchat">clearchat</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:connected">connected</a></li><li><a href="Chat.html#event:hostingyou">hostingyou</a></li><li><a href="Chat.html#event:join">join</a></li><li><a href="Chat.html#event:names">names</a></li><li><a href="Chat.html#event:part">part</a></li><li><a href="Chat.html#event:roomstate">roomstate</a></li><li><a href="Chat.html#event:sendmessage">sendmessage</a></li><li><a href="Chat.html#event:usernotice">usernotice</a></li><li><a href="Chat.html#event:userstate">userstate</a></li><li><a href="Cockpit.html#event:channelleft">channelleft</a></li><li><a href="Cockpit.html#event:channelopen">channelopen</a></li><li><a href="Follows.html#event:follow">follow</a></li><li><a href="Overlays.html#event:command">command</a></li><li><a href="Overlays.html#event:hotkeys-unregistered">hotkeys-unregistered</a></li><li><a href="TTVLogin.html#event:complete">complete</a></li><li><a href="TTVTool.html#event:exit">exit</a></li><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TwitchChat.html#event:action">action</a></li><li><a href="TwitchChat.html#event:autohostingyou">autohostingyou</a></li><li><a href="TwitchChat.html#event:capack">capack</a></li><li><a href="TwitchChat.html#event:clearchat">clearchat</a></li><li><a href="TwitchChat.html#event:clearmsg">clearmsg</a></li><li><a href="TwitchChat.html#event:clearuser">clearuser</a></li><li><a href="TwitchChat.html#event:close">close</a></li><li><a href="TwitchChat.html#event:connect">connect</a></li><li><a href="TwitchChat.html#event:error">error</a></li><li><a href="TwitchChat.html#event:hostingyou">hostingyou</a></li><li><a href="TwitchChat.html#event:incoming">incoming</a></li><li><a href="TwitchChat.html#event:join">join</a></li><li><a href="TwitchChat.html#event:message">message</a></li><li><a href="TwitchChat.html#event:mode">mode</a></li><li><a href="TwitchChat.html#event:mode+">mode+</a></li><li><a href="TwitchChat.html#event:mode-">mode-</a></li><li><a href="TwitchChat.html#event:motd">motd</a></li><li><a href="TwitchChat.html#event:names">names</a></li><li><a href="TwitchChat.html#event:notice">notice</a></li><li><a href="TwitchChat.html#event:outgoing">outgoing</a></li><li><a href="TwitchChat.html#event:part">part</a></li><li><a href="TwitchChat.html#event:raw">raw</a></li><li><a href="TwitchChat.html#event:reconnect">reconnect</a></li><li><a href="TwitchChat.html#event:registered">registered</a></li><li><a href="TwitchChat.html#event:roomstate">roomstate</a></li><li><a href="TwitchChat.html#event:usernotice">usernotice</a></li><li><a href="TwitchChat.html#event:userstate">userstate</a></li><li><a href="TwitchChat.html#event:whisper">whisper</a></li></ul></div>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-Getting Started.html">Getting Started</a></li><li><a href="tutorial-Streamdeck Shortcuts.html">Streamdeck Shortcuts</a></li></ul><h3>Classes</h3><ul><li><a href="Addons.html">Addons</a></li><li><a href="Channel.html">Channel</a></li><li><a href="Chat.html">Chat</a></li><li><a href="Cockpit.html">Cockpit</a></li><li><a href="Follows.html">Follows</a></li><li><a href="Overlays.html">Overlays</a></li><li><a href="ToolSettings.html">ToolSettings</a></li><li><a href="ToolUI.html">ToolUI</a></li><li><a href="TTVLogin.html">TTVLogin</a></li><li><a href="TTVTool.html">TTVTool</a></li><li><a href="TwitchChat.html">TwitchChat</a></li><li><a href="TwitchHelix.html">TwitchHelix</a></li><li><a href="TwitchTv.html">TwitchTv</a></li><li><a href="TwPubSub.html">TwPubSub</a></li><li><a href="UIPage.html">UIPage</a></li></ul><h3>Events</h3><ul><li><a href="Channel.html#event:channeloffline">channeloffline</a></li><li><a href="Channel.html#event:channelonline">channelonline</a></li><li><a href="Channel.html#event:gamechange">gamechange</a></li><li><a href="Channel.html#event:statuschange">statuschange</a></li><li><a href="Channel.html#event:viewers">viewers</a></li><li><a href="Chat.html#event:autohostingyou">autohostingyou</a></li><li><a href="Chat.html#event:chatmessage">chatmessage</a></li><li><a href="Chat.html#event:cheer">cheer</a></li><li><a href="Chat.html#event:clearchat">clearchat</a></li><li><a href="Chat.html#event:clearuser">clearuser</a></li><li><a href="Chat.html#event:connected">connected</a></li><li><a href="Chat.html#event:hostingyou">hostingyou</a></li><li><a href="Chat.html#event:join">join</a></li><li><a href="Chat.html#event:names">names</a></li><li><a href="Chat.html#event:part">part</a></li><li><a href="Chat.html#event:roomstate">roomstate</a></li><li><a href="Chat.html#event:sendmessage">sendmessage</a></li><li><a href="Chat.html#event:usernotice">usernotice</a></li><li><a href="Chat.html#event:userstate">userstate</a></li><li><a href="Cockpit.html#event:channelleft">channelleft</a></li><li><a href="Cockpit.html#event:channelopen">channelopen</a></li><li><a href="Follows.html#event:follow">follow</a></li><li><a href="Overlays.html#event:command">command</a></li><li><a href="Overlays.html#event:hotkeys-unregistered">hotkeys-unregistered</a></li><li><a href="TTVLogin.html#event:complete">complete</a></li><li><a href="TTVTool.html#event:exit">exit</a></li><li><a href="TTVTool.html#event:load">load</a></li><li><a href="TwitchChat.html#event:action">action</a></li><li><a href="TwitchChat.html#event:autohostingyou">autohostingyou</a></li><li><a href="TwitchChat.html#event:capack">capack</a></li><li><a href="TwitchChat.html#event:clearchat">clearchat</a></li><li><a href="TwitchChat.html#event:clearmsg">clearmsg</a></li><li><a href="TwitchChat.html#event:clearuser">clearuser</a></li><li><a href="TwitchChat.html#event:close">close</a></li><li><a href="TwitchChat.html#event:connect">connect</a></li><li><a href="TwitchChat.html#event:error">error</a></li><li><a href="TwitchChat.html#event:hostingyou">hostingyou</a></li><li><a href="TwitchChat.html#event:incoming">incoming</a></li><li><a href="TwitchChat.html#event:join">join</a></li><li><a href="TwitchChat.html#event:message">message</a></li><li><a href="TwitchChat.html#event:mode">mode</a></li><li><a href="TwitchChat.html#event:mode+">mode+</a></li><li><a href="TwitchChat.html#event:mode-">mode-</a></li><li><a href="TwitchChat.html#event:motd">motd</a></li><li><a href="TwitchChat.html#event:names">names</a></li><li><a href="TwitchChat.html#event:notice">notice</a></li><li><a href="TwitchChat.html#event:outgoing">outgoing</a></li><li><a href="TwitchChat.html#event:part">part</a></li><li><a href="TwitchChat.html#event:raw">raw</a></li><li><a href="TwitchChat.html#event:reconnect">reconnect</a></li><li><a href="TwitchChat.html#event:registered">registered</a></li><li><a href="TwitchChat.html#event:roomstate">roomstate</a></li><li><a href="TwitchChat.html#event:usernotice">usernotice</a></li><li><a href="TwitchChat.html#event:userstate">userstate</a></li><li><a href="TwitchChat.html#event:whisper">whisper</a></li><li><a href="TwPubSub.html#event:automod-approved">automod-approved</a></li><li><a href="TwPubSub.html#event:automod-denied">automod-denied</a></li><li><a href="TwPubSub.html#event:automod-rejected">automod-rejected</a></li><li><a href="TwPubSub.html#event:mod-command">mod-command</a></li></ul></div>
                     </nav>
                 </div>
             </div>
@@ -96,11 +98,14 @@
                 <div class="members">
                     <div class="member">
 
+
     
     <h4 class="name" id="Chat">
         
         <span class="code-name">
-            new Chat<span class="signature">(tool)</span><span class="type-signature"></span>
+            
+                new Chat<span class="signature">(tool)</span><span class="type-signature"></span>
+            
         </span>
     </h4>
     
@@ -272,7 +277,7 @@
         
     
     </div>
-
+    
     
         <h3 class="subsection-title">Extends</h3>
 
@@ -356,7 +361,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line54">line 54</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line56">line 56</a>
             </span>
         </p>
     
@@ -431,7 +436,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line60">line 60</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line62">line 62</a>
             </span>
         </p>
     
@@ -454,11 +459,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="auth">
         
         <span class="code-name">
-            auth<span class="signature">(username, authtoken)</span><span class="type-signature"></span>
+            
+                auth<span class="signature">(username, authtoken)</span><span class="type-signature"></span>
+            
         </span>
     </h4>
     
@@ -592,7 +600,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line283">line 283</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line287">line 287</a>
             </span>
         </p>
     
@@ -622,11 +630,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="disconnect">
         
         <span class="code-name">
-            disconnect<span class="signature">()</span><span class="type-signature"></span>
+            
+                disconnect<span class="signature">()</span><span class="type-signature"></span>
+            
         </span>
     </h4>
     
@@ -685,7 +696,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line623">line 623</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line695">line 695</a>
             </span>
         </p>
     
@@ -715,11 +726,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="getUserObjByTags">
         
         <span class="code-name">
-            getUserObjByTags<span class="signature">(user, tags)</span><span class="type-signature"> &rarr; {<a href="Chat.html#~userObject">Chat~userObject</a>}</span>
+            
+                getUserObjByTags<span class="signature">(user, tags, channel<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="Chat.html#~userObject">Chat~userObject</a>}</span>
+            
         </span>
     </h4>
     
@@ -752,6 +766,8 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -778,6 +794,14 @@
   </td>
 
   
+      <td class="attributes">
+      
+
+      
+
+      
+      </td>
+  
 
   
 
@@ -803,10 +827,53 @@
   </td>
 
   
+      <td class="attributes">
+      
+
+      
+
+      
+      </td>
+  
 
   
 
   <td class="description last">The twitch irc tags that were given</td>
+</tr>
+
+
+    
+
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channel</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">String</span>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">The channel name the user of a message is in</td>
 </tr>
 
 
@@ -853,7 +920,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line317">line 317</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line322">line 322</a>
             </span>
         </p>
     
@@ -908,11 +975,18 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="join">
         
+            
+                <span class='tag'>async</span>
+            
+        
         <span class="code-name">
-            join<span class="signature">(channel)</span><span class="type-signature"></span>
+            
+                join<span class="signature">(channel, channelid<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+            
         </span>
     </h4>
     
@@ -945,6 +1019,8 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -971,10 +1047,53 @@
   </td>
 
   
+      <td class="attributes">
+      
+
+      
+
+      
+      </td>
+  
 
   
 
   <td class="description last">The channel that should be joined</td>
+</tr>
+
+
+    
+
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>channelid</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">String</span>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">Optional channel id</td>
 </tr>
 
 
@@ -1021,7 +1140,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line484">line 484</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line499">line 499</a>
             </span>
         </p>
     
@@ -1051,11 +1170,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="openViewercard">
         
         <span class="code-name">
-            openViewercard<span class="signature">(channel, user)</span><span class="type-signature"></span>
+            
+                openViewercard<span class="signature">(channel, user)</span><span class="type-signature"></span>
+            
         </span>
     </h4>
     
@@ -1189,7 +1311,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line508">line 508</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line576">line 576</a>
             </span>
         </p>
     
@@ -1219,11 +1341,14 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="part">
         
         <span class="code-name">
-            part<span class="signature">(channel, cb)</span><span class="type-signature"></span>
+            
+                part<span class="signature">(channel, cb)</span><span class="type-signature"></span>
+            
         </span>
     </h4>
     
@@ -1357,7 +1482,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line496">line 496</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line541">line 541</a>
             </span>
         </p>
     
@@ -1387,11 +1512,160 @@
             
                 <div class="member">
 
+
+    
+    <h4 class="name" id="partAll">
+        
+        <span class="code-name">
+            
+                partAll<span class="signature">(cb)</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Leave all joined channels
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>cb</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">function</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">A callback that is called when all channels were left</td>
+</tr>
+
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="mod_chat.js.html" class="button">View Source</a>
+            <span>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line556">line 556</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
     
     <h4 class="name" id="sendmsg">
         
         <span class="code-name">
-            sendmsg<span class="signature">(channel, message, emotes<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+            
+                sendmsg<span class="signature">(channel, message, emotes<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+            
         </span>
     </h4>
     
@@ -1585,7 +1859,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line538">line 538</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line606">line 606</a>
             </span>
         </p>
     
@@ -1615,11 +1889,18 @@
             
                 <div class="member">
 
+
     
     <h4 class="name" id="showmsg">
         
+            
+                <span class='tag'>async</span>
+            
+        
         <span class="code-name">
-            showmsg<span class="signature">(prefix, user, to, msg, tags, type)</span><span class="type-signature"></span>
+            
+                showmsg<span class="signature">(prefix, user, to, msg, tags, type)</span><span class="type-signature"></span>
+            
         </span>
     </h4>
     
@@ -1905,7 +2186,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line396">line 396</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line406">line 406</a>
             </span>
         </p>
     
@@ -2249,7 +2530,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line628">line 628</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line700">line 700</a>
             </span>
         </p>
     
@@ -2266,16 +2547,21 @@
     
 
     
-        <h3 class="subsection-title">Events</h3>
-
-        
+        <div class='vertical-section'>
+            <h3 class="title"><span>Events</span></h3>
+            <div class="members">
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:autohostingyou">
         
         <span class="code-name">
-            autohostingyou
+            
+                autohostingyou
+            
         </span>
     </h4>
     
@@ -2484,7 +2770,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line238">line 238</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line242">line 242</a>
             </span>
         </p>
     
@@ -2511,14 +2797,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:chatmessage">
         
         <span class="code-name">
-            chatmessage
+            
+                chatmessage
+            
         </span>
     </h4>
     
@@ -2773,7 +3064,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line466">line 466</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line476">line 476</a>
             </span>
         </p>
     
@@ -2800,14 +3091,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:cheer">
         
         <span class="code-name">
-            cheer
+            
+                cheer
+            
         </span>
     </h4>
     
@@ -2987,7 +3283,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line428">line 428</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line438">line 438</a>
             </span>
         </p>
     
@@ -3014,14 +3310,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:clearchat">
         
         <span class="code-name">
-            clearchat
+            
+                clearchat
+            
         </span>
     </h4>
     
@@ -3155,7 +3456,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line200">line 200</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line204">line 204</a>
             </span>
         </p>
     
@@ -3182,14 +3483,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:clearuser">
         
         <span class="code-name">
-            clearuser
+            
+                clearuser
+            
         </span>
     </h4>
     
@@ -3348,7 +3654,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line190">line 190</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line194">line 194</a>
             </span>
         </p>
     
@@ -3375,14 +3681,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:clearuser">
         
         <span class="code-name">
-            clearuser
+            
+                clearuser
+            
         </span>
     </h4>
     
@@ -3541,7 +3852,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line210">line 210</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line214">line 214</a>
             </span>
         </p>
     
@@ -3568,14 +3879,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:connected">
         
         <span class="code-name">
-            connected
+            
+                connected
+            
         </span>
     </h4>
     
@@ -3634,7 +3950,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line66">line 66</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line68">line 68</a>
             </span>
         </p>
     
@@ -3661,14 +3977,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:hostingyou">
         
         <span class="code-name">
-            hostingyou
+            
+                hostingyou
+            
         </span>
     </h4>
     
@@ -3877,7 +4198,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line223">line 223</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line227">line 227</a>
             </span>
         </p>
     
@@ -3904,14 +4225,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:join">
         
         <span class="code-name">
-            join
+            
+                join
+            
         </span>
     </h4>
     
@@ -4045,7 +4371,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line116">line 116</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line120">line 120</a>
             </span>
         </p>
     
@@ -4072,14 +4398,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:names">
         
         <span class="code-name">
-            names
+            
+                names
+            
         </span>
     </h4>
     
@@ -4213,7 +4544,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line140">line 140</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line144">line 144</a>
             </span>
         </p>
     
@@ -4240,14 +4571,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:part">
         
         <span class="code-name">
-            part
+            
+                part
+            
         </span>
     </h4>
     
@@ -4381,7 +4717,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line125">line 125</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line129">line 129</a>
             </span>
         </p>
     
@@ -4408,14 +4744,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:roomstate">
         
         <span class="code-name">
-            roomstate
+            
+                roomstate
+            
         </span>
     </h4>
     
@@ -4556,7 +4897,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line93">line 93</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line97">line 97</a>
             </span>
         </p>
     
@@ -4583,14 +4924,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:sendmessage">
         
         <span class="code-name">
-            sendmessage
+            
+                sendmessage
+            
         </span>
     </h4>
     
@@ -4840,7 +5186,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line585">line 585</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line657">line 657</a>
             </span>
         </p>
     
@@ -4867,14 +5213,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:usernotice">
         
         <span class="code-name">
-            usernotice
+            
+                usernotice
+            
         </span>
     </h4>
     
@@ -5058,7 +5409,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line177">line 177</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line181">line 181</a>
             </span>
         </p>
     
@@ -5085,14 +5436,19 @@
 
 
 
-        
+                </div>
             
+                <div class="member">
+                    
+
 
     
     <h4 class="name" id="event:userstate">
         
         <span class="code-name">
-            userstate
+            
+                userstate
+            
         </span>
     </h4>
     
@@ -5258,7 +5614,7 @@
         <p class="tag-source">
             <a href="mod_chat.js.html" class="button">View Source</a>
             <span>
-                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line104">line 104</a>
+                <a href="mod_chat.js.html">mod/chat.js</a>, <a href="mod_chat.js.html#line108">line 108</a>
             </span>
         </p>
     
@@ -5285,7 +5641,10 @@
 
 
 
-        
+                </div>
+            
+            </div>
+        </div>
     
 </article>
 
@@ -5301,15 +5660,14 @@
 
 <footer class="footer">
     <div class="content has-text-centered">
-        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Sun Aug 18 2019 12:47:45 GMT+0200 (GMT+02:00)</p>
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Tue Oct 15 2019 17:14:28 GMT+0200 (GMT+02:00)</p>
         <p class="sidebar-created-by">
             <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
-            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
         </p>
     </div>
 </footer>
 
-<script> prettyPrint(); </script>
 <script src="scripts/app.min.js"></script>
 <script src="scripts/linenumber.js"> </script>
 </body>
