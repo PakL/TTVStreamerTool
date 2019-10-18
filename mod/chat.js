@@ -467,6 +467,11 @@ class Chat extends EventEmitter {
 				}
 			}
 		}
+		if(typeof(tags['msg-id']) === 'string') {
+			if(tags['msg-id'] == 'highlighted-message') {
+				type = 5
+			}
+		}
 
 		var uuid = ''
 		if(typeof(tags.id) === 'string') {
