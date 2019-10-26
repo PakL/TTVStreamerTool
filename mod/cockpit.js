@@ -227,7 +227,7 @@ class Cockpit extends UIPage {
 		this.tool.pubsub.on('automod-approved',	(m, a, i)		=> { self.onAutomodApproved(m, a, i) })
 		this.tool.pubsub.on('automod-denied',	(m, a, i)		=> { self.onAutomodDenied(m, a, i) })
 		this.tool.pubsub.on('mod-command',		(c, a, m)		=> { self.onModeratorCommand(c, a, m) })
-		this.tool.pubsub.on('reward-redeemed',	(i, t, u, c, m) 	=> { self.onRewardRedeemed(i, t, u, c, m) })
+		this.tool.pubsub.on('reward-redeemed',	(i, t, u, c, m) => { self.onRewardRedeemed(i, t, u, c, m) })
 	}
 
 	/**
@@ -1113,6 +1113,7 @@ class Cockpit extends UIPage {
 	}
 
 	onRewardRedeemed(rewardid, rewardtitle, user, cost, icon) {
+		console.error(rewardid, rewardtitle, user, cost, icon)
 		let message_html = this.i18n.__('{{user}} redeemed {{reward}} for {{icon}} {{cost}}', { user: user.display_name, reward: rewardtitle, icon: '<img src="' + icon + '">', cost: cost })
 		let message = this.i18n.__('{{user}} redeemed {{reward}} for {{icon}} {{cost}}', { user: user.display_name, reward: rewardtitle, icon: '', cost: cost })
 		this.chatelement._tag.addmessage({
