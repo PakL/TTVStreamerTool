@@ -227,6 +227,7 @@ class Cockpit extends UIPage {
 		this.tool.pubsub.on('automod-approved',	(m, a, i)		=> { self.onAutomodApproved(m, a, i) })
 		this.tool.pubsub.on('automod-denied',	(m, a, i)		=> { self.onAutomodDenied(m, a, i) })
 		this.tool.pubsub.on('mod-command',		(c, a, m)		=> { self.onModeratorCommand(c, a, m) })
+		this.tool.pubsub.on('reward-redeemed',	(i, t, u, c, m) 	=> { self.onRewardRedeemed(i, t, u, c, m) })
 	}
 
 	/**
@@ -484,6 +485,7 @@ class Cockpit extends UIPage {
 			// Join IRC channel
 			self.tool.chat.join(self.openChannelObject.login, self.openChannelObject.id)
 			self.tool.pubsub.listen('chat_moderator_actions.' + self.tool.auth._userid + '.' + self.openChannelObject.id)
+			self.tool.pubsub.listen('community-points-channel-v1.' + self.openChannelObject.id)
 						
 			/**
 			 * Fires when everything is loaded and ready
@@ -524,6 +526,7 @@ class Cockpit extends UIPage {
 		let closeingChannel = this.openChannelObject.login
 
 		this.tool.pubsub.unlisten('chat_moderator_actions.' + this.tool.auth._userid + '.' + this.openChannelObject.id)
+		this.tool.pubsub.unlisten('community-points-channel-v1.' + this.openChannelObject.id)
 
 		this.openChannelId = ''
 		this.isChannelOnline = true
@@ -1103,6 +1106,24 @@ class Cockpit extends UIPage {
 			'nickname': '',
 			'message': message,
 			'message_html': message,
+			'user': '',
+			'color': '#999999',
+			'type': 1
+		})
+	}
+
+	onRewardRedeemed(rewardid, rewardtitle, user, cost, icon) {
+		let message_html = this.i18n.__('{{user}} redeemed {{reward}} for {{icon}} {{cost}}', { user: user.display_name, reward: rewardtitle, icon: '<img src="' + icon + '">', cost: cost })
+		let message = this.i18n.__('{{user}} redeemed {{reward}} for {{icon}} {{cost}}', { user: user.display_name, reward: rewardtitle, icon: '', cost: cost })
+		this.chatelement._tag.addmessage({
+			'id': '',
+			'mainchannel': this.openChannelObject.login,
+			'channel': this.openChannelObject.login,
+			'timestamp': timestamp(),
+			'badges_html': '',
+			'nickname': '',
+			'message': message,
+			'message_html': message_html,
 			'user': '',
 			'color': '#999999',
 			'type': 1
