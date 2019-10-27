@@ -1113,7 +1113,6 @@ class Cockpit extends UIPage {
 	}
 
 	onRewardRedeemed(rewardid, rewardtitle, user, cost, icon) {
-		console.error(rewardid, rewardtitle, user, cost, icon)
 		let message_html = this.i18n.__('{{user}} redeemed {{reward}} for {{icon}} {{cost}}', { user: user.display_name, reward: rewardtitle, icon: '<img src="' + icon + '">', cost: cost })
 		let message = this.i18n.__('{{user}} redeemed {{reward}} for {{icon}} {{cost}}', { user: user.display_name, reward: rewardtitle, icon: '', cost: cost })
 		this.chatelement._tag.addmessage({
