@@ -199,6 +199,9 @@ class Overlays extends UIPage {
 					let cmd = str.substr(11)
 					if(typeof(self._subscriptions[cmd]) == 'undefined') self._subscriptions[cmd] = []
 					self._subscriptions[cmd].push(this)
+				} else {
+					console.log('[Overlay] Emitting wstext event with ' + str)
+					self.emit('wstext', str)
 				}
 			}
 		})
