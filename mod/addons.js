@@ -40,6 +40,8 @@ class Addons extends UIPage {
 		this.prepared_updates = []
 		this.prepared_deletes = []
 
+		this.packageLists = []
+
 		try {
 			if(fs.existsSync('addons.bat')) {
 				fs.unlinkSync('addons.bat')
@@ -51,8 +53,8 @@ class Addons extends UIPage {
 			fs.accessSync('addons')
 			let addonsDird = fs.readdirSync('addons')
 
-			for(let i = 0; i < addonsDird.length; i++)
-				addonsDir.push('addons/' + addonsDird[i])
+			/*for(let i = 0; i < addonsDird.length; i++)
+				addonsDir.push('addons/' + addonsDird[i])*/
 		} catch(e) {}
 		try {
 			fs.accessSync('resources')
@@ -71,11 +73,15 @@ class Addons extends UIPage {
 
 		const self = this
 		this.tool.once('load', () => {
+			riot.mount(document.querySelector('#addonpackagesdialog'))
 			console.log('[Addons] Checking addons: ' + addonsDir.join(', '))
 			
-			this.incompatibleAddonsFound = false
+			self.packageLists = self.tool.settings.getJSON('addon_packagelists', [])
+			self.packageLists.unshift('https://addons.ttvst.app/addons.json')
+
+			self.incompatibleAddonsFound = false
 			for(let i = 0; i < addonsDir.length; i++) {
-				this.initiateAddon(addonsDir[i])
+				self.initiateAddon(addonsDir[i])
 			}
 			self.loadPackages()
 
@@ -458,31 +464,67 @@ class Addons extends UIPage {
 	/**
 	 * Loads all available packages
 	 * 
+	 * @async
 	 * @private
 	 */
-	loadPackages() {
+	async loadPackages() {
 		if(this.loadingPackages) return
 		this.loadingPackages = true
-		const self = this
 		let tableBody = document.querySelector('#content_addons table > tbody')
-		tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center">${self.tool.i18n.__('Loading, please wait...')}</td></tr>`
+		tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center">${this.tool.i18n.__('Loading, please wait...')}</td></tr>`
 		this.tool.ui.startLoading(this)
-		request.get('https://addons.ttvst.app/addons.json', { encoding: 'utf8', timeout: 10000 }, (err, res, body) => {
-			this.tool.ui.stopLoading(this)
-			if(err || res.statusCode == 200) {
-				try {
-					let addons = JSON.parse(body)
-					self.available_addons = addons
-					self.generateTable()
-				} catch(e) {
-					tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center">${self.tool.i18n.__('Could not load addon information.')}</td></tr>`
-					console.error(e)
-				}
-				self.loadingPackages = false
-			} else {
-				tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center">${self.tool.i18n.__('Could not load addon information.')}</td></tr>`
+
+		console.log(`[Addons] Loading addons from ${this.packageLists.length} sources`)
+		var addons = []
+		const self = this
+		for(let i = 0; i < this.packageLists.length; i++) {
+			if(!this.packageLists[i].startsWith('https://')) continue
+			try {
+				let packageAddons = await new Promise((resolve, reject) => {
+					console.log(`[Addons] Loading package source: ${self.packageLists[i]}`)
+					request.get(self.packageLists[i], { encoding: 'utf8', timeout: 10000, json: true }, (err, res, body) => {
+						if(err) {
+							reject(err)
+						} else {
+							if(res.statusCode == 200) {
+								if(Array.isArray(body)) {
+									var addons = []
+									for(let j = 0; j < body.length; j++) {
+										if(
+											typeof(body[j].name) === 'string' &&
+											typeof(body[j].description) === 'string' &&
+											typeof(body[j].version) === 'string' &&
+											typeof(body[j].url) === 'string'
+										) {
+											addons.push(body[j])
+										}
+									}
+									resolve(addons)
+								} else {
+									reject('Response is invalid')
+								}
+							} else {
+								reject(`Response status code ${res.statusCode}`)
+							}
+						}
+					})
+				})
+
+				addons = addons.concat(packageAddons)
+			} catch(e) {
+				console.error(e)
 			}
-		})
+		}
+
+		if(addons.length == 0) {
+			tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center">${this.tool.i18n.__('Could not load addon information.')}</td></tr>`	
+		} else {
+			this.available_addons = addons
+			this.generateTable()
+		}
+
+		this.loadingPackages = false
+		this.tool.ui.stopLoading(this)
 	}
 
 	/**
@@ -522,6 +564,34 @@ class Addons extends UIPage {
 
 	refreshPage() {
 		this.loadPackages()
+	}
+
+	saveAddonPackagelist() {
+		let packagesRaw = document.querySelector('#addonpackages').value.replace(/\r/g, '').split('\n')
+		let packages = []
+
+		for(let i = 0; i < packagesRaw.length; i++) {
+			packagesRaw[i] = packagesRaw[i].trim()
+			if(packagesRaw[i].startsWith('https://')) {
+				packages.push(packagesRaw[i])
+			}
+		}
+		this.tool.settings.setJSON('addon_packagelists', packages)
+
+		packages.unshift(this.packageLists[0])
+		this.packageLists = packages
+		this.cancelAddonPackagelist()
+		this.loadPackages()
+	}
+	cancelAddonPackagelist() {
+		document.querySelector('#addonpackages').value = ''
+		document.querySelector('#addonpackagesdialog').style.display = 'none'
+	}
+	openAddonPackagelist() {
+		let packages = this.packageLists.slice(0)
+		packages.shift()
+		document.querySelector('#addonpackages').value = packages.join('\n')
+		document.querySelector('#addonpackagesdialog').style.display = null
 	}
 
 }

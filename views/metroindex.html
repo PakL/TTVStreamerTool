@@ -116,6 +116,7 @@
 						<tfoot>
 						</tfoot>
 					</table>
+					<button onclick="Tool.addons.openAddonPackagelist()"><script type="application/javascript">document.write(Tool.i18n.__('Addon sources'))</script></button>
 				</div>
 			</div>
 
@@ -195,6 +196,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 			</table>
 			<button id="highlightdialog_save" onclick="Tool.settings.saveNewHighlight()"><script type="application/javascript">document.write(Tool.i18n.__('Save'))</script></button>
 			<button id="highlightdialog_cancel" onclick="Tool.settings.cancelNewHighlight()"><script type="application/javascript">document.write(Tool.i18n.__('Cancel'))</script></button>
+		</modal>
+
+		<modal id="addonpackagesdialog" style="display:none;">
+			<script type="application/javascript">document.write(Tool.i18n.__('Add your own addon sources. One URL per line. Only secure connections are allowed (https).'))</script></button>
+			<textarea id="addonpackages" style="display:block;width:-webkit-fill-available;height:200px;resize:none;"></textarea>
+			<button id="addonpackages_save" onclick="Tool.addons.saveAddonPackagelist()"><script type="application/javascript">document.write(Tool.i18n.__('Save'))</script></button>
+			<button id="addonpackages_cancel" onclick="Tool.addons.cancelAddonPackagelist()"><script type="application/javascript">document.write(Tool.i18n.__('Cancel'))</script></button>
 		</modal>
 
 		<autocomplete id="ac_channel_game"></autocomplete>
