@@ -17,7 +17,7 @@ WebsocketHelper.prototype.on = function(cmd, callback) {
 	if(typeof(callback) != "function") return;
 
 	this.listener.push({ "cmd": cmd, "callback": callback });
-	if(this.connected) this.subscribe(cmd)
+	if(cmd != ':open' && this.connected) this.subscribe(cmd)
 }
 WebsocketHelper.prototype.send = function(message) {
 	if(typeof(message) != 'string') return;
@@ -35,6 +35,7 @@ WebsocketHelper.prototype.reconnect = function() {
 			self.subscribe(self.listener[i].cmd)
 		}
 		self.send(':please_repeat');
+		self.onmsg({data: ':open'})
 	}
 	this.connection.onmessage = function(e){self.onmsg(e);};
 	this.connection.onerror = function() {
