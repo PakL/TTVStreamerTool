@@ -53,8 +53,8 @@ class Addons extends UIPage {
 			fs.accessSync('addons')
 			let addonsDird = fs.readdirSync('addons')
 
-			/*for(let i = 0; i < addonsDird.length; i++)
-				addonsDir.push('addons/' + addonsDird[i])*/
+			for(let i = 0; i < addonsDird.length; i++)
+				addonsDir.push('addons/' + addonsDird[i])
 		} catch(e) {}
 		try {
 			fs.accessSync('resources')

@@ -23,6 +23,15 @@
 		<p>This changelog will only be served in english.</p>
 		<p>Join the <a onclick="openLinkExternal('https://discord.gg/zZyBxr3')">TTVST Development Discord</a> to get faster and better support!</p>
 
+		<h3>1.11.<span class="highlight">1</span> <small><code class="tag">patch</code></small></h3>
+		<ul>
+			<li>Fixing error on joining a channel that also results in an empty emote drawer
+				<ul>
+					<li>The background for this is a bug that twitch - out of some reason - refuses to fix. Old and relocated emote sets are being transmitted. When requesting the API with those broken emote set ids the server just returns an internal server error.</li>
+					<li>To fix it I split emote sets into chunks to find the broken sets. This can result in a lot of requests. To minimize this I let the TTVStreamerTool report all broken emote sets to the cloud server to create a list for everyone, that the tool will request on startup.</li>
+				</ul>
+			</li>
+		</ul>
 		<h3>1.<span class="highlight">11</span>.0 <small><code class="tag">minor</code></small></h3>
 		<ul>
 			<li>Allow overlays to communicate with the rest of the application</li>
