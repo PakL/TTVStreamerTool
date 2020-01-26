@@ -30,7 +30,7 @@ else {
 
 		let spX = (mainWindowState.x + ((mainWindowState.width - 300) / 2))
 		let spY = (mainWindowState.y + ((mainWindowState.height - 450) / 2))
-		splash = new BrowserWindow({x: spX, y: spY, width: 300, height: 450, frame: false, skipTaskbar: true, alwaysOnTop: true, webPreferences: { nodeIntegration: true, webviewTag: false }, show: false})
+		splash = new BrowserWindow({x: spX, y: spY, width: 300, height: 450, frame: false, resizable: false, skipTaskbar: true, alwaysOnTop: true, webPreferences: { nodeIntegration: true, webviewTag: false }, show: false})
 		splash.loadURL(url.format({
 			pathname: path.join(__dirname, 'views', 'splash.html'),
 			protocol: 'file:',
