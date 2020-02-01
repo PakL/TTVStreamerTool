@@ -4,7 +4,7 @@ const {Menu, MenuItem, app} = remote
 const UIPage = require('./uipage')
 
 const crypto = require('crypto')
-const request = require('request-promise-native')
+const got = require('got')
 
 const _storageSetHolder = window.localStorage.setItem
 const _storageRemoveHolder = window.localStorage.removeItem
@@ -799,17 +799,18 @@ class ToolSettings extends UIPage {
 		if(typeof(this._tool.twitchhelix.token) == 'string' && this._tool.twitchhelix.token.length > 0) {
 			console.log('[Cloud] Authenticating client')
 			try {
-				let response = await request.post('https://sync.ttvst.app/', { timeout: 10000, json: true, body: {'action': 'authenticate', 'token': this._tool.twitchhelix.token } })
-				this.setString('cloud-token', response.token)
-				return response.token
+				let response = await got('https://sync.ttvst.app/', { method: 'POST', timeout: 10000, responseType: 'json', json: {'action': 'authenticate', 'token': this._tool.twitchhelix.token } })
+				let body = response.body
+				this.setString('cloud-token', body.token)
+				return body.token
 			} catch(e) {
-				if(typeof(e.error) !== 'undefined' && typeof(e.error.status) !== 'undefined') {
-					this._tool.ui.showErrorMessage(new Error('Cloud sync error: ' + e.error.error))
-					console.error(e.error)
+				let errJson = (typeof(e.response) !== 'undefined' ? e.response.body : null)
+				if(errJson !== null) {
+					this._tool.ui.showErrorMessage(new Error('Cloud sync error: ' + errJson.error))
 				} else {
 					this._tool.ui.showErrorMessage(new Error('Unexpected cloud sync error'))
-					console.error(e)
 				}
+				console.dir(e)
 			}
 		}
 		return false
@@ -853,20 +854,21 @@ class ToolSettings extends UIPage {
 		console.log('[Cloud] Comparing settings with server')
 		let timestamp = parseInt(this.getString('cloud-timestamp', '-1'))
 		try {
-			let response = await request.post('https://sync.ttvst.app/', { timeout: 10000, json: true, body: {'action': 'compare', 'token': token, 'lastsynctime': timestamp } })
-			this.setString('cloud-timestamp', response.time.toString())
-			return response
+			let response = await got('https://sync.ttvst.app/', { method: 'POST', timeout: 10000, responseType: 'json', json: {'action': 'compare', 'token': token, 'lastsynctime': timestamp } })
+			let body = response.body
+			this.setString('cloud-timestamp', body.time.toString())
+			return body
 		} catch(e) {
-			if(typeof(e.error) !== 'undefined' && typeof(e.error.status) !== 'undefined') {
-				if(e.error.status == 403) {
-					return false
-				}
-				this._tool.ui.showErrorMessage(new Error('Cloud sync error: ' + e.error.error))
-				console.error(e.error)
+			if(typeof(e.response) !== 'undefined' && e.response.statusCode == 403) {
+				return false
+			}
+			let errJson = (typeof(e.response) !== 'undefined' ? e.response.body : null)
+			if(errJson !== null) {
+				this._tool.ui.showErrorMessage(new Error('Cloud sync error: ' + errJson.error))
 			} else {
 				this._tool.ui.showErrorMessage(new Error('Unexpected cloud sync error'))
-				console.error(e)
 			}
+			console.dir(e)
 		}
 		return null
 	}
@@ -923,20 +925,21 @@ class ToolSettings extends UIPage {
 	{
 		console.log('[Cloud] Pushing data to server')
 		try {
-			let response = await request.post('https://sync.ttvst.app/', { timeout: 10000, json: true, body: {'action': 'push', 'token': token, 'data': data, 'iv': iv } })
-			this.setString('cloud-timestamp', response.timestamp.toString())
-			return response
+			let response = await got('https://sync.ttvst.app/', { method: 'POST', timeout: 10000, responseType: 'json', json: {'action': 'push', 'token': token, 'data': data, 'iv': iv } })
+			let body = response.body
+			this.setString('cloud-timestamp', body.timestamp.toString())
+			return body
 		} catch(e) {
-			if(typeof(e.error) !== 'undefined' && typeof(e.error.status) !== 'undefined') {
-				if(e.error.status == 403) {
-					return false
-				}
-				this._tool.ui.showErrorMessage(new Error('Cloud sync error: ' + e.error.error))
-				console.error(e.error)
+			if(typeof(e.response) !== 'undefined' && e.response.statusCode == 403) {
+				return false
+			}
+			let errJson = (typeof(e.response) !== 'undefined' ? e.response.body : null)
+			if(errJson !== null) {
+				this._tool.ui.showErrorMessage(new Error('Cloud sync error: ' + errJson.error))
 			} else {
 				this._tool.ui.showErrorMessage(new Error('Unexpected cloud sync error'))
-				console.error(e)
 			}
+			console.dir(e)
 		}
 		return null
 	}
@@ -945,19 +948,20 @@ class ToolSettings extends UIPage {
 	{
 		console.log('[Cloud] Pulling data from server')
 		try {
-			let response = await request.post('https://sync.ttvst.app/', { timeout: 10000, json: true, body: {'action': 'pull', 'token': token } })
-			return response
+			let response = await got('https://sync.ttvst.app/', { method: 'POST', timeout: 10000, responseType: 'json', json: {'action': 'pull', 'token': token } })
+			let body = response.body
+			return body
 		} catch(e) {
-			if(typeof(e.error) !== 'undefined' && typeof(e.error.status) !== 'undefined') {
-				if(e.error.status == 403) {
-					return false
-				}
-				this._tool.ui.showErrorMessage(new Error('Cloud sync error: ' + e.error.error))
-				console.error(e.error)
+			if(e.response.statusCode == 403) {
+				return false
+			}
+			let errJson = e.response.body
+			if(errJson !== null) {
+				this._tool.ui.showErrorMessage(new Error('Cloud sync error: ' + errJson.error))
 			} else {
 				this._tool.ui.showErrorMessage(new Error('Unexpected cloud sync error'))
-				console.error(e)
 			}
+			console.dir(e)
 		}
 		return null
 	}

@@ -14,7 +14,7 @@
 		"url": "https://github.com/PakL/TTVStreamerTool.git"
 	},
 	"scripts": {
-		"start": ".\\node_modules\\electron\\dist\\electron.exe .\\",
+		"start": ".\\node_modules\\.bin\\electron .\\",
 		"generate-docs": "jsdoc -c jsdoc.json"
 	},
 	"dependencies": {
@@ -22,21 +22,22 @@
 		"dateformat": "3.0.3",
 		"electron-squirrel-startup": "1.0.0",
 		"fluent-reveal-effect": "1.1.1",
-		"follow-redirects": "1.9.0",
+		"follow-redirects": "1.10.0",
+		"gridstack": "0.6.0",
 		"i18n-nodejs": "3.0.0",
+		"jquery": "3.4.1",
 		"less": "3.10.3",
 		"nodejs-websocket": "1.7.2",
 		"office-ui-fabric-core": "11.0.0",
 		"randexp": "0.5.3",
-		"request": "2.88.0",
-		"request-promise-native": "1.0.7",
-		"riot": "4.6.5",
-		"stringz": "2.0.0"
+		"riot": "4.8.7",
+		"stringz": "2.0.0",
+		"got": "10.4.0"
 	},
 	"devDependencies": {
-		"@riotjs/cli": "4.0.2",
-		"@riotjs/compiler": "4.5.1",
-		"electron": "7.0.0",
+		"@riotjs/cli": "4.0.3",
+		"@riotjs/compiler": "4.5.5",
+		"electron": "7.1.10",
 		"electron-winstaller": "4.0.0"
 	}
 }

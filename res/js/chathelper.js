@@ -1,7 +1,7 @@
 const dateFormat = require('dateformat')
 const stringz = require('stringz')
 const dns = require('dns').promises
-const request = require('request-promise-native')
+const got = require('got')
 
 let timestamp = function(ts, returnday){
 	var d = new Date()
@@ -253,14 +253,14 @@ var replaceEmoticons = async function(text, emotes, cheermotes, bits){
 				} else {
 					try {
 						imageUrl = 'https://d3aqoihi2n8ty8.cloudfront.net/sponsored-actions/' + match[3] + '/dark/animated/' + biggestTier.p + '/1.gif'
-						let avail = await request.get(imageUrl, { timeout: 10000 })
+						let avail = await got(imageUrl, { responseType: 'buffer', timeout: 10000 })
 						bits -= usedBits
 						validSponsoredCheers[match[3]] = match[3]
 					} catch(e) {
 						imageUrl = ''
 						try {
 							imageUrl = 'https://d3aqoihi2n8ty8.cloudfront.net/sponsored-actions/' + match[3].toLowerCase() + '/dark/animated/' + biggestTier.p + '/1.gif'
-							let avail = await request.get(imageUrl, { timeout: 10000 })
+							let avail = await got(imageUrl, { responseType: 'buffer', timeout: 10000 })
 							bits -= usedBits
 							validSponsoredCheers[match[3]] = match[3].toLowerCase()
 						} catch(e) {

@@ -8,8 +8,7 @@ const https = require("follow-redirects").https
 const UIPage = require('./uipage')
 const i18n_module = require('i18n-nodejs')
 const compVer = require('compare-versions')
-const request = require('request')
-const requestPromise = require('request-promise-native')
+const got = require('got')
 
 /**
  * This module finds addons, loads and initialze them
@@ -381,8 +380,9 @@ class Addons extends UIPage {
 				modal.onclick = () => {}
 
 				const self = this
-				request.get(downloadurl, { encoding: null, timeout: 20000 }, async (err, resp, body) => {
-					if(!err && resp.statusCode == 200) {
+				got(downloadurl, { responseType: 'buffer', timeout: 20000 }).then(async (resp) => {
+					let body = resp.body
+					if(resp.statusCode == 200) {
 						originalFs.writeFileSync('resources/' + addonname + '.asar', body)
 						
 						if(self.initiateAddon('resources/' + addonname + '.asar')) {
@@ -400,6 +400,9 @@ class Addons extends UIPage {
 						modal.parentNode.removeChild(modal)
 						self.tool.ui.showErrorMessage(new Error(self.tool.i18n.__('Addon download failed. Please retry.')))
 					}
+				}).catch((e) => {
+					modal.parentNode.removeChild(modal)
+					self.tool.ui.showErrorMessage(new Error(self.tool.i18n.__('Addon download failed. Please retry.')))
 				})
 			} else {
 				this.tool.ui.showErrorMessage(new Error(this.tool.i18n.__('Could not find anything to download.')))
@@ -429,7 +432,7 @@ class Addons extends UIPage {
 				modal.onclick = () => {}
 
 				try {
-					let resp = await requestPromise.get(downloadurl, { encoding: null, timeout: 20000, resolveWithFullResponse: true })
+					let resp = await got(downloadurl, { responseType: 'buffer', timeout: 20000 })
 					if(resp.statusCode == 200) {
 						fs.writeFileSync('resources/' + addonname + '.part', resp.body)
 						this.prepared_updates.push(addonname)
@@ -482,31 +485,30 @@ class Addons extends UIPage {
 			try {
 				let packageAddons = await new Promise((resolve, reject) => {
 					console.log(`[Addons] Loading package source: ${self.packageLists[i]}`)
-					request.get(self.packageLists[i], { encoding: 'utf8', timeout: 10000, json: true }, (err, res, body) => {
-						if(err) {
-							reject(err)
-						} else {
-							if(res.statusCode == 200) {
-								if(Array.isArray(body)) {
-									var addons = []
-									for(let j = 0; j < body.length; j++) {
-										if(
-											typeof(body[j].name) === 'string' &&
-											typeof(body[j].description) === 'string' &&
-											typeof(body[j].version) === 'string' &&
-											typeof(body[j].url) === 'string'
-										) {
-											addons.push(body[j])
-										}
+					got(self.packageLists[i], { responseType: 'json', timeout: 10000 }).then((res) => {
+						let body = res.body
+						if(res.statusCode == 200) {
+							if(Array.isArray(body)) {
+								var addons = []
+								for(let j = 0; j < body.length; j++) {
+									if(
+										typeof(body[j].name) === 'string' &&
+										typeof(body[j].description) === 'string' &&
+										typeof(body[j].version) === 'string' &&
+										typeof(body[j].url) === 'string'
+									) {
+										addons.push(body[j])
 									}
-									resolve(addons)
-								} else {
-									reject('Response is invalid')
 								}
+								resolve(addons)
 							} else {
-								reject(`Response status code ${res.statusCode}`)
+								reject('Response is invalid')
 							}
+						} else {
+							reject(`Response status code ${res.statusCode}`)
 						}
+					}).catch((err) => {
+						reject(err)
 					})
 				})
 

@@ -1,7 +1,7 @@
 const TwitchChat = require('../lib/twitchchat')
 const EventEmitter = require('events')
 const {BrowserWindow} = require('electron').remote
-const request = require('request')
+const got = require('got')
 
 /**
  * This module makes more useable events out of the irc interface
@@ -264,8 +264,9 @@ class Chat extends EventEmitter {
 			self.messagelement = document.querySelector('#chat_message')
 			self.actionsElement = document.querySelector('#channelactions')
 			
-			request.get('https://api.frankerfacez.com/v1/badge/bot', { timeout: 10000 }, (err, resp, body) => {
-				if(!err && resp.statusCode === 200) {
+			got('https://api.frankerfacez.com/v1/badge/bot', { responseType: 'json', timeout: 10000 }, (resp) => {
+				let body = resp.body
+				if(resp.statusCode === 200) {
 					try {
 						let badge = JSON.parse(body)
 						if(typeof(badge.badge) !== 'undefined' && typeof(badge.users) !== 'undefined') {
@@ -273,7 +274,7 @@ class Chat extends EventEmitter {
 						}
 					} catch(e) {}
 				}
-			})
+			}).catch((e) => { console.error(e) })
 		})
 		this.tool.on('exit', () => { self.disconnect() })
 	}
