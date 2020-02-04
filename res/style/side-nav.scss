@@ -1,12 +1,11 @@
-
 nav.side-nav {
 	display: block;
 	background: fade($accentColor, 70%);
 	position: absolute;
 	z-index: 998;
-	top: 0;
-	left: 0;
-	bottom: 0;
+	top: 32px;
+	left: 1px;
+	bottom: 1px;
 	backdrop-filter: blur(10px);
 	box-shadow: 0 5px 5px rgba(0,0,0, 0.7);
 	

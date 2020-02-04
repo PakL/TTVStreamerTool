@@ -1,48 +1,47 @@
-import {app, BrowserWindow, globalShortcut, autoUpdater, ipcMain} from 'electron'
-import { WindowState } from './lib/WindowState'
+import {app, BrowserWindow, globalShortcut, autoUpdater, ipcMain} from 'electron';
+import { WindowState } from './lib/WindowState';
 
-import * as path from 'path'
-import * as url from 'url'
+import * as path from 'path';
+import * as url from 'url';
 
 let win: BrowserWindow;
 let splash: BrowserWindow;
 
-let doNotOpenMainWindow: boolean = false
+let doNotOpenMainWindow: boolean = false;
 
-app.setAppUserModelId('dev.pakl.TTVStreamerTool')
+app.setAppUserModelId('dev.pakl.TTVStreamerTool');
 if(!app.requestSingleInstanceLock()) {
 	app.quit();
 }
-autoUpdater.setFeedURL({ url: 'https://update.ttvst.app/' })
-
+autoUpdater.setFeedURL({ url: 'https://update.ttvst.app/' });
 
 
 function createWindow () {
 	autoUpdater.on('update-available', () => {
 		doNotOpenMainWindow = true
-	})
+	});
 
-	let mainWindowState = new WindowState({ defaultWidth: 800, defaultHeight: 600 })
+	let mainWindowState = new WindowState({ defaultWidth: 800, defaultHeight: 600 });
 
-	let spX = (mainWindowState.x + ((mainWindowState.width - 300) / 2))
-	let spY = (mainWindowState.y + ((mainWindowState.height - 450) / 2))
-	splash = new BrowserWindow({x: spX, y: spY, width: 300, height: 450, frame: false, resizable: false, skipTaskbar: true, webPreferences: { nodeIntegration: true, webviewTag: false }, show: false})
+	let spX = (mainWindowState.x + ((mainWindowState.width - 300) / 2));
+	let spY = (mainWindowState.y + ((mainWindowState.height - 450) / 2));
+	splash = new BrowserWindow({x: spX, y: spY, width: 300, height: 450, frame: false, resizable: false, skipTaskbar: true, webPreferences: { nodeIntegration: true, webviewTag: false }, show: false});
 	splash.loadURL(url.format({
 		pathname: path.join(__dirname, '..', 'views', 'splash.html'),
 		protocol: 'file:',
 		slashes: true
-	}))
+	}));
 	splash.on('ready-to-show', () => {
 		if(splash !== null) {
-			splash.show()
-			splash.moveTop()
+			splash.show();
+			splash.moveTop();
 		}
-	})
+	});
 
 	ipcMain.on('splash-done', () => {
 		if(doNotOpenMainWindow) {
-			splash.close()
-			return
+			splash.close();
+			return;
 		}
 
 		win = new BrowserWindow({
@@ -55,7 +54,8 @@ function createWindow () {
 			autoHideMenuBar: true,
 			icon: path.join(__dirname, '../res/img/icon.ico'),
 			webPreferences: { nodeIntegration: true, webviewTag: true },
-			show: false
+			show: false,
+			frame: false
 		})
 		win.loadURL(url.format({
 			pathname: path.join(__dirname, '..', 'views', 'index.html'),

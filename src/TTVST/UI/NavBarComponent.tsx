@@ -1,53 +1,51 @@
-import * as React from 'react'
+import React from 'react';
 import { FontIcon } from 'office-ui-fabric-react/lib-commonjs/Icon';
-import { initializeIcons } from 'office-ui-fabric-react/lib-commonjs/Icons';
 import { mergeStyles } from 'office-ui-fabric-react/lib-commonjs/Styling';
-
-initializeIcons()
 
 const boldText = mergeStyles({ fontWeight: 'bold' })
 
+interface INavBarState {
+	open?: boolean;
+}
+
 export class NavBarComponent extends React.Component {
 
-	state: Readonly<{open?: boolean}>;
+	state: Readonly<INavBarState>;
 	navToggle: React.RefObject<HTMLAnchorElement>;
 
 	constructor(props: Readonly<{}>) {
-		super(props)
-		this.collapseMenu = this.collapseMenu.bind(this)
-		this.expandMenu = this.expandMenu.bind(this)
-		this.toggleMenu = this.toggleMenu.bind(this)
-		this.state = { open: false }
-		this.navToggle = React.createRef()
+		super(props);
+		this.collapseMenu = this.collapseMenu.bind(this);
+		this.expandMenu = this.expandMenu.bind(this);
+		this.toggleMenu = this.toggleMenu.bind(this);
+		this.state = { open: false };
+		this.navToggle = React.createRef();
 
-		const self = this
+		const self = this;
 		document.querySelector('body').addEventListener('click', (e: MouseEvent) => {
-			if(!(e.target instanceof HTMLElement)) return
+			if(!(e.target instanceof HTMLElement)) return;
 			if(e.target !== self.navToggle.current && e.target.parentElement !== self.navToggle.current) {
-				self.collapseMenu()
+				self.collapseMenu();
 			}
-		})
+		});
 	}
 
 	collapseMenu() {
-		this.setState({ open: false })
+		this.setState({ open: false });
 	}
 
 	expandMenu() {
-		this.setState({ open: true })
+		this.setState({ open: true });
 	}
 
 	toggleMenu() {
-		this.setState((state: Readonly<{open?: boolean}>, props) => {
+		this.setState((state: Readonly<INavBarState>, props) => {
 			return { open: !state.open };
-		})
+		});
 	}
 
 	render() {
-		let navClasses = "side-nav"
-		if(!this.state.open) {
-			navClasses += ' collapsed'
-		}
+		let navClasses = 'side-nav' + (!this.state.open ? ' collapsed' : '');
 
 		return (
 			<nav className={navClasses}>
@@ -63,7 +61,7 @@ export class NavBarComponent extends React.Component {
 					<li><a id="nav-about" dir="ltr"><FontIcon iconName="Unknown" />About TTVST</a></li>
 				</ul>
 			</nav>
-		)
+		);
 	}
 
 }

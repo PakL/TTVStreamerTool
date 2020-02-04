@@ -2,13 +2,13 @@ $accentColor: #feb404;
 
 $globalFontFamily: 'Segoe UI', sans-serif;
 $globalFontSize: 16px;
-$globalBackground: #121212;
+$globalBackground: #130208;
 
 html, body {
 	font-family: $globalFontFamily;
 	font-size: $globalFontSize;
 	background: $globalBackground;
-	color: #ffffff;
+	color: darken(#ffffff, 3%);
 	
 	user-select: none;
 	-webkit-user-select: none;
@@ -19,10 +19,34 @@ html, body {
 	height: 100%;
 }
 
-#content {
+::-webkit-scrollbar {
+	width: 10px;
+}
+::-webkit-scrollbar-thumb {
+	background-color: darken($accentColor, 10%);
+}
+::-webkit-scrollbar-track-piece {
+	background-color: darken($globalBackground, 5%);
+}
+
+::placeholder {
+	color: #999999;
+}
+
+#wrapper {
 	display: block;
 	width: 100%;
 	height: 100%;
+	border: 1px solid $accentColor;
+	box-sizing: border-box;
 }
 
-@import 'side-nav';
+#contentWrapper {
+	display: block;
+	margin-left: 48px;
+	width: calc(100% - 48px);
+	height: calc(100% - 32px);
+	overflow: auto;
+}
+
+@import 'side-nav', 'titlebar';

@@ -6,6 +6,7 @@
 		"jsx": "react",
 		"outDir": "dist",
 		"baseUrl": ".",
+		"esModuleInterop": true,
 		"paths": {
 			"*": ["node_modules/*"]
 		}
