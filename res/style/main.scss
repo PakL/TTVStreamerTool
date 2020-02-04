@@ -1,0 +1,28 @@
+$accentColor: #feb404;
+
+$globalFontFamily: 'Segoe UI', sans-serif;
+$globalFontSize: 16px;
+$globalBackground: #121212;
+
+html, body {
+	font-family: $globalFontFamily;
+	font-size: $globalFontSize;
+	background: $globalBackground;
+	color: #ffffff;
+	
+	user-select: none;
+	-webkit-user-select: none;
+
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+
+#content {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+@import 'side-nav';

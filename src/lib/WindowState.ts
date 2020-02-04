@@ -1,13 +1,32 @@
-const path = require('path')
-const electron = require('electron')
-const fs = require('fs')
+import * as path from 'path'
+import * as electron from 'electron'
+import * as fs from 'fs'
 
-let _app = null
-let _screen = null
+let _app : electron.App = null
+let _screen : electron.Screen = null
+
+interface IWindowStateOptions {
+	defaultWidth: number;
+	defaultHeight: number;
+}
+
+interface IWindowStatePosition {
+	x: number;
+	y: number;
+}
 
 class WindowState {
 
-	constructor(options) {
+	width: number;
+	height: number;
+	x: number;
+	y: number;
+	isMaximized: boolean;
+	isFullScreen: boolean;
+	managedWindow: electron.BrowserWindow;
+	filePath: string;
+
+	constructor(options: IWindowStateOptions) {
 		_app = electron.app || electron.remote.app
 		_screen = electron.screen || electron.remote.screen
 
@@ -22,19 +41,25 @@ class WindowState {
 
 		const self = this
 		this._manageWindowCloseListener = () => { self.saveState() }
-		this._manageWindowResizeListener = () => { self.refreshState('resize') }
-		this._manageWindowMoveListener = () => { self.refreshState('move') }
-		this._manageWindowMaxmizeListener = () => { self.refreshState('maximize') }
-		this._manageWindowUnmaximizeListener = () => { self.refreshState('unmaximize') }
+		this._manageWindowResizeListener = () => { self.refreshState() }
+		this._manageWindowMoveListener = () => { self.refreshState() }
+		this._manageWindowMaxmizeListener = () => { self.refreshState() }
+		this._manageWindowUnmaximizeListener = () => { self.refreshState() }
 		this.managedWindow = null
 
 		this.filePath = path.join(_app.getPath('userData'), 'window-state.json')
 		this.loadState()
 	}
 
+	_manageWindowCloseListener() {}
+	_manageWindowResizeListener() {}
+	_manageWindowMoveListener() {}
+	_manageWindowMaxmizeListener() {}
+	_manageWindowUnmaximizeListener() {}
+
 	loadState() {
 		try {
-			let stateFile = fs.readFileSync(this.filePath)
+			let stateFile = fs.readFileSync(this.filePath, { encoding: 'utf8' })
 			let state = JSON.parse(stateFile)
 
 			this.x = (typeof(state.x) !== 'undefined' ? state.x : this.x)
@@ -46,7 +71,7 @@ class WindowState {
 		} catch(e){}
 	}
 	
-	refreshState(e) {
+	refreshState() {
 		if(this.managedWindow === null) return
 		let winBounds = this.managedWindow.getBounds()
 		
@@ -78,7 +103,7 @@ class WindowState {
 		} catch(e) {}
 	}
 
-	_overlap(l1, r1, l2, r2) {
+	_overlap(l1: IWindowStatePosition, r1: IWindowStatePosition, l2: IWindowStatePosition, r2: IWindowStatePosition) {
 		if(l1.x > r2.x || l2.x > r1.x)
 			return false
 
@@ -88,7 +113,7 @@ class WindowState {
 		return true
 	}
 
-	inView(winbounds) {
+	inView(winbounds: electron.Rectangle) {
 		let screens = _screen.getAllDisplays()
 		for(let i = 0; i < screens.length; i++) {
 			let b = screens[i].bounds
@@ -102,7 +127,7 @@ class WindowState {
 		return false
 	}
 
-	_addListeners(window) {
+	_addListeners(window: electron.BrowserWindow) {
 		window.on('close', this._manageWindowCloseListener)
 		window.on('resize', this._manageWindowResizeListener)
 		window.on('move', this._manageWindowMoveListener)
@@ -110,7 +135,7 @@ class WindowState {
 		window.on('unmaximize', this._manageWindowUnmaximizeListener)
 	}
 
-	manage(window) {
+	manage(window: electron.BrowserWindow) {
 		this.managedWindow = window
 
 		this.managedWindow.setBounds({ x: this.x, y: this.y, width: this.width, height: this.height })
@@ -141,5 +166,5 @@ class WindowState {
 	}
 
 }
-module.exports = WindowState
 
+export { WindowState }

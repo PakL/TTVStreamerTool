@@ -1,7 +1,7 @@
 {
 	"name": "ttv-streamertool",
-	"version": "1.11.1",
-	"main": "main.js",
+	"version": "2.0.0",
+	"main": "dist/main.js",
 	"description": "TTVST is an application aimed at Twitch streamer.",
 	"author": {
 		"email": "pakl@paklweb.de",
@@ -18,26 +18,27 @@
 		"generate-docs": "jsdoc -c jsdoc.json"
 	},
 	"dependencies": {
+		"@types/node": "12.12.6",
+		"@types/react": "16.9.19",
+		"@types/react-dom": "16.9.5",
 		"compare-versions": "3.5.1",
 		"dateformat": "3.0.3",
 		"electron-squirrel-startup": "1.0.0",
 		"fluent-reveal-effect": "1.1.1",
 		"follow-redirects": "1.10.0",
-		"gridstack": "0.6.0",
+		"got": "10.4.0",
 		"i18n-nodejs": "3.0.0",
-		"jquery": "3.4.1",
-		"less": "3.10.3",
 		"nodejs-websocket": "1.7.2",
 		"office-ui-fabric-core": "11.0.0",
+		"office-ui-fabric-react": "7.88.0",
 		"randexp": "0.5.3",
-		"riot": "4.8.7",
-		"stringz": "2.0.0",
-		"got": "10.4.0"
+		"react": "16.12.0",
+		"react-dom": "16.12.0",
+		"stringz": "2.0.0"
 	},
 	"devDependencies": {
-		"@riotjs/cli": "4.0.3",
-		"@riotjs/compiler": "4.5.5",
-		"electron": "7.1.10",
-		"electron-winstaller": "4.0.0"
+		"electron": "7.1.11",
+		"electron-winstaller": "4.0.0",
+		"typescript": "3.7.5"
 	}
 }
