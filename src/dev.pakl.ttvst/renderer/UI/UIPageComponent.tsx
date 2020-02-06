@@ -1,6 +1,6 @@
 import React from 'react';
 
-export class UIPageComponent extends React.Component {
+class UIPageComponent extends React.Component {
 
 	pageRef: React.RefObject<HTMLDivElement>;
 
@@ -17,3 +17,4 @@ export class UIPageComponent extends React.Component {
 	}
 
 }
+export = UIPageComponent;

@@ -1,10 +1,12 @@
-import { remote } from 'electron';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { NavBarComponent } from './NavBarComponent';
-import { TitlebarComponent } from './TitlebarComponent';
+import NavBarComponent from './NavBarComponent';
+import TitlebarComponent from './TitlebarComponent';
 import { initializeIcons } from 'office-ui-fabric-react/lib-commonjs/Icons';
 import { loadTheme } from 'office-ui-fabric-react/lib-commonjs/Styling';
+
+import TTVST from '../TTVST';
+import languageContext from './LanguageContext';
 
 loadTheme({
 	palette: {
@@ -34,19 +36,26 @@ loadTheme({
 });
 initializeIcons();
 
-export class UI {
 
-	constructor() {
+class UI {
+
+	private tool: TTVST;
+
+	constructor(tool: TTVST) {
+		this.tool = tool;
+
+		const LanguageContext = languageContext(tool);
+
 		let navbar = (
-			<React.Fragment>
+			<LanguageContext.Provider value={this.tool.i18n}>
 				<TitlebarComponent />
 				<NavBarComponent />
-				<div id="contentWrapper">
-				</div>
-			</React.Fragment>
+				<div id="contentWrapper"></div>
+			</LanguageContext.Provider>
 		);
 
 		ReactDOM.render(navbar, document.querySelector('#wrapper'));
 	}
 
 }
+export = UI;

@@ -7,7 +7,7 @@ interface ITitlebarState {
 	maximized: boolean;
 }
 
-export class TitlebarComponent extends React.Component {
+class TitlebarComponent extends React.Component {
 
 	state: Readonly<ITitlebarState>;
 
@@ -55,3 +55,5 @@ export class TitlebarComponent extends React.Component {
 	}
 
 }
+
+export = TitlebarComponent;

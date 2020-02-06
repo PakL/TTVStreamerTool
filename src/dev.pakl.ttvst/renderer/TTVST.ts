@@ -1,17 +1,23 @@
 import i18n from 'i18n-nodejs';
 
-import { UI } from './UI/UI';
+import UI from './UI/UI';
 import * as Settings from './Settings'
 
 
-export class TTVST {
+class TTVST {
 
 	private _ui: UI;
 	private _i18n: i18n;
 
 	constructor() {
 		this._i18n = new i18n(Settings.language(), './../../language.json')
-		this._ui = new UI();
+		this._ui = new UI(this);
+	}
+
+	get i18n(): i18n {
+		return this._i18n;
 	}
 
 }
+
+export = TTVST;

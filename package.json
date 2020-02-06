@@ -37,7 +37,7 @@
 		"stringz": "2.0.0"
 	},
 	"devDependencies": {
-		"electron": "7.1.11",
+		"electron": "8.0.0",
 		"electron-winstaller": "4.0.0",
 		"typescript": "3.7.5"
 	}

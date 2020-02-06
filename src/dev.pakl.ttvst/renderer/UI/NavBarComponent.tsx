@@ -1,6 +1,10 @@
 import React from 'react';
 import { FontIcon } from 'office-ui-fabric-react/lib-commonjs/Icon';
 import { mergeStyles } from 'office-ui-fabric-react/lib-commonjs/Styling';
+import i18n from 'i18n-nodejs';
+
+import UI from './UI';
+import languageContext from './LanguageContext';
 
 const boldText = mergeStyles({ fontWeight: 'bold' })
 
@@ -8,7 +12,9 @@ interface INavBarState {
 	open?: boolean;
 }
 
-export class NavBarComponent extends React.Component {
+class NavBarComponent extends React.Component {
+
+	static contextType: React.Context<i18n> = null;
 
 	state: Readonly<INavBarState>;
 	navToggle: React.RefObject<HTMLAnchorElement>;
@@ -21,6 +27,8 @@ export class NavBarComponent extends React.Component {
 		this.state = { open: false };
 		this.navToggle = React.createRef();
 
+		NavBarComponent.contextType = languageContext();
+
 		const self = this;
 		document.querySelector('body').addEventListener('click', (e: MouseEvent) => {
 			if(!(e.target instanceof HTMLElement)) return;
@@ -28,6 +36,10 @@ export class NavBarComponent extends React.Component {
 				self.collapseMenu();
 			}
 		});
+	}
+
+	__(str: string): string {
+		return this.context.__(str);
 	}
 
 	collapseMenu() {
@@ -55,13 +67,15 @@ export class NavBarComponent extends React.Component {
 				
 
 				<ul className="bottom">
-					<li><a id="nav-addons"><FontIcon iconName="Puzzle" />Addons</a></li>
-					<li><a id="nav-settings"><FontIcon iconName="Settings" />Settings</a></li>
-					<li><a id="nav-changelog"><FontIcon iconName="News" />Changelog</a></li>
-					<li><a id="nav-about" dir="ltr"><FontIcon iconName="Unknown" />About TTVST</a></li>
+					<li><a id="nav-addons"><FontIcon iconName="Puzzle" />{this.__('Addons')}</a></li>
+					<li><a id="nav-settings"><FontIcon iconName="Settings" />{this.__('Settings')}</a></li>
+					<li><a id="nav-changelog"><FontIcon iconName="News" />{this.__('Changelog')}</a></li>
+					<li><a id="nav-about" dir="ltr"><FontIcon iconName="Unknown" />{this.__('About TTVST')}</a></li>
 				</ul>
 			</nav>
 		);
 	}
 
 }
+
+export = NavBarComponent;
