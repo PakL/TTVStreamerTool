@@ -42,81 +42,14 @@
 
 		
 		<script type="application/javascript">
-			const fs = require('fs')
-			const originalFs = require('original-fs')
-			const path = require('path')
-			const {remote, ipcRenderer} = require('electron')
-			const {app, autoUpdater} = remote.require('electron')
-			const thisWindow = remote.getCurrentWindow()
-			const msgOutput = document.querySelector('p')
-			const {exec} = require('child_process')
+			const { ipcRenderer } = require('electron');
+			const updateMessage = document.querySelector('p');
 
-
-			let startUpdate = function() {
-				autoUpdater.on('error', (e) => {
-					msgOutput.innerText = 'There was an error 🙁'
-					ipcRenderer.send('splash-done')
-				})
-				autoUpdater.on('update-available', () => {
-					msgOutput.innerText = 'Loading update... ' + ['🍕','🍟','🥨','🍙','🍪','🍦','🍌','🥦','🥕'][Math.floor(Math.random()*9)]
-				})
-				autoUpdater.on('update-not-available', () => {
-					msgOutput.innerText = 'No update! 😎'
-					ipcRenderer.send('splash-done')
-				})
-				autoUpdater.on('update-downloaded', () => {
-					msgOutput.innerText = 'Installing update now... 🤩'
-					autoUpdater.quitAndInstall()
-				})
-
-
-				if(process.argv.indexOf('--squirrel-firstrun') >= 0) {
-					thisWindow.close()
-				} else {
-					msgOutput.innerText = 'Checking for update... 🔎'
-					autoUpdater.checkForUpdates()
-				}
-			}
-
+			ipcRenderer.on('update-message', (event, message) => {
+				updateMessage.innerText = message;
+			})
 			window.addEventListener('load', () => {
-				let thisExecDir = path.dirname(process.execPath)
-				let appsDir = path.resolve(thisExecDir, '../')
-				msgOutput.innerText = 'Checking for old addons...'
-				fs.readdir(appsDir, (err, files) => {
-					if(err) {
-						startUpdate()
-						return
-					}
-
-					let reinstalledAddon = false
-
-					files.forEach((file) => {
-						if(!file.startsWith('app-')) return
-						if(file == 'app-' + app.getVersion()) return
-						try {
-							let appfolder = path.join(appsDir, file)
-							let stats = fs.lstatSync(appfolder)
-							if(stats.isDirectory()) {
-								fs.accessSync(path.join(appfolder, 'resources'))
-								let appResources = fs.readdirSync(path.join(appfolder, 'resources'))
-								appResources.forEach((resource) => {
-									if(resource.toLowerCase().endsWith('.asar') && ['app.asar', 'default_app.asar', 'electron.asar'].indexOf(resource.toLowerCase()) < 0) {
-										try {
-											if(!originalFs.existsSync(path.join(thisExecDir, 'resources', resource))) {
-												originalFs.renameSync(path.join(appfolder, 'resources', resource), path.join(thisExecDir, 'resources', resource))
-												reinstalledAddon = true
-											}
-										} catch(er) {}
-									}
-								})
-							}
-						} catch(e) {
-							console.error(e)
-						}
-					})
-
-					startUpdate()
-				})
+				ipcRenderer.invoke('splash-loaded');
 			})
 		</script>
 	</body>

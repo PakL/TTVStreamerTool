@@ -3,8 +3,7 @@ import { FontIcon } from 'office-ui-fabric-react/lib-commonjs/Icon';
 import { mergeStyles } from 'office-ui-fabric-react/lib-commonjs/Styling';
 import i18n from 'i18n-nodejs';
 
-import UI from './UI';
-import languageContext from './LanguageContext';
+import languageContext from './../LanguageContext';
 
 const boldText = mergeStyles({ fontWeight: 'bold' })
 

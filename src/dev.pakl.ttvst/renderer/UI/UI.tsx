@@ -1,61 +1,80 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import NavBarComponent from './NavBarComponent';
-import TitlebarComponent from './TitlebarComponent';
+import { ipcRenderer } from 'electron';
 import { initializeIcons } from 'office-ui-fabric-react/lib-commonjs/Icons';
 import { loadTheme } from 'office-ui-fabric-react/lib-commonjs/Styling';
 
 import TTVST from '../TTVST';
+import * as Color from './ColorFunctions';
 import languageContext from './LanguageContext';
+import NavBarComponent from './Main/NavBarComponent';
+import UIPageComponent from './Main/PageComponent';
+
+let accentColor: string = ipcRenderer.sendSync('request-accent-color');
+while(Color.hexToLuma(accentColor) < 0.5) {
+	accentColor = Color.rgbToHex(Color.increaseBrightness(Color.hexToRGB(accentColor), 1));
+}
+let accentColorRGB = Color.hexToRGB(accentColor);
 
 loadTheme({
 	palette: {
-		themePrimary: '#c11153',
-		themeLighterAlt: '#080103',
-		themeLighter: '#1f030d',
-		themeLight: '#3a0519',
-		themeTertiary: '#740a31',
-		themeSecondary: '#ab0f48',
-		themeDarkAlt: '#c82460',
-		themeDark: '#d04075',
-		themeDarker: '#dd6c95',
-		neutralLighterAlt: '#1c040d',
-		neutralLighter: '#250711',
-		neutralLight: '#340c1a',
-		neutralQuaternaryAlt: '#3d1120',
-		neutralQuaternary: '#451526',
-		neutralTertiaryAlt: '#652a3f',
-		neutralTertiary: '#eeeeee',
-		neutralSecondary: '#f1f1f1',
-		neutralPrimaryAlt: '#f4f4f4',
-		neutralPrimary: '#e6e6e6',
-		neutralDark: '#f9f9f9',
-		black: '#fcfcfc',
-		white: '#130208'
+		themeDarker: '#' + Color.rgbToHex(Color.increaseBrightness(accentColorRGB, -30)),
+		themeDark: '#' + Color.rgbToHex(Color.increaseBrightness(accentColorRGB, -20)),
+		themeDarkAlt: '#' + Color.rgbToHex(Color.increaseBrightness(accentColorRGB, -10)),
+		themePrimary: '#' + accentColor,
+		themeSecondary: '#' + Color.rgbToHex(Color.increaseBrightness(accentColorRGB, 20)),
+		themeTertiary: '#' + Color.rgbToHex(Color.increaseBrightness(accentColorRGB, 40)),
+		themeLight: '#' + Color.rgbToHex(Color.increaseBrightness(accentColorRGB, 60)),
+		themeLighter: '#' + Color.rgbToHex(Color.increaseBrightness(accentColorRGB, 80)),
+		themeLighterAlt: '#' + Color.rgbToHex(Color.increaseBrightness(accentColorRGB, 95)),
+
+		black: '#f8f8f8',
+		neutralDark: '#f4f4f4',
+		neutralPrimary: '#ffffff',
+		neutralPrimaryAlt: '#dadada',
+		neutralSecondary: '#d0d0d0',
+		neutralTertiary: '#c8c8c8',
+		white: '#121212',
+
+		neutralTertiaryAlt: '#656565',
+		neutralQuaternary: '#454545',
+		neutralQuaternaryAlt: '#3d3d3d',
+		neutralLight: '#343434',
+		neutralLighter: '#252525',
+		neutralLighterAlt: '#1c1c1c',
 	}
 });
 initializeIcons();
 
-
 class UI {
 
 	private tool: TTVST;
+	page: UIPageComponent;
 
 	constructor(tool: TTVST) {
 		this.tool = tool;
 
 		const LanguageContext = languageContext(tool);
 
-		let navbar = (
+		ipcRenderer.invoke('render-sass').then((css) => {
+			document.querySelector('#stylesheet').innerHTML = css;
+		});
+
+		const self = this
+		let firstPage = <UIPageComponent ref={(page) => { self.page = page; }} />;
+
+		let content = (
 			<LanguageContext.Provider value={this.tool.i18n}>
-				<TitlebarComponent />
 				<NavBarComponent />
-				<div id="contentWrapper"></div>
+				<div id="contentWrapper">
+					{firstPage}
+				</div>
 			</LanguageContext.Provider>
 		);
 
-		ReactDOM.render(navbar, document.querySelector('#wrapper'));
+		ReactDOM.render(content, document.querySelector('#wrapper'));
 	}
+
 
 }
 export = UI;

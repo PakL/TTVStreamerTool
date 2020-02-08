@@ -1,7 +1,9 @@
-import { app, globalShortcut, autoUpdater } from 'electron';
-import MainWindow from './dev.pakl.ttvst/main/MainWindow';
-import { SplashWindow } from './dev.pakl.ttvst/main/SplashWindow';
+import { app, globalShortcut, autoUpdater, ipcMain } from 'electron';
 import electronSquirrelStartup from 'electron-squirrel-startup';
+
+import MainWindow from './dev.pakl.ttvst/main/MainWindow';
+import SplashWindow from './dev.pakl.ttvst/main/SplashWindow';
+import * as SassLoader from './dev.pakl.ttvst/main/SassLoader';
 
 let mainWin: MainWindow = null;
 let splashWin: SplashWindow = null;
@@ -32,14 +34,14 @@ async function main() {
 			}
 			mainWin.window.focus();
 		}
-	})
+	});
 
 	app.on('window-all-closed', () => {
 		globalShortcut.unregisterAll();
 		if(process.platform !== 'darwin') {
 			app.quit();
 		}
-	})
+	});
 
 	await app.whenReady();
 	
@@ -61,5 +63,7 @@ async function main() {
 	splashWin.on('done', () => {
 		mainWin.show();
 	})
+
+	ipcMain.handle('render-sass', SassLoader.renderCSS);
 }
 main();

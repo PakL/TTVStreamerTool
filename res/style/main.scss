@@ -1,14 +1,17 @@
 $accentColor: #feb404;
+$fontColorOnAccent: #000000;
 
 $globalFontFamily: 'Segoe UI', sans-serif;
 $globalFontSize: 16px;
-$globalBackground: #130208;
+
+$globalForeground: #ffffff;
+$globalBackground: #121212;
 
 html, body {
 	font-family: $globalFontFamily;
 	font-size: $globalFontSize;
 	background: $globalBackground;
-	color: darken(#ffffff, 3%);
+	color: $globalForeground;
 	
 	user-select: none;
 	-webkit-user-select: none;
@@ -37,8 +40,6 @@ html, body {
 	display: block;
 	width: 100%;
 	height: 100%;
-	border: 1px solid $accentColor;
-	box-sizing: border-box;
 }
 
 #contentWrapper {
@@ -49,4 +50,4 @@ html, body {
 	overflow: auto;
 }
 
-@import 'side-nav', 'titlebar';
+@import 'side-nav';

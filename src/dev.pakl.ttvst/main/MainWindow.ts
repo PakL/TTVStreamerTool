@@ -1,4 +1,4 @@
-import { BrowserWindow, ipcMain } from 'electron';
+import { BrowserWindow, ipcMain, systemPreferences } from 'electron';
 import { EventEmitter } from 'events';
 import * as url from 'url';
 import * as path from 'path';
@@ -30,13 +30,14 @@ class MainWindow extends EventEmitter {
 			autoHideMenuBar: true,
 			icon: path.join(__dirname, '../../../res/img/icon.ico'),
 			webPreferences: { nodeIntegration: true, webviewTag: true },
-			show: false,
-			frame: false
+			show: false
 		});
 
 		this.window.on('ready-to-show', this.onReadyToShow.bind(this))
 		this.window.on('show', this.onShow.bind(this));
 		this.window.on('closed', this.onClosed.bind(this));
+		
+		ipcMain.on('request-accent-color', this.onRequestAccentColor.bind(this));
 
 		this.window.loadURL(url.format({
 			pathname: path.join(__dirname, '../../../views/index.html'),
@@ -45,6 +46,20 @@ class MainWindow extends EventEmitter {
 		}));
 
 		this.state.manage(this.window);
+	}
+
+	show() {
+		if(this.isReadyToShow) {
+			this.window.show();
+		}
+		this.showWhenReady = true;
+	}
+
+	getBounds(): Electron.Rectangle {
+		if(this.window === null) {
+			return this.state;
+		}
+		return this.window.getBounds();
 	}
 
 	private onReadyToShow() {
@@ -65,18 +80,8 @@ class MainWindow extends EventEmitter {
 		this.window = null;
 	}
 
-	show() {
-		if(this.isReadyToShow) {
-			this.window.show();
-		}
-		this.showWhenReady = true;
-	}
-
-	getBounds(): Electron.Rectangle {
-		if(this.window === null) {
-			return this.state;
-		}
-		return this.window.getBounds();
+	private onRequestAccentColor(_event: Electron.IpcMainEvent) {
+		_event.returnValue = systemPreferences.getAccentColor().substr(0, 6);
 	}
 
 }
