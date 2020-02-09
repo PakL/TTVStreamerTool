@@ -4,7 +4,7 @@ interface IUIPageState {
 	visible: boolean;
 }
 
-class UIPageComponent extends React.Component {
+class PageComponent extends React.Component {
 
 	pageRef: React.RefObject<HTMLDivElement>;
 
@@ -20,7 +20,7 @@ class UIPageComponent extends React.Component {
 	render() {
 
 		return (
-			<div ref={this.pageRef} style={{display:(this.state.visible ? undefined : 'none')}}></div>
+			<div ref={this.pageRef} style={{display:(this.state.visible ? undefined : 'none')}}>{this.props.children}</div>
 		);
 	}
 
@@ -33,4 +33,4 @@ class UIPageComponent extends React.Component {
 	}
 
 }
-export = UIPageComponent;
+export = PageComponent;

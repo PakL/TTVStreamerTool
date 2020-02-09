@@ -62,9 +62,9 @@ class NavBarComponent extends React.Component {
 			<nav className={navClasses}>
 				<ul id="nav-main-menu">
 					<li><a ref={this.navToggle} className="menu-collapse" onClick={this.toggleMenu}><FontIcon iconName="GlobalNavButton" /><span className={boldText}>TTVStreamerTool</span></a></li>
-				</ul>
-				
 
+					{this.props.children}
+				</ul>
 				<ul className="bottom">
 					<li><a id="nav-addons"><FontIcon iconName="Puzzle" />{this.__('Addons')}</a></li>
 					<li><a id="nav-settings"><FontIcon iconName="Settings" />{this.__('Settings')}</a></li>

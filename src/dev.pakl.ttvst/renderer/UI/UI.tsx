@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom';
 import { ipcRenderer } from 'electron';
 import { initializeIcons } from 'office-ui-fabric-react/lib-commonjs/Icons';
 import { loadTheme } from 'office-ui-fabric-react/lib-commonjs/Styling';
+import i18n from 'i18n-nodejs';
 
 import TTVST from '../TTVST';
 import * as Color from './ColorFunctions';
 import languageContext from './LanguageContext';
 import NavBarComponent from './Main/NavBarComponent';
-import UIPageComponent from './Main/PageComponent';
+import PageComponent from './Main/PageComponent';
+import Page from './Page';
 
 let accentColor: string = ipcRenderer.sendSync('request-accent-color');
 while(Color.hexToLuma(accentColor) < 0.5) {
@@ -46,35 +48,95 @@ loadTheme({
 });
 initializeIcons();
 
+let LanguageContext: React.Context<i18n> = null;
+
+class UIComponent extends React.Component {
+
+	props: Readonly<{i18n:i18n}>;
+	state: Readonly<{pages:Array<Page>}> = { pages: [] };
+
+	constructor(props: Readonly<{i18n:i18n}>) {
+		super(props);
+	}
+
+	setPages(pages: Array<Page>) {
+		this.setState({ pages });
+	}
+
+	render() {
+		let navLinks: React.SFCElement<any>[] = []
+		let content: React.ReactElement<PageComponent>[] = []
+		this.state.pages.forEach((page) => {
+			if(page.showInViewsList) {
+				navLinks.push(<li key={page.name}><a onClick={UI.openPage} data-name={page.name}>{page.icon}{page.localizedName}</a></li>);
+			}
+			content.push(page.render());
+		});
+
+		return (
+			<LanguageContext.Provider value={this.props.i18n}>
+				<NavBarComponent>
+					{navLinks}
+				</NavBarComponent>
+				<div id="contentWrapper">
+					{content}
+				</div>
+			</LanguageContext.Provider>
+		);
+	}
+
+}
+
 class UI {
 
 	private tool: TTVST;
-	page: UIPageComponent;
+	private mainComponent: UIComponent = null;
+	private pages: Array<Page> = [];
+
+	private openPage: Page = null;
+
+	static instance: UI = null;
 
 	constructor(tool: TTVST) {
 		this.tool = tool;
 
-		const LanguageContext = languageContext(tool);
+		UI.instance = this;
+
+		LanguageContext = languageContext(tool);
 
 		ipcRenderer.invoke('render-sass').then((css) => {
 			document.querySelector('#stylesheet').innerHTML = css;
 		});
 
+		this.addPage(new Page('Start'));
+
 		const self = this
-		let firstPage = <UIPageComponent ref={(page) => { self.page = page; }} />;
-
-		let content = (
-			<LanguageContext.Provider value={this.tool.i18n}>
-				<NavBarComponent />
-				<div id="contentWrapper">
-					{firstPage}
-				</div>
-			</LanguageContext.Provider>
-		);
-
-		ReactDOM.render(content, document.querySelector('#wrapper'));
+		ReactDOM.render(<UIComponent i18n={this.tool.i18n} ref={(main) => { self.mainComponent = main; }} />, document.querySelector('#wrapper'), () => {
+			self.mainComponent.setPages(self.pages);
+			UI.openPage({ currentTarget: { dataset: { name: self.pages[0].name } }});
+		});
 	}
 
+
+	static openPage(e: { currentTarget: { dataset: DOMStringMap }}) {
+		let page = e.currentTarget.dataset.name;
+		UI.instance.pages.forEach((p) => {
+			if(p.name === page) {
+				if(UI.instance.openPage !== null) {
+					UI.instance.openPage.close();
+				}
+				UI.instance.openPage = p;
+				p.open();
+			}
+		})
+	}
+
+	addPage(page: Page) {
+		this.pages.push(page);
+		if(this.mainComponent !== null) {
+			this.mainComponent.setPages(this.pages);
+		}
+	}
 
 }
 export = UI;
