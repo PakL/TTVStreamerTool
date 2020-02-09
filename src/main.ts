@@ -17,6 +17,10 @@ if(!app.requestSingleInstanceLock()) {
 }
 autoUpdater.setFeedURL({ url: 'https://update.ttvst.app/' });
 
+autoUpdater.on('update-available', () => {
+	doNotOpenMainWindow = true
+});
+
 async function main() {
 	if(electronSquirrelStartup) {
 		app.quit();
@@ -45,9 +49,6 @@ async function main() {
 
 	await app.whenReady();
 	
-	autoUpdater.on('update-available', () => {
-		doNotOpenMainWindow = true
-	});
 
 	mainWin = new MainWindow();
 	let mainBounds = mainWin.getBounds();
@@ -56,12 +57,17 @@ async function main() {
 	splashWin = new SplashWindow({ x: spX, y: spY });
 
 	if(doNotOpenMainWindow) {
+		splashWin.once('done', () => {
+			splashWin.close();
+		})
 		return;
 	}
 
-	mainWin.createAndLoad();
-	splashWin.on('done', () => {
-		mainWin.show();
+	splashWin.once('done', () => {
+		mainWin.once('show', () => {
+			splashWin.close();
+		})
+		mainWin.createAndLoad();
 	})
 
 	ipcMain.handle('render-sass', SassLoader.renderCSS);

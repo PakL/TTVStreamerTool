@@ -64,11 +64,6 @@ class SplashWindow extends EventEmitter {
 	}
 
 	private onSplashDone() {
-		if(this.window !== null) {
-			this.window.close();
-			this.window = null
-		}
-
 		autoUpdater.removeListener('error', this.onUpdaterError);
 		autoUpdater.removeListener('update-available', this.onUpdaterUpdateAvailable);
 		autoUpdater.removeListener('update-not-available', this.onUpdaterUpdateNotAvailable);
@@ -77,8 +72,17 @@ class SplashWindow extends EventEmitter {
 		this.emit('done');
 	}
 
+	close() {
+		if(this.window !== null) {
+			this.window.close();
+			this.window = null
+		}
+	}
+
 	private onUpdaterError(e: Error) {
-		console.error(e);
+		if(e.message == 'Can not find Squirrel') {
+			process.env.NODE_ENV = 'development';
+		}
 		this.window.webContents.send('update-message', 'There was an error 🙁');
 		this.onSplashDone();
 	}
@@ -86,6 +90,7 @@ class SplashWindow extends EventEmitter {
 		this.window.webContents.send('update-message', 'Loading update... ' + ['🍕','🍟','🥨','🍙','🍪','🍦','🍌','🥦','🥕'][Math.floor(Math.random()*9)]);
 	}
 	private onUpdaterUpdateNotAvailable() {
+		process.env.NODE_ENV = 'production';
 		this.window.webContents.send('update-message', 'No update! 😎');
 		this.onSplashDone();
 	}

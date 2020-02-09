@@ -1,3 +1,6 @@
+import { ipcRenderer } from 'electron';
+process.env.NODE_ENV = ipcRenderer.sendSync('request-node-env');
+
 import i18n from 'i18n-nodejs';
 
 import UI from './UI/UI';

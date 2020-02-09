@@ -10,9 +10,6 @@ class MainWindow extends EventEmitter {
 	state: WindowState = null;
 	window: BrowserWindow = null;
 
-	isReadyToShow: boolean = false;
-	showWhenReady: boolean = false;
-
 	constructor() {
 		super();
 		this.state = new WindowState({ defaultWidth: 800, defaultHeight: 600 });
@@ -38,6 +35,7 @@ class MainWindow extends EventEmitter {
 		this.window.on('closed', this.onClosed.bind(this));
 		
 		ipcMain.on('request-accent-color', this.onRequestAccentColor.bind(this));
+		ipcMain.on('request-node-env', this.onRequestNodeEnv.bind(this));
 
 		this.window.loadURL(url.format({
 			pathname: path.join(__dirname, '../../../views/index.html'),
@@ -46,13 +44,6 @@ class MainWindow extends EventEmitter {
 		}));
 
 		this.state.manage(this.window);
-	}
-
-	show() {
-		if(this.isReadyToShow) {
-			this.window.show();
-		}
-		this.showWhenReady = true;
 	}
 
 	getBounds(): Electron.Rectangle {
@@ -64,15 +55,13 @@ class MainWindow extends EventEmitter {
 
 	private onReadyToShow() {
 		if(this.window === null) return;
-		this.isReadyToShow = true;
-		if(this.showWhenReady) {
-			this.window.show();
-		}
+		this.window.show();
 	}
 
 	private onShow() {
 		if(this.window === null) return;
 		this.window.webContents.openDevTools();
+		this.emit('show');
 	}
 
 	private onClosed() {
@@ -82,6 +71,10 @@ class MainWindow extends EventEmitter {
 
 	private onRequestAccentColor(_event: Electron.IpcMainEvent) {
 		_event.returnValue = systemPreferences.getAccentColor().substr(0, 6);
+	}
+
+	private onRequestNodeEnv(_event: Electron.IpcMainEvent) {
+		_event.returnValue = process.env.NODE_ENV;
 	}
 
 }
