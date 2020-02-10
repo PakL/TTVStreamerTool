@@ -1,6 +1,9 @@
 import * as React from 'react';
+import _ttvst from '../TTVST';
 import { FontIcon } from 'office-ui-fabric-react/lib-commonjs/Icon';
 import PageComponent from './Main/PageComponent';
+
+declare var TTVST: _ttvst;
 
 class Page {
 
@@ -43,7 +46,7 @@ class Page {
 		}
 	}
 
-	private content(): React.SFCElement<any> | React.SFCElement<any>[] {
+	content(): React.SFCElement<any> | React.SFCElement<any>[] {
 		return (
 			<span>Hello World!</span>
 		);
@@ -54,6 +57,10 @@ class Page {
 		if(this._openWhenReady) {
 			this._pageComponent.open();
 		}
+	}
+
+	__(str: string, values?: Object): string {
+		return TTVST.i18n.__(str, values);
 	}
 
 	/**

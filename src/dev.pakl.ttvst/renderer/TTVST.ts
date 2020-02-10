@@ -12,13 +12,17 @@ class TTVST {
 	private _ui: UI;
 	private _i18n: i18n;
 
-	constructor() {
+	init() {
 		this._i18n = new i18n(Settings.language(), './../../language.json')
 		this._ui = new UI(this);
 	}
 
 	get i18n(): i18n {
 		return this._i18n;
+	}
+
+	get ui(): UI {
+		return this._ui;
 	}
 
 }

@@ -11,13 +11,15 @@ import languageContext from './LanguageContext';
 import NavBarComponent from './Main/NavBarComponent';
 import PageComponent from './Main/PageComponent';
 import Page from './Page';
+import Cockpit from './Cockpit/Startpage';
 
 let accentColor: string = ipcRenderer.sendSync('request-accent-color');
-while(Color.hexToLuma(accentColor) < 0.5) {
+while(Color.hexToLuma(accentColor) < 0.7) {
 	accentColor = Color.rgbToHex(Color.increaseBrightness(Color.hexToRGB(accentColor), 1));
 }
 let accentColorRGB = Color.hexToRGB(accentColor);
 
+console.log(accentColor)
 loadTheme({
 	palette: {
 		themeDarker: '#' + Color.rgbToHex(Color.increaseBrightness(accentColorRGB, -30)),
@@ -108,7 +110,7 @@ class UI {
 			document.querySelector('#stylesheet').innerHTML = css;
 		});
 
-		this.addPage(new Page('Start'));
+		this.addPage(new Cockpit());
 
 		const self = this
 		ReactDOM.render(<UIComponent i18n={this.tool.i18n} ref={(main) => { self.mainComponent = main; }} />, document.querySelector('#wrapper'), () => {
