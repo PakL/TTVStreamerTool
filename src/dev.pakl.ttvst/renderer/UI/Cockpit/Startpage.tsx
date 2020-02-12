@@ -1,13 +1,10 @@
 import Page from '../Page';
-import _ttvst from '../../TTVST';
 import * as React from 'react';
 
 
 import { Card, ICardTokens, ICardSectionStyles, ICardSectionTokens } from '@uifabric/react-cards';
-import { FontWeights, FontSizes, getTheme } from '@uifabric/styling';
-import { ActionButton, IButtonStyles, Icon, IIconStyles, Image, Persona, Stack, IStackTokens, Text, ITextStyles, PrimaryButton } from 'office-ui-fabric-react';
-
-declare var TTVST: _ttvst;
+import { FontWeights, getTheme } from '@uifabric/styling';
+import { Icon, IIconStyles, Image, Stack, IStackTokens, Text, ITextStyles, PrimaryButton } from 'office-ui-fabric-react';
 
 let theme = getTheme();
 
@@ -20,40 +17,19 @@ let iconStyles: IIconStyles = { root: { color: theme.palette.themePrimary, fontS
 let footerCardSectionStyles: ICardSectionStyles = { root: { width: '35px', alignSelf: 'stretch', borderLeft: '1px solid ' + theme.palette.neutralQuaternaryAlt } };
 let footerCardSectionTokens: ICardSectionTokens = { padding: '3px 5px 3px 10px' };
 
-let GoodConditionIcon: React.CSSProperties = {
+const ConditionIcon: React.CSSProperties = {
 	display: 'block',
 	width: '70px',
 	height: '100%',
 	minHeight: '70px',
-	backgroundColor: '#16631a',
 	fontSize: '32px',
 	textAlign: 'center',
 	lineHeight: '70px',
 	borderRadius: '2px'
-};
-let BadConditionIcon: React.CSSProperties = {
-	display: 'block',
-	width: '70px',
-	height: '100%',
-	minHeight: '70px',
-	backgroundColor: '#632016',
-	fontSize: '32px',
-	textAlign: 'center',
-	lineHeight: '70px',
-	borderRadius: '2px'
-};
-let WarnConditionIcon: React.CSSProperties = {
-	display: 'block',
-	width: '70px',
-	height: '100%',
-	minHeight: '70px',
-	backgroundColor: '#afc12b',
-	fontSize: '32px',
-	textAlign: 'center',
-	lineHeight: '70px',
-	color: '#000000',
-	borderRadius: '2px'
-};
+}
+const GoodConditionIcon: React.CSSProperties	= Object.assign({}, ConditionIcon, { backgroundColor: '#16631a' });
+const BadConditionIcon: React.CSSProperties		= Object.assign({}, ConditionIcon, { backgroundColor: '#632016' });
+const WarnConditionIcon: React.CSSProperties	= Object.assign({}, ConditionIcon, { backgroundColor: '#afc12b', color: '#000000' });
 
 class Startpage extends Page {
 	
