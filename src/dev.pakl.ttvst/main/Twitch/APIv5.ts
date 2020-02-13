@@ -92,13 +92,6 @@ class APIv5 {
 
 	/**
 	 * Prepares and executes a request to the twitch api and parses the response
-	 * 
-	 * @param {String} uri The URI to the api endpoint. Only the path is required, the host api.twitch.tv is prepended when the uri does not start with https://
-	 * @param {Object} query An object with all request parameters. Is being encoded for the uri. Must be passed but can be empty.
-	 * @param {Boolean} authNeeded Is user authorization required for this request. Oauth token is then passed on the request.
-	 * @param {Object} [postdata={}] Optional post data. If there are properties in this object authNeeded is set to true and request method is set to put. Post data is serialized to a JSON string.
-	 * @param {String} [method=GET] Optional HTTP method. Defaults to GET (or PUT if postdata contains items)
-	 * @returns {Promise} Returns a Promise that resolves with the deserialized json object
 	 */
 	requestAPI(uri: string, query?: Record<string, string>, authNeeded?: boolean, postdata?: Record<string, any>, method?: Method): Promise<T.IAPIv5Response> {
 		const self = this
