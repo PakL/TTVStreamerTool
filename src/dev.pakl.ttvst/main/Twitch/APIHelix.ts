@@ -368,4 +368,4 @@ class TwitchHelix {
 		return this.requestAPI(uri, opt, false);
 	}
 }
-module.exports = TwitchHelix
+exports = TwitchHelix
