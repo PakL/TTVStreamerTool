@@ -54,6 +54,10 @@ export default class SettingsComponent extends React.Component {
 			case 'number':
 				input = <Fabric.SpinButton label={this.props.label} data-setting={this.props.setting} defaultValue={value} min={this.props.min} max={this.props.max} step={this.props.step} onChange={this.props.onchange} disabled={this.props.readonly} />;
 				break;
+			case 'checkbox':
+				let boolValue = Settings.getBoolean(this.props.setting, typeof(this.props.default) === 'boolean' ? this.props.default : false);
+				input = <Fabric.Toggle label={this.props.label} data-setting={this.props.setting} defaultChecked={boolValue} onChange={this.props.onchange} disabled={this.props.readonly} inlineLabel />;
+				break;
 
 			default:
 				input = <Fabric.TextField label={this.props.label} data-setting={this.props.setting} type={this.props.type} defaultValue={value} onChange={this.props.onchange} readOnly={this.props.readonly} />;
