@@ -41,7 +41,7 @@ export function hexToLuma(color: string): number {
 
 export function increaseBrightness(color: IColorRGB, amount: number): IColorRGB {
 	let hsl = rgbToHsl(color.r, color.g, color.b);
-	hsl.l += hsl.l + (amount / 100);
+	hsl.l += (amount / 100);
 	if( hsl.l > 1 ) hsl.l = 1;
 	let rgb = hslToRgb(hsl.h, hsl.s, hsl.l);
 

@@ -1,22 +1,26 @@
 import React from 'react';
-interface IUIPageState {
+interface IPageState {
 	visible: boolean;
+}
+
+interface IPageProps {
+	contentRender: () => React.SFCElement<any> | React.SFCElement<any>[];
 }
 
 class PageComponent extends React.Component {
 
-	state: Readonly<IUIPageState>;
+	state: Readonly<IPageState>;
+	props: Readonly<IPageProps>;
 
-	constructor(props: Readonly<{}>) {
+	constructor(props: Readonly<IPageProps>) {
 		super(props);
 
 		this.state = { visible: false };
 	}
 
 	render() {
-
 		return (
-			<div style={{display:(this.state.visible ? undefined : 'none')}}>{this.props.children}</div>
+			<div style={{display:(this.state.visible ? undefined : 'none')}}>{this.props.contentRender()}</div>
 		);
 	}
 

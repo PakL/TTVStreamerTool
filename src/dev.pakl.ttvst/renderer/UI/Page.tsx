@@ -21,7 +21,7 @@ class Page {
 	}
 
 	get localizedName(): string {
-		return this._name
+		return TTVST.i18n.__(this._name)
 	}
 
 	get icon(): React.ReactElement {
@@ -59,6 +59,13 @@ class Page {
 		}
 	}
 
+	update() {
+		if(this._pageComponent !== null) {
+			// Let React to its thing...
+			this._pageComponent.setState({});
+		}
+	}
+
 	__(str: string, values?: Object): string {
 		return TTVST.i18n.__(str, values);
 	}
@@ -68,9 +75,7 @@ class Page {
 	 */
 	render(): React.ReactElement<PageComponent> {
 		return (
-			<PageComponent key={this.name} ref={this.createRef}>
-				{this.content()}
-			</PageComponent>
+			<PageComponent key={this.name} ref={this.createRef} contentRender={this.content.bind(this)} />
 		);
 	}
 

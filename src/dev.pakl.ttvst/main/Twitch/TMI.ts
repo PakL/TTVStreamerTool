@@ -616,4 +616,4 @@ class TMI extends EventEmitter {
 	}
 }
 
-exports = TMI;
+export = TMI;

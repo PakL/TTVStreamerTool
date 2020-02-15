@@ -11,15 +11,15 @@ import languageContext from './LanguageContext';
 import NavBarComponent from './Main/NavBarComponent';
 import PageComponent from './Main/PageComponent';
 import Page from './Page';
+
 import Cockpit from './Cockpit/Startpage';
+import Settings from './Settings/SettingsPage';
 
 let accentColor: string = ipcRenderer.sendSync('request-accent-color');
-while(Color.hexToLuma(accentColor) < 0.7) {
+while(Color.hexToLuma(accentColor) < 0.6) {
 	accentColor = Color.rgbToHex(Color.increaseBrightness(Color.hexToRGB(accentColor), 1));
 }
 let accentColorRGB = Color.hexToRGB(accentColor);
-
-console.log(accentColor)
 loadTheme({
 	palette: {
 		themeDarker: '#' + Color.rgbToHex(Color.increaseBrightness(accentColorRGB, -30)),
@@ -111,17 +111,21 @@ class UI {
 		});
 
 		this.addPage(new Cockpit());
+		this.addPage(new Settings());
 
 		const self = this
-		ReactDOM.render(<UIComponent i18n={this.tool.i18n} ref={(main) => { self.mainComponent = main; }} />, document.querySelector('#wrapper'), () => {
+		ReactDOM.render(<UIComponent i18n={this.tool.i18n} ref={this.setRef.bind(this)} />, document.querySelector('#wrapper'), () => {
 			self.mainComponent.setPages(self.pages);
 			UI.openPage({ currentTarget: { dataset: { name: self.pages[0].name } }});
 		});
 	}
 
 
-	static openPage(e: { currentTarget: { dataset: DOMStringMap }}) {
-		let page = e.currentTarget.dataset.name;
+	static openPage(e: { currentTarget: { dataset: DOMStringMap } | EventTarget }) {
+		let page = '';
+		if(e.currentTarget instanceof HTMLElement || !(e.currentTarget instanceof EventTarget)) {
+			page = e.currentTarget.dataset.name;
+		}
 		UI.instance.pages.forEach((p) => {
 			if(p.name === page) {
 				if(UI.instance.openPage !== null) {
@@ -131,6 +135,12 @@ class UI {
 				p.open();
 			}
 		})
+	}
+
+	private setRef(main: UIComponent) {
+		this.mainComponent = main;
+		let navSettings: HTMLAnchorElement = document.querySelector('#nav-settings');
+		navSettings.addEventListener('click', UI.openPage);
 	}
 
 	addPage(page: Page) {

@@ -725,4 +725,4 @@ class APIv5 {
 
 }
 
-exports = APIv5;
+export = APIv5;

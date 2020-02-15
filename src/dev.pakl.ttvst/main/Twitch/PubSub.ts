@@ -283,4 +283,4 @@ class TwPubSub extends EventEmitter {
 
 }
 
-exports = TwPubSub
+export = TwPubSub
