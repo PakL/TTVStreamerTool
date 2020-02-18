@@ -16,21 +16,24 @@ import Cockpit from './Cockpit/Startpage';
 import Settings from './Settings/SettingsPage';
 
 let accentColor: string = ipcRenderer.sendSync('request-accent-color');
+let accentBrightness = Color.getBrightness(Color.hexToRGB(accentColor));
 while(Color.hexToLuma(accentColor) < 0.6) {
-	accentColor = Color.rgbToHex(Color.increaseBrightness(Color.hexToRGB(accentColor), 1));
+	accentBrightness++;
+	accentColor = Color.rgbToHex(Color.setBrightness(Color.hexToRGB(accentColor), accentBrightness));
 }
+let steps = Math.floor((100 - accentBrightness) / 5);
 let accentColorRGB = Color.hexToRGB(accentColor);
 loadTheme({
 	palette: {
-		themeDarker: '#' + Color.rgbToHex(Color.increaseBrightness(accentColorRGB, -30)),
-		themeDark: '#' + Color.rgbToHex(Color.increaseBrightness(accentColorRGB, -20)),
-		themeDarkAlt: '#' + Color.rgbToHex(Color.increaseBrightness(accentColorRGB, -10)),
+		themeDarker: '#' + Color.rgbToHex(Color.setBrightness(accentColorRGB, accentBrightness-steps*6)),
+		themeDark: '#' + Color.rgbToHex(Color.setBrightness(accentColorRGB, accentBrightness-steps*3)),
+		themeDarkAlt: '#' + Color.rgbToHex(Color.setBrightness(accentColorRGB, accentBrightness-steps)),
 		themePrimary: '#' + accentColor,
-		themeSecondary: '#' + Color.rgbToHex(Color.increaseBrightness(accentColorRGB, 20)),
-		themeTertiary: '#' + Color.rgbToHex(Color.increaseBrightness(accentColorRGB, 40)),
-		themeLight: '#' + Color.rgbToHex(Color.increaseBrightness(accentColorRGB, 60)),
-		themeLighter: '#' + Color.rgbToHex(Color.increaseBrightness(accentColorRGB, 80)),
-		themeLighterAlt: '#' + Color.rgbToHex(Color.increaseBrightness(accentColorRGB, 95)),
+		themeSecondary: '#' + Color.rgbToHex(Color.setBrightness(accentColorRGB, accentBrightness+steps)),
+		themeTertiary: '#' + Color.rgbToHex(Color.setBrightness(accentColorRGB, accentBrightness+steps*2)),
+		themeLight: '#' + Color.rgbToHex(Color.setBrightness(accentColorRGB, accentBrightness+steps*3)),
+		themeLighter: '#' + Color.rgbToHex(Color.setBrightness(accentColorRGB, accentBrightness+steps*4)),
+		themeLighterAlt: '#' + Color.rgbToHex(Color.setBrightness(accentColorRGB, accentBrightness+steps*5)),
 
 		black: '#f8f8f8',
 		neutralDark: '#f4f4f4',

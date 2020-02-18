@@ -663,5 +663,11 @@
 	},
 	"Add your own addon sources. One URL per line. Only secure connections are allowed (https).": {
 		"de": "Füge deine eigenen Addonquellen hinzu. Eine URL pro Zeile. Nur sichere Verbindungen sind erlaubt (https)."
+	},
+	"On": {
+		"de": "An"
+	},
+	"Off": {
+		"de": "Aus"
 	}
 }

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Icon } from 'office-ui-fabric-react';
 import Setting, { ISettingsProps } from './SettingsComponent';
+import _ttvst from '../../TTVST';
+declare var TTVST: _ttvst;
 
 interface ISettingsSetState {
 	collapsed: boolean;
@@ -35,11 +37,12 @@ class SettingsSetComponent extends React.Component {
 	}
 
 	render() {
+		let legend = <legend onClick={this.toggleCollapse}>{this.state.collapsed ? <Icon iconName="ExploreContentSingle" /> : <Icon iconName="CollapseContentSingle" />} {TTVST.i18n.__(this.props.title)}</legend>;
 		return (
-			<fieldset>
-				<legend onClick={this.toggleCollapse}>{this.state.collapsed ? <Icon iconName="ExploreContentSingle" /> : <Icon iconName="CollapseContentSingle" />} {this.props.title}</legend>
+			<fieldset className="settings-set">
+				{this.props.title.length > 0 ? legend : []}
 				{
-					this.state.collapsed ? [] :
+					(this.state.collapsed && this.props.title.length > 0) ? [] :
 					this.state.settings.map((setting) => (
 						<Setting key={setting.setting} {...setting} />
 					))

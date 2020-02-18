@@ -43,9 +43,25 @@ export function increaseBrightness(color: IColorRGB, amount: number): IColorRGB 
 	let hsl = rgbToHsl(color.r, color.g, color.b);
 	hsl.l += (amount / 100);
 	if( hsl.l > 1 ) hsl.l = 1;
+	if( hsl.l < 0 ) hsl.l = 0;
 	let rgb = hslToRgb(hsl.h, hsl.s, hsl.l);
 
 	return rgb;
+}
+
+export function setBrightness(color: IColorRGB, amount: number): IColorRGB {
+	let hsl = rgbToHsl(color.r, color.g, color.b);
+	hsl.l = (amount / 100);
+	if( hsl.l > 1 ) hsl.l = 1;
+	if( hsl.l < 0 ) hsl.l = 0;
+	let rgb = hslToRgb(hsl.h, hsl.s, hsl.l);
+
+	return rgb;
+}
+
+export function getBrightness(color: IColorRGB): number {
+	let hsl = rgbToHsl(color.r, color.g, color.b);
+	return (hsl.l * 100);
 }
 
 export function rgbToHsl(r: number, g: number, b: number): IColorHSL {

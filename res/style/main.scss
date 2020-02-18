@@ -46,8 +46,8 @@ html, body {
 	display: block;
 	margin-left: 48px;
 	width: calc(100% - 48px);
-	height: calc(100% - 32px);
+	height: 100%;
 	overflow: auto;
 }
 
-@import 'side-nav', 'uifabric-fixes';
+@import 'side-nav', 'uifabric-fixes', 'settings';
