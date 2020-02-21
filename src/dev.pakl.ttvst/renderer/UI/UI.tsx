@@ -12,9 +12,6 @@ import NavBarComponent from './Main/NavBarComponent';
 import PageComponent from './Main/PageComponent';
 import Page from './Page';
 
-import Cockpit from './Cockpit/Startpage';
-import Settings from './Settings/SettingsPage';
-
 let accentColor: string = ipcRenderer.sendSync('request-accent-color');
 let accentBrightness = Color.getBrightness(Color.hexToRGB(accentColor));
 while(Color.hexToLuma(accentColor) < 0.6) {
@@ -113,13 +110,12 @@ class UI {
 			document.querySelector('#stylesheet').innerHTML = css;
 		});
 
-		this.addPage(new Cockpit());
-		this.addPage(new Settings());
-
 		const self = this
 		ReactDOM.render(<UIComponent i18n={this.tool.i18n} ref={this.setRef.bind(this)} />, document.querySelector('#wrapper'), () => {
 			self.mainComponent.setPages(self.pages);
-			UI.openPage({ currentTarget: { dataset: { name: self.pages[0].name } }});
+			if(self.pages.length > 0) {
+				UI.openPage({ currentTarget: { dataset: { name: self.pages[0].name } }});
+			}
 		});
 	}
 
@@ -150,6 +146,9 @@ class UI {
 		this.pages.push(page);
 		if(this.mainComponent !== null) {
 			this.mainComponent.setPages(this.pages);
+			if(this.pages.length == 1) {
+				UI.openPage({ currentTarget: { dataset: { name: this.pages[0].name } }});
+			}
 		}
 	}
 
