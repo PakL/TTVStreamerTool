@@ -5,10 +5,14 @@ import MainWindow from './dev.pakl.ttvst/main/MainWindow';
 import SplashWindow from './dev.pakl.ttvst/main/SplashWindow';
 import * as SassLoader from './dev.pakl.ttvst/main/SassLoader';
 
+import TTVSTMain from './dev.pakl.ttvst/main/TTVSTMain';
+
 let mainWin: MainWindow = null;
 let splashWin: SplashWindow = null;
 
 let doNotOpenMainWindow: boolean = false;
+
+let TTVST: TTVSTMain = null;
 
 app.allowRendererProcessReuse = false;
 app.setAppUserModelId('dev.pakl.TTVStreamerTool');
@@ -62,6 +66,9 @@ async function main() {
 		})
 		return;
 	}
+
+	TTVST = new TTVSTMain();
+	Object.assign(global, { TTVST });
 
 	splashWin.once('done', () => {
 		mainWin.once('show', () => {

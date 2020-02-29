@@ -2,6 +2,8 @@ import got, { Method, Response } from 'got';
 import url from 'url';
 import * as T from './APIHelixTypes';
 
+export class UnauthroizedError extends Error {}
+
 /**
  * @class TwitchHelix
  * @param {Object} options Options for the TwitchTv object
@@ -10,7 +12,7 @@ import * as T from './APIHelixTypes';
  * @param {Array} [options.scope] An array of the permission scopes you might need
  * @param {String} [options.token] A string with an bearer token. If this is omitted token will be loaded from localStroage if possible
  */
-class TwitchHelix {
+export default class TwitchHelix {
 
 	clientid: string = '';
 	redirectUri: string = '';
@@ -147,14 +149,18 @@ class TwitchHelix {
 		}
 		*/
 
-		console.log(`[API] Request for ${uri} started... authNeeded:${authNeeded}`);
-
 		let overridehost = 'api.twitch.tv';
 		if(uri.startsWith('https://')) {
 			var parsedurl = url.parse(uri);
 			overridehost = parsedurl.hostname;
 			uri = parsedurl.path;
+
+			if(overridehost === 'id.twitch.tv') {
+				headers['Authorization'] = headers['Authorization'].replace(/^Bearer/, 'OAuth');
+			}
 		}
+
+		console.log(`[API] Request for https://${overridehost + uri} started... authNeeded:${authNeeded}`);
 
 		if(this.ratelimitreset > 0) {
 			let timestamp = new Date().getTime();
@@ -171,7 +177,8 @@ class TwitchHelix {
 				method: 'GET',
 				responseType: 'json',
 				headers: headers,
-				timeout: 5000
+				timeout: 5000,
+				throwHttpErrors: false
 			};
 			if(Object.keys(postdata).length > 0) {
 				requestOptions.method = 'PUT';
@@ -190,7 +197,9 @@ class TwitchHelix {
 						}
 						self.ratelimitreset = parseInt(ratelimitReset) * 1000;
 					}
-					if(typeof(body) == 'object' && body.hasOwnProperty('message')) {
+					if(response.statusCode === 401) {
+						reject(new UnauthroizedError());
+					} else if(typeof(body) == 'object' && body.hasOwnProperty('message')) {
 						if(body.message.length <= 0 && typeof(body.status) !== 'undefined' && typeof(body.error) !== 'undefined') body.message = body.status + ' - ' + body.error;
 						reject(new Error(body.message));
 					} else if(body == 'object') {
@@ -220,6 +229,14 @@ class TwitchHelix {
 		});
 	}
 
+
+	/**
+	 * Validates the OAuth token and returns information about it
+	 */
+	validate(): Promise<T.IAPIHelixValidation>
+	{
+		return this.requestAPI('https://id.twitch.tv/oauth2/validate', {}, true);
+	}
 
 	/**
 	 * Gets information about one or more specified Twitch users. Users are identified by optional user IDs and/or login name. If neither a user ID nor a login name is specified, the user is looked up by Bearer token.
@@ -368,4 +385,3 @@ class TwitchHelix {
 		return this.requestAPI(uri, opt, false);
 	}
 }
-export = TwitchHelix

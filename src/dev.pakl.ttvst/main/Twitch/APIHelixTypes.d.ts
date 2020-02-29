@@ -114,4 +114,11 @@ export interface IAPIHelixClips {
 	}>;
 }
 
+export interface IAPIHelixValidation {
+	client_id: string;
+	login: string;
+	scopes: Array<string>;
+	user_id: string;
+}
+
 export type IAPIHelixResponse = any;
