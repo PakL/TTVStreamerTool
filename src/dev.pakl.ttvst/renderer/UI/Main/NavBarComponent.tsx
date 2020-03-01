@@ -65,10 +65,10 @@ class NavBarComponent extends React.Component {
 					{this.props.children}
 				</ul>
 				<ul className="bottom">
-					<li><a id="nav-addons"><FontIcon iconName="Puzzle" />{this.__('Addons')}</a></li>
+					<li><a id="nav-addons" data-name="Addons"><FontIcon iconName="Puzzle" />{this.__('Addons')}</a></li>
 					<li><a id="nav-settings" data-name="Settings"><FontIcon iconName="Settings" />{this.__('Settings')}</a></li>
-					<li><a id="nav-changelog"><FontIcon iconName="News" />{this.__('Changelog')}</a></li>
-					<li><a id="nav-about"><FontIcon iconName="Unknown" />{this.__('About TTVST')}</a></li>
+					<li><a id="nav-changelog" data-name="Changelog"><FontIcon iconName="News" />{this.__('Changelog')}</a></li>
+					<li><a id="nav-about" data-name="About TTVST"><FontIcon iconName="Unknown" />{this.__('About TTVST')}</a></li>
 				</ul>
 			</nav>
 		);

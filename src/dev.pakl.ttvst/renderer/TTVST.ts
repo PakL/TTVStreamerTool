@@ -8,6 +8,8 @@ import * as Settings from './Settings'
 
 import Cockpit from './Cockpit/Cockpit';
 import SettingsPage from './UI/Settings/SettingsPage';
+import ChangelogPage from './UI/Main/ChangelogPage';
+import AboutPage from './UI/Main/AboutPage';
 
 class TTVST {
 
@@ -25,6 +27,8 @@ class TTVST {
 
 		this._ui.addPage(this._cockpit);
 		this._ui.addPage(new SettingsPage());
+		this._ui.addPage(new ChangelogPage());
+		this._ui.addPage(new AboutPage());
 	}
 
 	get i18n(): i18n {

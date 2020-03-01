@@ -1,11 +1,20 @@
 $accentColor: #feb404;
 $fontColorOnAccent: #000000;
 
-$globalFontFamily: 'Segoe UI', sans-serif;
+$globalFontFamily: "Segoe UI Web (West European)", "Segoe UI", sans-serif;
 $globalFontSize: 16px;
 
 $globalForeground: #ffffff;
 $globalBackground: #121212;
+
+$accentColorContrast: $accentColor;
+
+@import 'yiq';
+
+@while not yiq-is-light($accentColorContrast, 128) {
+	$accentColorContrast: lighten($accentColorContrast, 1%);
+}
+
 
 html, body {
 	font-family: $globalFontFamily;
@@ -48,6 +57,12 @@ html, body {
 	width: calc(100% - 48px);
 	height: 100%;
 	overflow: auto;
+
+	> div {
+		width: 100%;
+		height: 100%;
+	}
 }
 
 @import 'side-nav', 'uifabric-fixes', 'settings';
+@import 'page-about', 'page-changelog';

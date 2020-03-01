@@ -3,23 +3,12 @@
 	<head>
 		<meta charset="utf-8">
 		<title>TTVST Changelog</title>
-		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'">
 
-		<style type="text/css" id="metro-style"></style>
-		<script type="application/javascript">
-			const {shell, remote} = require('electron')
-			const {systemPreferences, app} = remote
-			const fs = require('fs')
-			const less = require('less')
-			const path = require('path')
-
-			const openLinkExternal = function(url) {
-				shell.openExternal(url)
-			}
-		</script>
-		<script type="application/javascript" src="../res/js/metro.js"></script>
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://* data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; font-src 'self' https://static2.sharepointonline.com https://spoprod-a.akamaihd.net">
+		<style type="text/css" id="stylesheet"></style>
+		<script type="application/javascript" src="../dist/view-helper.js"></script>
 	</head>
-	<body>
+	<body class="ms-Fabric page-changelog" dir="ltr"><div>
 		<p>This changelog will only be served in english.</p>
 		<p>Join the <a onclick="openLinkExternal('https://discord.gg/zZyBxr3')">TTVST Development Discord</a> to get faster and better support!</p>
 
@@ -424,5 +413,5 @@
 		<p>
 			With the Electron 2.0.0 came a feature to hint to some possible security concerns. Complying to these some changes had to be made, making current addons incompatible. So I had to add a check to which version the addon is compatible and not load it if not. All official addons were have an update you can install to make them work again.
 		</p>
-	</body>
+	</div></body>
 </html>

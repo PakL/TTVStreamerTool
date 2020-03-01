@@ -7,7 +7,10 @@ import * as Color from '../renderer/UI/ColorFunctions';
 
 let cssCache: string;
 
-const includePaths = [join(__dirname, '../../../res/style/')];
+const includePaths = [
+	join(__dirname, '../../../res/style/'),
+	join(__dirname, '../../../node_modules/sass-yiq/src/sass/')
+];
 
 export async function renderCSS() {
 	if(typeof(cssCache) === 'string') {

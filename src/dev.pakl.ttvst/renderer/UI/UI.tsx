@@ -106,10 +106,6 @@ class UI {
 
 		LanguageContext = languageContext(tool);
 
-		ipcRenderer.invoke('render-sass').then((css) => {
-			document.querySelector('#stylesheet').innerHTML = css;
-		});
-
 		const self = this
 		ReactDOM.render(<UIComponent i18n={this.tool.i18n} ref={this.setRef.bind(this)} />, document.querySelector('#wrapper'), () => {
 			self.mainComponent.setPages(self.pages);
@@ -138,8 +134,17 @@ class UI {
 
 	private setRef(main: UIComponent) {
 		this.mainComponent = main;
-		let navSettings: HTMLAnchorElement = document.querySelector('#nav-settings');
-		navSettings.addEventListener('click', UI.openPage);
+
+		let navs: Array<HTMLAnchorElement> = [
+			document.querySelector('#nav-settings'),
+			document.querySelector('#nav-changelog'),
+			document.querySelector('#nav-about')
+		];
+		for(let i = 0; i < navs.length; i++) {
+			let n = navs[i];
+			n.removeEventListener('click', UI.openPage);
+			n.addEventListener('click', UI.openPage);
+		}
 	}
 
 	addPage(page: Page) {
