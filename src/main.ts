@@ -78,5 +78,8 @@ async function main() {
 	})
 
 	ipcMain.handle('render-sass', SassLoader.renderCSS);
+	ipcMain.handle('get-app-version', async () => {
+		return app.getVersion();
+	});
 }
 main();

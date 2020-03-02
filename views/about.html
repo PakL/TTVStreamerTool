@@ -17,7 +17,7 @@
 					</p>
 					<p>
 						TTVStreamerTool was created by <a onclick="openLinkExternal('https://pakl.dev/')">Pascal Pohl</a><br>
-						<small>You currently have version <code><script type="application/javascript">document.write(app.getVersion())</script></code> installed.</small>
+						<small>You currently have version <code id="appversion"></code> installed.</small>
 					</p>
 					<p>
 						The TTVStreamer logo was created by <a onclick="openLinkExternal('https://github.com/anharismail')">Anhar Ismail</a>
@@ -32,7 +32,7 @@
 					
 					TTVStreamerTool is licensed under the open source MIT license:
 <pre>
-Copyright 2017 Pascal «PakL» Pohl
+Copyright 2017-2020 Pascal «PakL» Pohl
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
@@ -43,5 +43,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 				</td>
 			</tr>
 		</table>
+		<script>
+			ipcRenderer.invoke('get-app-version').then((version) => {
+				document.querySelector('#appversion').innerText = version;
+			})
+		</script>
 	</body>
 </html>
