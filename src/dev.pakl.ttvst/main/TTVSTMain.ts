@@ -1,14 +1,24 @@
+import MainWindow from './MainWindow';
+
 import APIHelix from './Twitch/APIHelix';
 
-import Startpage from './Cockpit/Startpage';
+import Startpage from './Pages/Startpage';
+import TMI from './Twitch/TMI';
 
 export default class TTVSTMain {
 
+	private _mainWindow: MainWindow = null;
+
 	private _helix: APIHelix = null;
+	private _tmi: TMI = null;
 
 	private _startpage: Startpage = null;
 
-	constructor() {
+	constructor(mainWindow: MainWindow) {
+		this._mainWindow = mainWindow;
+	}
+
+	init() {
 		this.initTwitch();
 		this.initCockpit();
 	}
@@ -34,10 +44,20 @@ export default class TTVSTMain {
 				'channel_commercial'
 			]
 		});
+
+		this._tmi = new TMI();
 	}
 
-	get helix() {
+	get mainWindow(): MainWindow {
+		return this._mainWindow;
+	}
+
+	get helix(): APIHelix {
 		return this._helix;
+	}
+
+	get tmi(): TMI {
+		return this._tmi;
 	}
 
 	private initCockpit() {

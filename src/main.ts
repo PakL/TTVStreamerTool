@@ -67,8 +67,9 @@ async function main() {
 		return;
 	}
 
-	TTVST = new TTVSTMain();
+	TTVST = new TTVSTMain(mainWin);
 	Object.assign(global, { TTVST });
+	TTVST.init();
 
 	splashWin.once('done', () => {
 		mainWin.once('show', () => {

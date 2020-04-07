@@ -1,7 +1,9 @@
 import tls from 'tls';
 import net from 'net';
 import util from 'util';
-import { EventEmitter } from 'events';
+import EventEmitter from 'events';
+
+import * as T from './TMITypes';
 
 interface ITMIOptions {
 	host?: string;
@@ -15,7 +17,7 @@ interface ITMIOptions {
  * @class TMI
  * @extends {EventEmitter}
  * @param {Object} [options] Optional connections options
- * @fires TMI#connect
+ * @fires TMI#ready
  * @fires TMI#error
  * @fires TMI#close
  * @fires TMI#incoming
@@ -49,6 +51,7 @@ class TMI extends EventEmitter {
 	clrf: string = '\r\n';
 	plannedclose: boolean = false;
 
+	connected: boolean = false;
 	socket: net.Socket = null;
 	reconnectWait: number = 0;
 	namelists: Record<string, any> = {};
@@ -59,7 +62,7 @@ class TMI extends EventEmitter {
 
 	motd: string = '';
 
-	constructor(options: ITMIOptions) {
+	constructor(options?: ITMIOptions) {
 		super();
 
 		/**
@@ -77,25 +80,28 @@ class TMI extends EventEmitter {
 		if(typeof(options) == 'object') {
 			Object.assign(this.options, options);
 		}
-
-		EventEmitter.call(this);
 	}
 
 	connect() {
 		const self = this;
+		if(this.connected || (this.socket !== null && this.socket.connecting)) return;
 
+		console.log(`[TMI] Connecting to ${this.options.host}:${this.options.port}`);
 		this.socket = tls.connect(this.options.port, this.options.host);
 
 		this.socket.setTimeout(30000);
 		this.socket.setEncoding('utf8');
-		this.socket.on('connect', function(){
+		this.socket.once('connect', () => {
+			self.connected = true;
+		})
+		this.socket.once('ready', function(){
 			/**
 			 * Is fired when connection is established
-			 * @event TMI#connect
+			 * @event TMI#ready
 			 * @param {net.Socket}
-			 * @see {@link https://nodejs.org/api/net.html#net_class_net_socket}
+			 * @see {@link https://nodejs.org/api/net.html#net_event_ready}
 			 */
-			self.emit('connect', self.socket);
+			self.emit('ready', self.socket);
 		});
 		this.socket.on('error', function(e){
 			/**
@@ -110,7 +116,8 @@ class TMI extends EventEmitter {
 			self.once('pong', () => { clearTimeout(checkTimeout) });
 			self.sendCLRF('PING :tmi.twitch.tv');
 		});
-		this.socket.on('close', function(had_error){
+		this.socket.once('close', function(had_error){
+			self.connected = true;
 			/**
 			 * Fired when connection is closing
 			 * @event TMI#close
@@ -150,6 +157,7 @@ class TMI extends EventEmitter {
 	
 	disconnect() {
 		if(typeof(this.socket) != "undefined" && this.socket !== null) {
+			console.log('[TMI] Closing connection');
 			this.plannedclose = true;
 			this.socket.end();
 		}
@@ -193,14 +201,15 @@ class TMI extends EventEmitter {
 		/**
 		 * A more splitted message than {@link TMI#incoming}
 		 * @event TMI#raw
-		 * @param {String} tags String of the tags
-		 * @param {Object} prefix String of the prefix
-		 * @param {String} prefix.user Username in the prefix
-		 * @param {String} prefix.host Host in the prefix
-		 * @param {String} action IRC action code
-		 * @param {String} attach Everything after the IRC action
+		 * @param {T.TMIRaw} obj
+		 * @param {String} obj.tags String of the tags
+		 * @param {Object} obj.prefix String of the prefix
+		 * @param {String} obj.prefix.user Username in the prefix
+		 * @param {String} obj.prefix.host Host in the prefix
+		 * @param {String} obj.action IRC action code
+		 * @param {String} obj.attach Everything after the IRC action
 		 */
-		this.emit('raw', tagsString, prefix, action, attach);
+		this.emit('raw', { tag: tagsString, prefix, action, attach });
 
 		let tagArray = tagsString.split(';');
 		let tags: Record<string, string> = {};
@@ -272,13 +281,14 @@ class TMI extends EventEmitter {
 							/**
 							 * Fires when someone is hosting the channel. Only the channel owner will receive these.
 							 * @event TMI#hostingyou
-							 * @param {String} channel Channel that the message was sent to
-							 * @param {String} user The user that hosts you
-							 * @param {Number} viewers How many viewers are being hosted
-							 * @param {String} message The system message
-							 * @param {Object} tags Tag object
+							 * @param {T.TMIHost} obj
+							 * @param {String} obj.channel Channel that the message was sent to
+							 * @param {String} obj.user The user that hosts you
+							 * @param {Number} obj.viewers How many viewers are being hosted
+							 * @param {String} obj.message The system message
+							 * @param {Object} obj.tags Tag object
 							 */
-							this.emit('hostingyou', to, msg.substr(0, msg.indexOf(' ')), viewers, msg, tags);
+							this.emit('hostingyou', { channel: to, user: msg.substr(0, msg.indexOf(' ')), viewers, message: msg, tags });
 						} else if(msg.match(/is now auto hosting/)) {
 							let viewers = 0;
 							let match = msg.match(/( )([0-9]+)(\.| |$)/);
@@ -288,13 +298,14 @@ class TMI extends EventEmitter {
 							/**
 							 * Fires when someone is auto hosting the channel. Only the channel owner will receive these.
 							 * @event TMI#autohostingyou
-							 * @param {String} channel Channel that the message was sent to
-							 * @param {String} user The user that hosts you
-							 * @param {Number} viewers How many viewers are being hosted
-							 * @param {String} message The system message
-							 * @param {Object} tags Tag object
+							 * @param {T.TMIHost} obj
+							 * @param {String} obj.channel Channel that the message was sent to
+							 * @param {String} obj.user The user that hosts you
+							 * @param {Number} obj.viewers How many viewers are being hosted
+							 * @param {String} obj.message The system message
+							 * @param {Object} obj.tags Tag object
 							 */
-							this.emit('autohostingyou', to, msg.substr(0, msg.indexOf(' ')), viewers, msg, tags);
+							this.emit('autohostingyou', { channel: to, user: msg.substr(0, msg.indexOf(' ')), viewers, message: msg, tags });
 						}
 					} else {
 						if(msg.match(actionprefix)) {
@@ -302,30 +313,32 @@ class TMI extends EventEmitter {
 							/**
 							 * Fires when a user sends an action message. It's exactly like a normal message but is usually display in the user name color.
 							 * @event TMI#action
-							 * @param {Object} prefix Message prefix - there is usually nothing interesting here
-							 * @param {String} prefix.user Username in the prefix
-							 * @param {String} prefix.host Host in the prefix
-							 * @param {String} user Username that sent the message
-							 * @param {String} channel Channel that the message was sent to
-							 * @param {String} message The message that was sent
-							 * @param {Object} tags The message tags
+							 * @param {TMIMessage} obj
+							 * @param {Object} obj.prefix Message prefix - there is usually nothing interesting here
+							 * @param {String} obj.prefix.user Username in the prefix
+							 * @param {String} obj.prefix.host Host in the prefix
+							 * @param {String} obj.user Username that sent the message
+							 * @param {String} obj.channel Channel that the message was sent to
+							 * @param {String} obj.message The message that was sent
+							 * @param {TMIMessage} obj.tags The message tags
 							 * @see {@link https://dev.twitch.tv/docs/v5/guides/irc/#twitch-irc-capability-tags}
 							 */
-							this.emit('action', prefix, prefix.user, to, msg, tags);
+							this.emit('action', { prefix, user: prefix.user, channel: to, message: msg, tags });
 						} else {
 							/**
 							 * Fires when a user sends an message
 							 * @event TMI#message
-							 * @param {Object} prefix Message prefix - there is usually nothing interesting here
-							 * @param {String} prefix.user Username in the prefix
-							 * @param {String} prefix.host Host in the prefix
-							 * @param {String} user Username that sent the message
-							 * @param {String} channel Channel that the message was sent to
-							 * @param {String} message The message that was sent
-							 * @param {Object} tags The message tags
+							 * @param {TMIMessage} obj
+							 * @param {Object} obj.prefix Message prefix - there is usually nothing interesting here
+							 * @param {String} obj.prefix.user Username in the prefix
+							 * @param {String} obj.prefix.host Host in the prefix
+							 * @param {String} obj.user Username that sent the message
+							 * @param {String} obj.channel Channel that the message was sent to
+							 * @param {String} obj.message The message that was sent
+							 * @param {TMIMessage} obj.tags The message tags
 							 * @see {@link https://dev.twitch.tv/docs/v5/guides/irc/#twitch-irc-capability-tags}
 							 */
-							this.emit('message', prefix, prefix.user, to, msg, tags);
+							this.emit('message', { prefix, user: prefix.user, channel: to, message: msg, tags });
 						}
 					}
 				}
@@ -339,14 +352,15 @@ class TMI extends EventEmitter {
 					/**
 					 * Fires if a user whispers to the logged in user.
 					 * @event TMI#whisper
-					 * @param {Object} prefix Message prefix - there is usually nothing interesting here
-					 * @param {String} prefix.user Username in the prefix
-					 * @param {String} prefix.host Host in the prefix
-					 * @param {String} user Username that sent the message
-					 * @param {String} message Message the user sent
-					 * @param {Object} tags The message tags
+					 * @param {T.TMIWhisper} obj
+					 * @param {Object} obj.prefix Message prefix - there is usually nothing interesting here
+					 * @param {String} obj.prefix.user Username in the prefix
+					 * @param {String} obj.prefix.host Host in the prefix
+					 * @param {String} obj.user Username that sent the message
+					 * @param {String} obj.message Message the user sent
+					 * @param {T.TMITags} obj.tags The message tags
 					 */
-					this.emit('whisper', prefix, prefix.user, prefix.user, msg, tags);
+					this.emit('whisper', { prefix, user: prefix.user, message: msg, tags });
 				}
 				break;
 
@@ -477,6 +491,15 @@ class TMI extends EventEmitter {
 					 * @param {String} tags Tags of the message
 					 */
 					this.emit("notice", channel, msg, tags);
+
+					if(channel == '*' && msg === 'Login authentication failed') {
+						/**
+						 * Fires when the server failed to authenticate user
+						 * @event TMI#auth-fail
+						 */
+						this.emit("auth-fail");
+						this.disconnect();
+					}
 				}
 				break;
 			// USERNOTICE sends subscriptions
@@ -581,10 +604,10 @@ class TMI extends EventEmitter {
 	 */
 	part(channel: string, cb: () => void) {
 		if(channel.substr(0, 1) == '#') channel = channel.substr(1);
-		this.sendCLRF('PART #' + channel.toLowerCase());
 		if(typeof(cb) == 'function') {
 			this.once('part', cb);
 		}
+		this.sendCLRF('PART #' + channel.toLowerCase());
 	}
 
 	/**

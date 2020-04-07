@@ -21,7 +21,7 @@ class Cockpit extends Page {
 	}
 
 	get icon(): React.ReactElement {
-		return <Icon iconName="CannedChat" />;
+		return <Icon iconName="Home" />;
 	}
 	
 	content(): React.SFCElement<any> {
