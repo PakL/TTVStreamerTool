@@ -3,13 +3,13 @@ import { readFile } from 'fs';
 import { join } from 'path';
 import { systemPreferences } from 'electron';
 
-import * as Color from '../renderer/UI/ColorFunctions';
+import * as Color from '../../renderer/UI/ColorFunctions';
 
 let cssCache: string;
 
 const includePaths = [
-	join(__dirname, '../../../res/style/'),
-	join(__dirname, '../../../node_modules/sass-yiq/src/sass/')
+	join(__dirname, '../../../../res/style/'),
+	join(__dirname, '../../../../node_modules/sass-yiq/src/sass/')
 ];
 
 export async function renderCSS() {

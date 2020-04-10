@@ -117,7 +117,7 @@ class TMI extends EventEmitter {
 			self.sendCLRF('PING :tmi.twitch.tv');
 		});
 		this.socket.once('close', function(had_error){
-			self.connected = true;
+			self.connected = false;
 			/**
 			 * Fired when connection is closing
 			 * @event TMI#close

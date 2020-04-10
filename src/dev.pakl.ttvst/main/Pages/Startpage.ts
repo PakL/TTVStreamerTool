@@ -1,6 +1,7 @@
 import { ipcMain } from 'electron';
 import TTVSTMain from '../TTVSTMain';
-import IpcEventEmitter from '../IpcEventEmitter';
+import IpcEventEmitter from '../Util/IpcEventEmitter';
+import Login from '../Util/Login';
 
 declare var TTVST: TTVSTMain;
 
@@ -12,6 +13,9 @@ class Startpage extends IpcEventEmitter {
 	constructor() {
 		super();
 
+		this.onLogin = this.onLogin.bind(this);
+		this.onLogout = this.onLogout.bind(this);
+
 		this.onCheckLogin = this.onCheckLogin.bind(this);
 		this.onGetUser = this.onGetUser.bind(this);
 		this.onConnectTMI = this.onConnectTMI.bind(this);
@@ -20,6 +24,9 @@ class Startpage extends IpcEventEmitter {
 		this.onTMIRegistered = this.onTMIRegistered.bind(this);
 		this.onTMIAuthFail = this.onTMIAuthFail.bind(this);
 		this.onTMIClose = this.onTMIClose.bind(this);
+
+		ipcMain.handle('cockpit-login', this.onLogin);
+		ipcMain.handle('cockpit-logout', this.onLogout);
 
 		ipcMain.handle('cockpit-check-login', this.onCheckLogin);
 		ipcMain.handle('cockpit-get-user', this.onGetUser);
@@ -37,6 +44,21 @@ class Startpage extends IpcEventEmitter {
 			console.log('[TMI] < ' + msg);
 		})
 
+	}
+
+	async onLogin(): Promise<string> {
+		try {
+			return await Login.instance().login();
+		} catch(e) {
+			//TODO:write down errors
+			return '';
+		}
+	}
+
+	async onLogout(): Promise<null> {
+		TTVST.helix.setAuthToken(null);
+		TTVST.tmi.disconnect();
+		return null;
 	}
 
 	async onCheckLogin(event: Electron.IpcMainInvokeEvent, token: string) {

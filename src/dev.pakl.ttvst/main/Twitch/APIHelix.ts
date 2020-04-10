@@ -34,14 +34,14 @@ export default class TwitchHelix {
 	/**
 	 * Returns a complete URL for the grant flow authentication and creates a state.
 	 */
-	getAuthImplicitGrantFlowUrl(): string {
+	getAuthImplicitGrantFlowUrl(overwriteRedirect?: string): string {
 		var state = Math.floor(Date.now() / 1000).toString(16);
 		this.validstates.push(state);
 
 		return 'https://id.twitch.tv/oauth2/authorize' +
 				'?response_type=token' +
 				'&client_id=' + this.clientid +
-				'&redirect_uri=' + encodeURIComponent(this.redirectUri) +
+				'&redirect_uri=' + encodeURIComponent(typeof(overwriteRedirect) === 'string' ? overwriteRedirect : this.redirectUri) +
 				'&scope=' + this.scope.join('+') +
 				'&state=' + state +
 				'&force_verify=true';

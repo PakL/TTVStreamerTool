@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 import * as url from 'url';
 import * as path from 'path';
 
-import { WindowState } from './WindowState';
+import { WindowState } from './Util/WindowState';
 
 class MainWindow extends EventEmitter {
 

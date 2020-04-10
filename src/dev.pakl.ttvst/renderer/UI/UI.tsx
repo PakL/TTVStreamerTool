@@ -157,5 +157,14 @@ class UI {
 		}
 	}
 
+	getPage(pagename: string): Page {
+		for(let i = 0; i < this.pages.length; i++) {
+			if(this.pages[i].name === pagename) {
+				return this.pages[i];
+			}
+		}
+		return null;
+	}
+
 }
 export = UI;

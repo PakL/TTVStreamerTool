@@ -26,6 +26,9 @@ class Startpage extends Page {
 		super('Startpage');
 
 		this.setLoginRef = this.setLoginRef.bind(this);
+		this.onLoginPress = this.onLoginPress.bind(this);
+		this.onLogoutPress = this.onLogoutPress.bind(this);
+		this.performLogin = this.performLogin.bind(this);
 		this.setTMIControl = this.setTMIControl.bind(this);
 		this.setAPIControl = this.setAPIControl.bind(this);
 		this.setOverlayControl = this.setOverlayControl.bind(this);
@@ -83,10 +86,39 @@ class Startpage extends Page {
 	async setLoginRef(logincomp: LoginComponent) {
 		if(this.loginComp !== null) return;
 		this.loginComp = logincomp;
+		this.loginComp.onLogin(this.onLoginPress);
+		this.loginComp.onLogout(this.onLogoutPress);
 
+		await this.performLogin();
+	}
+
+	async onLoginPress() {
+		try {
+			let token: string = await ipcRenderer.invoke('cockpit-login');
+
+			Settings.setString('tw_auth_token', token);
+			this.performLogin();
+		} catch(e) {
+			console.error(e);
+			//TODO:empty catch
+		}
+	}
+
+	async onLogoutPress() {
+		try {
+			await ipcRenderer.invoke('cockpit-logout');
+
+			Settings.setString('tw_auth_token', '');
+			this.performLogin();
+		} catch(e) {
+			//TODO:empty catch
+		}
+	}
+
+	async performLogin() {
+		if(this.loginComp === null) return;
 		let token = Settings.getString('tw_auth_token', '');
 		if(token.length > 0) {
-
 			let validate: Helix.IAPIHelixValidation = await ipcRenderer.invoke('cockpit-check-login', token);
 			if(validate !== null) {
 				let user: Helix.IAPIHelixUserList = await ipcRenderer.invoke('cockpit-get-user');
@@ -129,7 +161,7 @@ class Startpage extends Page {
 				this.tmiControl.setState({ condition: 'good', status: 'Connected and logged in.'});
 				break;
 			case 'auth-failed':
-				this.tmiControl.setState({ condition: 'bad', status: 'Authentication failed.'});
+				this.tmiControl.setState({ condition: 'warn', status: 'Authentication failed.'});
 				break;
 			case 'closed-due-to-error':
 				this.tmiControl.setState({ condition: 'bad', status: 'Connection closed due to an error. Check log for details.'});

@@ -1,3 +1,4 @@
+import { ipcRenderer, IpcRendererEvent } from 'electron';
 import * as React from 'react';
 import _ttvst from '../../TTVST';
 
@@ -5,6 +6,7 @@ import { Card, ICardTokens } from '@uifabric/react-cards';
 import { FontWeights } from '@uifabric/styling';
 import { Image, Stack, IStackTokens, Text, ITextStyles, PrimaryButton } from 'office-ui-fabric-react';
 
+import * as Settings from '../../Settings';
 
 let sectionStackTokens: IStackTokens = { childrenGap: 10, padding: 10 };
 let cardTokens: ICardTokens = { childrenMargin: 10, width: '50%', maxWidth: '50%', childrenGap: 10 };
@@ -22,12 +24,14 @@ interface ILoginState {
 class LoginComponent extends React.Component {
 
 	state: Readonly<ILoginState>;
+	loginCallback: () => void = null;
+	logoutCallback: () => void = null;
 
 	constructor(props: Readonly<{}>) {
 		super(props);
 
 		this.onLogin = this.onLogin.bind(this);
-		this.onEnter = this.onEnter.bind(this);
+		this.onLogout = this.onLogout.bind(this);
 
 		this.state = {
 			imageUrl: '',
@@ -37,12 +41,20 @@ class LoginComponent extends React.Component {
 		}
 	}
 
-	onLogin() {
-
+	async onLogin(callback?: any|(() => void)) {
+		if(typeof(callback) === 'function') {
+			this.loginCallback = callback;
+		} else if(this.loginCallback !== null) {
+			this.loginCallback();
+		}
 	}
 
-	onEnter() {
-
+	async onLogout(callback?: any|(() => void)) {
+		if(typeof(callback) === 'function') {
+			this.logoutCallback = callback;
+		} else if(this.logoutCallback !== null) {
+			this.logoutCallback();
+		}
 	}
 
 	render() {
@@ -62,7 +74,7 @@ class LoginComponent extends React.Component {
 					<Card.Section>
 						<Text styles={headTextStyle}>{__(this.state.username)}</Text>
 						<Text variant="small">{__(this.state.text)}</Text>
-						{!this.state.loggedIn ? <PrimaryButton text={__('Login via Twitch')} onClick={this.onLogin} /> : <PrimaryButton text={__('Enter Channel')} onClick={this.onEnter} />}
+						{!this.state.loggedIn ? <PrimaryButton text={__('Login via Twitch')} onClick={this.onLogin} /> : <PrimaryButton text={__('Logout')} onClick={this.onLogout} />}
 					</Card.Section>
 				</Card>
 			</Stack>

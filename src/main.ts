@@ -3,7 +3,7 @@ import electronSquirrelStartup from 'electron-squirrel-startup';
 
 import MainWindow from './dev.pakl.ttvst/main/MainWindow';
 import SplashWindow from './dev.pakl.ttvst/main/SplashWindow';
-import * as SassLoader from './dev.pakl.ttvst/main/SassLoader';
+import * as SassLoader from './dev.pakl.ttvst/main/Util/SassLoader';
 
 import TTVSTMain from './dev.pakl.ttvst/main/TTVSTMain';
 

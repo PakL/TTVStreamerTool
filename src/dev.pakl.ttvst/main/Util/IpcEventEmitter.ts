@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { ipcMain } from 'electron';
-import TTVSTMain from './TTVSTMain';
+import TTVSTMain from '../TTVSTMain';
 
 declare var TTVST: TTVSTMain;
 
