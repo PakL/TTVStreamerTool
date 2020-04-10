@@ -57,7 +57,9 @@ class Login {
 		this.returnServer = http.createServer(this.onReturnRequest);
 		this.returnServer.on('error', this.onReturnError);
 		this.returnServer.on('listening', this.onReturnListening);
-		this.returnServer.listen(9993, '127.0.0.1');
+
+		this.currentPortIndex = 0;
+		this.returnServer.listen(this.possiblePorts[this.currentPortIndex], '127.0.0.1');
 	}
 
 	private loginFinished() {
