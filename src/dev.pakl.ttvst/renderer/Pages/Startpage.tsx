@@ -22,6 +22,9 @@ class Startpage extends Page {
 	ovlControl: CockpitControlComponent = null;
 	wstControl: CockpitControlComponent = null;
 
+	lastHelixFailedRequests: number = 0;
+	helixFailedRequestsInRow: number = 0;
+
 	constructor() {
 		super('Startpage');
 
@@ -37,6 +40,10 @@ class Startpage extends Page {
 		ipcRenderer.send('Startpage.on', 'tmi.statusUpdate');
 		this.onTMIStatusUpdate = this.onTMIStatusUpdate.bind(this);
 		ipcRenderer.on('Startpage.tmi.statusUpdate', this.onTMIStatusUpdate);
+
+		ipcRenderer.send('TwitchHelix.on', 'statusUpdate');
+		this.onHelixStatusUpdate = this.onHelixStatusUpdate.bind(this);
+		ipcRenderer.on('TwitchHelix.statusUpdate', this.onHelixStatusUpdate);
 	}
 
 	get icon(): React.ReactElement {
@@ -151,7 +158,6 @@ class Startpage extends Page {
 	}
 
 	onTMIStatusUpdate(event: IpcRendererEvent, status: string) {
-		console.log(`New status ${status}`);
 		if(this.tmiControl === null) return;
 		switch(status) {
 			case 'ready':
@@ -170,6 +176,28 @@ class Startpage extends Page {
 				this.tmiControl.setState({ condition: 'bad', status: 'Connection was closed properly.'});
 				break;
 		}
+	}
+
+	onHelixStatusUpdate(event: IpcRendererEvent, totalRequests: number, failedRequests: number, avgTime: number) {
+		let condition = 'good';
+
+		if(failedRequests > this.lastHelixFailedRequests) {
+			condition = 'warn';
+			this.helixFailedRequestsInRow++;
+			if(this.helixFailedRequestsInRow >= 3) {
+				condition = 'bad';
+			}
+		} else {
+			this.helixFailedRequestsInRow = 0;
+		}
+
+		if(avgTime > 5000 && condition == 'good') {
+			condition = 'warn';
+		}
+
+		let status = `Total requests: ${totalRequests}. Failed requests: ${failedRequests}. Current average response time: ${avgTime}ms`;
+
+		this.apiControl.setState({ condition, status });
 	}
 
 }

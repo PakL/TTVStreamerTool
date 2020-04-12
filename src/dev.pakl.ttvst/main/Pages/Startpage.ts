@@ -97,7 +97,6 @@ class Startpage extends IpcEventEmitter {
 	onTMIRegistered() {
 		this.emit('tmi.statusUpdate', 'registered');
 		this.lastStatus = 'registered';
-		TTVST.tmi.capreq();
 		TTVST.tmi.join(TTVST.helix.userobj.login);
 	}
 

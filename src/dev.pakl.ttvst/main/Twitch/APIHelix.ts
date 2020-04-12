@@ -1,6 +1,7 @@
 import got, { Method, Response } from 'got';
 import url from 'url';
 import * as T from './APIHelixTypes';
+import IpcEventEmitter from '../Util/IpcEventEmitter';
 
 export class UnauthroizedError extends Error {}
 
@@ -12,7 +13,7 @@ export class UnauthroizedError extends Error {}
  * @param {Array} [options.scope] An array of the permission scopes you might need
  * @param {String} [options.token] A string with an bearer token. If this is omitted token will be loaded from localStroage if possible
  */
-export default class TwitchHelix {
+export default class TwitchHelix extends IpcEventEmitter {
 
 	clientid: string = '';
 	redirectUri: string = '';
@@ -25,7 +26,12 @@ export default class TwitchHelix {
 	validstates: Array<string> = [];
 	ratelimitreset: number = -1;
 
+	requestCount: number = 0;
+	requestTimes: Array<number> = [];
+	requestsFailed: number = 0;
+
 	constructor(options: T.IAPIHelixOptions) {
+		super();
 		if(typeof(options.clientid) == 'string') this.clientid = options.clientid;
 		if(typeof(options.redirectUri) == 'string') this.redirectUri = options.redirectUri;
 		if(typeof(options.scope) == 'object') this.scope = options.scope;
@@ -172,6 +178,9 @@ export default class TwitchHelix {
 		}
 
 		return new Promise((resolve, reject) => {
+			let startTime = Date.now();
+			self.requestCount++;
+
 			let requestURL = 'https://' + overridehost + uri;
 			let requestOptions: Record<string, any> = {
 				method: 'GET',
@@ -186,6 +195,13 @@ export default class TwitchHelix {
 			}
 			if(method.length > 0) requestOptions.method = method.toUpperCase();
 			got(requestURL, requestOptions).then((response: Response<T.IAPIHelixResponse>) => {
+				let endTime = Date.now();
+				self.requestTimes.push(endTime - startTime);
+				if(self.requestTimes.length > 10) {
+					self.requestTimes.shift();
+				}
+				self.emitStatusUpdate();
+
 				let body = response.body;
 				if(response.statusCode !== 200) {
 					if(response.statusCode == 429) {
@@ -224,9 +240,18 @@ export default class TwitchHelix {
 				}
 				resolve(data);
 			}).catch((e) => {
+				self.requestsFailed++;
+				self.emitStatusUpdate();
 				reject(e);
 			});
 		});
+	}
+
+	private emitStatusUpdate() {
+		let totalTime = 0;
+		this.requestTimes.map((t: number) => { totalTime += t; });
+		let avgTime = Math.round(totalTime / this.requestTimes.length);
+		this.emit('statusUpdate', this.requestCount, this.requestsFailed, avgTime);
 	}
 
 

@@ -172,9 +172,7 @@ class TMI extends EventEmitter {
 		this.capMembership = false;
 		this.capCommands = false;
 		this.capTags = false;
-		this.sendCLRF('CAP REQ :twitch.tv/membership');
-		this.sendCLRF('CAP REQ :twitch.tv/commands');
-		this.sendCLRF('CAP REQ :twitch.tv/tags');
+		this.sendCLRF('CAP REQ :twitch.tv/membership twitch.tv/commands twitch.tv/tags');
 	}
 	slaughter(msg: string) {
 		let p = msg.substr(0, 1);
@@ -366,11 +364,11 @@ class TMI extends EventEmitter {
 
 			// ACK answers for cap requests
 			case (action == 'CAP'):
-				if(attach == '* ACK :twitch.tv/membership')
+				if(attach.match(/twitch\.tv\/membership/))
 					this.capMembership = true;
-				if(attach == '* ACK :twitch.tv/commands')
+				if(attach.match(/twitch\.tv\/commands/))
 					this.capCommands = true;
-				if(attach == '* ACK :twitch.tv/tags')
+				if(attach.match(/twitch\.tv\/tags/))
 					this.capTags = true;
 
 				if(this.capMembership && this.capCommands && this.capTags) {
