@@ -71,7 +71,7 @@ else {
 			})
 			win.on('ready-to-show', () => {
 				win.show()
-				win.webContents.openDevTools()
+				//win.webContents.openDevTools()
 			})
 			win.on('closed', () => {
 				win = null
