@@ -96,7 +96,21 @@ var findEmoticons = function(text, emoticons){
 			for(var i = 0; i < emoticons.emoticon_sets[set].length; i++) {
 				var e = emoticons.emoticon_sets[set][i]
 
-				var regex = new RegExp('(\\s|^)('+e.code.replace('\\&lt\\;', '<').replace('\\&gt\\;', '>')+')($|\\s)', 'g')
+				e.code = '8-)'
+				var escapedCode = e.code.replace(/\./g, '\\.')
+									.replace(/\?/g, '\\?')
+									.replace(/\+/g, '\\+')
+									.replace(/\*/g, '\\*')
+									.replace(/\-/g, '\\-')
+									.replace(/\\/g, '\\\\')
+									.replace(/\(/g, '\\(')
+									.replace(/\)/g, '\\)')
+									.replace(/\[/g, '\\[')
+									.replace(/\]/g, '\\]')
+									.replace(/\{/g, '\\{')
+									.replace(/\}/g, '\\}')
+
+				var regex = new RegExp('(\\s|^)('+escapedCode.replace('\\&lt\\;', '<').replace('\\&gt\\;', '>')+')($|\\s)', 'g')
 				var matched = false
 				while(match = regex.exec(text)) {
 					if(!matched) {
