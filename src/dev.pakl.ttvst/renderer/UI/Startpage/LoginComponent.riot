@@ -1,0 +1,71 @@
+<LoginComponent>
+	<div class="avatar">
+		<img src={ avatar_url } alt="" />
+	</div>
+	<div class="loginstatus">
+		<strong class="loginname accent-contrast-font">{ __('Not logged in') }</strong>
+		<p class="logintext">{ __('Please log in to twitch to use the TTVStreamerTool to its full potential.') }</p>
+		<button type="button" onclick={ onLoginClick }>{ __('Login via Twitch') }</button>
+	</div>
+	
+	<style>
+		:host {
+			display: block;
+			width: 50%;
+			max-width: 50%;
+			margin: 20px auto;
+			padding: 10px;
+			background: rgba(0,0,0, 0.1);
+			border: 1px solid rgba(0,0,0, 0.2);
+		}
+
+		:host > div {
+			vertical-align: top;
+		}
+
+		.avatar {
+			display: inline-block;
+			height: 120px;
+			width: 120px;
+			text-align: center;
+			line-height: 120px;
+		}
+		.avatar > img {
+			max-height: 100%;
+			max-width: 100%;
+		}
+
+		.loginstatus {
+			display: inline-block;
+			width: calc(100% - 130px);
+			margin-left: 10px;
+		}
+		.loginstatus > .logintext {
+			margin: 8px 0;
+		}
+	</style>
+
+	<script>
+		export default {
+			avatar_url: 'https://static-cdn.jtvnw.net/user-default-pictures-uv/cdd517fe-def4-11e9-948e-784f43822e80-profile_image-300x300.png',
+
+			loginCallback: null,
+
+			onBeforeMount(props, state) {
+				this.__ = global.TTVST.i18n.__;
+			},
+
+			setLoginCallback(callback) {
+				if(typeof(callback) == 'function') {
+					this.loginCallback = callback;
+				}
+			},
+
+			onLoginClick() {
+				if(typeof(this.loginCallback) == 'function') {
+					this.loginCallback();
+				}
+			}
+		}
+	</script>
+</LoginComponent>

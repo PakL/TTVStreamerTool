@@ -19,11 +19,9 @@
 	},
 	"dependencies": {
 		"@types/node": "12.12.6",
-		"@types/react": "16.9.34",
-		"@types/react-dom": "16.9.6",
 		"@types/sass": "1.16.0",
 		"@types/ws": "7.2.3",
-		"@uifabric/react-cards": "0.109.53",
+		"bufferutil": "4.0.1",
 		"compare-versions": "3.6.0",
 		"dateformat": "3.0.3",
 		"electron-squirrel-startup": "1.0.0",
@@ -32,21 +30,20 @@
 		"got": "10.7.0",
 		"i18n-nodejs": "3.0.0",
 		"office-ui-fabric-core": "11.0.0",
-		"office-ui-fabric-react": "7.106.0",
 		"randexp": "0.5.3",
-		"react": "16.13.1",
-		"react-dom": "16.13.1",
+		"riot": "4.12.2",
 		"sass": "1.26.3",
 		"sass-yiq": "1.0.0",
 		"stringz": "2.1.0",
-		"ws": "7.2.3",
+		"utf-8-validate": "5.0.2",
 		"winston": "3.2.1",
-		"bufferutil": "4.0.1",
-		"utf-8-validate": "5.0.2"
+		"ws": "7.2.3"
 	},
 	"devDependencies": {
 		"electron": "8.2.1",
 		"electron-winstaller": "4.0.0",
-		"typescript": "3.8.3"
+		"typescript": "3.8.3",
+		"@riotjs/cli": "4.0.3",
+		"@riotjs/compiler": "4.8.2"
 	}
 }

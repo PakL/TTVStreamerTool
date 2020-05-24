@@ -1,0 +1,48 @@
+label {
+	input[type=checkbox] {
+		display: inline-block;
+		width: auto;
+		-webkit-appearance: none;
+		background: none;
+		border: 0;
+		padding: 0;
+		margin: 0;
+		margin-right: 10px;
+		vertical-align: middle;
+		
+		&::before {
+			font-family: FabricMDL2Icons;
+			content: '\E739';
+			font-size: 1.8em;
+			color: lighten($globalBackground, 30%);
+	
+			transition: color 0.5s;
+		}
+		&:hover::before {
+			content: '\E73A';
+			color: lighten($globalBackground, 60%);
+		}
+		&:checked::before, &:checked:hover::before {
+			content: '\E73D';
+			color: $accentColorContrast;
+		}
+	}
+}
+
+label.win10-switch {
+	input[type=checkbox] {
+		&::before {
+			content: '';
+			font-size: 3em;
+			color: lighten($globalBackground, 30%);
+		}
+		&:hover::before {
+			content: '';
+			color: lighten($globalBackground, 60%);
+		}
+		&:checked::before, &:checked:hover::before {
+			content: '';
+			color: $accentColorContrast;
+		}
+	}
+}

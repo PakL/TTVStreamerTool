@@ -1,0 +1,127 @@
+<SettingsMenu>
+	<div class="nav accent-contrast-font accent-contrast-border">
+		<ul>
+			<li each={ (set, index) in sets }><a class="accent-contrast-background-hover" onclick={ openset } data-index={ index } data-key={ set.key } title={ __(set.label) }>{ __(set.label) }</a></li>
+		</ul>
+	</div><div class="settings">
+		<SettingsSet each={ set in sets } data-key={ set.key } { ...set }></SettingsSet>
+	</div>
+	<div class="clearfloat"></div>
+
+	<style>
+		:host {
+			display: block;
+			width: 100%;
+			height: 100%;
+		}
+		.nav {
+			width: 300px;
+			height: 100%;
+			overflow: auto;
+			float: left;
+			border-right: 1px solid;
+		}
+		.nav > ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+		.nav > ul > li > a {
+			display: block;
+			padding: 20px;
+			border-bottom: 1px solid;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			cursor: pointer;
+		}
+		.settings {
+			float: right;
+			width: calc(100% - 301px);
+			height: 100%;
+			float: right;
+			overflow: auto;
+		}
+		.clearfloat {
+			display: block;
+			clear: both;
+		}
+	</style>
+
+	<script>
+		const riot = require('riot');
+		import SettingsSet from './SettingsSet.riot';
+		riot.register('settingsset', SettingsSet);
+
+		export default {
+			sets: [],
+
+			onBeforeMount(props, state) {
+				this.__ = global.TTVST.i18n.__;
+			},
+
+			onMounted(props, state) {
+				this.resetSets();
+			},
+
+			onUpdated(props, state) {
+				this.resetSets();
+			},
+
+			resetSets() {
+				let sets = this.$$('settingsset');
+				for(let i = 0; i < sets.length; i++) {
+					if(i == 0) {
+						sets[i].style.display = 'initial';
+					} else {
+						sets[i].style.display = 'none';
+					}
+				}
+				
+				let setLinks = this.$$('.nav ul li a');
+				for(let i = 0; i < setLinks.length; i++) {
+					if(i == 0) {
+						setLinks[i].classList.remove('accent-contrast-background-hover')
+						setLinks[i].classList.add('accent-contrast-background')
+					} else {
+						setLinks[i].classList.remove('accent-contrast-background')
+						setLinks[i].classList.add('accent-contrast-background-hover')
+					}
+				}
+			},
+
+			openset(e) {
+				e.preventDefault();
+				let link = null;
+				for(let i = 0; i < e.path.length; i++) {
+					if(e.path[i].tagName === 'A') {
+						link = e.path[i];
+						break;
+					}
+				}
+				if(link === null) return;
+
+				let setLinks = this.$$('.nav ul li a');
+				for(let i = 0; i < setLinks.length; i++) {
+					setLinks[i].classList.remove('accent-contrast-background')
+					setLinks[i].classList.add('accent-contrast-background-hover')
+				}
+				link.classList.remove('accent-contrast-background-hover')
+				link.classList.add('accent-contrast-background')
+
+				let sets = this.$$('settingsset');
+				for(let i = 0; i < sets.length; i++) {
+					sets[i].style.display = 'none';
+				}
+
+				let setkey = link.dataset.key;
+				this.$('settingsset[data-key="'+setkey+'"]').style.display = 'initial';
+			},
+
+			setSettings(config) {
+				this.sets = config;
+				this.update();
+			}
+		}
+	</script>
+</SettingsMenu>

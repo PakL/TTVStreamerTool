@@ -1,0 +1,160 @@
+<SettingsInput>
+
+	<style>
+		setting {
+			display: block;
+		}
+		setting > label {
+			margin: 20px 0 !important;
+		}
+		
+		setting:nth-child(2) > label {
+			margin-top: 0 !important;
+		}
+		setting:last-child > label {
+			margin-bottom: 0 !important;
+		}
+	</style>
+	<script>
+		const Settings = require('../../Settings');
+
+		export default {
+			onBeforeMount(props, state) {
+				this.__ = global.TTVST.i18n.__;
+			},
+
+			onMounted() {
+				this.create()
+			},
+			onUpdated() {
+				this.create()
+			},
+
+			create() {
+				let options = this.props
+				let options_default = {
+					setting: '',
+					default: '',
+					type: 'text',
+					label: '',
+					description: '',
+					selection: [],
+					onchange: null,
+					onclick: null,
+
+					min: 0,
+					max: 100,
+					step: null,
+					readonly: false,
+					id: null
+				}
+				if(typeof(options) == 'object') {
+					options = Object.assign(options_default, options)
+				} else {
+					options = options_default
+				}
+
+				if(options.type == 'separator') {
+					this.root.innerHTML = ''
+					this.root.appendChild(document.createElement('hr'))
+					return
+				}
+
+				let labelElement = document.createElement('label')
+				let inputElement = null
+				if(options.type == 'select') {
+					inputElement = document.createElement('select')
+					let selectedIndex = Settings.getString(options.setting, options.default)
+					for(let i = 0; i < options.selection.length; i++) {
+						let sel = options.selection[i];
+						let optionElement = document.createElement('option')
+						optionElement.value = sel.key
+						optionElement.innerText = this.__(sel.text)
+						if(selectedIndex == sel.key) {
+							optionElement.setAttribute('selected', true)
+						}
+						inputElement.appendChild(optionElement)
+					}
+				} else if(options.type == 'button') {
+					inputElement = document.createElement('button')
+					inputElement.innerText = this.__(options.label)
+					if(typeof(options.onclick) !== 'function') {
+						return
+					}
+					inputElement.addEventListener('click', options.onclick)
+				} else {
+					inputElement = document.createElement('input')
+					inputElement.setAttribute('type', options.type)
+					if(options.type == 'checkbox') {
+						if(Settings.getBoolean(options.setting, (typeof(options.default) !== 'boolean' ? false : options.default))) {
+							inputElement.setAttribute('checked', Settings.getBoolean(options.setting))
+						}
+					} else if(options.type == 'range' || options.type == 'number') {
+						inputElement.value = parseFloat(Settings.getString(options.setting, (typeof(options.default) === 'number' ? options.default : '')))
+						if(typeof(options.min) === 'number') inputElement.setAttribute('min', options.min)
+						if(typeof(options.max) === 'number') inputElement.setAttribute('max', options.max)
+						if(typeof(options.step) === 'number') inputElement.setAttribute('step', options.step)
+					} else {
+						inputElement.value = Settings.getString(options.setting, (typeof(options.default) === 'string' ? options.default : ''))
+					}
+					if(typeof(options.readonly) === 'boolean' && options.readonly) {
+						inputElement.setAttribute('readonly', 'readonly')
+					}
+				}
+
+				if(typeof(options.attrid) === 'string') {
+					inputElement.setAttribute('id', options.attrid)
+				}
+				inputElement.dataset.setting = options.setting
+
+				if(typeof(options.onchange) === 'function') {
+					inputElement.addEventListener('change', options.onchange)
+				}
+				if(typeof(options.setting) === 'string' && options.setting.length > 0) {
+					inputElement.addEventListener('change', () => {
+						if(options.type == 'checkbox' || options.type == 'toggle') {
+							Settings.setBoolean(options.setting, inputElement.checked)
+						} else {
+							Settings.setString(options.setting, inputElement.value)
+						}
+					})
+				}
+
+				let descriptionElement = null
+				if(options.description.length > 0) {
+					descriptionElement = document.createElement('small')
+					descriptionElement.innerText = this.__(options.description)
+				}
+
+				if(options.type == 'toggle' || options.type == 'checkbox') {
+					if(options.type == 'toggle') {
+						labelElement.classList.add('win10-switch')
+						inputElement.setAttribute('type', 'checkbox')
+					}
+					labelElement.appendChild(inputElement)
+					labelElement.appendChild(document.createTextNode(this.__(options.label)))
+					if(descriptionElement != null) {
+						labelElement.appendChild(document.createElement('br'))
+						labelElement.appendChild(descriptionElement)
+					}
+				} else if(options.type == 'button') {
+					labelElement.appendChild(inputElement)
+					if(descriptionElement != null) {
+						labelElement.appendChild(document.createElement('br'))
+						labelElement.appendChild(descriptionElement)
+					}
+				} else {
+					labelElement.appendChild(document.createTextNode(this.__(options.label)))
+					labelElement.appendChild(inputElement)
+					if(descriptionElement != null) {
+						labelElement.appendChild(descriptionElement)
+					}
+				}
+
+				this.root.innerHTML = ''
+				this.root.appendChild(labelElement)
+			}
+
+		}
+	</script>
+</SettingsInput>

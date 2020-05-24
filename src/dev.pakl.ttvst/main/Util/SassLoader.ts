@@ -13,7 +13,7 @@ const includePaths = [
 ];
 
 export async function renderCSS() {
-	if(typeof(cssCache) === 'string') {
+	if(process.env.NODE_ENV !== 'development' && typeof(cssCache) === 'string') {
 		return cssCache;
 	}
 

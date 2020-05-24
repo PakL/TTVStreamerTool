@@ -1,14 +1,41 @@
-import { ISettingsProps } from './SettingsComponent';
-const config: Array<{ title: string; settings: Array<ISettingsProps>; }> = [
+export interface ISettingsSetProps {
+	label: string;
+	key: string;
+	settings: Array<ISettingsProps>;
+}
+
+
+export interface ISettingsProps {
+	setting: string;
+	default: string | number | boolean;
+	type: 'select' | 'toggle' | 'checkbox' | 'separator' | 'text' | 'password' | 'number' | 'slider';
+	label: string;
+	description: string;
+	selection?: Array<{ key: string, text: string }>;
+	onchange?: (ev: any) => void;
+	onclick?: (ev: any) => void;
+
+	min?: number;
+	max?: number;
+	step?: number;
+	readonly?: boolean;
+	id?: string;
+}
+
+import * as Settings from '../../Settings'
+
+const config: Array<ISettingsSetProps> = [
 	{
-		title: '',
+		label: 'Global',
+		key: 'ttvst.global',
 		settings: [
-			{ setting: 'language', label: 'Language', type: 'select', selection: [{ key: 'en', text: 'English' }, { key: 'de', text: 'Deutsch' }], default: 'en', description: '' },
+			{ setting: 'language', label: 'Language', type: 'select', selection: [{ key: 'en', text: 'English' }, { key: 'de', text: 'Deutsch' }], default: Settings.language(), description: '' },
 			{ setting: 'debug-enabled', label: 'Debug logging enabled', type: 'toggle', default: false, description: 'Enabling will result in a higher memory usage. This is only for debugging purposes.' }
 		]
 	},
 	{
-		title: 'Cockpit options',
+		label: 'Cockpit options',
+		key: 'ttvst.cockpit',
 		settings: [
 			{ setting: 'autorecovermessages', label: 'Autorecover deleted messages', type: 'checkbox', default: false, description: '' },
 			{ setting: 'showlocalizednames', label: 'Show localized display names', type: 'checkbox', default: true, description: '' },
@@ -22,7 +49,8 @@ const config: Array<{ title: string; settings: Array<ISettingsProps>; }> = [
 		]
 	},
 	{
-		title: 'Chat filter',
+		label: 'Chat filter',
+		key: 'ttvst.chat',
 		settings: [
 			{ setting: 'filteremotespam', label: 'Filter emote spam', type: 'checkbox', default: false, description: 'This filters out any messages that are only emotes.' },
 			{ setting: 'showemotestream', label: 'Show emote stream instead', type: 'checkbox', default: false, description: 'Now that we have no emote spam you can display emotes in a single row stream below the chat to still get a feealing for the chat.' },
@@ -32,7 +60,8 @@ const config: Array<{ title: string; settings: Array<ISettingsProps>; }> = [
 		]
 	},
 	{
-		title: 'Alert options',
+		label: 'Alert options',
+		key: 'ttvst.alerts',
 		settings: [
 			{ setting: 'flashactions', label: 'Flash alerts', type: 'checkbox', default: true, description: '' },
 			{ setting: '', label: '', type: 'separator', default: false, description: '' },

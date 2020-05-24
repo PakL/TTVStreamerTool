@@ -1,0 +1,24 @@
+<Startpage>
+	<LoginComponent></LoginComponent>
+
+
+	<script>
+		const riot = require('riot');
+		import LoginComponent from './LoginComponent.riot';
+		riot.register('logincomponent', LoginComponent);
+		export default {
+			onBeforeMount(props, state) {
+				this.__ = global.TTVST.i18n.__;
+			},
+
+			setLoginCallback(callback) {
+				if(typeof(callback) == 'function') {
+					if(typeof(this.$('logincomponent')) !== 'undefined') {
+						let riotSym = Object.getOwnPropertySymbols(this.$('logincomponent'))[0];
+						this.$('logincomponent')[riotSym].setLoginCallback(callback);
+					}
+				}
+			}
+		}
+	</script>
+</Startpage>

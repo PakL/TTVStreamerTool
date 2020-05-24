@@ -1,0 +1,40 @@
+@mixin accent-normal($name, $setting, $altsetting: "") {
+	.accent-#{$name} {
+		#{$setting}: $accentColor;
+		@if $altsetting != "" {
+			#{$altsetting}: $fontColorOnAccent;
+		}
+	}
+	.accent-#{$name}-hover:hover {
+		#{$setting}: $accentColor;
+		@if $altsetting != "" {
+			#{$altsetting}: $fontColorOnAccent;
+		}
+	}
+}
+@mixin accent-contrast($name, $setting, $altsetting: "") {
+	.accent-contrast-#{$name} {
+		#{$setting}: $accentColorContrast;
+		@if $altsetting != "" {
+			#{$altsetting}: $globalBackground;
+		}
+	}
+	.accent-contrast-#{$name}-hover:hover {
+		#{$setting}: $accentColorContrast;
+		@if $altsetting != "" {
+			#{$altsetting}: $globalBackground;
+		}
+	}
+}
+@mixin accent($name, $setting, $altsetting: "") {
+	@include accent-normal($name, $setting, $altsetting);
+	@include accent-contrast($name, $setting, $altsetting);
+}
+
+@include accent("font", "color");
+@include accent("background", "background", "color");
+@include accent("border", "border-color");
+@include accent("border-top", "border-top-color");
+@include accent("border-left", "border-left-color");
+@include accent("border-right", "border-right-color");
+@include accent("border-bottom", "border-bottom-color");

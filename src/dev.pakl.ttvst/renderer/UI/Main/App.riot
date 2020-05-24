@@ -1,0 +1,43 @@
+<App>
+	<NavBar />
+	<div id="contentWrapper"></div>
+
+	<script>
+		const riot = require('riot');
+		import Navbar from './NavBar.riot';
+
+		export default {
+			navbar: null,
+			contents: [],
+
+			onMounted(props, state) {
+				let navbarCmpnt = riot.component(Navbar);
+				this.navbar = navbarCmpnt(this.$('navbar'));
+			},
+
+			addPage(page, bottom) {
+				if(page.showInViewsList) {
+					this.navbar.addPage(page, bottom);
+				}
+
+				let pageContent = document.createElement('div')
+				pageContent.classList.add('closed');
+				pageContent.setAttribute('data-name', page.name);
+				this.$('#contentWrapper').appendChild(pageContent);
+				this.contents.push(pageContent);
+
+				page.root = pageContent;
+			},
+
+			openPage(pagename) {
+				for(let i = 0; i < this.contents.length; i++) {
+					if(this.contents[i].dataset.name === pagename) {
+						this.contents[i].classList.remove('closed');
+					} else {
+						this.contents[i].classList.add('closed');
+					}
+				}
+			}
+		}
+	</script>
+</App>
