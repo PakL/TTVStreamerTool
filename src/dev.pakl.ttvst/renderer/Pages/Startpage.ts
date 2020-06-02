@@ -26,7 +26,7 @@ class Startpage extends Page {
 	}
 
 	onLogin() {
-		console.log('Login');
+		ipcRenderer.invoke('cockpit-login');
 	}
 
 	content(): HTMLElement {

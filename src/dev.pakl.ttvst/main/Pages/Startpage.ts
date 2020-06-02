@@ -50,7 +50,11 @@ class Startpage {
 		try {
 			return await Login.instance().login();
 		} catch(e) {
-			//TODO:write down errors
+			if(typeof(e) === 'string') {
+				logger.info(`Login response: ${e}`)
+			} else {
+				logger.error(e);
+			}
 			return '';
 		}
 	}
