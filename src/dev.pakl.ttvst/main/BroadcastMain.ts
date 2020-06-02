@@ -1,17 +1,17 @@
 import { EventEmitter } from 'events'
 import { ipcMain, WebContents } from 'electron'
 
-let _instance: Broadcast = null
+let _instance: BroadcastMain = null
 
 interface IipcSubscriptions {
 	[senderId: number]: Array<string>
 }
 
-class Broadcast extends EventEmitter {
+class BroadcastMain extends EventEmitter {
 
-	static get instance(): Broadcast {
+	static get instance(): BroadcastMain {
 		if(_instance === null) {
-			_instance = new Broadcast();
+			_instance = new BroadcastMain();
 		}
 		return _instance;
 	}
@@ -46,13 +46,13 @@ class Broadcast extends EventEmitter {
 		});
 
 		ipcMain.on('broadcast', (event: Electron.IpcMainEvent, channel: string, ...args: any[]) => {
-			self.emitIpc(channel, args);
+			self.emitIpc(channel, ...args);
 		});
 	}
 
 
 	emit(event: string | symbol, ...args: any[]): boolean {
-		let r = super.emit(event, args);
+		let r = super.emit(event, ...args);
 		if(!r) return r;
 
 		if(typeof(event) !== 'string') return;
@@ -61,7 +61,7 @@ class Broadcast extends EventEmitter {
 		for(let i = 0; i < allContents.length; i++) {
 			if(typeof(this.ipcSubscriptions[allContents[i].id]) !== 'undefined') {
 				if(this.ipcSubscriptions[allContents[i].id].indexOf(event) >= 0) {
-					allContents[i].send(event, args)
+					allContents[i].send('broadcast', event, ...args)
 				}
 			}
 		}
@@ -69,7 +69,7 @@ class Broadcast extends EventEmitter {
 	}
 
 	emitIpc(event: string, ...args: any[]): boolean {
-		return super.emit(event, args);
+		return super.emit(event, ...args);
 	}
 
 
@@ -91,4 +91,4 @@ class Broadcast extends EventEmitter {
 
 }
 
-export = Broadcast;
+export = BroadcastMain;

@@ -1,6 +1,9 @@
 import url from 'url';
 import got, { Method, Response } from 'got';
 import * as T from './APIv5Types';
+import winston from 'winston';
+
+declare var logger: winston.Logger;
 
 class APIv5 {
 
@@ -25,17 +28,17 @@ class APIv5 {
 		if(typeof(options.scope) == 'object') this.scope = options.scope;
 
 		const self = this
-		console.log('[TTVST] Requesting known broken emote sets')
+		logger.info('[TTVST] Requesting known broken emote sets')
 		got('https://sync.ttvst.app/broken_emotesets.json', { responseType: 'json', timeout: 10000 }).then(function(resp){
 			let body = resp.body
 			if(body instanceof Array) {
-				console.log('[TTVST] Found ' + body.length + ' broken emote sets')
+				logger.info('[TTVST] Found ' + body.length + ' broken emote sets')
 				self._brokenEmotesets = body
 				self._initialEmotesets = self._brokenEmotesets.length
 			}
 		}).catch((err) => {
-			console.log('[TTVST] Error loading emote sets')
-			console.error(err)
+			logger.error('[TTVST] Error loading emote sets')
+			logger.error(err)
 		})
 	}
 
@@ -132,7 +135,7 @@ class APIv5 {
 		}
 		*/
 
-		console.log(`[API] Request for ${uri} started... authNeeded:${authNeeded}`);
+		logger.verbose(`[API] Request for ${uri} started... authNeeded:${authNeeded}`);
 
 		let overridehost = 'api.twitch.tv';
 		if(uri.startsWith('https://')) {
@@ -176,7 +179,7 @@ class APIv5 {
 						try {
 							data = JSON.parse(body);
 						} catch(e) {
-							console.log('[API] Got unregular response:', body);
+							logger.error('[API] Got unregular response:', body);
 							reject(e);
 							return;
 						}
@@ -594,7 +597,7 @@ class APIv5 {
 			this._getChatEmoticonsBySet(emotesets).then((d) => {
 				if(self._brokenEmotesets.length > self._initialEmotesets) {
 					self._initialEmotesets = self._brokenEmotesets.length;
-					console.log('[TTVST] Reporting broken emote sets so others may provit');
+					logger.info('[TTVST] Reporting broken emote sets so others may provit');
 					got.post('https://sync.ttvst.app/report_emotesets.php', { timeout: 10000, json: self._brokenEmotesets });
 				}
 				res(d);

@@ -1,7 +1,9 @@
 import * as path from 'path'
 import * as electron from 'electron'
 import * as fs from 'fs'
+import winston from 'winston';
 
+declare var logger: winston.Logger;
 let _app : electron.App = null
 let _screen : electron.Screen = null
 
@@ -85,7 +87,7 @@ class WindowState {
 				this.width = winBounds.width
 				this.height = winBounds.height
 			} else {
-				console.log('Window not in view at ' + winBounds.x + ',' + winBounds.y + '|' + winBounds.width + ',' + winBounds.height)
+				winston.verbose('Window not in view at ' + winBounds.x + ',' + winBounds.y + '|' + winBounds.width + ',' + winBounds.height)
 			}
 		}
 	}

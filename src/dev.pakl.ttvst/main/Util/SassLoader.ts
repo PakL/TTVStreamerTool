@@ -4,7 +4,9 @@ import { join } from 'path';
 import { systemPreferences } from 'electron';
 
 import * as Color from '../../renderer/UI/ColorFunctions';
+import winston from 'winston';
 
+declare var logger: winston.Logger;
 let cssCache: string;
 
 const includePaths = [
@@ -48,7 +50,7 @@ export async function renderCSS() {
 			});
 		});
 	} catch(e) {
-		console.error(e);
+		logger.error(e);
 		cssCache = '';
 	}
 	return cssCache;

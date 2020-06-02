@@ -1,18 +1,18 @@
 import { ipcMain } from 'electron';
 import TTVSTMain from '../TTVSTMain';
-import IpcEventEmitter from '../Util/IpcEventEmitter';
+import Broadcast from '../BroadcastMain';
 import Login from '../Util/Login';
+import winston from 'winston';
 
+declare var logger: winston.Logger;
 declare var TTVST: TTVSTMain;
 
 
-class Startpage extends IpcEventEmitter {
+class Startpage {
 
 	lastStatus: string = 'offline';
 
 	constructor() {
-		super();
-
 		this.onLogin = this.onLogin.bind(this);
 		this.onLogout = this.onLogout.bind(this);
 
@@ -38,10 +38,10 @@ class Startpage extends IpcEventEmitter {
 		TTVST.tmi.on('close', this.onTMIClose);
 
 		TTVST.tmi.on('incoming', (msg) => {
-			console.log('[TMI] > ' + msg);
+			logger.verbose('[TMI] > ' + msg);
 		});
 		TTVST.tmi.on('outgoing', (msg) => {
-			console.log('[TMI] < ' + msg);
+			logger.verbose('[TMI] < ' + msg);
 		})
 
 	}
@@ -67,7 +67,7 @@ class Startpage extends IpcEventEmitter {
 			let validation = await TTVST.helix.validate();
 			return validation;
 		} catch(e) {
-			console.error(e);
+			logger.error(e);
 		}
 		return null;
 	}
@@ -77,7 +77,7 @@ class Startpage extends IpcEventEmitter {
 			let user = await TTVST.helix.getUsers();
 			return user;
 		} catch(e) {
-			console.error(e);
+			logger.error(e);
 		}
 		return null;
 	}
@@ -87,7 +87,7 @@ class Startpage extends IpcEventEmitter {
 	}
 
 	onTMIReady() {
-		this.emit('tmi.statusUpdate', 'ready');
+		Broadcast.instance.emit('tmi.statusUpdate', 'ready');
 		this.lastStatus = 'ready';
 		if(TTVST.helix.token.length > 0 && TTVST.helix.userobj !== null) {
 			TTVST.tmi.auth(TTVST.helix.userobj.login, TTVST.helix.token);
@@ -95,21 +95,21 @@ class Startpage extends IpcEventEmitter {
 	}
 
 	onTMIRegistered() {
-		this.emit('tmi.statusUpdate', 'registered');
+		Broadcast.instance.emit('tmi.statusUpdate', 'registered');
 		this.lastStatus = 'registered';
 		TTVST.tmi.join(TTVST.helix.userobj.login);
 	}
 
 	onTMIAuthFail() {
-		this.emit('tmi.statusUpdate', 'auth-failed');
+		Broadcast.instance.emit('tmi.statusUpdate', 'auth-failed');
 		this.lastStatus = 'auth-failed';
 	}
 
 	onTMIClose(had_error: boolean) {
 		if(had_error) {
-			this.emit('tmi.statusUpdate', 'closed-due-to-error');
+			Broadcast.instance.emit('tmi.statusUpdate', 'closed-due-to-error');
 		} else if(this.lastStatus !== 'auth-failed') {
-			this.emit('tmi.statusUpdate', 'closed');
+			Broadcast.instance.emit('tmi.statusUpdate', 'closed');
 		}
 	}
 

@@ -4,11 +4,14 @@ import * as url from 'url';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as originalFs from 'original-fs';
+import winston from 'winston';
 
 interface IPosition {
 	x: number;
 	y: number;
 }
+
+declare var logger: winston.Logger;
 
 class SplashWindow extends EventEmitter {
 
@@ -45,7 +48,7 @@ class SplashWindow extends EventEmitter {
 			try {
 				await self.moveOldAddons();
 			} catch(e) {
-				console.error(e);
+				logger.error(e);
 			}
 			self.startUpdate();
 		});
@@ -59,6 +62,7 @@ class SplashWindow extends EventEmitter {
 
 	private onReadyToShow() {
 		if(this.window === null) return;
+		logger.verbose('Showing splash screen window');
 		this.window.show();
 		this.window.moveTop();
 	}
@@ -82,11 +86,15 @@ class SplashWindow extends EventEmitter {
 	private onUpdaterError(e: Error) {
 		if(e.message == 'Can not find Squirrel') {
 			process.env.NODE_ENV = 'development';
+			logger.info('No squirrel found. Going into development mode.');
+		} else {
+			logger.error(e);
 		}
 		this.window.webContents.send('update-message', 'There was an error 🙁');
 		this.onSplashDone();
 	}
 	private onUpdaterUpdateAvailable() {
+		logger.info('Loading update...');
 		this.window.webContents.send('update-message', 'Loading update... ' + ['🍕','🍟','🥨','🍙','🍪','🍦','🍌','🥦','🥕'][Math.floor(Math.random()*9)]);
 	}
 	private onUpdaterUpdateNotAvailable() {
@@ -95,6 +103,7 @@ class SplashWindow extends EventEmitter {
 		this.onSplashDone();
 	}
 	private onUpdaterDownloaded() {
+		logger.info('Quitting to install update');
 		this.window.webContents.send('update-message', 'Installing update now... 🤩');
 		autoUpdater.quitAndInstall();
 	}
@@ -119,6 +128,7 @@ class SplashWindow extends EventEmitter {
 
 		const self = this
 		return new Promise((res, rej) => {
+			logger.info('Checking for old addons...');
 			self.window.webContents.send('update-message', 'Checking for old addons...');
 			fs.readdir(appsDir, (err, files) => {
 				if(err) {
@@ -140,17 +150,19 @@ class SplashWindow extends EventEmitter {
 								if(resource.toLowerCase().endsWith('.asar') && ['app.asar', 'default_app.asar', 'electron.asar'].indexOf(resource.toLowerCase()) < 0) {
 									try {
 										if(!originalFs.existsSync(path.join(thisExecDir, 'resources', resource))) {
-											originalFs.renameSync(
-												path.join(appfolder, 'resources', resource),
-												path.join(thisExecDir, 'resources', resource)
-											);
+											let pathSource = path.join(appfolder, 'resources', resource)
+											let pathDest = path.join(thisExecDir, 'resources', resource)
+											logger.verbose(`Found old addon at '${pathSource}'. Moving it to '${pathDest}'.`);
+											originalFs.renameSync(pathSource, pathDest);
 										}
-									} catch(er) {}
+									} catch(er) {
+										logger.error(er);
+									}
 								}
 							})
 						}
 					} catch(e) {
-						console.error(e);
+						logger.error(e);
 					}
 				});
 	

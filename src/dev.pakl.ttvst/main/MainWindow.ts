@@ -4,6 +4,9 @@ import * as url from 'url';
 import * as path from 'path';
 
 import { WindowState } from './Util/WindowState';
+import winston from 'winston';
+
+declare var logger: winston.Logger;
 
 class MainWindow extends EventEmitter {
 
@@ -16,7 +19,12 @@ class MainWindow extends EventEmitter {
 	}
 
 	createAndLoad() {
+		if(this.window !== null) {
+			logger.verbose('Destroying old main window');
+			this.window.destroy();
+		}
 
+		logger.verbose('Creating main window');
 		this.window = new BrowserWindow({
 			x: this.state.x,
 			y: this.state.y,
@@ -55,6 +63,7 @@ class MainWindow extends EventEmitter {
 
 	private onReadyToShow() {
 		if(this.window === null) return;
+		logger.verbose('Opening main window');
 		this.window.show();
 	}
 

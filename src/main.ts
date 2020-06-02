@@ -1,4 +1,5 @@
 import { app, globalShortcut, autoUpdater, ipcMain } from 'electron';
+import winston from 'winston';
 import electronSquirrelStartup from 'electron-squirrel-startup';
 
 import MainWindow from './dev.pakl.ttvst/main/MainWindow';
@@ -13,6 +14,19 @@ let splashWin: SplashWindow = null;
 let doNotOpenMainWindow: boolean = false;
 
 let TTVST: TTVSTMain = null;
+
+const errorTransport = new winston.transports.File({ level: 'error', filename: 'error_' + new Date().getTime() + '.log' })
+const logger = winston.createLogger({
+	transports: [
+		new winston.transports.Console({ level: 'verbose' }),
+		errorTransport
+	],
+	exceptionHandlers: [
+		errorTransport
+	]
+});
+Object.assign(global, { logger });
+
 
 app.allowRendererProcessReuse = false;
 app.setAppUserModelId('dev.pakl.TTVStreamerTool');
@@ -45,12 +59,14 @@ async function main() {
 	});
 
 	app.on('window-all-closed', () => {
+		logger.verbose('All windows were closed. Application is going to quit now.');
 		globalShortcut.unregisterAll();
 		if(process.platform !== 'darwin') {
 			app.quit();
 		}
 	});
 
+	logger.verbose('Waiting for app to be ready...');
 	await app.whenReady();
 	
 

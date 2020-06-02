@@ -4,6 +4,9 @@ import util from 'util';
 import EventEmitter from 'events';
 
 import * as T from './TMITypes';
+import winston from 'winston';
+
+declare var logger: winston.Logger;
 
 interface ITMIOptions {
 	host?: string;
@@ -86,7 +89,7 @@ class TMI extends EventEmitter {
 		const self = this;
 		if(this.connected || (this.socket !== null && this.socket.connecting)) return;
 
-		console.log(`[TMI] Connecting to ${this.options.host}:${this.options.port}`);
+		logger.info(`[TMI] Connecting to ${this.options.host}:${this.options.port}`);
 		this.socket = tls.connect(this.options.port, this.options.host);
 
 		this.socket.setTimeout(30000);
@@ -157,7 +160,7 @@ class TMI extends EventEmitter {
 	
 	disconnect() {
 		if(typeof(this.socket) != "undefined" && this.socket !== null) {
-			console.log('[TMI] Closing connection');
+			logger.info('[TMI] Closing connection');
 			this.plannedclose = true;
 			this.socket.end();
 		}

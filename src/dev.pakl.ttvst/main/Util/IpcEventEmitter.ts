@@ -1,7 +1,9 @@
 import { EventEmitter } from 'events';
 import { ipcMain } from 'electron';
 import TTVSTMain from '../TTVSTMain';
+import winston from 'winston';
 
+declare var logger: winston.Logger;
 declare var TTVST: TTVSTMain;
 
 interface IIpcEventListener {
@@ -23,7 +25,7 @@ export default class IpcEventEmitter extends EventEmitter {
 	}
 
 	private ipcOn(event: Electron.IpcMainEvent, trigger: string) {
-		console.log(event.sender.id, trigger);
+		logger.verbose(event.sender.id.toString(), trigger);
 		if(this.hasListener(trigger, event.sender)) return;
 
 		let frame = event.sender

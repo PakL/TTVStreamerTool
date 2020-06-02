@@ -1,5 +1,8 @@
 import { EventEmitter } from 'events';
 import ws from 'ws';
+import winston from 'winston';
+
+declare var logger: winston.Logger;
 const _maxReconnectTimeout = 120000
 
 /**
@@ -48,11 +51,11 @@ class TwPubSub extends EventEmitter {
 				return;
 			}
 	
-			console.log('[PubSub] Connecting to pubsub-edge.twitch.tv');
+			logger.info('[PubSub] Connecting to pubsub-edge.twitch.tv');
 			self._connection = new ws('wss://pubsub-edge.twitch.tv');
 			
 			self._connection.once('open', () => {
-				console.log('[PubSub] Connection established');
+				logger.info('[PubSub] Connection established');
 				self._connected = true;
 				self._autoreconnect = true;
 				self._reconnectTimeout = 1000;
@@ -87,9 +90,9 @@ class TwPubSub extends EventEmitter {
 		if(this._connected) {
 			if(typeof(json.data) !== 'undefined' && typeof(json.data.auth_token) !== 'undefined') {
 				let publicStr = JSON.stringify(Object.assign({}, json, { data: Object.assign({}, json.data, { auth_token: '***' }) }));
-				console.log('[PubSub] > ' + publicStr);
+				logger.verbose('[PubSub] > ' + publicStr);
 			} else{
-				console.log('[PubSub] > ' + JSON.stringify(json));
+				logger.verbose('[PubSub] > ' + JSON.stringify(json));
 			}
 
 			let str = JSON.stringify(json);
@@ -114,7 +117,7 @@ class TwPubSub extends EventEmitter {
 	 * Processes messages from the PubSub
 	 */
 	private _onMessage(text: string) {
-		console.log('[PubSub] < ' + text);
+		logger.verbose('[PubSub] < ' + text);
 		try {
 			let msg = JSON.parse(text);
 			if(msg.type == 'PING') {
@@ -188,7 +191,7 @@ class TwPubSub extends EventEmitter {
 				}
 			}
 		} catch(e) {
-			console.error('[PubSub]', e);
+			logger.error('[PubSub]', e);
 		}
 
 		if(this._topics.length == 0) {
@@ -202,13 +205,13 @@ class TwPubSub extends EventEmitter {
 	 * @private
 	 */
 	private _onClose() {
-		console.log('[PubSub] Connection closed');
+		logger.info('[PubSub] Connection closed');
 		this._connection = null;
 		this._connected = false;
 		if(this._autoreconnect) {
 			let jitter = Math.floor(Math.random()*1000);
 			const self = this;
-			console.log('[PubSub] Reconnect in ' + (this._reconnectTimeout + jitter / 1000) + ' seconds');
+			logger.verbose('[PubSub] Reconnect in ' + (this._reconnectTimeout + jitter / 1000) + ' seconds');
 			setTimeout(() => {
 				self._connect();
 			}, this._reconnectTimeout + jitter);
@@ -236,7 +239,7 @@ class TwPubSub extends EventEmitter {
 	 */
 	async listen(topic: string)
 	{
-		console.log('[PubSub] LISTEN to topic', topic);
+		logger.verbose('[PubSub] LISTEN to topic', topic);
 		let index = this._topics.indexOf(topic);
 		if(index < 0) {
 			this._topics.push(topic);
@@ -255,7 +258,7 @@ class TwPubSub extends EventEmitter {
 					});
 				}
 			} catch(e) {
-				console.error('[PubSub]', e);
+				logger.error('[PubSub]', e);
 			}
 		}
 	}
@@ -265,7 +268,7 @@ class TwPubSub extends EventEmitter {
 	 */
 	async unlisten(topic: string)
 	{
-		console.log('[PubSub] UNLISTEN from topic', topic);
+		logger.verbose('[PubSub] UNLISTEN from topic', topic);
 		let index = this._topics.indexOf(topic);
 		if(index >= 0) {
 			this._topics.splice(index, 1);

@@ -2,6 +2,9 @@ import got, { Method, Response } from 'got';
 import url from 'url';
 import * as T from './APIHelixTypes';
 import IpcEventEmitter from '../Util/IpcEventEmitter';
+import winston from 'winston';
+
+declare var logger: winston.Logger;
 
 export class UnauthroizedError extends Error {}
 
@@ -166,7 +169,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 			}
 		}
 
-		console.log(`[API] Request for https://${overridehost + uri} started... authNeeded:${authNeeded}`);
+		logger.verbose(`[API] Request for https://${overridehost + uri} started... authNeeded:${authNeeded}`);
 
 		if(this.ratelimitreset > 0) {
 			let timestamp = new Date().getTime();
@@ -233,8 +236,8 @@ export default class TwitchHelix extends IpcEventEmitter {
 					try {
 						data = JSON.parse(body);
 					} catch(e) {
-						console.log('[API] Got unregular response:', body);
 						reject(e);
+						logger.error('[API] Got unregular response:', body);
 						return;
 					}
 				}
