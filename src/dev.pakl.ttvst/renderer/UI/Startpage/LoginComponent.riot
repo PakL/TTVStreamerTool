@@ -1,11 +1,21 @@
 <LoginComponent>
 	<div class="avatar">
-		<img src={ avatar_url } alt="" />
+		<img src={ state.avatarUrl } alt="" />
 	</div>
-	<div class="loginstatus">
+	<div class="loginstatus" if={ !state.waiting &&  !state.loggedin }>
 		<strong class="loginname accent-contrast-font">{ __('Not logged in') }</strong>
 		<p class="logintext">{ __('Please log in to twitch to use the TTVStreamerTool to its full potential.') }</p>
 		<button type="button" onclick={ onLoginClick }>{ __('Login via Twitch') }</button>
+	</div>
+	<div class="loginstatus" if={ !state.waiting &&  state.loggedin }>
+		<strong class="loginname accent-contrast-font">{ state.loginName }</strong>
+		<p class="logintext">{ __('Logged in and ready to use the TTVStreamerTool.') }</p>
+		<button type="button" onclick={ onLogoutClick }>{ __('Logout') }</button>
+	</div>
+	<div class="loginstatus" if={ state.waiting }>
+		<strong class="loginname accent-contrast-font">{ __('Waiting...') }</strong>
+		<p class="logintext">{ __('Something is happening right now. Please wait.') }</p>
+		<button type="button" disabled>{ __('...') }</button>
 	</div>
 	
 	<style>
@@ -55,9 +65,17 @@
 			avatar_url: 'https://static-cdn.jtvnw.net/user-default-pictures-uv/cdd517fe-def4-11e9-948e-784f43822e80-profile_image-300x300.png',
 
 			loginCallback: null,
+			logoutCallback: null,
 
 			onBeforeMount(props, state) {
 				this.__ = global.TTVST.i18n.__;
+				this.state = Object.assign({ waiting: false, loggedin: false, loginName: '', avatarUrl: this.avatar_url }, state);
+			},
+
+			onBeforeUpdate(props, state) {
+				if(!state.loggedin) {
+					this.state.avatarUrl = this.avatar_url;
+				}
 			},
 
 			setLoginCallback(callback) {
@@ -65,10 +83,22 @@
 					this.loginCallback = callback;
 				}
 			},
+			setLogoutCallback(callback) {
+				if(typeof(callback) == 'function') {
+					this.logoutCallback = callback;
+				}
+			},
 
 			onLoginClick() {
 				if(typeof(this.loginCallback) == 'function') {
 					this.loginCallback();
+					this.update({ waiting: true });
+				}
+			},
+			onLogoutClick() {
+				if(typeof(this.logoutCallback) == 'function') {
+					this.logoutCallback();
+					this.update({ loggedin: false });
 				}
 			}
 		}

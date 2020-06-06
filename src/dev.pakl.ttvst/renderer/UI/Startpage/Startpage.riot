@@ -7,16 +7,32 @@
 		import LoginComponent from './LoginComponent.riot';
 		riot.register('logincomponent', LoginComponent);
 		export default {
+			logincompRiot: null,
+
 			onBeforeMount(props, state) {
 				this.__ = global.TTVST.i18n.__;
 			},
 
+			onMounted(props, state) {
+				let riotSym = Object.getOwnPropertySymbols(this.$('logincomponent'))[0];
+				this.logincompRiot = this.$('logincomponent')[riotSym];
+			},
+
 			setLoginCallback(callback) {
-				if(typeof(callback) == 'function') {
-					if(typeof(this.$('logincomponent')) !== 'undefined') {
-						let riotSym = Object.getOwnPropertySymbols(this.$('logincomponent'))[0];
-						this.$('logincomponent')[riotSym].setLoginCallback(callback);
-					}
+				if(typeof(callback) == 'function' && this.logincompRiot !== null) {
+					this.logincompRiot.setLoginCallback(callback);
+				}
+			},
+
+			setLogoutCallback(callback) {
+				if(typeof(callback) == 'function' && this.logincompRiot !== null) {
+					this.logincompRiot.setLogoutCallback(callback);
+				}
+			},
+
+			updateLogin(state) {
+				if(this.logincompRiot !== null) {
+					this.logincompRiot.update(state);
 				}
 			}
 		}

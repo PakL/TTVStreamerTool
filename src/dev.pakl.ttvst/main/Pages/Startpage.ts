@@ -47,6 +47,7 @@ class Startpage {
 	}
 
 	async onLogin(): Promise<string> {
+		logger.verbose('Login was requested');
 		try {
 			return await Login.instance().login();
 		} catch(e) {
@@ -60,12 +61,14 @@ class Startpage {
 	}
 
 	async onLogout(): Promise<null> {
+		logger.verbose('Logging out');
 		TTVST.helix.setAuthToken(null);
 		TTVST.tmi.disconnect();
 		return null;
 	}
 
 	async onCheckLogin(event: Electron.IpcMainInvokeEvent, token: string) {
+		logger.verbose('Validating token');
 		TTVST.helix.setAuthToken(token);
 		try {
 			let validation = await TTVST.helix.validate();
