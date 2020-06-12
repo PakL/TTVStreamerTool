@@ -5,7 +5,7 @@
 		<span>{ __(state.info) }</span>
 	</div>
 	<div class="buttons" if={ state.buttons.length > 0 }>
-		<button class="button" type="button" each={ button in state.buttons } data-action={ button.action } onclick={ actionClick }><i class={ 'ms-Icon ms-Icon--' + button.icon }></i></button>
+		<button class="button" type="button" each={ button in state.buttons } title={ __(button.title) } data-action={ button.action } onclick={ actionClick }><i class={ 'ms-Icon ms-Icon--' + button.icon }></i></button>
 	</div>
 	<div class="buttons_placeholder" if={ state.buttons.length <= 0 }></div>
 
@@ -83,6 +83,8 @@
 	</style>
 
 	<script>
+		const { ipcRenderer } = require('electron');
+
 		export default {
 
 			iconclasses: 'icon',
@@ -99,7 +101,14 @@
 
 			actionClick(e) {
 				e.preventDefault();
-
+				let btn = e.target;
+				let i = 1;
+				while(btn.tagName !== 'BUTTON') {
+					if(e.path.length <= i) break;
+					btn = e.path[i];
+					i++;
+				}
+				ipcRenderer.send(btn.dataset.action);
 			}
 
 		}

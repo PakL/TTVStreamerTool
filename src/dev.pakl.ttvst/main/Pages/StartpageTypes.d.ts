@@ -7,5 +7,6 @@ export interface IStatusObject {
 	buttons?: Array<{
 		action: string;
 		icon: string;
+		title: string;
 	}>;
 }

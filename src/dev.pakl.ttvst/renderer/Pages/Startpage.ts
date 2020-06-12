@@ -40,7 +40,7 @@ class Startpage extends Page {
 
 	async onLogin() {
 		try {
-			let token = await ipcRenderer.invoke('cockpit-login');
+			let token = await ipcRenderer.invoke('cockpit.login');
 			if(token.length > 0) {
 				await this.validateAndGetUserInfo(token);
 			} else {
@@ -53,21 +53,21 @@ class Startpage extends Page {
 	}
 
 	async onLogout() {
-		await ipcRenderer.invoke('cockpit-logout');
+		await ipcRenderer.invoke('cockpit.logout');
 		Settings.setString('tw_auth_token', '');
 	}
 
 	async validateAndGetUserInfo(token: string) {
 		if(typeof(token) !== 'string' || token.length <= 0) return;
 
-		let validation: Helix.IAPIHelixValidation = await ipcRenderer.invoke('cockpit-check-login', token);
+		let validation: Helix.IAPIHelixValidation = await ipcRenderer.invoke('cockpit.check-login', token);
 		if(typeof(validation.login) === 'string') {
 			Settings.setString('tw_auth_token', token);
-			let users: Helix.IAPIHelixUserList = await ipcRenderer.invoke('cockpit-get-user');
+			let users: Helix.IAPIHelixUserList = await ipcRenderer.invoke('cockpit.get-user');
 			if(users.data.length >= 1) {
 				let user = users.data[0];
 				this.startpage.updateLogin({ waiting: false, loggedin: true, loginName: user.display_name, avatarUrl: user.profile_image_url });
-				ipcRenderer.send('connect-tmi');
+				ipcRenderer.send('cockpit.tmi.connect');
 			}
 		}
 	}

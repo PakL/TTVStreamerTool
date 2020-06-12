@@ -21,6 +21,7 @@ class Startpage {
 		this.onCheckLogin = this.onCheckLogin.bind(this);
 		this.onGetUser = this.onGetUser.bind(this);
 		this.onConnectTMI = this.onConnectTMI.bind(this);
+		this.onDisconnectTMI = this.onDisconnectTMI.bind(this);
 
 		this.onTMIReady = this.onTMIReady.bind(this);
 		this.onTMIRegistered = this.onTMIRegistered.bind(this);
@@ -29,16 +30,17 @@ class Startpage {
 		
 		this.repeatBroadcast = this.repeatBroadcast.bind(this);
 
-		ipcMain.handle('cockpit-login', this.onLogin);
-		ipcMain.handle('cockpit-logout', this.onLogout);
+		ipcMain.handle('cockpit.login', this.onLogin);
+		ipcMain.handle('cockpit.logout', this.onLogout);
 
-		ipcMain.handle('cockpit-check-login', this.onCheckLogin);
-		ipcMain.handle('cockpit-get-user', this.onGetUser);
+		ipcMain.handle('cockpit.check-login', this.onCheckLogin);
+		ipcMain.handle('cockpit.get-user', this.onGetUser);
 
 		this.broadcastStatus({ key: 'app.ttvst.tmi', icon: 'CannedChat', status: 'error', title: 'Twitch Messaging Interface (TMI)', info: 'Disconnected.'});
 		Broadcast.instance.on('broadcast.on', this.repeatBroadcast);
 
-		ipcMain.on('connect-tmi', this.onConnectTMI);
+		ipcMain.on('cockpit.tmi.connect', this.onConnectTMI);
+		ipcMain.on('cockpit.tmi.disconnect', this.onDisconnectTMI);
 		TTVST.tmi.on('ready', this.onTMIReady);
 		TTVST.tmi.on('registered', this.onTMIRegistered);
 		TTVST.tmi.on('auth-fail', this.onTMIAuthFail);
@@ -99,9 +101,12 @@ class Startpage {
 	onConnectTMI(event: Electron.IpcMainEvent) {
 		TTVST.tmi.connect();
 	}
+	onDisconnectTMI(event: Electron.IpcMainEvent) {
+		TTVST.tmi.disconnect();
+	}
 
 	onTMIReady() {
-		this.broadcastStatus({ key: 'app.ttvst.tmi', status: 'good', info: 'Connection established.'});
+		this.broadcastStatus({ key: 'app.ttvst.tmi', status: 'warn', info: 'Connection established.', buttons: [{ icon: 'PlugDisconnected', action: 'cockpit.tmi.disconnect', title: 'Disconnect' }] });
 		this.lastStatus = 'ready';
 		if(TTVST.helix.token.length > 0 && TTVST.helix.userobj !== null) {
 			TTVST.tmi.auth(TTVST.helix.userobj.login, TTVST.helix.token);
@@ -109,21 +114,21 @@ class Startpage {
 	}
 
 	onTMIRegistered() {
-		this.broadcastStatus({ key: 'app.ttvst.tmi', status: 'good', info: 'Connection established and logged in.'});
+		this.broadcastStatus({ key: 'app.ttvst.tmi', status: 'good', info: 'Connection established and logged in.', buttons: [{ icon: 'PlugDisconnected', action: 'cockpit.tmi.disconnect', title: 'Disconnect' }] });
 		this.lastStatus = 'registered';
 		TTVST.tmi.join(TTVST.helix.userobj.login);
 	}
 
 	onTMIAuthFail() {
-		this.broadcastStatus({ key: 'app.ttvst.tmi', status: 'warn', info: 'Connection established but login failed.'});
+		this.broadcastStatus({ key: 'app.ttvst.tmi', status: 'warn', info: 'Connection established but login failed.', buttons: [{ icon: 'PlugDisconnected', action: 'cockpit.tmi.disconnect', title: 'Disconnect' }] });
 		this.lastStatus = 'auth-failed';
 	}
 
 	onTMIClose(had_error: boolean) {
 		if(had_error) {
-			this.broadcastStatus({ key: 'app.ttvst.tmi', status: 'error', info: 'Connection closed due to an error.'});
+			this.broadcastStatus({ key: 'app.ttvst.tmi', status: 'error', info: 'Connection closed due to an error.', buttons: [{ icon: 'PlugConnected', action: 'cockpit.tmi.connect', title: 'Connect' }] });
 		} else if(this.lastStatus !== 'auth-failed') {
-			this.broadcastStatus({ key: 'app.ttvst.tmi', status: 'error', info: 'Disconnected.'});
+			this.broadcastStatus({ key: 'app.ttvst.tmi', status: 'error', info: 'Disconnected.', buttons: [{ icon: 'PlugConnected', action: 'cockpit.tmi.connect', title: 'Connect' }] });
 		}
 	}
 
