@@ -1,6 +1,8 @@
 import { EventEmitter } from 'events'
-import { ipcMain, WebContents } from 'electron'
+import { ipcMain, webContents } from 'electron'
+import winston from 'winston';
 
+declare var logger: winston.Logger;
 let _instance: BroadcastMain = null
 
 interface IipcSubscriptions {
@@ -34,6 +36,8 @@ class BroadcastMain extends EventEmitter {
 			if(self.ipcSubscriptions[event.sender.id].indexOf(channel) < 0) {
 				self.ipcSubscriptions[event.sender.id].push(channel);
 			}
+
+			self.emit('broadcast.on', channel);
 		});
 
 		ipcMain.on('broadcast.off', (event: Electron.IpcMainEvent, channel: string) => {
@@ -53,19 +57,18 @@ class BroadcastMain extends EventEmitter {
 
 	emit(event: string | symbol, ...args: any[]): boolean {
 		let r = super.emit(event, ...args);
-		if(!r) return r;
+		if(typeof(event) !== 'string') return r;
 
-		if(typeof(event) !== 'string') return;
-
-		let allContents = WebContents.getAllWebContents()
+		let allContents = webContents.getAllWebContents()
 		for(let i = 0; i < allContents.length; i++) {
 			if(typeof(this.ipcSubscriptions[allContents[i].id]) !== 'undefined') {
 				if(this.ipcSubscriptions[allContents[i].id].indexOf(event) >= 0) {
-					allContents[i].send('broadcast', event, ...args)
+					allContents[i].send('broadcast', event, ...args);
+					r = true;
 				}
 			}
 		}
-		
+		return r;
 	}
 
 	emitIpc(event: string, ...args: any[]): boolean {
@@ -74,7 +77,7 @@ class BroadcastMain extends EventEmitter {
 
 
 	cleanupSubscriptions() {
-		let allContents = WebContents.getAllWebContents()
+		let allContents = webContents.getAllWebContents()
 		let keepContent = []
 		for(let i = 0; i < allContents.length; i++) {
 			if(!allContents[i].isDestroyed() && !allContents[i].isCrashed()) {
@@ -87,6 +90,30 @@ class BroadcastMain extends EventEmitter {
 				delete this.ipcSubscriptions[parseInt(contentId)];
 			}
 		}
+	}
+
+	on(event: string | symbol, listener: (...args: any[]) => void): this {
+		super.on(event, listener);
+		if(typeof(event) === 'string' && !event.startsWith('broadcast.')) {
+			ipcRenderer.send('broadcast.on', event);
+		}
+		return this;
+	}
+
+	once(event: string | symbol, listener: (...args: any[]) => void): this {
+		super.once(event, listener);
+		if(typeof(event) === 'string' && !event.startsWith('broadcast.')) {
+			ipcRenderer.send('broadcast.on', event);
+		}
+		return this;
+	}
+
+	off(event: string | symbol, listener: (...args: any[]) => void): this {
+		super.once(event, listener);
+		if(typeof(event) === 'string' && !event.startsWith('broadcast.')) {
+			ipcRenderer.send('broadcast.off', event);
+		}
+		return this;
 	}
 
 }

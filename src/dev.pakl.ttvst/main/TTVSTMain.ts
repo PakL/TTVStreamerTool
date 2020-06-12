@@ -4,6 +4,7 @@ import APIHelix from './Twitch/APIHelix';
 
 import Startpage from './Pages/Startpage';
 import TMI from './Twitch/TMI';
+import BroadcastMain from './BroadcastMain';
 
 export default class TTVSTMain {
 
@@ -15,6 +16,7 @@ export default class TTVSTMain {
 	private _startpage: Startpage = null;
 
 	constructor(mainWindow: MainWindow) {
+		BroadcastMain.instance.emit('HelloWorld');
 		this._mainWindow = mainWindow;
 	}
 

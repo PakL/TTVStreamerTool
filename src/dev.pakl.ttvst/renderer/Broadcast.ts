@@ -49,24 +49,49 @@ class Broadcast extends EventEmitter {
 
 	emit(event: string | symbol, ...args: any[]): boolean {
 		let r = super.emit(event, ...args);
-		if(!r) return r;
 
-		if(typeof(event) !== 'string') return;
+		if(typeof(event) !== 'string') return r;
 
 		for(let sender of Object.keys(this.ipcSubscriptions)) {
 			let senderId = parseInt(sender);
 			if(this.ipcSubscriptions[senderId].indexOf(event) < 0) continue;
 			if(senderId > 0) {
 				ipcRenderer.sendTo(senderId, 'broadcast', event, ...args);
+				r = true;
 			} else {
 				ipcRenderer.send('broadcast', event, ...args);
+				r = true;
 			}
 		}
-		
+		return r;
 	}
 
 	emitIpc(event: string, ...args: any[]): boolean {
 		return super.emit(event, ...args);
+	}
+
+	on(event: string | symbol, listener: (...args: any[]) => void): this {
+		super.on(event, listener);
+		if(typeof(event) === 'string' && !event.startsWith('broadcast.')) {
+			ipcRenderer.send('broadcast.on', event);
+		}
+		return this;
+	}
+
+	once(event: string | symbol, listener: (...args: any[]) => void): this {
+		super.once(event, listener);
+		if(typeof(event) === 'string' && !event.startsWith('broadcast.')) {
+			ipcRenderer.send('broadcast.on', event);
+		}
+		return this;
+	}
+
+	off(event: string | symbol, listener: (...args: any[]) => void): this {
+		super.once(event, listener);
+		if(typeof(event) === 'string' && !event.startsWith('broadcast.')) {
+			ipcRenderer.send('broadcast.off', event);
+		}
+		return this;
 	}
 
 }

@@ -2,20 +2,12 @@
 	<div class="avatar">
 		<img src={ state.avatarUrl } alt="" />
 	</div>
-	<div class="loginstatus" if={ !state.waiting &&  !state.loggedin }>
-		<strong class="loginname accent-contrast-font">{ __('Not logged in') }</strong>
-		<p class="logintext">{ __('Please log in to twitch to use the TTVStreamerTool to its full potential.') }</p>
-		<button type="button" onclick={ onLoginClick }>{ __('Login via Twitch') }</button>
-	</div>
-	<div class="loginstatus" if={ !state.waiting &&  state.loggedin }>
-		<strong class="loginname accent-contrast-font">{ state.loginName }</strong>
-		<p class="logintext">{ __('Logged in and ready to use the TTVStreamerTool.') }</p>
-		<button type="button" onclick={ onLogoutClick }>{ __('Logout') }</button>
-	</div>
-	<div class="loginstatus" if={ state.waiting }>
-		<strong class="loginname accent-contrast-font">{ __('Waiting...') }</strong>
-		<p class="logintext">{ __('Something is happening right now. Please wait.') }</p>
-		<button type="button" disabled>{ __('...') }</button>
+	<div class="loginstatus">
+		<div class="flexwrap">
+			<strong class="loginname accent-contrast-font">{ state.loginName }</strong>
+			<p class="logintext">{ __(logintext) }</p>
+			<button type="button" onclick={ onBtnClick } disabled={ state.waiting }>{ __(btntext) }</button>
+		</div>
 	</div>
 	
 	<style>
@@ -33,30 +25,40 @@
 			vertical-align: top;
 		}
 
-		.avatar {
+		:host > .avatar {
 			display: inline-block;
 			height: 120px;
 			width: 120px;
 			text-align: center;
 			line-height: 120px;
 		}
-		.avatar > img {
+		:host > .avatar > img {
 			max-height: 100%;
 			max-width: 100%;
 		}
 
-		.loginstatus {
+		:host > .loginstatus {
 			display: inline-block;
 			width: calc(100% - 130px);
 			margin-left: 10px;
 		}
-		.loginstatus > .logintext {
+		:host > .loginstatus .logintext {
 			margin: 8px 0;
+			overflow: hidden;
 		}
-		.loginstatus > button {
+		:host > .loginstatus button {
+			margin-top: auto;
 			display: block;
 			text-align: center;
 			width: 100%;
+		}
+
+		:host > .loginstatus > .flexwrap {
+			display: flex;
+			flex-wrap: wrap;
+			flex-direction: column;
+			align-content: flex-start;
+			height: 120px;
 		}
 	</style>
 
@@ -67,14 +69,33 @@
 			loginCallback: null,
 			logoutCallback: null,
 
+			logintext: 'Please log in to twitch to use the TTVStreamerTool to its full potential.',
+			btntext: 'Login',
+
 			onBeforeMount(props, state) {
 				this.__ = global.TTVST.i18n.__;
 				this.state = Object.assign({ waiting: false, loggedin: false, loginName: '', avatarUrl: this.avatar_url }, state);
+
+				this.onBeforeUpdate(props, this.state);
 			},
 
 			onBeforeUpdate(props, state) {
 				if(!state.loggedin) {
 					this.state.avatarUrl = this.avatar_url;
+				}
+				if(!state.waiting) {
+					if(!state.loggedin) {
+						this.state.loginName = 'Not logged in';
+						this.logintext = 'Please log in to twitch to use the TTVStreamerTool to its full potential.';
+						this.btntext = 'Login';
+					} else {
+						this.logintext = 'Logged in and ready to use the TTVStreamerTool.';
+						this.btntext = 'Logout';
+					}
+				} else {
+					this.state.loginName = 'Waiting...';
+					this.logintext = 'Something is happening right now. Please wait.';
+					this.btntext = '...';
 				}
 			},
 
@@ -89,6 +110,15 @@
 				}
 			},
 
+			onBtnClick() {
+				if(!this.state.waiting) {
+					if(!this.state.loggedin) {
+						this.onLoginClick();
+					} else {
+						this.onLogoutClick();
+					}
+				}
+			},
 			onLoginClick() {
 				if(typeof(this.loginCallback) == 'function') {
 					this.loginCallback();

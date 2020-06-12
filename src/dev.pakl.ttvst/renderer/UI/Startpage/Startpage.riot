@@ -1,13 +1,28 @@
 <Startpage>
 	<LoginComponent></LoginComponent>
 
+	<div each={ s in statusObjects }><StatusComponent { ...s }></StatusComponent></div>
+
+	<style>
+		:host > div {
+			width: calc(50% - 10px);
+			padding: 5px;
+			display: inline-block;
+		}
+	</style>
 
 	<script>
 		const riot = require('riot');
+
 		import LoginComponent from './LoginComponent.riot';
+		import StatusComponent from './StatusComponent.riot';
+
 		riot.register('logincomponent', LoginComponent);
+		riot.register('statuscomponent', StatusComponent);
+
 		export default {
 			logincompRiot: null,
+			statusObjects: [],
 
 			onBeforeMount(props, state) {
 				this.__ = global.TTVST.i18n.__;
@@ -34,6 +49,18 @@
 				if(this.logincompRiot !== null) {
 					this.logincompRiot.update(state);
 				}
+			},
+
+			updateStatus(statusObject) {
+				for(let i = 0; i < this.statusObjects.length; i++) {
+					if(this.statusObjects[i].key == statusObject.key) {
+						Object.assign(this.statusObjects[i], statusObject);
+						this.update();
+						return;
+					}
+				}
+				this.statusObjects.push(statusObject);
+				this.update();
 			}
 		}
 	</script>

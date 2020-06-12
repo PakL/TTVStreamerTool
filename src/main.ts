@@ -82,7 +82,6 @@ async function main() {
 
 	app.on('window-all-closed', () => {
 		logger.verbose('All windows were closed. Application is going to quit now.');
-		logger.destroy()
 
 		try {
 			logger.destroy()
