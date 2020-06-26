@@ -35,7 +35,7 @@ if(!fs.existsSync(path.join('.', 'logs'))) {
 const errorTransport = new winston.transports.File({ level: 'error', dirname: path.join('.', 'logs'), filename: 'error_' + new Date().getTime() + '.log' })
 const logger = winston.createLogger({
 	transports: [
-		new winston.transports.Console({ level: 'verbose' }),
+		new winston.transports.Console({ level: (process.env.NODE_ENV === 'development' ? 'debug' : 'info') }),
 		errorTransport
 	],
 	format: winston.format.combine(
@@ -68,7 +68,10 @@ async function main() {
 	}
 	
 	app.on('browser-window-created', (e, window) => {
-		window.setMenu(null);
+		window.setAutoHideMenuBar(true);
+		if(process.env.NODE_ENV !== 'development') {
+			window.setMenu(null);
+		}
 	});
 
 	app.on('second-instance', () => {
@@ -122,6 +125,7 @@ async function main() {
 	splashWin.once('done', () => {
 		mainWin.once('show', () => {
 			splashWin.close();
+			TTVST.addons.loadAddons();
 		})
 		mainWin.createAndLoad();
 	})

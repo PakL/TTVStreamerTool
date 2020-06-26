@@ -1,0 +1,209 @@
+<Modal>
+	<div class="wrap">
+		<div class="title" if={ title.length > 0 }>{ __(title) }</div>
+		<div class="content">
+			<div class="icon"><i class={ 'ms-Icon ms-Icon--' + icon }></i></div>
+			<div class="form"></div>
+		</div>
+		<div class="buttons" if={ buttons.length > 0 }>
+			<button each={ button in buttons } onclick={ onButtonClick } key={ button.key } data-key={ button.key }>{ __(button.title) }</button>
+		</div>
+	</div>
+	<style>
+		@keyframes modal-intro-host {
+			from {
+				background: rgba(0,0,0, 0);
+				backdrop-filter: blur(0px);
+			}
+			to {
+				background: rgba(0,0,0, 0.5);
+				backdrop-filter: blur(2px);
+			}
+		}
+		@keyframes modal-intro-wrap {
+			from {
+				margin-top: 10%;
+				opacity: 0;
+			}
+			to {
+				margin-top: 15%;
+				opacity: 1;
+			}
+		}
+		@keyframes modal-close-host {
+			from {
+				background: rgba(0,0,0, 0.5);
+				backdrop-filter: blur(2px);
+			}
+			to {
+				background: rgba(0,0,0, 0);
+				backdrop-filter: blur(0px);
+			}
+		}
+		@keyframes modal-close-wrap {
+			from {
+				margin-top: 15%;
+				opacity: 1;
+			}
+			to {
+				margin-top: 10%;
+				opacity: 0;
+			}
+		}
+		:host {
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			text-align: center;
+			z-index: 999;
+			background: rgba(0,0,0, 0.5);
+			backdrop-filter: blur(2px);
+
+			overflow: auto;
+
+			animation-name: modal-intro-host;
+			animation-duration: 0.2s;
+			animation-timing-function: ease-out;
+		}
+		:host.closing {
+			animation-name: modal-close-host;
+			animation-duration: 0.2s;
+			animation-timing-function: ease-in;
+			background: rgba(0,0,0, 0);
+			backdrop-filter: blur(0px);
+		}
+		:host > div.wrap {
+			width: 50%;
+			max-width: 80%;
+			margin: 20px auto;
+			margin-top: 15%;
+			text-align: left;
+			background: #222222;
+			box-shadow: 0 0 10px #000000;
+			position: relative;
+			overflow: auto;
+
+			animation-name: modal-intro-wrap;
+			animation-duration: 0.2s;
+			animation-timing-function: ease-out;
+		}
+		:host.closing > div.wrap {
+			animation-name: modal-close-wrap;
+			animation-duration: 0.2s;
+			animation-timing-function: ease-in;
+			margin-top: 10%;
+			opacity: 0;
+		}
+		:host > div.wrap > div.content {
+			display: flex;
+			padding: 10px;
+			align-items: stretch;
+			justify-content: flex-start;
+		}
+		:host > div.wrap > div.content > div.icon {
+			width: 43px;
+			font-size: 32px;
+		}
+		:host > div.wrap > div.content > div.form {
+			flex-basis: calc(100% - 43px);
+		}
+		:host > div.wrap > div.title {
+			padding: 10px;
+			font-weight: bold;
+			border-bottom: 1px solid #000000;
+		}
+		:host > div.wrap > div.buttons {
+			padding: 5px;
+			border-top: 1px solid #000000;
+			text-align: center;
+		}
+
+		:host > div.wrap > div.buttons button {
+			margin: 5px;
+		}
+	</style>
+	<script>
+		export default {
+			title: '',
+			icon: 'WarningSolid',
+			buttons: [],
+			hideOnOob: true,
+			onCloseCB: () => {},
+
+			onBeforeMount(props, state) {
+				this.__ = global.TTVST.i18n.__;
+				this.onBeforeUpdate(props, state);
+			},
+
+			onMounted(props, state) {
+				this.onOuterClick = this.onOuterClick.bind(this);
+				this.onUpdated(props, state);
+			},
+
+			onBeforeUpdate(props, state) {
+				if(typeof(props.title) === 'string') this.title = props.title;
+				if(typeof(props.icon) === 'string') this.icon = props.icon;
+				if(typeof(props.buttons) !== 'undefined') this.buttons = props.buttons;
+				if(typeof(props.onclose) === 'function') this.onCloseCB = props.onclose;
+				if(typeof(props.hideOnOob) === 'boolean') this.hideOnOob = props.hideOnOob;
+			},
+
+			onUpdated(props, state) {
+				this.$('.form').innerHTML = '';
+				if(Array.isArray(props.content)) {
+					for(let i = 0; i < props.content.length; i++) {
+						this.$('.form').appendChild(props.content[i]);
+					}
+				} else {
+					this.$('.form').appendChild(props.content);
+				}
+				this.root.onclick = this.onOuterClick;
+			},
+
+			onOuterClick(e) {
+				if(this.hideOnOob && e.target == this.root) {
+					this.close();
+				}
+			},
+
+			close() {
+				this.root.classList.add('closing');
+				const self = this;
+				setTimeout(() => {
+					if(self.root.parentNode !== null) {
+						self.root.parentNode.removeChild(self.root);
+						this.onCloseCB();
+					}
+				}, 200);
+			},
+
+			onButtonClick(e) {
+				let btn = e.target;
+				let i = 1;
+				while(btn.tagName !== 'BUTTON') {
+					if(e.path.length < i) break;
+					btn = e.path[i];
+					i++;
+				}
+
+				let key = btn.dataset.key;
+				for(let i = 0; i < this.buttons.length; i++) {
+					if(this.buttons[i].key == key) {
+						if(typeof(this.buttons[i].callback) === 'function') {
+							if(this.buttons[i].callback() !== false) {
+								this.close();
+							}
+						} else {
+							this.close();
+						}
+						break;
+					}
+				}
+
+			}
+		}
+	</script>
+</Modal>

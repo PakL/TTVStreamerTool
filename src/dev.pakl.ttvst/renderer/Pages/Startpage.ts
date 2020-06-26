@@ -1,5 +1,5 @@
 import Page from '../UI/Page';
-import { ipcRenderer, IpcRendererEvent } from 'electron';
+import { ipcRenderer } from 'electron';
 
 import * as Settings from '../Settings';
 import * as Helix from '../../main/Twitch/APIHelixTypes';
@@ -67,7 +67,7 @@ class Startpage extends Page {
 			if(users.data.length >= 1) {
 				let user = users.data[0];
 				this.startpage.updateLogin({ waiting: false, loggedin: true, loginName: user.display_name, avatarUrl: user.profile_image_url });
-				ipcRenderer.send('cockpit.tmi.connect');
+				//ipcRenderer.send('cockpit.tmi.connect');
 			}
 		}
 	}

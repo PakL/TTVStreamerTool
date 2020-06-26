@@ -1,10 +1,19 @@
-import { remote } from 'electron';
-const { app } = remote
+import { ipcRenderer } from 'electron';
 
 const _storageSetHolder = window.localStorage.setItem
 const _storageRemoveHolder = window.localStorage.removeItem
 
 const availableLanguages = ['en', 'de']
+
+ipcRenderer.on('Settings.getBoolean', (event, name: string, defaultValue: boolean) => {
+	ipcRenderer.send('Settings.gotBoolean.' + name, getBoolean(name, defaultValue));
+});
+ipcRenderer.on('Settings.getString', (event, name: string, defaultValue: string) => {
+	ipcRenderer.send('Settings.gotString.' + name, getString(name, defaultValue));
+});
+ipcRenderer.on('Settings.getJSON', (event, name: string, defaultValue: Object) => {
+	ipcRenderer.send('Settings.gotJSON.' + name, getJSON(name, defaultValue));
+});
 
 export function language(lang?: string) {
 	if(lang && availableLanguages.includes(lang)) {
@@ -12,7 +21,7 @@ export function language(lang?: string) {
 		return lang;
 	}
 
-	let locale = app.getLocale().toLowerCase();
+	let locale = ipcRenderer.sendSync('app.getLocale').toLowerCase();
 	if(availableLanguages.indexOf(locale) < 0) locale = 'en';
 	return getString('language', locale);
 }
@@ -78,10 +87,10 @@ export function setString(name: string, value: string) {
  * Gets a object from the localStorage.
  * 
  * @param {String} name Name of the localStorage value
- * @param {Object} defaultValue The default value you want returned if storage value was not found
- * @returns {Object}
+ * @param {any} defaultValue The default value you want returned if storage value was not found
+ * @returns {any}
  */
-export function getJSON(name: string, defaultValue: Object): Object {
+export function getJSON(name: string, defaultValue: any): any {
 	if(name.length <= 0) return defaultValue;
 	let item = window.localStorage.getItem(name);
 	if(item != null) {

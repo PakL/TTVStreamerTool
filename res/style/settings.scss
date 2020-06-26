@@ -5,6 +5,7 @@ input, textarea, select {
 	border: 2px solid #ffffff;
 	padding: 3px 8px;
 	color: #ffffff;
+	box-sizing: border-box;
 }
 input:hover, textarea:hover, select:hover {
 	border: 2px solid #aaaaaa;
@@ -22,13 +23,12 @@ button {
 	font-family: $globalFontFamily;
 	font-size: $globalFontSize;
 	padding: 5px 10px;
-	color: #ffffff;
-	border: 0;
+	color: $fontColorOnAccent;
+	border: 2px solid $accentColor;
 	transition: transform 0.1s ease-out;
 }
 button:hover {
-	border: 2px solid darken($accentColor, 15%);
-	padding: 3px 8px;
+	border-color: darken($accentColor, 15%);
 }
 button:focus {
 	outline: none;

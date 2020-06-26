@@ -7,6 +7,7 @@ import UI from './UI/UI';
 import * as Settings from './Settings'
 
 import Startpage from './Pages/Startpage';
+import AddonsPage from './Pages/AddonsPage';
 import SettingsPage from './Pages/SettingsPage';
 import ChangelogPage from './Pages/ChangelogPage';
 import AboutPage from './Pages/AboutPage';
@@ -17,6 +18,7 @@ class TTVST {
 	private _i18n: i18n;
 
 	private _startpage: Startpage;
+	private _addonspage: AddonsPage;
 
 	init() {
 		this._i18n = new i18n(Settings.language(), './../../language.json');
@@ -24,8 +26,10 @@ class TTVST {
 		this._ui = new UI(this);
 
 		this._startpage = new Startpage();
+		this._addonspage = new AddonsPage();
 
 		this._ui.addPage(this._startpage);
+		this._ui.addPage(this._addonspage, true);
 		this._ui.addPage(new SettingsPage(), true);
 		this._ui.addPage(new ChangelogPage(), true);
 		this._ui.addPage(new AboutPage(), true);
@@ -37,6 +41,10 @@ class TTVST {
 
 	get ui(): UI {
 		return this._ui;
+	}
+
+	get settings(): typeof Settings {
+		return Settings;
 	}
 
 }

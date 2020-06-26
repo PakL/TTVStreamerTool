@@ -9,10 +9,18 @@ $globalBackground: #121212;
 
 $accentColorContrast: $accentColor;
 
+$accentColorLight: $accentColor;
+$accentColorDark: $accentColor;
+
 @import 'yiq';
+
 
 @while not yiq-is-light($accentColorContrast, 128) {
 	$accentColorContrast: lighten($accentColorContrast, 1%);
+	$accentColorLight: lighten($accentColorLight, 1%);
+}
+@while yiq-is-light($accentColorDark, 100) {
+	$accentColorDark: darken($accentColorDark, 1%);
 }
 
 html, body {

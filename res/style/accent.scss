@@ -26,9 +26,39 @@
 		}
 	}
 }
+@mixin accent-light($name, $setting, $altsetting: "") {
+	.accent-light-#{$name} {
+		#{$setting}: $accentColorLight;
+		@if $altsetting != "" {
+			#{$altsetting}: $globalBackground;
+		}
+	}
+	.accent-light-#{$name}-hover:hover {
+		#{$setting}: $accentColorLight;
+		@if $altsetting != "" {
+			#{$altsetting}: $globalBackground;
+		}
+	}
+}
+@mixin accent-dark($name, $setting, $altsetting: "") {
+	.accent-dark-#{$name} {
+		#{$setting}: $accentColorDark;
+		@if $altsetting != "" {
+			#{$altsetting}: $globalForeground;
+		}
+	}
+	.accent-dark-#{$name}-hover:hover {
+		#{$setting}: $accentColorDark;
+		@if $altsetting != "" {
+			#{$altsetting}: $globalForeground;
+		}
+	}
+}
 @mixin accent($name, $setting, $altsetting: "") {
 	@include accent-normal($name, $setting, $altsetting);
 	@include accent-contrast($name, $setting, $altsetting);
+	@include accent-light($name, $setting, $altsetting);
+	@include accent-dark($name, $setting, $altsetting);
 }
 
 @include accent("font", "color");

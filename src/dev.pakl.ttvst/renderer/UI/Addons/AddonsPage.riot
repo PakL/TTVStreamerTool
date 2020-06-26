@@ -1,0 +1,395 @@
+<AddonsPage>
+	<div class="tabbuttons accent-contrast-border">
+		<button onclick={ onInstalledClick } type="button" class="installedtab accent-contrast-background">{ __('Installed') }</button>
+		<button onclick={ onAvailableClick } type="button" class="availabletab accent-dark-background">{ __('Available') }</button>
+	</div>
+	<div class="nocontextbtns">
+		<button if={ batchReady } onclick={ onRestartClick } type="button">{ __('Restart tool for changes to take effect') }</button>
+		<button onclick={ openSourcesDialog } type="button">{ __('Addon sources') }</button>
+	</div>
+
+	<div class="installed_addons">
+		<ul>
+			<li if={ installedAddons.length <= 0 }><a>{ __('No addons are currently installed.') }</a></li>
+			<li class="accent-contrast-border" each={ addon in installedAddons } key={ addon.addonid }>
+				<label><input type="checkbox" class="installed" data-addonid={ addon.addonid } onchange={ onAddonSelect } /></label>
+				<a class="accent-contrast-background-hover" data-addonid={ addon.addonid } onclick={ onAddonClick }>
+					<i if={ !hasFlag(addon, 'compatible') } class="ms-Icon ms-Icon--DefectSolid" title={ __('Addon is incompatible') }>&nbsp;</i>
+					<i if={ hasFlag(addon, 'updateAvailable') } class="ms-Icon ms-Icon--Starburst" title={ __('Update available') }>&nbsp;</i>
+
+					<i if={ hasFlag(addon, 'updating') } class="rightIcon iconAnimated ms-Icon ms-Icon--Installation" title={ __('Updating') }></i>
+					<i if={ hasFlag(addon, 'updateFailed') } class="rightIcon iconRed ms-Icon ms-Icon--Installation" title={ __('Update failed') }></i>
+					<i if={ hasFlag(addon, 'updateReady') } class="rightIcon iconGreen ms-Icon ms-Icon--Installation" title={ __('Update ready to install') }></i>
+
+					<i if={ hasFlag(addon, 'uninstallFailed') } class="rightIcon iconRed ms-Icon ms-Icon--Delete" title={ __('Uninstall failed') }></i>
+					<i if={ hasFlag(addon, 'uninstallReady') } class="rightIcon iconGreen ms-Icon ms-Icon--Delete" title={ __('Addon ready to uninstall') }></i>
+
+					<span>{ addon.name }</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div class="available_addons" style="display:none;">
+		<ul>
+			<li if={ availableAddons.length <= 0 }><a>{ __('No more addons are available to install.') }</a></li>
+			<li class="accent-contrast-border" each={ addon in availableAddons } key={ addon.addonid }>
+				<label><input type="checkbox" class="available" data-addonid={ addon.addonid } onchange={ onAddonSelect } /></label>
+				<a class="accent-contrast-background-hover" data-addonid={ addon.addonid } onclick={ onAddonClick }>
+					<i if={ !hasFlag(addon, 'compatible') } class="ms-Icon ms-Icon--DefectSolid" title={ __('Addon is incompatible') }>&nbsp;</i>
+
+					<i if={ hasFlag(addon, 'installing') } class="rightIcon iconAnimated ms-Icon ms-Icon--Installation" title={ __('Installing') }></i>
+					<i if={ hasFlag(addon, 'installFailed') } class="rightIcon iconRed ms-Icon ms-Icon--Installation" title={ __('Install failed') }></i>
+
+					<span>{ addon.name }</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div class="accent-contrast-border addon_description">
+		<div if={ selectedAddons.length == 1 }>
+			<h3 class="accent-contrast-font">{ selectedAddons[0].name }</h3>
+			<h4 class="accent-contrast-font">{ __('Author') }</h4>
+			<p><span>{ selectedAddons[0].author.name }</span> &lt;<span>{ selectedAddons[0].author.email }</span>&gt;</p>
+			<h4 class="accent-contrast-font">{ __('Version') }</h4>
+			<p>{ selectedAddons[0].version }</p>
+			<h4 class="accent-contrast-font">{ __('Description') }</h4>
+			<p>{ selectedAddons[0].description }</p>
+		</div>
+		<div if={ selectedAddons.length == 0 }>{ __('Please select an addon on the left to view more information.') }</div>
+		<div if={ selectedAddons.length > 1 }>
+			<h3>{ __('{{count}} addons selected', { count: selectedAddons.length }) }</h3>
+			<p>{ selectedAddons.map(a => a.name).join(', ') }</p>
+		</div>
+
+		<div class="buttons" if={ selectedAddons.length > 0 && view == 'installed' }>
+			<button type="button" onclick={ onUpdateClick } if={ anyUpdates }><i class="ms-Icon ms-Icon--Installation">&nbsp;</i>{ __('Update') }</button>
+			<button type="button" onclick={ onUninstallClick }><i class="ms-Icon ms-Icon--Delete">&nbsp;</i>{ __('Uninstall') }</button>
+		</div>
+		<div class="buttons" if={ selectedAddons.length > 0 && view == 'available' }>
+			<button type="button" onclick={ onInstallClick }><i class="ms-Icon ms-Icon--Installation">&nbsp;</i>{ __('Install') }</button>
+		</div>
+	</div>
+
+	<style>
+		:host {
+			display: flex;
+			justify-content: stretch;
+			align-content: stretch;
+			height: 100%;
+			width: 100%;
+			flex-wrap: wrap;
+		}
+		:host ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+		:host ul > li {
+			display: flex;
+			justify-content: stretch;
+			align-content: stretch;
+			border-bottom: 1px solid;
+		}
+		:host ul > li > label {
+			padding: 20px;
+			width: 26px;
+		}
+		:host ul > li > label > input[type=checkbox]::before {
+			font-size: 1.4em;
+		}
+		:host ul > li > a {
+			width: 100%;
+			padding: 20px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			cursor: pointer;
+		}
+		:host ul > li > a .ms-Icon {
+			font-size: 1.3em;
+			vertical-align: middle;
+		}
+		:host ul > li > a .ms-Icon--DefectSolid {
+			color: red;
+		}
+		:host ul > li > a:hover .ms-Icon--DefectSolid {
+			color: #000000;
+		}
+
+		:host ul > li > a .ms-Icon.rightIcon {
+			float: right;
+		}
+		@keyframes animatedIcon {
+			from {
+				background-position: 100% 100%;
+			}
+			to {
+				background-position: 10% 10%;
+			}
+		}
+		:host ul > li > a .ms-Icon.iconAnimated {
+			background: linear-gradient(#00ff00, #121212, #00ff00, #121212);
+			background-size: 400% 400%;
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			animation-name: animatedIcon;
+			animation-duration: 1s;
+			animation-timing-function: linear;
+			animation-iteration-count: infinite;
+		}
+		:host ul > li > a .ms-Icon.iconRed {
+			color: red;
+		}
+		:host ul > li > a .ms-Icon.iconGreen {
+			color: green;
+		}
+
+		:host > div {
+			height: calc(100% - 47px);
+			flex-basis: 50%;
+			overflow: auto;
+		}
+
+		:host > div.tabbuttons {
+			width: 100%;
+			height: 33px;
+			flex-basis: 100%;
+
+			border-width: 0px;
+			border-bottom-width: 1px;
+			border-style: solid;
+			padding-top: 13px;
+		}
+
+		:host > div.tabbuttons > button {
+			margin-left: 5px;
+			border-top-left-radius: 5px;
+			border-top-right-radius: 5px;
+			border-bottom: 0px;
+		}
+
+		:host > div.addon_description {
+			display: flex;
+			justify-content: flex-start;
+			align-content: flex-start;
+			flex-direction: column;
+
+			border-width: 0px;
+			border-left-width: 1px;
+			border-style: solid;
+			height: calc(100% - 67px);
+			flex-basis: calc(50% - 21px);
+			padding: 10px;
+		}
+		:host > div.addon_description h3 {
+			margin-top: 0;
+		}
+		:host > div.addon_description h4 {
+			margin-top: 0;
+			margin-bottom: 5px;
+		}
+		:host > div.addon_description p {
+			margin-top: 0;
+		}
+		:host > div.addon_description > .buttons {
+			margin-top: auto;
+			text-align: right;
+		}
+		:host > div.addon_description > .buttons button {
+			padding: 10px 20px;
+			margin-left: 10px;
+		}
+
+
+		:host > div.nocontextbtns {
+			position: absolute;
+			top: 5px;
+			right: 5px;
+			text-align: right;
+		}
+		:host > div.nocontextbtns > button {
+			margin-left: 5px;
+		}
+	</style>
+
+	<script>
+		import { ipcRenderer } from 'electron';
+
+		export default {
+			installedAddons: [],
+			availableAddons: [],
+
+			selectedAddons: [],
+			anyUpdates: false,
+
+			view: 'installed',
+
+			batchReady: false,
+
+			repositoryCallback: () => {},
+
+			onBeforeMount(props, state) {
+				this.__ = global.TTVST.i18n.__;
+				state = Object.assign({ addons: [] }, state);
+				this.onBeforeUpdate(props, state);
+			},
+
+			onBeforeUpdate(props, state) {
+				this.installedAddons = [];
+				this.availableAddons = [];
+				this.batchReady = false;
+				for(let i = 0; i < state.addons.length; i++) {
+					if(typeof(state.addons[i].path) === 'string') {
+						this.installedAddons.push(state.addons[i]);
+						if(this.hasFlag(state.addons[i], 'updateReady') || this.hasFlag(state.addons[i], 'uninstallReady')) {
+							this.batchReady = true;
+						}
+					} else {
+						this.availableAddons.push(state.addons[i]);
+					}
+				}
+				this.selectUpdate();
+			},
+
+			onInstalledClick() {
+				this.$('.installed_addons').style.display = 'block';
+				this.$('.installedtab').classList.remove('accent-dark-background');
+				this.$('.installedtab').classList.add('accent-contrast-background');
+				this.$('.available_addons').style.display = 'none';
+				this.$('.availabletab').classList.remove('accent-contrast-background');
+				this.$('.availabletab').classList.add('accent-dark-background');
+
+				this.view = 'installed';
+				this.update();
+			},
+
+			onAvailableClick() {
+				this.$('.installed_addons').style.display = 'none';
+				this.$('.installedtab').classList.add('accent-dark-background');
+				this.$('.installedtab').classList.remove('accent-contrast-background');
+				this.$('.available_addons').style.display = 'block';
+				this.$('.availabletab').classList.add('accent-contrast-background');
+				this.$('.availabletab').classList.remove('accent-dark-background');
+
+				this.view = 'available';
+				this.update();
+			},
+
+			onAddonClick(e) {
+				e.preventDefault();
+				let link = e.target;
+				let i = 1;
+				while(link.tagName !== 'A') {
+					if(e.path.length <= i) break;
+					link = e.path[i];
+					i++;
+				}
+				let addonid = link.dataset.addonid;
+				
+				let checkboxes = this.$$('input[type=checkbox]');
+				for(let i = 0; i < checkboxes.length; i++) {
+					if(checkboxes[i].dataset.addonid == addonid) {
+						checkboxes[i].checked = true;
+					} else {
+						checkboxes[i].checked = false;
+					}
+				}
+
+				this.update();
+			},
+
+			onAddonSelect() {
+				this.update();
+			},
+
+			selectUpdate() {
+				this.selectedAddons = [];
+				let addons = this.installedAddons.concat(this.availableAddons);
+				for(let i = 0; i < addons.length; i++) {
+					let checkboxes = this.$$(`input.${this.view}`);
+					for(let j = 0; j < checkboxes.length; j++) {
+						if(checkboxes[j].dataset.addonid == addons[i].addonid) {
+							if(checkboxes[j].checked) {
+								this.selectedAddons.push(addons[i]);
+							}
+							break;
+						}
+					}
+				}
+
+				this.anyUpdates = false;
+				const self = this
+				this.selectedAddons.map((a) => {
+					if(self.hasFlag(a, 'updateAvailable') && !self.hasFlag(a, 'updateReady')) {
+						self.anyUpdates = true;
+					}
+				});
+			},
+
+			onUpdateClick(e) {
+				e.preventDefault();
+				ipcRenderer.send('Addons.update', this.selectedAddons);
+			},
+
+			onUninstallClick(e) {
+				e.preventDefault();
+				ipcRenderer.send('Addons.uninstall', this.selectedAddons);
+			},
+
+			onInstallClick(e) {
+				e.preventDefault();
+				ipcRenderer.send('Addons.install', this.selectedAddons);
+			},
+
+			setRepositoryCallback(callback) {
+				if(typeof(callback) === 'function') {
+					this.repositoryCallback = callback;
+				}
+			},
+
+			openSourcesDialog(e) {
+				e.preventDefault();
+				let sourceInputDesc = document.createElement('p')
+				sourceInputDesc.innerText = this.__('Add your own addon sources. One URL per line. Only secure connections are allowed (https).');
+				sourceInputDesc.style.marginTop = '0px';
+				let sourcesInput = document.createElement('textarea');
+				Object.assign(sourcesInput.style, {
+					width: '100%',
+					height: '200px',
+					resize: 'none'
+				});
+				sourcesInput.value = TTVST.settings.getJSON('addon_packagelists', []).join('\n');
+				sourcesInput.setAttribute('placeholder', 'https://...')
+				TTVST.ui.modal([sourceInputDesc, sourcesInput], this.__('Addon sources'), 'Repo', () => {}, [{
+					key: 'save',
+					title: this.__('Save'),
+					callback: () => {
+						repositoryCallback(sourcesInput.value.replace(/\r/g, ''));
+					}
+				}, {
+					key: 'cancel',
+					title: this.__('Cancel')
+				}]);
+			},
+
+			async onRestartClick(e) {
+				e.preventDefault();
+
+				if(await TTVST.ui.confirm(this.__('TTVStreamerTool will restart to remove/update addons now.\nYou might see a command line window pop open.'))) {
+					ipcRenderer.send('Addons.restart');
+				}
+			},
+
+			hasFlag(addon, flag) {
+				flag = flag.toLowerCase();
+				if(typeof(addon.flags) === 'undefined') {
+					return false;
+				}
+				if(addon.flags.indexOf(flag) >= 0) {
+					return true;
+				}
+				return false;
+			}
+		}
+	</script>
+</AddonsPage>

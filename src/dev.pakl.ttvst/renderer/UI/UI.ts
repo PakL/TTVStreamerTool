@@ -2,6 +2,7 @@ import { ipcRenderer } from 'electron';
 import * as riot from 'riot';
 
 import App from '../../../../dist/dev.pakl.ttvst/renderer/UI/Main/App';
+import Modal from '../../../../dist/dev.pakl.ttvst/renderer/UI/Main/Modal';
 
 import i18n from 'i18n-nodejs';
 
@@ -19,7 +20,15 @@ while(Color.hexToLuma(accentColor) < 0.6) {
 let steps = Math.floor((100 - accentBrightness) / 5);
 let accentColorRGB = Color.hexToRGB(accentColor);
 
-class UI {
+let modalCmpnt: any = null;
+
+export interface IModalButton {
+	key: string;
+	title: string;
+	callback?: () => boolean;
+}
+
+export default class UI {
 
 	private tool: TTVST;
 	
@@ -35,6 +44,8 @@ class UI {
 
 		let appCmpnt = riot.component<null, null>(App);
 		this.app = appCmpnt(document.createElement('App'));
+
+		modalCmpnt = riot.component<null, null>(Modal);
 
 		this.root = document.querySelector('#root');
 		this.root.appendChild(this.app.root);
@@ -77,5 +88,68 @@ class UI {
 		return null;
 	}
 
+	alert(message: string, title: string = '', icon: string = 'WarningSolid'): Promise<void> {
+		return new Promise((res) => {
+			let msgLines = message.split('\n');
+			let content: Array<Node> = [];
+			for(let i = 0; i < msgLines.length; i++) {
+				content.push(document.createTextNode(msgLines[i]));
+				if(i+1 < msgLines.length) {
+					content.push(document.createElement('br'));
+				}
+			}
+
+			let modal = document.createElement('Modal');
+			let modalR: riot.RiotComponent = modalCmpnt(modal, {
+				content,
+				title,
+				icon,
+				buttons: [{ key: 'ok', title: 'OK' }],
+				onclose: () => {
+					res();
+				}
+			});
+
+			document.querySelector('body').appendChild(modalR.root);
+		});
+	}
+
+	confirm(message: string, yesno: boolean = false, title: string = '', icon: string = 'UnknownSolid'): Promise<boolean> {
+		return new Promise((res) => {
+			let msgLines = message.split('\n');
+			let content: Array<Node> = [];
+			for(let i = 0; i < msgLines.length; i++) {
+				content.push(document.createTextNode(msgLines[i]));
+				if(i+1 < msgLines.length) {
+					content.push(document.createElement('br'));
+				}
+			}
+
+			let modal = document.createElement('Modal');
+			let response = false;
+			let modalR: riot.RiotComponent = modalCmpnt(modal, {
+				content,
+				title,
+				icon,
+				buttons: [
+					{ key: 'ok', title: yesno ? 'Yes' : 'OK', callback: () => { response = true; } },
+					{ key: 'cancel', title: yesno ? 'No' : 'Cancel' }
+				],
+				onclose: () => {
+					res(response);
+				},
+				hideOnOob: false
+			});
+
+			document.querySelector('body').appendChild(modalR.root);
+		});
+	}
+
+	modal(content: Node | Array<Node>, title: string = '', icon: string, onclose?: () => void, buttons?: Array<IModalButton>, hideOnOob?: boolean): riot.RiotComponent {
+		let modal = document.createElement('Modal');
+		let modalR: riot.RiotComponent = modalCmpnt(modal, { content, title, icon, buttons, onclose, hideOnOob });
+		document.querySelector('body').appendChild(modalR.root);
+		return modalR;
+	}
+
 }
-export = UI;

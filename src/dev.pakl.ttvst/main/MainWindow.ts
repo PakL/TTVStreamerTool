@@ -61,6 +61,11 @@ class MainWindow extends EventEmitter {
 		return this.window.getBounds();
 	}
 
+	ipcSend(channel: string, ...args: any[]) {
+		if(this.window === null) return;
+		this.window.webContents.send(channel, ...args);
+	}
+
 	private onReadyToShow() {
 		if(this.window === null) return;
 		logger.verbose('Opening main window');
@@ -69,7 +74,9 @@ class MainWindow extends EventEmitter {
 
 	private onShow() {
 		if(this.window === null) return;
-		this.window.webContents.openDevTools();
+		if(process.env.NODE_ENV === 'development') {
+			this.window.webContents.openDevTools();
+		}
 		this.emit('show');
 	}
 

@@ -5,6 +5,8 @@ import APIHelix from './Twitch/APIHelix';
 import Startpage from './Pages/Startpage';
 import TMI from './Twitch/TMI';
 import BroadcastMain from './BroadcastMain';
+import Addons from './Util/Addons';
+import * as Settings from './Util/Settings';
 
 export default class TTVSTMain {
 
@@ -14,15 +16,20 @@ export default class TTVSTMain {
 	private _tmi: TMI = null;
 
 	private _startpage: Startpage = null;
+	private _addons: Addons = null;
 
 	constructor(mainWindow: MainWindow) {
-		BroadcastMain.instance.emit('HelloWorld');
 		this._mainWindow = mainWindow;
 	}
 
+	get mainWindow(): MainWindow {
+		return this._mainWindow;
+	}
+
 	init() {
+		Settings.getBoolean('helloworld', false);
 		this.initTwitch();
-		this.initCockpit();
+		this.initApp();
 	}
 
 	private initTwitch() {
@@ -50,10 +57,6 @@ export default class TTVSTMain {
 		this._tmi = new TMI();
 	}
 
-	get mainWindow(): MainWindow {
-		return this._mainWindow;
-	}
-
 	get helix(): APIHelix {
 		return this._helix;
 	}
@@ -62,8 +65,17 @@ export default class TTVSTMain {
 		return this._tmi;
 	}
 
-	private initCockpit() {
+	private initApp() {
 		this._startpage = new Startpage();
+		this._addons = new Addons();
+	}
+
+	get startpage(): Startpage {
+		return this._startpage;
+	}
+
+	get addons(): Addons {
+		return this._addons;
 	}
 
 }
