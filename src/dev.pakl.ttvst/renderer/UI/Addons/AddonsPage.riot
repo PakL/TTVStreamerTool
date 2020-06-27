@@ -359,12 +359,13 @@
 					resize: 'none'
 				});
 				sourcesInput.value = TTVST.settings.getJSON('addon_packagelists', []).join('\n');
-				sourcesInput.setAttribute('placeholder', 'https://...')
+				sourcesInput.setAttribute('placeholder', 'https://...');
+				const self = this;
 				TTVST.ui.modal([sourceInputDesc, sourcesInput], this.__('Addon sources'), 'Repo', () => {}, [{
 					key: 'save',
 					title: this.__('Save'),
 					callback: () => {
-						repositoryCallback(sourcesInput.value.replace(/\r/g, ''));
+						self.repositoryCallback(sourcesInput.value.replace(/\r/g, ''));
 					}
 				}, {
 					key: 'cancel',

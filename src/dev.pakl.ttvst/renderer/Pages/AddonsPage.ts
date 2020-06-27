@@ -97,6 +97,7 @@ class AddonsPage extends Page {
 			}
 		}
 		TTVST.settings.setJSON('addon_packagelists', packages);
+		this.startLoadRepository();
 	}
 
 
