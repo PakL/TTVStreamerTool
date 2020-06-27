@@ -1,673 +1,164 @@
 {
-	"File": {
-		"de": "Datei"
+	"Disconnect": {
+		"de": "Verbindung trennen"
 	},
-	"Restart": {
-		"de": "Neustarten"
+	"Connect": {
+		"de": "Verbinden"
 	},
-	"DevTools": {},
-	"Quit": {
-		"de": "Beenden"
+	"Disconnected.": {
+		"de": "Verbindung getrennt."
 	},
-	"Change channel": {
-		"de": "Kanal wechseln"
+	"Connection established.": {
+		"de": "Verbindung hergestellt."
 	},
-	"Logout": {
-		"de": "Ausloggen"
+	"Connection established and logged in.": {
+		"de": "Verbindung hergestellt und eingeloggt."
+	},
+	"Connection established but login failed.": {
+		"de": "Verbindung hergestellt aber Login fehlgeschlagen."
+	},
+	"Connection closed due to an error.": {
+		"de": "Verbindung wurde aufgrund eines Fehlers getrennt."
+	},
+	"All possible ports already in use": {
+		"de": "Alle verfügbaren Ports bereits belegt"
+	},
+	"Invalid server response": {
+		"de": "Unültige Serverantwort"
+	},
+	"Canceled by user": {
+		"de": "Abbruch durch Benutzer*in"
+	},
+	"There was an error creating the batch to make the changes happen. Please retry or find more information in the error log.": {
+		"de": "Ein Fehler ist aufgetreten während die Batch erstellt werden sollte, die die Änderung durchführt. Bitte versuche es erneut oder finde mehr Informationen im Fehler-Log."
+	},
+	"Changelog": {
+		"de": "Changelog"
 	},
 	"Settings": {
 		"de": "Einstellungen"
 	},
-	"Language": {
-		"de": "Sprache"
+	"Startpage": {
+		"de": "Startseite"
 	},
-
-	"Stream status": {
-		"de": "Stream Status"
-	},
-	"Stream game": {
-		"de": "Stream Spiel"
-	},
-	"Write a message...": {
-		"de": "Eine Nachricht schreiben..."
-	},
-	"Type channel name and press Enter": {
-		"de": "Kanalname eingeben und Enter drücken"
-	},
-	"Welcome to TTVStreamerTool": {
-		"de": "Willkommen beim TTVStreamerTool"
-	},
-	"To use this program you gonna need a Twitch channel. You can login via Twitch here.": {
-		"de": "Um mit diesem Programm überhaupt irgendetwas anzufangen brauchst du natürlich einen Twitch-Kanal. Mit diesem kannst du dich dann hier anmelden."
-	},
-	"Only then the program is able to to something.": {
-		"de": "Dann kann dieses Programm überhaupt erst etwas machen."
-	},
-	"Login via Twitch": {
-		"de": "Einloggen via Twitch"
-	},
-	"Logged in": {
-		"de": "Eingeloggt"
-	},
-	"Invalid token": {
-		"de": "Ungültiger Token"
-	},
-	"Canceled by user": {
-		"de": "Abgebrochen von Benutzer"
-	},
-	"Connected to chat in channel {{channel}}": {
-		"de": "Verbunden mit Chat in Kanal {{channel}}"
-	},
-	"subscribed with {{plan}} for {{months}} months!": {
-		"de": "hat zum {{months}}. Monat mit {{plan}} abonniert!"
-	},
-	"subscribed with {{plan}} for {{months}} months and {{streak}} in a row!": {
-		"de": "hat zum {{months}}. Monat mit {{plan}} abonniert und {{streak}} in Folge!"
-	},
-	"was banned from the channel.": {
-		"de": "wurde vom Kanal verbannt."
-	},
-	"There was no reason given.": {
-		"de": "Es wurde kein Grund angegeben."
-	},
-	"was timeouted for {{duration}} {{seconds||duration}}": {
-		"de": "wurde für {{duration}} {{seconds||duration}} ruhig gestellt."
-	},
-	"seconds": {
-		"en": {
-			"0": "second",
-			"1": "seconds"
-		},
-		"de": {
-			"0": "Sekunde",
-			"1": "Sekunden"
-		}
-	},
-	"minutes": {
-		"en": {
-			"0": "minute",
-			"1": "minutes"
-		},
-		"de": {
-			"0": "Minute",
-			"1": "Minuten"
-		}
-	},
-	"is hosting the channel": {
-		"de": "hostet den Kanal"
-	},
-	"is hosting the channel with {{viewernum}} {{viewers||viewernum}}": {
-		"de": "hostet den Kanal mit {{viewernum}} {{viewers||viewernum}}"
-	},
-	"is auto hosting the channel": {
-		"de": "autohostet den Kanal"
-	},
-	"is auto hosting the channel with {{viewernum}} {{viewers||viewernum}}": {
-		"de": "autohostet den Kanal mit {{viewernum}} {{viewers||viewernum}}"
-	},
-	"{{viewernum}} {{viewers||viewernum}}": {
-		"de": "{{viewernum}} {{viewers||viewernum}}"
-	},
-	"viewers": {
-		"en": {
-			"0": "viewer",
-			"1": "viewers"
-		},
-		"de": {
-			"0": "Zuschauer",
-			"1": "Zuschauer"
-		}
-	},
-	"mm/dd/yyyy hh:MMtt": {
-		"de": "dd.mm.yyyy HH:MM"
-	},
-	"hh:MMtt": {
-		"de": "HH:MM"
-	},
-	"You need to leave the current channel first": {
-		"de": "Du musst zuerst den aktuellen Channel verlassen"
-	},
-	"No channel with this name was found.": {
-		"de": "Keinen Kanal mit diesem Namen gefunden."
-	},
-	"Channel is now offline": {
-		"de": "Kanal ist jetzt offline"
-	},
-	"Channel is now online": {
-		"de": "Kanal ist jetzt online"
-	},
-	"is following this channel now": {
-		"de": "folgt jetzt dem Kanal"
-	},
-	"subscribed with {{plan}} to this channel": {
-		"de": "hat dem Kanal mit {{plan}} abonniert"
-	},
-	"Unkown error": {
-		"de": "Unbekannter Fehler"
-	},
-	"Load more": {
-		"de": "Mehr laden"
-	},
-	"Message was deleted": {
-		"de": "Nachricht wurde gelöscht"
-	},
-	"Please wait...": {
-		"de": "Bitte warten..."
-	},
-	"Show localized display names": {
-		"de": "Zeige lokalisierte Benutzernamen"
-	},
-	"Clear messages": {
-		"de": "Nachrichten löschen"
-	},
-	"Ban": {
-		"de": "Verbannen"
-	},
-	"for {{sec}} {{seconds||sec}}": {
-		"de": "für {{sec}} {{seconds||sec}}"
-	},
-	"for {{min}} {{minutes||min}}": {
-		"de": "für {{min}} {{minutes||min}}"
-	},
-	"Overlay settings": {
-		"de": "Overlay-Einstellungen"
-	},
-	"Music Overlay": {
-		"de": "Musikoverlay"
-	},
-	"Youtube playlist id: (has to be public)": {
-		"de": "Youtube-Playlist-ID: (muss öffentlich sein)"
-	},
-	"Press Enter when finished to save": {
-		"de": "Drücke Enter wenn Fertig um zu Speichern"
-	},
-	"Default volume": {
-		"de": "Standardlautstärke"
-	},
-	"Live volume control": {
-		"de": "Direkter Lautstärkeregler"
-	},
-	"Overlay URL": {
-		"de": "Overlay-URL"
-	},
-	"Add #black to the end of the URL to get black text with white borders instead of white text with black borders.": {
-		"de": "Füge #black an das Ende der URL hinzu um schwarzen Text mit weißen Rändern anstatt weißen Text mit schwarzen Rändern zu bekommen."
-	},
-	"Overlay volume control URL": {
-		"de": "Lautstärke-Kontroll-Overlay-URL"
-	},
-	"This is a completely transparent overlay you can use in different OBS scenes to control the volume on scene changes. Change the number at the end to anything between 0 (mute) to 100 (way to loud).": {
-		"de": "Dies ist ein komplett transparentes Overlay das du in verschieden OBS-Szenen benutzen kannst um bei Szenenwechsel die Lautstärke zu verändern. Ändere die Nummer am Ende zu etwas Beliebigem zwischen 0 (stumm) und 100 (viel zu laut)."
-	},
-	"Add a highlighter": {
-		"de": "Highlighter hinzufügen"
-	},
-	"Word or phrase that triggers a message highlight:": {
-		"de": "Wort oder Phrase, das oder die den Highlight verursacht:"
-	},
-	"Regular expression": {
-		"de": "Regulärer Ausdruck"
-	},
-	"Case sensitive": {
-		"de": "Groß-/Kleinschreibung beachten"
-	},
-	"Save": {
-		"de": "Speichern"
+	"OK": {
+		"de": "OK"
 	},
 	"Cancel": {
 		"de": "Abbrechen"
 	},
-	"Are you sure you want do delete this highlight?": {
-		"de": "Bist du sicher dass du diesen Highlighter entfernen willst?"
+	"Yes": {
+		"de": "Ja"
 	},
-	"Autorecover deleted messages": {
-		"de": "Gelöschte Nachrichten automatisch wiederherstellen"
-	},
-	"Highlights": {
-		"de": "Highlights"
-	},
-	"Overlay hotkeys": {
-		"de": "Overlay-Hotkeys"
-	},
-	"Add hotkey": {
-		"de": "Hotkey hinzufügen"
-	},
-	"Save hotkeys": {
-		"de": "Hotkeys speichern"
-	},
-	"Hotkeys are currently disabled. Save hotkeys to reenable them.": {
-		"de": "Hotkeys wurden verübergehend abgeschaltet. Speichere die Hotkeys um sie wieder tu aktivieren."
-	},
-	"Enter Hotkey": {
-		"de": "Hotkey eingeben"
-	},
-	"Enter command that is sent to overlays": {
-		"de": "Befehl eingeben, der an die Overlays gesendet werden soll"
-	},
-	"Click here to dismiss this message": {
-		"de": "Hier klicken um diese Nachricht zu verstecken"
-	},
-	"View": {
-		"de": "Ansicht"
-	},
-	"Game information changed to «{{game}}»": {
-		"de": "Spielinformation auf «{{game}}» geändert"
-	},
-	"Stream title changed to «{{status}}»": {
-		"de": "Streamtitel auf «{{status}}» geändert"
-	},
-	"There is a new update. Downloading now...": {
-		"de": "Es gibt ein neues Update. Lade herunter...."
-	},
-	"Update ready. Please restart!": {
-		"de": "Update bereit. Bitte neustarten!"
-	},
-	"Please wait a few seconds before restaring.": {
-		"de": "Bitte warte ein paar Sekunden bevor du das Programm neustartest."
-	},
-	"Update ready. Program will restart automatically!": {
-		"de": "Update bereit. Programm wird automatisch neugestartet!"
-	},
-	"Uninstalling {{addon}} now...": {
-		"de": "Deinstalliere {{addon}}..."
-	},
-	"Cannot uninstall. For uninstall the addon must be a asar addon.": {
-		"de": "Konnte nicht deinstalliert werden. Es können nur asar addons deinstalliert werden."
-	},
-	"Downloading and installing {{addon}} now...": {
-		"de": "Lade und installiere {{addon}}..."
-	},
-	"Addon was successfully installed.": {
-		"de": "Addon wurde erfolgreich installiert."
-	},
-	"Addon was downloaded but not installed. It might be incompatible.": {
-		"de": "Addon wurde heruntergeladen aber nicht installiert. Es könnte inkompatibel sein."
-	},
-	"Could not find anything to download.": {
-		"de": "Es konnte nichts zum Herunterladen gefunden werden."
-	},
-	"Downloading and updating {{addon}} now...": {
-		"de": "Lade und update {{addon}}..."
-	},
-	"Show viewer list": {
-		"de": "Zuschauerliste anzeigen"
-	},
-	"Alert options": {
-		"de": "Benachrichtigungseinstellungen"
-	},
-	"Flash alerts": {
-		"de": "Blinkende Benachrichtigungen"
-	},
-	"Show follow alerts": {
-		"de": "Follows anzeigen"
-	},
-	"Show subscription alerts": {
-		"de": "Abos anzeigen"
-	},
-	"Show host alerts": {
-		"de": "Hosts anzeigen"
-	},
-	"Show ban alerts": {
-		"de": "Verbannungen anzeigen"
-	},
-	"Show timeout alerts": {
-		"de": "Ruhigstellungen anzeigen"
-	},
-	"Light design mode": {
-		"de": "Helles Design"
-	},
-	"Show raid alerts": {
-		"de": "Raids anzeigen"
-	},
-	"is raiding your channel with {{viewers}} viewers": {
-		"de": "raidet diesen Kanal mit {{viewers}} Zuschauern"
-	},
-	"About TTVST": {
-		"de": "Über TTVST"
-	},
-	"Click this button to log out of twitch. You will prompted to login again.": {
-		"de": "Klicke auf diesen Knopf um dich aus Twitch auszuloggen. Du wirst aufgefordert sich erneut einzuloggen."
-	},
-	"Addons": {
-		"de": "Addons"
-	},
-	"Addon": {
-		"de": "Addon"
-	},
-	"Description": {
-		"de": "Beschreibung"
-	},
-	"Version": {
-		"de": "Version"
+	"No": {
+		"de": "Nein"
 	},
 	"Installed": {
 		"de": "Installiert"
 	},
-	"Loading, please wait...": {
-		"de": "Lade, bitte warte..."
-	},
-	"Could not load addon information.": {
-		"de": "Addoninformationen konnten nicht geladen werden."
-	},
-	"Install now": {
-		"de": "Jetzt installieren"
-	},
-	"{{num_updates}} {{update||num_updates}} available. Update now!": {
-		"de": "{{num_updates}} {{update||num_updates}} verfügbar. Jetzt updaten!"
-	},
-	"update": {
-		"en": {
-			"0": "update",
-			"1": "updates"
-		},
-		"de": {
-			"0": "Update",
-			"1": "Updates"
-		}
-	},
-	"Addon download failed. Please retry.": {
-		"de": "Download des Addons fehlgeschlagen. Bitte erneut versuchen."
-	},
-	"Remove": {
-		"de": "Entfernen"
-	},
-	"gifted {{recipient}} a {{plan}} subscription": {
-		"de": "schenkte {{recipient}} ein {{plan}} Abonnement"
-	},
-	"just cheered with {{num_bits}} {{bits||num_bits}}": {
-		"de": "feuert mit {{num_bits}} {{bits||num_bits}} an"
-	},
-	"bits": {
-		"en": {
-			"0": "bit",
-			"1": "bits"
-		},
-		"de": {
-			"0": "Bit",
-			"1": "Bits"
-		}
-	},
-	"Show cheer alerts": {
-		"de": "Bit-Anfeuerungen anzeigen"
-	},
-	"Open addons folder": {
-		"de": "Addons-Ordner öffnen"
-	},
-	"Manually": {
-		"de": "Manuell"
-	},
-	"Black font": {
-		"de": "Schwarze Schrift"
-	},
-	"Overlay volume control command": {
-		"de": "Lautstärke-Kontroll-Befehl"
-	},
-	"Use this command in an hotkey to change volume. Change the number at the end to anything between 0 (mute) to 100 (way to loud).": {
-		"de": "Benutze diesen Befehl in einem Hotkey um die Lautstärke zu ändern. Ändere die Nummer am Ende zu etwas Beliebigem zwischen 0 (stumm) und 100 (viel zu laut)."
-	},
-	"Incompatible platforms \"{{platform}}\"": {
-		"de": "Inkompatibele Plattformen \"{{platform}}\""
-	},
-	"Incompatible version \"{{version}}\". Current TTVST version: {{packageversion}}": {
-		"de": "Inkompatibele Version \"{{version}}\". Aktuelle TTVST-Version: {{packageversion}}"
-	},
-	"Show action stream": {
-		"de": "Benachrichtigungsleiste anzeigen"
-	},
-	"Click here to display stream player": {
-		"de": "Hier klicken um Stream anzusehen"
-	},
-	"Unexpected response": {
-		"de": "Unerwartete Antwort"
-	},
-	"Close stream player": {
-		"de": "Stream schließen"
-	},
-	"{{message_count}} messages filtered": {
-		"de": "{{message_count}} Nachrichten gefiltert"
-	},
-	"Chat filter": {
-		"de": "Chatfilter"
-	},
-	"Filter emote spam": {
-		"de": "Emote-Spam filtern"
-	},
-	"This filters out any messages that are only emotes.": {
-		"de": "Dieser Filter entfernt alle Nachrichten die nur aus Emotes besteht."
-	},
-	"Filter bot commands": {
-		"de": "Bot-Befehle filtern"
-	},
-	"This filters out any messages beginning with an exclamation mark (!) and messages by known bots (Moobot, StreamElements, etc.).": {
-		"de": "Dieser Filter entfernt alle Nachrichten die mit einem Ausrufezeichen (!) beginnen oder von einem bekannten Bot (Moobot, StreamElements, etc.) stammen."
-	},
-	"Show amount of viewers": {
-		"de": "Zuschaueranzahl anzeigen"
-	},
-	"Overlay skip track command": {
-		"de": "Track-Überspring-Befehl"
-	},
-	"Use this command in an hotkey to skip to the next track.": {
-		"de": "Benutze diesen Befehl in einem Hotkey um zum nächsten Song zu springen."
-	},
-	"Skip now": {
-		"de": "Jetzt überspringen"
-	},
-	"Countdown Overlay": {
-		"de": "Countdown Overlay"
-	},
-	"Overlay add time command": {
-		"de": "Zeit-Hinzufügen-Befehl"
-	},
-	"Overlay set time target command": {
-		"de": "Countdown-Zu-Zeitpunkt-Befehl"
-	},
-	"Use this command in an hotkey to add time the countdown overlay. You can add time in this format: ##h##m##s; ##h adds hours, ##m adds minutes, ##s adds seconds. Every part is optional. Example: timer_add=1h30m0s or timer_add=90m": {
-		"de": "Benutze diesen Befehl in einem Hotkey um Zeit zum Countdown hinzuzufügen. Du kannst Zeit in diesem Format hinzufügen:  ##h##m##s; ##h für Stunden, ##m für Minuten, ##s für Sekunden. Jeder Teil ist optional. Beispiel: timer_add=1h30m0s oder timer_add=90m"
-	},
-	"Use this command in an hotkey to let the countdown count down to a specific point in time. Format: YYYY-MM-DD hh:mm:ss; Hours must be in the 24 hour format, date and seconds are optional. If the given date is in the past nothing will happen. Example: timer_set=2018-09-08 13:00:00 or timer_set=15:00": {
-		"de": "Benutze diesen Befehl in einem Hotkey um den Countdown zu einem bestimmten Zeitpunkt laufen zu lassen. Format: JJJJ-MM-TT SS:mm:ss; Stunden müssen im 24-Stunden-Format sein, Datum und Sekunden sind optional. Wenn das Datum in der Vergangenheit liegt passiert nichts. Beispiel: timer_set=2018-09-08 13:00:00 oder timer_set=15:00"
-	},
-	"Connection to TMI was lost. Next reconnection attempt in {{timeout}} seconds...": {
-		"de": "Verbindung zum TMI verloren. In {{timeout}} Sekunden wird ein neuer Verbindungsversuch versucht..."
-	},
-	"Connection to TMI was lost. Reconnecting...": {
-		"de": "Verbindung zum TMI verloren. Verbindung wird neu aufgebaut..."
-	},
-	"A message was deleted.": {
-		"de": "Eine Nachricht wurde gelöscht."
-	},
-	"Delete message": {
-		"de": "Nachricht löschen"
-	},
-	"Filter subscription messages": {
-		"de": "Abonnement-Nachrichten filtern"
-	},
-	"This filters out subscription messages from chat. They will still be displayed in the action stream if not disabled below.": {
-		"de": "Dieser Filter versteckt alle Abonnement-Nachrichten aus dem Chat. Sie werden weiterhin in der Benachrichtigungsleiste angezeigt wenn nicht unten deaktiviert."
-	},
-	"Emotes only": {
-		"de": "Nur Emotes"
-	},
-	"Followers only": {
-		"de": "Nur Follower"
-	},
-	"Slow mode": {
-		"de": "Langsamer Modus"
-	},
-	"Subscribers only": {
-		"de": "Nur Abonnenten"
-	},
-	"Show emote stream instead": {
-		"de": "Emote-Stream stattdessen anzeigen"
-	},
-	"Now that we have no emote spam you can display emotes in a single row stream below the chat to still get a feealing for the chat.": {
-		"de": "Da wir jetzt keinen Emote-Spam mehr haben, zeige die Emotes in einer Zeile unter dem Chat um weiterhin ein Gefühl für den Chat zu haben."
-	},
-	"Moderation": {
-		"de": "Moderation"
-	},
-	"Cockpit options": {
-		"de": "Cockpit-Einstellungen"
-	},
-	"Current channel": {
-		"de": "Aktuelle Kanal"
-	},
-	"Overwrite global settings with these": {
-		"de": "Globale Einstellungen mit diesen überschreiben"
-	},
-	"Classic chat": {
-		"de": "Klassischer Chat"
-	},
-	"Instead of positioning messages below the username and aligning badges to the right, this mode will give you a more classic twitch look, with badges in front of usernames and messages direcly inline.": {
-		"de": "Statt die Nachrichten immer unter dem Namen zu positionieren wird dieser Modus dir einen klassischen Twitch-Look bieten; die Abzeichen vor den Benutzernamen und die Nachricht direkt dahinter."
-	},
-	"Debug logging enabled": {
-		"de": "Debug-Aufzeichnung aktivieren"
-	},
-	"Enabling will result in a higher memory usage. This is only for debugging purposes.": {
-		"de": "Diese Option zu aktivieren resultiert in erhöter Speichernutzung. Dies ist nur zur Fehlerbehebung notwenig."
-	},
-	"was playing {{game}} last": {
-		"de": "spielte zuletzt {{game}}"
-	},
-	"Uninstall prepared": {
-		"de": "Deinstallation vorbereitet"
-	},
-	"Update prepared": {
-		"de": "Update vorbereitet"
-	},
-	"Apply changes and restart": {
-		"de": "Änderungen übernehmen und neustarten"
-	},
-	"Auto scrolling disabled. Click here to re-enable.": {
-		"de": "Automatisches scrollen deaktiviert. Hier klicken zum Reaktivieren."
-	},
-	"Marker was created at {{time}}": {
-		"de": "Marker bei {{time}} erstellt"
-	},
-	"No marker was created": {
-		"de": "Es wurde kein Marker erstellt"
-	},
-	"Clipped by {{user}}": {
-		"de": "Von {{user}} geclippt"
-	},
-	"{{broadcaster}} played {{game}}": {
-		"de": "{{broadcaster}} spielte {{game}}"
-	},
-	"{{viewsnum}} {{views||viewsnum}}": {
-		"de": "{{viewsnum}} {{views||viewsnum}}"
-	},
-	"views": {
-		"en": {
-			"0": "view",
-			"1": "views"
-		},
-		"de": {
-			"0": "Aufruf",
-			"1": "Aufrufe"
-		}
-	},
-	"An error occured": {
-		"de": "Ein Fehler ist aufgetreten"
-	},
-	"Check for updates": {
-		"de": "Auf Updates prüfen"
-	},
-	"Cloud": {
-		"de": "Cloud"
-	},
-	"Save settings in Cloud": {
-		"de": "Einstellungen in der Cloud speichern"
-	},
-	"Enabling this will allow you to save your settings in the cloud. You have to be logged in to twitch. All data is encrypted with the password below. Your twitch token is used to authenticate you, but is never stored on the remote server.": {
-		"de": "Mit dieser Option wird die Speicherung der Einstellungen in der Cloud aktiviert. Du musst bei Twitch angemeldet sein. Alle Daten werden mit dem Passwort unten verschlüsselt. Dein Twitch-Token wird benutzt um dich zu authentifizieren, wird aber niemals auf dem Server gespeichert."
-	},
-	"Cloud password": {
-		"de": "Cloud-Passwort"
-	},
-	"This password is used to en- and decrypt your settings.": {
-		"de": "Dieses Passwort wird verwendet um die Einstellungen zu ent- und verschlüsseln."
-	},
-	"The cloud save on the server is <b>newer</b> than yours. Do you want to load the settings from the cloud or overwrite them with you local settings?": {
-		"de": "Die Cloud-Daten auf dem Server sind <b>neuer</b> als deine. Möchtest du die Einstellungen von der Cloud laden und die lokalen Einstellungen verwerfen?"
-	},
-	"The cloud save on the server is <b>older</b> than yours. Do you want to load the settings from the cloud or overwrite them with you local settings?": {
-		"de": "Die Cloud-Daten auf dem Server sind <b>älter</b> als deine. Möchtest du die Einstellungen von der Cloud laden und die lokalen Einstellungen verwerfen?"
-	},
-	"Load settings from cloud and overwrite local": {
-		"de": "Einstellungen aus der Cloud laden und lokale überschreiben"
-	},
-	"Keep current settings and overwrite cloud": {
-		"de": "Lokale Einstellungen beibehalten und Cloud-Daten überschreiben"
-	},
-	"Show newest messages on top": {
-		"de": "Zeige neuste Nachrichten oben an"
-	},
-	"Instead of adding new messages to the bottom, new messages will be added to the top of chat.": {
-		"de": "Statt die Nachrichten unten an den Chat zu hängen werden neue Nachrichten oberhalb hinzugefügt."
-	},
-	"Filter user": {
-		"de": "Benutzer filtern"
-	},
-	"List users (or bots) that should be filtered. Comma seperated.": {
-		"de": "Benutzer (oder Bots) auflisten, die gefiltert werden sollen. Mit Komma getrennt."
-	},
-	"Embed chat": {
-		"de": "Eingebetteter Chat"
-	},
-	"Embed the orginal twitch chat instead of using the build in one. Some features will not work, like filters, custom emote addons, highlights, etc.": {
-		"de": "Bette den original Twitch-Chat ein anstatt den eingebauten zu verwenden. Einige Features werden damit nicht funktionieren, wie zum Beispiel Filter, Emote-Addons, Highlights, usw."
-	},
-	"AutoMod rejected this message based on '{{reason}}'": {
-		"de": "AutoMod hat diese Nachricht aufgrund von '{{reason}}' abgelehnt"
-	},
-	"Approve": {
-		"de": "Genehmigen"
-	},
-	"Deny": {
-		"de": "Ablehnen"
-	},
-	"{{moderator}} approved a message by {{author}}": {
-		"de": "{{moderator}} hat eine Nachricht von {{author}} genehmigt"
-	},
-	"{{moderator}} denied a message by {{author}}": {
-		"de": "{{moderator}} hat eine Nachricht von {{author}} abgelehnt"
-	},
-	"{{moderator}} executed {{command}}": {
-		"de": "{{moderator}} führte '{{command}}' aus"
-	},
-	"Do not use different colors for user names in chat": {
-		"de": "Keine Farben für Benutzernamen im Chat benutzen"
-	},
-	"The latest update requires you to re-login in to twitch to use the latest features. You were logged out automatically.": {
-		"de": "Für das aktuelle Update ist ein erneutes Einloggen in Twitch notwendig um die neusten Features zu nutzen. Du wurdest automatisch ausgeloggt."
-	},
-	"Commercials": {
-		"de": "Werbung"
-	},
-	"Commercial command": {
-		"de": "Werbe-Befehl"
-	},
-	"Commercial URL": {
-		"de": "Werbe-URL"
-	},
-	"Play a commercial on Twitch. The value defines that length of the commercial in seconds. Valid values are 30, 60, 90, 120, 150, and 180. After executing the command you cannot play another commercial for 8 minutes.": {
-		"de": "Startet Werbung auf Twitch. Der Wert definiert die Dauer der Werbung in Sekunden. Gültige Werte sind 30, 60, 90, 120, 150, und 180. Nachdem der Befehl ausgeführt wurde kann er für 8 Minuten nicht erneut verwendet werden."
-	},
-	"{{user}} redeemed {{reward}} for {{icon}} {{cost}}": {
-		"de": "{{user}} hat {{reward}} für {{icon}} {{cost}} erhalten"
+	"Available": {
+		"de": "Verfügbar"
+	},
+	"Restart tool for changes to take effect": {
+		"de": "Tool neustarten und Änderungen übernehmen"
 	},
 	"Addon sources": {
 		"de": "Addonquellen"
 	},
+	"No addons are currently installed.": {
+		"de": "Aktuell sind keine Addons installiert"
+	},
+	"Addon is incompatible": {
+		"de": "Addon ist inkompatibel"
+	},
+	"Update available": {
+		"de": "Update verfügbar"
+	},
+	"Updating": {
+		"de": "Lade Update"
+	},
+	"Update failed": {
+		"de": "Update fehlgeschlagen"
+	},
+	"Update ready to install": {
+		"de": "Update bereit zum Installieren"
+	},
+	"Uninstall failed": {
+		"de": "Deinstallation fehlgeschlagen"
+	},
+	"Addon ready to uninstall": {
+		"de": "Update bereit für Deinstallation"
+	},
+	"No more addons are available to install.": {
+		"de": "Keine weiteren Addons zur Installation verfügbar"
+	},
+	"Installing": {
+		"de": "Installiere"
+	},
+	"Install failed": {
+		"de": "Installation fehlgeschlagen"
+	},
+	"Author": {
+		"de": "Autor"
+	},
+	"Version": {
+		"de": "Version"
+	},
+	"Description": {
+		"de": "Beschreibung"
+	},
+	"Please select an addon on the left to view more information.": {
+		"de": "Bitte ein Addon auf der linken Seite wählen um mehr Informationen zu erhalten."
+	},
+	"{{count}} addons selected": {
+		"de": "{{count}} Addons ausgewählt"
+	},
+	"Update": {
+		"de": "Update"
+	},
+	"Uninstall": {
+		"de": "Deinstallieren"
+	},
+	"Install": {
+		"de": "Installieren"
+	},
 	"Add your own addon sources. One URL per line. Only secure connections are allowed (https).": {
 		"de": "Füge deine eigenen Addonquellen hinzu. Eine URL pro Zeile. Nur sichere Verbindungen sind erlaubt (https)."
 	},
-	"On": {
-		"de": "An"
+	"Save": {
+		"de": "Speichern"
 	},
-	"Off": {
-		"de": "Aus"
+	"TTVStreamerTool will restart to remove/update addons now.\nYou might see a command line window pop open.": {
+		"de": "TTVStreamerTool wird nun neustarten um Addons zu updaten/entfernen.\nEin Kommandozeilenfenster könnte dabei aufgehen."
+	},
+	"Global": {
+		"de": "Global"
+	},
+	"Language": {
+		"de": "Sprache"
+	},
+	"Please log in to twitch to use the TTVStreamerTool to its full potential.": {
+		"de": "Bitte logge in deinen Twitch-Account ein um alle Funktionen des TTVStreamerTool nutzen zu können."
+	},
+	"Login": {
+		"de": "Einloggen"
+	},
+	"Not logged in": {
+		"de": "Nich eingeloggt"
+	},
+	"Logged in and ready to use the TTVStreamerTool.": {
+		"de": "Eingeloggt und breit das TTVStreamerTool zu nutzen."
+	},
+	"Logout": {
+		"de": "Ausloggen"
+	},
+	"Waiting...": {
+		"de": "Warte..."
+	},
+	"Something is happening right now. Please wait.": {
+		"de": "Etwas passiert gerade. Bitte warten."
+	},
+	"Unknown": {
+		"de": "Unbekannt"
 	}
 }
