@@ -12,7 +12,8 @@
 			"*": ["node_modules/*"]
 		},
 		"removeComments": true,
-		"resolveJsonModule": true
+		"resolveJsonModule": true,
+		"declaration": true
 	},
 	"include": [
 		"src/**/*"

@@ -27,6 +27,7 @@ export default class Addons {
 		this.loadAddons = this.loadAddons.bind(this);
 		this.loadResporitory = this.loadResporitory.bind(this);
 		this.loadError = this.loadError.bind(this);
+		this.languageError = this.languageError.bind(this);
 
 		this.onUpdate = this.onUpdate.bind(this);
 		this.onUninstall = this.onUninstall.bind(this);
@@ -36,6 +37,7 @@ export default class Addons {
 		ipcMain.on('Addons.loadInstalled', this.loadAddons);
 		ipcMain.on('Addons.loadRepository', this.loadResporitory);
 		ipcMain.on('Addons.loadError', this.loadError);
+		ipcMain.on('Addons.languageError', this.languageError);
 
 		ipcMain.on('Addons.update', this.onUpdate);
 		ipcMain.on('Addons.uninstall', this.onUninstall);
@@ -120,17 +122,18 @@ export default class Addons {
 	async loadAddons() {
 		for(let i = 0; i < this.installedAddons.length; i++) {
 			let addon = this.installedAddons[i];
-			if(this.hasFlag(addon, 'loaded') || !this.hasFlag(addon, 'compatible')) continue;
+			if(this.hasFlag(addon, 'loaded') || !this.hasFlag(addon, 'compatible')) {
+				this.checkForRendererStuff(addon);
+				continue;
+			}
 			if(typeof(addon.path) === 'string') {
 				if(typeof(addon.main) === 'string') {
 					try {
-						let modpath = Path.relative(__dirname, Path.join(process.cwd(), Path.join(addon.path, addon.main.substring(0, addon.main.lastIndexOf('.'))))).replace(new RegExp('\\'+Path.sep, 'g'), '/');
+						let modpath = Path.relative(__dirname, Path.join(process.cwd(), addon.path, addon.main.substring(0, addon.main.lastIndexOf('.')))).replace(new RegExp('\\'+Path.sep, 'g'), '/');
 						require(modpath);
 						this.setFlag(this.installedAddons[i].addonid, 'loaded');
 
-						if(typeof(addon.renderer) === 'string') {
-							TTVST.mainWindow.ipcSend('Addons.load', addon.path, addon.renderer.substring(0, addon.renderer.lastIndexOf('.')));
-						}
+						this.checkForRendererStuff(addon);
 					} catch(e) {
 						logger.error(`[Addons] Addon (main) at ${addon.path} could not be loaded`);
 						logger.error(e);
@@ -154,6 +157,18 @@ export default class Addons {
 		this.sendAddonUpdate();
 	}
 
+	checkForRendererStuff(addon: IAddon) {
+		fs.exists(Path.join(process.cwd(), addon.path, 'language.json'), (exists) => {
+			if(exists) {
+				TTVST.mainWindow.ipcSend('Addons.language', addon.path);
+			}
+
+			if(typeof(addon.renderer) === 'string') {
+				TTVST.mainWindow.ipcSend('Addons.load', addon.path, addon.renderer.substring(0, addon.renderer.lastIndexOf('.')));
+			}
+		});
+	}
+
 	loadError(event: Electron.IpcMainEvent, addonpath: string, error: { code: string, message: string, stack: string }) {
 		for(let i = 0; i < this.installedAddons.length; i++) {
 			if(this.installedAddons[i].path === addonpath) {
@@ -165,6 +180,11 @@ export default class Addons {
 				break;
 			}
 		}
+	}
+
+	languageError(event: Electron.IpcMainEvent, addonpath: string, error: { code: string, message: string, stack: string }) {
+		logger.error(`[Addons] Addon language packat ${addonpath} could not be loaded`);
+		logger.error(error);
 	}
 
 	async loadResporitory(event: Electron.IpcMainEvent, url: string) {

@@ -39,8 +39,16 @@ export default class UI {
 	private root: HTMLElement = null;
 	private app: riot.RiotComponent<null, null> = null;
 
+	private components: Array<riot.RiotComponent> = [];
+
 	constructor(tool: TTVST) {
 		this.tool = tool;
+
+		const self = this;
+		riot.install((comp: riot.RiotComponent<any, any>): riot.RiotComponent<any, any> => {
+			self.registerComponent(comp);
+			return comp;
+		});
 
 		let appCmpnt = riot.component<null, null>(App);
 		this.app = appCmpnt(document.createElement('App'));
@@ -51,6 +59,17 @@ export default class UI {
 		this.root.appendChild(this.app.root);
 	}
 
+	registerComponent(component: riot.RiotComponent) {
+		if(this.components.indexOf(component) < 0) {
+			this.components.push(component);
+		}
+	}
+
+	update() {
+		for(let i = 0; i <this.components.length; i++) {
+			this.components[i].update();
+		}
+	}
 
 	openPage(page: string) {
 		this.pages.forEach((p: Page) => {

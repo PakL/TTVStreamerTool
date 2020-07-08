@@ -4,6 +4,7 @@ export interface IStatusObject {
 	status: 'error' | 'warn' | 'good';
 	title?: string;
 	info: string;
+	infoValues?: { [key: string]: string|number };
 	buttons?: Array<{
 		action: string;
 		icon: string;

@@ -11,6 +11,7 @@ import * as riot from 'riot';
 import AddonsPageCmp from '../../../../dist/dev.pakl.ttvst/renderer/UI/Addons/AddonsPage';
 
 import _ttvst from '../TTVST';
+import { loggers } from 'winston';
 declare var TTVST: _ttvst;
 
 class AddonsPage extends Page {
@@ -25,6 +26,7 @@ class AddonsPage extends Page {
 		super('Addons');
 
 		this.loadAddon = this.loadAddon.bind(this);
+		this.loadLanguage = this.loadLanguage.bind(this);
 		this.updateAddons = this.updateAddons.bind(this);
 
 		this.onBatchFailed = this.onBatchFailed.bind(this);
@@ -32,6 +34,7 @@ class AddonsPage extends Page {
 		this.onRepositoryChange = this.onRepositoryChange.bind(this);
 
 		ipcRenderer.on('Addons.load', this.loadAddon);
+		ipcRenderer.on('Addons.language', this.loadLanguage);
 		ipcRenderer.on('Addons.update', this.updateAddons);
 
 		ipcRenderer.on('Addons.batchFailed', this.onBatchFailed);
@@ -54,6 +57,18 @@ class AddonsPage extends Page {
 			this.addonspage.setRepositoryCallback(this.onRepositoryChange);
 		}
 		return this.addonspage.root;
+	}
+
+	async loadLanguage(event: Electron.IpcRendererEvent, addonpath: string) {
+		try {
+			let langPath = Path.relative(__dirname, Path.join(addonpath, 'language.json')).replace(new RegExp('\\'+Path.sep, 'g'), '/')
+			let langData = require(langPath);
+
+			TTVST.i18n._locale = Object.assign(langData, TTVST.i18n._locale);
+			TTVST.ui.update();
+		} catch(e) {
+			ipcRenderer.send('Addons.languageError', addonpath, { code: e.code, message: e.message, stack: e.stack });
+		}
 	}
 
 	async loadAddon(event: Electron.IpcRendererEvent, addonpath: string, addonrenderer: string) {

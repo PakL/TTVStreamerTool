@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events'
 import { ipcRenderer } from 'electron'
+import { IBroadcastFilter, IBroadcastTrigger, IBroadcastAction } from '../main/BroadcastMain';
 
 let _instance: Broadcast = null
 
@@ -8,6 +9,16 @@ interface IipcSubscriptions {
 }
 
 class Broadcast extends EventEmitter {
+
+	static getTrigger(where: IBroadcastFilter = {}): Array<IBroadcastTrigger> {
+		let triggers: Array<IBroadcastTrigger> = ipcRenderer.sendSync('broadcast.getTrigger', where);
+		return triggers;
+	}
+
+	static getAction(where: IBroadcastFilter = {}): Array<IBroadcastAction> {
+		let actions: Array<IBroadcastAction> = ipcRenderer.sendSync('broadcast.getAction', where);
+		return actions;
+	}
 
 	static get instance(): Broadcast {
 		if(_instance === null) {
@@ -19,7 +30,7 @@ class Broadcast extends EventEmitter {
 	private ipcSubscriptions: IipcSubscriptions = {}
 
 	constructor() {
-		super()
+		super();
 
 		const self = this
 		ipcRenderer.on('broadcast.on', (event: Electron.IpcRendererEvent, channel: string) => {
