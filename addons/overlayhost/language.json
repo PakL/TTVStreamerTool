@@ -1,0 +1,20 @@
+{
+	"Overlay Server": {
+		"de": "Overlay Server"
+	},
+	"Server not running yet.": {
+		"de": "Server läuft noch nicht."
+	},
+	"Server could not be started. The network port {{port}} is already in use.": {
+		"de": "Server konnte nicht gestartet werden. Der Netzwerkport {{port}} ist bereits belegt."
+	},
+	"Server encountered an error. See more details in the error log.": {
+		"de": "Ein Fehler ist aufgetreten. Mehr Details sind im Error-Log zu finden."
+	},
+	"Server is running and listening on port {{port}}.": {
+		"de": "Server läuft und hört auf Port {{port}}."
+	},
+	"Server was stopped.": {
+		"de": "Server wurde angehalten."
+	}
+}

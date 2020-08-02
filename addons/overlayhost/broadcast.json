@@ -1,0 +1,133 @@
+{
+	"triggers": [
+		{
+			"label": "Status change",
+			"addon": "Overlay Host",
+			"description": "Notifys when the overlay host server goes online or offline",
+			"channel": "app.ttvst.overlay.statuschange",
+			"arguments": [{
+				"label": "online",
+				"description": "Is the server online now?",
+				"type": "boolean"
+			}]
+		},
+		{
+			"label": "Volume change",
+			"addon": "Overlay Host",
+			"description": "When the music overlay volume changes this triggers",
+			"channel": "app.ttvst.overlay.music.volumechange",
+			"arguments": [{
+				"label": "volume",
+				"description": "The current volume between 0 and 100",
+				"type": "number"
+			},{
+				"label": "ease",
+				"description": "Whether or not the volume should ease",
+				"type": "number"
+			}]
+		},
+		{
+			"label": "Playlist changed",
+			"addon": "Overlay Host",
+			"description": "When the Youtube playlist changes this triggers",
+			"channel": "app.ttvst.overlay.music.playlistchange",
+			"arguments": [{
+				"label": "playlistid",
+				"description": "The new playlist id",
+				"type": "string"
+			}]
+		},
+		{
+			"label": "Skipping song",
+			"addon": "Overlay Host",
+			"description": "This is triggered if the user requested to skip a song",
+			"channel": "app.ttvst.overlay.music.skipsongrequest",
+			"arguments": []
+		}
+	],
+	"actions": [
+		{
+			"label": "Start server",
+			"addon": "Overlay Host",
+			"description": "Starts the overlay host server",
+			"channel": "app.ttvst.overlay.start",
+			"parameters": []
+		},
+		{
+			"label": "Stop server",
+			"addon": "Overlay Host",
+			"description": "Stops the overlay host server",
+			"channel": "app.ttvst.overlay.stop",
+			"parameters": []
+		},
+		{
+			"label": "Get server status",
+			"addon": "Overlay Host",
+			"description": "Returns the current server status",
+			"channel": "app.ttvst.overlay.getStatus",
+			"parameters": [],
+			"result": {
+				"label": "online",
+				"description": "Is the server online now?",
+				"type": "boolean"
+			}
+		},
+		{
+			"label": "Get volume",
+			"addon": "Overlay Host",
+			"description": "Gets volume with an optional ease effect",
+			"channel": "app.ttvst.overlay.music.getVolume",
+			"parameters": [],
+			"result": {
+				"label": "volume",
+				"description": "Volume - a number between 0 and 100",
+				"type": "number"
+			}
+		},
+		{
+			"label": "Set volume",
+			"addon": "Overlay Host",
+			"description": "Sets volume with an optional ease effect",
+			"channel": "app.ttvst.overlay.music.setVolume",
+			"parameters": [{
+				"label": "volume",
+				"description": "Volume - a number between 0 and 100",
+				"type": "number"
+			},{
+				"label": "ease",
+				"description": "Ease the volume transition",
+				"type": "boolean"
+			}]
+		},
+		{
+			"label": "Get Youtube playlist",
+			"addon": "Overlay Host",
+			"description": "Returns the current youtube playlist",
+			"channel": "app.ttvst.overlay.music.getPlaylist",
+			"parameters": [],
+			"result": {
+				"label": "playlist",
+				"description": "The current Youtube playlist id",
+				"type": "string"
+			}
+		},
+		{
+			"label": "Set Youtube playlist",
+			"addon": "Overlay Host",
+			"description": "Sets a new youtube playlist",
+			"channel": "app.ttvst.overlay.music.setPlaylist",
+			"parameters": [{
+				"label": "playlistid",
+				"description": "The Youtube playlist id",
+				"type": "string"
+			}]
+		},
+		{
+			"label": "Skip current track",
+			"addon": "Overlay Host",
+			"description": "Skips the current playing track",
+			"channel": "app.ttvst.overlay.music.skipTrack",
+			"parameters": []
+		}
+	]
+}

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>PausenMusik</title>
+		<script type="application/javascript" src="jquery.js"></script>
+		<script type="application/javascript" src="client_websocket.js"></script>
+		<script type="application/javascript">
+		</script>
+		<style type="text/css">
+			html, body {
+				background: transparent;
+				width: 100%;
+				height: 100%;
+				padding: 0px;
+				margin: 0px;
+				text-align: center;
+				overflow: hidden;
+				font-family: "Anago", Sans-serif;
+			}
+			#video_title {
+				display: inline-block;
+				white-space: nowrap;
+				font-weight: 400;
+				font-size: 100%;
+				color: white;
+				-webkit-text-stroke: 2px black;
+				text-stroke: 2px black;
+			}
+			#player {
+				position: absolute;
+				top: -600px;
+				left: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="video_title"></div>
+		<div id="player"></div>
+
+		<script type="application/javascript">
+			var youtubePlaylistId = "";
+			var volume = 50; // 0 - 100
+			var hash = document.location.hash.substr(1);
+			var args = hash.split("&");
+
+			var youtubeAPILoaded = false;
+			var websocketConnected = false;
+
+			var ws = new WebsocketHelper();
+			ws.on(':open', () => {
+				websocketConnected = true;
+				if(youtubeAPILoaded) {
+					getMusicConfig();
+				}
+			});
+			ws.on(':close', () => { websocketConnected = false; });
+
+			ws.on('app.ttvst.overlay.music.volumechange', function(data){
+				var vol = data.volume;
+
+				if(vol < 0) vol = 0;
+				if(vol > 100) vol = 100;
+
+				setVolume(vol, data.ease);
+			});
+			ws.on('app.ttvst.overlay.music.playlistchange', function(data){
+				youtubePlaylistId = data.playlist;
+				if(ready) {
+					player.loadPlaylist(youtubePlaylistId);
+				}
+			});
+			ws.on('app.ttvst.overlay.music.skipsongrequest', function(msg){
+				if(ready) {
+					player.nextVideo();
+				}
+			});
+
+			$(document).ready(function(){
+				if(args.indexOf("black") >= 0) {
+					$("#video_title").css({"color": "black", "-webkit-text-stroke": "2px white", "text-stroke": "2px white"});
+				}
+			});
+
+			var tag = document.createElement('script');
+			var ready = false; var paused = true; var reshuffled = false;
+
+			tag.src = "https://www.youtube.com/iframe_api";
+			var firstScriptTag = document.getElementsByTagName('script')[0];
+			firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+			var player;
+			function onYouTubeIframeAPIReady() {
+				youtubeAPILoaded = true;
+				if(websocketConnected) {
+					getMusicConfig();
+				}
+			}
+
+			function getMusicConfig() {
+				ws.execute('app.ttvst.overlay.music.getPlaylist', {}, (playlist) => {
+					if(playlist !== null) youtubePlaylistId = playlist;
+					ws.execute('app.ttvst.overlay.music.getVolume', {}, (vol) => {
+						if(vol !== null) volume = vol;
+						initYoutubePlayer();
+					});
+				});
+			}
+
+			function initYoutubePlayer() {
+				if(ready) {
+					$('#player').remove();
+					$("#video_title").html('');
+					$('#video_title').after($('<div />').attr('id', 'player'));
+					ready = false;
+				}
+
+
+				player = new YT.Player("player", {
+					height: "390",
+					width: "640",
+					videoId: "",
+					playerVars: {
+						"controls": 1,
+						"enablejsapi": 1,
+						"list": youtubePlaylistId,
+						"listType": "playlist",
+						"loop": 1
+					},
+					events: {
+						"onReady": onPlayerReady,
+						"onStateChange": onPlayerStateChange
+					}
+				});
+				ready = true;
+			}
+
+			var starting = true;
+			function onPlayerReady(event) {
+				player.setVolume(volume);
+				if(volume > 0) {
+					player.playVideo();
+					paused = false;
+				}
+			}
+
+			function onPlayerStateChange(event) {
+				if(starting && event.data < 0) {
+					player.setShuffle(true);
+					reshuffled = true;
+				}
+				if(reshuffled && event.data == YT.PlayerState.PLAYING) {
+					player.nextVideo();
+					reshuffled = false;
+				} else if (event.data == YT.PlayerState.PLAYING) {
+					var v = player.getVideoData();
+					$("#video_title").html("Aktuell läuft: <b>" + v.title + "</b>");
+					resizeFont();
+				}
+				if(starting || event.data == YT.PlayerState.ENDED) {
+					starting = false;
+				}
+			}
+
+			var cancelEase = null;
+			var volumeEase = function(start, target, duration, callback, timeRemain) {
+				if(typeof(timeRemain) !== 'number') timeRemain = duration
+				if(typeof(start) !== 'number' || typeof(target) !== 'number' || typeof(duration) !== 'number') {
+					return
+				}
+				if(cancelEase === true) {
+					cancelEase = null;
+					return;
+				} else if(cancelEase === null) {
+					cancelEase = false;
+				}
+
+				if(timeRemain <= 0) {
+					player.setVolume(target);
+					volume = target;
+					if(target === 0) {
+						player.pauseVideo();
+						paused = true;
+					}
+					cancelEase = null
+					if(typeof(callback) == 'function') callback()
+					return
+				}
+
+				let startStamp = new Date().getTime()
+				let position = (target - start) * (1 / duration * (duration - timeRemain))
+				player.setVolume((start + position));
+				volume = (start + position);
+				window.setTimeout(function(){
+					volumeEase(start, target, duration, callback, timeRemain - (new Date().getTime() - startStamp))
+				}, 50)
+			}
+
+			var setVolume = function(vol, ease) {
+				if(typeof(ease) !== 'boolean') {
+					ease = false;
+				}
+
+				if(cancelEase === false) {
+					cancelEase = true;
+				}
+
+				if(ease) {
+					if(cancelEase === true) {
+						window.setTimeout(() => {
+							volumeEase(volume, vol, 500);
+						}, 60);
+					} else {
+						volumeEase(volume, vol, 500);
+					}
+				} else {
+					if(vol > 0 && paused) {
+						player.playVideo();
+						paused = false;
+					}
+
+					volume = vol;
+					player.setVolume(volume);
+					if(volume == 0) {
+						player.pauseVideo();
+						paused = true;
+					}
+				}
+			}
+
+			var resizeFont = function() {
+				var e = $("#video_title");
+				var fontsize = 1;
+				e.css("font-size", fontsize + "px");
+				var width = e.width();
+				var max = $("body").width();
+				while(width < max && fontsize < 200) {
+					fontsize++;
+					e.css("font-size", fontsize + "px");
+					width = e.width();
+				}
+				fontsize--;
+				e.css("font-size", fontsize + "px");
+			};
+		</script>
+	</body>
+</html>
