@@ -37,7 +37,7 @@ class Startpage {
 		ipcMain.handle('cockpit.get-user', this.onGetUser);
 
 		this.broadcastStatus({ key: 'app.ttvst.tmi', icon: 'CannedChat', status: 'error', title: 'Twitch Messaging Interface (TMI)', info: 'Disconnected.', buttons: [{ icon: 'PlugConnected', action: 'cockpit.tmi.connect', title: 'Connect' }]});
-		Broadcast.instance.on('broadcast.on', this.repeatBroadcast);
+		Broadcast.instance.on('startpage-ready', this.repeatBroadcast);
 
 		ipcMain.on('cockpit.tmi.connect', this.onConnectTMI);
 		ipcMain.on('cockpit.tmi.disconnect', this.onDisconnectTMI);
@@ -132,9 +132,7 @@ class Startpage {
 		}
 	}
 
-	repeatBroadcast(channel: string) {
-		if(channel !== 'cockpit.status') return;
-
+	repeatBroadcast() {
 		for(let i = 0; i < this.currentStatus.length; i++) {
 			Broadcast.instance.emit('cockpit.status', this.currentStatus[i]);
 		}

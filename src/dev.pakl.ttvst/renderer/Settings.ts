@@ -5,14 +5,23 @@ const _storageRemoveHolder = window.localStorage.removeItem
 
 const availableLanguages = ['en', 'de']
 
-ipcRenderer.on('Settings.getBoolean', (event, name: string, defaultValue: boolean) => {
-	ipcRenderer.send('Settings.gotBoolean.' + name, getBoolean(name, defaultValue));
+ipcRenderer.on('Settings.getBoolean', (event, rid: string, name: string, defaultValue: boolean) => {
+	ipcRenderer.send(`Settings.gotBoolean.${name}.${rid}`, getBoolean(name, defaultValue));
 });
-ipcRenderer.on('Settings.getString', (event, name: string, defaultValue: string) => {
-	ipcRenderer.send('Settings.gotString.' + name, getString(name, defaultValue));
+ipcRenderer.on('Settings.setBoolean', (event, rid: string, name: string, value: boolean) => {
+	ipcRenderer.send(`Settings.sotBoolean.${name}.${rid}`, setBoolean(name, value));
 });
-ipcRenderer.on('Settings.getJSON', (event, name: string, defaultValue: Object) => {
-	ipcRenderer.send('Settings.gotJSON.' + name, getJSON(name, defaultValue));
+ipcRenderer.on('Settings.getString', (event, rid: string, name: string, defaultValue: string) => {
+	ipcRenderer.send(`Settings.gotString.${name}.${rid}`, getString(name, defaultValue));
+});
+ipcRenderer.on('Settings.setString', (event, rid: string, name: string, value: string) => {
+	ipcRenderer.send(`Settings.sotString.${name}.${rid}`, setString(name, value));
+});
+ipcRenderer.on('Settings.getJSON', (event, rid: string, name: string, defaultValue: Object) => {
+	ipcRenderer.send(`Settings.gotJSON.${name}.${rid}`, getJSON(name, defaultValue));
+});
+ipcRenderer.on('Settings.setJSON', (event, rid: string, name: string, value: Object) => {
+	ipcRenderer.send(`Settings.sotJSON.${name}.${rid}`, setJSON(name, value));
 });
 
 export function language(lang?: string) {

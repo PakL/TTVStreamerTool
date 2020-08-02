@@ -8,6 +8,7 @@ import winston from 'winston';
 import TTVSTMain from '../TTVSTMain';
 import { IAddon, AddonFlag } from './AddonsTypes';
 import got from 'got';
+import BroadcastMain from '../BroadcastMain';
 
 declare var logger: winston.Logger;
 declare var TTVST: TTVSTMain;
@@ -134,6 +135,7 @@ export default class Addons {
 						this.setFlag(this.installedAddons[i].addonid, 'loaded');
 
 						this.checkForRendererStuff(addon);
+						this.checkForBroadcastStuff(addon);
 					} catch(e) {
 						logger.error(`[Addons] Addon (main) at ${addon.path} could not be loaded`);
 						logger.error(e);
@@ -165,6 +167,31 @@ export default class Addons {
 
 			if(typeof(addon.renderer) === 'string') {
 				TTVST.mainWindow.ipcSend('Addons.load', addon.path, addon.renderer.substring(0, addon.renderer.lastIndexOf('.')));
+			}
+		});
+	}
+
+	checkForBroadcastStuff(addon: IAddon) {
+		fs.readFile(Path.join(process.cwd(), addon.path, 'broadcast.json'), { encoding: 'utf8' }, (err: NodeJS.ErrnoException, data: string) => {
+			if(err) {
+				logger.error(err);
+				return;
+			}
+
+			try {
+				let broadcastData = JSON.parse(data);
+				if(Array.isArray(broadcastData.triggers)) {
+					for(let i = 0; i < broadcastData.triggers.length; i++) {
+						BroadcastMain.registerTrigger(broadcastData.triggers[i]);
+					}
+				}
+				if(Array.isArray(broadcastData.actions)) {
+					for(let i = 0; i < broadcastData.actions.length; i++) {
+						BroadcastMain.registerAction(broadcastData.actions[i]);
+					}
+				}
+			} catch(e) {
+				logger.error(e);
 			}
 		});
 	}

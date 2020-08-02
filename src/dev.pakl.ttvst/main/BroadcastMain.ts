@@ -1,16 +1,17 @@
 import { EventEmitter } from 'events'
 import { ipcMain, webContents } from 'electron'
+import { resolve } from 'dns';
+import { exec } from 'child_process';
+import winston from 'winston';
 
+declare var logger: winston.Logger;
 let _instance: BroadcastMain = null
 
-interface IipcSubscriptions {
-	[senderId: number]: Array<string>
-}
-
+export type IBroadcastArgumentType = 'number' | 'string' | 'boolean' | 'file' | 'list' | 'assoc';
 export interface IBroadcastArgument {
 	label: string;
 	description: string;
-	type: 'number' | 'string' | 'boolean' | 'file' | 'list' | '';
+	type: IBroadcastArgumentType;
 }
 
 export interface IBroadcastTrigger {
@@ -27,6 +28,7 @@ export interface IBroadcastAction {
 	description: string;
 	channel: string;
 	parameters: Array<IBroadcastArgument>;
+	result?: IBroadcastArgument;
 }
 
 export interface IBroadcastFilter {
@@ -79,7 +81,7 @@ class BroadcastMain extends EventEmitter {
 		if(triggers.length > 0) {
 			let trigger = triggers[0];
 			for(let i = 0; i < trigger.arguments.length; i++) {
-				if(i > args.length) {
+				if(i < args.length) {
 					result[trigger.arguments[i].label] = args[i];
 				}
 			}
@@ -138,52 +140,36 @@ class BroadcastMain extends EventEmitter {
 		return _instance;
 	}
 
-	private ipcSubscriptions: IipcSubscriptions = {}
-
 	constructor() {
-		super()
+		super();
 
-		this.cleanupSubscriptions = this.cleanupSubscriptions.bind(this);
+		this.setMaxListeners(100);
 
 		const self = this
-		ipcMain.on('broadcast.on', (event: Electron.IpcMainEvent, channel: string) => {
-			if(typeof(self.ipcSubscriptions[event.sender.id]) === 'undefined') {
-				self.ipcSubscriptions[event.sender.id] = [];
-				event.sender.once('crashed', self.cleanupSubscriptions);
-				event.sender.once('destroyed', self.cleanupSubscriptions);
-			}
-
-			if(self.ipcSubscriptions[event.sender.id].indexOf(channel) < 0) {
-				self.ipcSubscriptions[event.sender.id].push(channel);
-			}
-
-			self.emit('broadcast.on', channel);
-		});
-
-		ipcMain.on('broadcast.off', (event: Electron.IpcMainEvent, channel: string) => {
-			if(typeof(self.ipcSubscriptions[event.sender.id]) !== 'undefined') {
-				let index = self.ipcSubscriptions[event.sender.id].indexOf(channel);
-				if(index >= 0) {
-					self.ipcSubscriptions[event.sender.id].splice(index, 1);
-				}
-			}
-		});
 
 		ipcMain.on('broadcast', (event: Electron.IpcMainEvent, channel: string, ...args: any[]) => {
 			self.emitIpc(channel, ...args);
 		});
+
+		ipcMain.on('broadcast.execute', (event: Electron.IpcMainEvent, channel: string, ...args: any[]) => {
+			let listener = self.listeners(channel);
+			for(let i = 0; i < listener.length; i++) {
+				listener[i](...args);
+			}
+		});
+
+		ipcMain.on('broadcast.response', (event: Electron.IpcMainEvent, executeId: string, result: any) => {
+			self.emitIpc(`broadcast.response.${executeId}`, result);
+		});
+
 	}
 
 	private broadcastToAll(channel: string, event: string, ...args: any[]) {
 		let r = false;
 		let allContents = webContents.getAllWebContents()
 		for(let i = 0; i < allContents.length; i++) {
-			if(typeof(this.ipcSubscriptions[allContents[i].id]) !== 'undefined') {
-				if(this.ipcSubscriptions[allContents[i].id].indexOf(event) >= 0) {
-					allContents[i].send(channel, event, ...args);
-					r = true;
-				}
-			}
+			allContents[i].send(channel, event, ...args);
+			r = true;
 		}
 		return r;
 	}
@@ -200,45 +186,42 @@ class BroadcastMain extends EventEmitter {
 		return super.emit(event, ...args);
 	}
 
+	execute(channel: string, ...args: any[]): Promise<any|void> {
+		const self = this;
+		return new Promise<any>((resolve, reject) => {
+			let actions = BroadcastMain.getAction({ channel });
+			if(actions.length >= 1) {
+				let action = actions[0];
+				if(typeof(action.result) !== 'undefined') {
+					let hrtime = process.hrtime();
+					let executeId = hrtime[0].toString(16) + '-' + hrtime[1].toString(16);
+					args.unshift(executeId);
 
-	cleanupSubscriptions() {
-		let allContents = webContents.getAllWebContents()
-		let keepContent = []
-		for(let i = 0; i < allContents.length; i++) {
-			if(!allContents[i].isDestroyed() && !allContents[i].isCrashed()) {
-				keepContent.push(allContents[i].id);
+					let waiting = true;
+					this.once(`broadcast.response.${executeId}`, (result: any) => {
+						if(!waiting) return;
+						waiting = false;
+						resolve(result);
+					});
+					setTimeout(() => {
+						if(!waiting) return;
+						waiting = false;
+						reject(new Error('Execution timed out'));
+					}, 10000);
+				} else {
+					resolve();
+				}
+				self.emitIpc(channel, ...args);
+				self.broadcastToAll('broadcast.execute', channel, ...args);
+			} else {
+				reject(new Error('Unknown action channel'));
 			}
-		}
-
-		for(let contentId of Object.keys(this.ipcSubscriptions)) {
-			if(keepContent.indexOf(parseInt(contentId)) < 0) {
-				delete this.ipcSubscriptions[parseInt(contentId)];
-			}
-		}
+		});
 	}
 
-	on(event: string | symbol, listener: (...args: any[]) => void): this {
-		super.on(event, listener);
-		if(typeof(event) === 'string' && !event.startsWith('broadcast.')) {
-			this.broadcastToAll('broadcast.on', event);
-		}
-		return this;
-	}
-
-	once(event: string | symbol, listener: (...args: any[]) => void): this {
-		super.once(event, listener);
-		if(typeof(event) === 'string' && !event.startsWith('broadcast.')) {
-			this.broadcastToAll('broadcast.on', event);
-		}
-		return this;
-	}
-
-	off(event: string | symbol, listener: (...args: any[]) => void): this {
-		super.once(event, listener);
-		if(typeof(event) === 'string' && !event.startsWith('broadcast.')) {
-			this.broadcastToAll('broadcast.off', event);
-		}
-		return this;
+	executeRespond(executeId: string, result: any) {
+		this.emitIpc(`broadcast.response.${executeId}`, result);
+		this.broadcastToAll('broadcast.response', executeId, result);
 	}
 
 }

@@ -4,10 +4,6 @@ import { IBroadcastFilter, IBroadcastTrigger, IBroadcastAction } from '../main/B
 
 let _instance: Broadcast = null
 
-interface IipcSubscriptions {
-	[senderId: number]: Array<string>
-}
-
 class Broadcast extends EventEmitter {
 
 	static getTrigger(where: IBroadcastFilter = {}): Array<IBroadcastTrigger> {
@@ -27,33 +23,26 @@ class Broadcast extends EventEmitter {
 		return _instance;
 	}
 
-	private ipcSubscriptions: IipcSubscriptions = {}
-
 	constructor() {
 		super();
 
+		this.setMaxListeners(100);
+
 		const self = this
-		ipcRenderer.on('broadcast.on', (event: Electron.IpcRendererEvent, channel: string) => {
-			if(typeof(self.ipcSubscriptions[event.senderId]) === 'undefined') {
-				self.ipcSubscriptions[event.senderId] = [];
-			}
-
-			if(self.ipcSubscriptions[event.senderId].indexOf(channel) < 0) {
-				self.ipcSubscriptions[event.senderId].push(channel);
-			}
-		});
-
-		ipcRenderer.on('broadcast.off', (event: Electron.IpcRendererEvent, channel: string) => {
-			if(typeof(self.ipcSubscriptions[event.senderId]) !== 'undefined') {
-				let index = self.ipcSubscriptions[event.senderId].indexOf(channel);
-				if(index >= 0) {
-					self.ipcSubscriptions[event.senderId].splice(index, 1);
-				}
-			}
-		});
 
 		ipcRenderer.on('broadcast', (event: Electron.IpcRendererEvent, channel: string, ...args: any[]) => {
 			self.emitIpc(channel, ...args);
+		});
+
+		ipcRenderer.on('broadcast.execute', (event: Electron.IpcRendererEvent, channel: string, ...args: any[]) => {
+			let listener = self.listeners(channel);
+			for(let i = 0; i < listener.length; i++) {
+				listener[i](...args);
+			}
+		});
+
+		ipcRenderer.on('broadcast.response', (event: Electron.IpcRendererEvent, executeId: string, result: any) => {
+			self.emitIpc(`broadcast.response.${executeId}`, result);
 		});
 	}
 
@@ -63,46 +52,50 @@ class Broadcast extends EventEmitter {
 
 		if(typeof(event) !== 'string') return r;
 
-		for(let sender of Object.keys(this.ipcSubscriptions)) {
-			let senderId = parseInt(sender);
-			if(this.ipcSubscriptions[senderId].indexOf(event) < 0) continue;
-			if(senderId > 0) {
-				ipcRenderer.sendTo(senderId, 'broadcast', event, ...args);
-				r = true;
-			} else {
-				ipcRenderer.send('broadcast', event, ...args);
-				r = true;
-			}
-		}
-		return r;
+		ipcRenderer.send('broadcast', event, ...args);
+		return true;
 	}
 
 	emitIpc(event: string, ...args: any[]): boolean {
 		return super.emit(event, ...args);
 	}
 
-	on(event: string | symbol, listener: (...args: any[]) => void): this {
-		super.on(event, listener);
-		if(typeof(event) === 'string' && !event.startsWith('broadcast.')) {
-			ipcRenderer.send('broadcast.on', event);
-		}
-		return this;
+	execute(channel: string, ...args: any[]): Promise<any|void> {
+		const self = this;
+		return new Promise<any>((resolve, reject) => {
+			let actions = Broadcast.getAction({ channel });
+			if(actions.length >= 1) {
+				let action = actions[0];
+				if(typeof(action.result) !== 'undefined') {
+					let hrtime = process.hrtime();
+					let executeId = hrtime[0].toString(16) + '-' + hrtime[1].toString(16);
+					args.unshift(executeId);
+
+					let waiting = true;
+					this.once(`broadcast.response.${executeId}`, (result: any) => {
+						if(!waiting) return;
+						waiting = false;
+						resolve(result);
+					});
+					setTimeout(() => {
+						if(!waiting) return;
+						waiting = false;
+						reject(new Error('Execution timed out'));
+					}, 10000);
+				} else {
+					resolve();
+				}
+				self.emitIpc(channel, ...args);
+				ipcRenderer.send('broadcast.execute', channel, ...args);
+			} else {
+				reject(new Error('Unknown action channel'));
+			}
+		});
 	}
 
-	once(event: string | symbol, listener: (...args: any[]) => void): this {
-		super.once(event, listener);
-		if(typeof(event) === 'string' && !event.startsWith('broadcast.')) {
-			ipcRenderer.send('broadcast.on', event);
-		}
-		return this;
-	}
-
-	off(event: string | symbol, listener: (...args: any[]) => void): this {
-		super.once(event, listener);
-		if(typeof(event) === 'string' && !event.startsWith('broadcast.')) {
-			ipcRenderer.send('broadcast.off', event);
-		}
-		return this;
+	executeRespond(executeId: string, result: any) {
+		this.emitIpc(`broadcast.response.${executeId}`, result);
+		ipcRenderer.send('broadcast.response', executeId, result);
 	}
 
 }

@@ -32,6 +32,7 @@ class Startpage extends Page {
 		});
 
 		Broadcast.instance.on('cockpit.status', this.onStatusUpdate);
+		Broadcast.instance.emit('startpage-ready');
 	}
 
 	get icon(): string {
