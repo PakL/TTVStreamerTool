@@ -70,15 +70,6 @@
 			},
 
 			resetSets() {
-				let sets = this.$$('settingsset');
-				for(let i = 0; i < sets.length; i++) {
-					if(i == 0) {
-						sets[i].style.display = 'initial';
-					} else {
-						sets[i].style.display = 'none';
-					}
-				}
-				
 				let setLinks = this.$$('.nav ul li a');
 				for(let i = 0; i < setLinks.length; i++) {
 					if((this.currentset.length == 0 && i == 0) || (this.currentset == setLinks[i].dataset.key)) {
