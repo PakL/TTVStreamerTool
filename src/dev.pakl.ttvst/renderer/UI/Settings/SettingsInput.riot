@@ -68,6 +68,8 @@
 					for(let i = 0; i < options.selection.length; i++) {
 						let sel = options.selection[i];
 						let optionElement = document.createElement('option')
+						if(typeof(sel.fonteqkey) !== 'boolean') sel.fonteqkey = false;
+						if(sel.fonteqkey) { optionElement.style.fontFamily = sel.key }
 						optionElement.value = sel.key
 						optionElement.innerText = this.__(sel.text)
 						if(selectedIndex == sel.key) {

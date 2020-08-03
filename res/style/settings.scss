@@ -21,6 +21,12 @@ input:disabled, input:read-only {
 input[type=range] {
 	padding: 3px 0;
 }
+input[type=color] {
+	border: 0;
+	padding: 0;
+	width: 70px;
+	height: 30px;
+}
 
 button {
 	background: $accentColor;
