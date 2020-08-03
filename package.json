@@ -21,30 +21,30 @@
 	"dependencies": {
 		"@types/node": "12.12.6",
 		"@types/sass": "1.16.0",
-		"@types/ws": "7.2.5",
+		"@types/ws": "7.2.6",
 		"bufferutil": "4.0.1",
 		"compare-versions": "3.6.0",
 		"dateformat": "3.0.3",
 		"electron-squirrel-startup": "1.0.0",
 		"fluent-reveal-effect": "1.1.1",
-		"follow-redirects": "1.12.0",
-		"got": "11.3.0",
+		"follow-redirects": "1.12.1",
+		"got": "11.5.1",
 		"i18n-nodejs": "3.0.0",
 		"office-ui-fabric-core": "11.0.0",
 		"randexp": "0.5.3",
-		"riot": "4.13.2",
-		"sass": "1.26.8",
+		"riot": "4.13.4",
+		"sass": "1.26.10",
 		"sass-yiq": "1.0.0",
 		"stringz": "2.1.0",
 		"utf-8-validate": "5.0.2",
-		"winston": "3.2.1",
-		"ws": "7.2.5"
+		"winston": "3.3.3",
+		"ws": "7.3.1"
 	},
 	"devDependencies": {
-		"electron": "9.0.4",
+		"electron": "9.1.2",
 		"electron-winstaller": "4.0.0",
-		"typescript": "3.9.5",
+		"typescript": "3.9.7",
 		"@riotjs/cli": "4.0.3",
-		"@riotjs/compiler": "4.9.2"
+		"@riotjs/compiler": "4.9.3"
 	}
 }
