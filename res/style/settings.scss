@@ -18,6 +18,10 @@ input:disabled, input:read-only {
 	color: darken(#ffffff, 40%);
 	border: 2px solid #aaaaaa;
 }
+input[type=range] {
+	padding: 3px 0;
+}
+
 button {
 	background: $accentColor;
 	font-family: $globalFontFamily;
