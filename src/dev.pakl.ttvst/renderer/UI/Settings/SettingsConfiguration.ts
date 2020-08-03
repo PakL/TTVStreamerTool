@@ -8,12 +8,12 @@ export interface ISettingsSetProps {
 export interface ISettingsProps {
 	setting: string;
 	default: string | number | boolean;
-	type: 'select' | 'toggle' | 'checkbox' | 'separator' | 'text' | 'password' | 'number' | 'range';
+	type: 'select' | 'toggle' | 'checkbox' | 'separator' | 'text' | 'password' | 'number' | 'range' | 'button';
 	label: string;
 	description: string;
 	selection?: Array<{ key: string, text: string }>;
-	onchange?: (ev: any) => void;
-	onclick?: (ev: any) => void;
+	oninputchange?: (ev: any) => void;
+	oninputclick?: (ev: any) => void;
 
 	min?: number;
 	max?: number;

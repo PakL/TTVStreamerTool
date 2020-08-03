@@ -39,8 +39,8 @@
 					label: '',
 					description: '',
 					selection: [],
-					onchange: null,
-					onclick: null,
+					oninputchange: null,
+					oninputclick: null,
 
 					min: 0,
 					max: 100,
@@ -78,10 +78,10 @@
 				} else if(options.type == 'button') {
 					inputElement = document.createElement('button')
 					inputElement.innerText = this.__(options.label)
-					if(typeof(options.onclick) !== 'function') {
+					if(typeof(options.oninputclick) !== 'function') {
 						return
 					}
-					inputElement.addEventListener('click', options.onclick)
+					inputElement.addEventListener('click', options.oninputclick)
 				} else {
 					inputElement = document.createElement('input')
 					inputElement.setAttribute('type', options.type)
@@ -107,8 +107,8 @@
 				}
 				inputElement.dataset.setting = options.setting
 
-				if(typeof(options.onchange) === 'function') {
-					inputElement.addEventListener('change', options.onchange)
+				if(typeof(options.oninputchange) === 'function') {
+					inputElement.addEventListener('change', options.oninputchange)
 				}
 				if(typeof(options.setting) === 'string' && options.setting.length > 0) {
 					inputElement.addEventListener('change', () => {
