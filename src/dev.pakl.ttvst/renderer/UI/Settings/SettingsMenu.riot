@@ -55,6 +55,7 @@
 
 		export default {
 			sets: [],
+			currentset: '',
 
 			onBeforeMount(props, state) {
 				this.__ = global.TTVST.i18n.__;
@@ -80,13 +81,21 @@
 				
 				let setLinks = this.$$('.nav ul li a');
 				for(let i = 0; i < setLinks.length; i++) {
-					if(i == 0) {
+					if((this.currentset.length == 0 && i == 0) || (this.currentset == setLinks[i].dataset.key)) {
 						setLinks[i].classList.remove('accent-contrast-background-hover')
 						setLinks[i].classList.add('accent-contrast-background')
 					} else {
 						setLinks[i].classList.remove('accent-contrast-background')
 						setLinks[i].classList.add('accent-contrast-background-hover')
 					}
+				}
+
+				let sets = this.$$('settingsset');
+				for(let i = 0; i < sets.length; i++) {
+					sets[i].style.display = 'none';
+				}
+				if(this.currentset.length > 0) {
+					this.$('settingsset[data-key="'+setkey+'"]').style.display = 'initial';
 				}
 			},
 
@@ -101,25 +110,13 @@
 				}
 				if(link === null) return;
 
-				let setLinks = this.$$('.nav ul li a');
-				for(let i = 0; i < setLinks.length; i++) {
-					setLinks[i].classList.remove('accent-contrast-background')
-					setLinks[i].classList.add('accent-contrast-background-hover')
-				}
-				link.classList.remove('accent-contrast-background-hover')
-				link.classList.add('accent-contrast-background')
-
-				let sets = this.$$('settingsset');
-				for(let i = 0; i < sets.length; i++) {
-					sets[i].style.display = 'none';
-				}
-
-				let setkey = link.dataset.key;
-				this.$('settingsset[data-key="'+setkey+'"]').style.display = 'initial';
+				this.currentset = link.dataset.key;
+				this.update(); // this will force inputs to load settings from storage
 			},
 
 			setSettings(config) {
 				this.sets = config;
+				this.currentset = ''; // set might be gone
 				this.update();
 			}
 		}
