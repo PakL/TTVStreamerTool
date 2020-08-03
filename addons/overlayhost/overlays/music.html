@@ -3,10 +3,10 @@
 	<head>
 		<meta charset="utf-8">
 		<title>PausenMusik</title>
-		<script type="application/javascript" src="jquery.js"></script>
-		<script type="application/javascript" src="client_websocket.js"></script>
-		<script type="application/javascript">
-		</script>
+		<script type="application/javascript" src="/jquery.js"></script>
+		<script type="application/javascript" src="/client_websocket.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="/font.css">
 		<style type="text/css">
 			html, body {
 				background: transparent;
@@ -16,16 +16,11 @@
 				margin: 0px;
 				text-align: center;
 				overflow: hidden;
-				font-family: "Anago", Sans-serif;
 			}
 			#video_title {
 				display: inline-block;
 				white-space: nowrap;
-				font-weight: 400;
 				font-size: 100%;
-				color: white;
-				-webkit-text-stroke: 2px black;
-				text-stroke: 2px black;
 			}
 			#player {
 				position: absolute;
@@ -65,9 +60,9 @@
 				setVolume(vol, data.ease);
 			});
 			ws.on('app.ttvst.overlay.music.playlistchange', function(data){
-				youtubePlaylistId = data.playlist;
+				youtubePlaylistId = data.playlistid;
 				if(ready) {
-					player.loadPlaylist(youtubePlaylistId);
+					initYoutubePlayer();
 				}
 			});
 			ws.on('app.ttvst.overlay.music.skipsongrequest', function(msg){
@@ -132,6 +127,7 @@
 					}
 				});
 				ready = true;
+				starting = true;
 			}
 
 			var starting = true;
@@ -153,7 +149,7 @@
 					reshuffled = false;
 				} else if (event.data == YT.PlayerState.PLAYING) {
 					var v = player.getVideoData();
-					$("#video_title").html("Aktuell läuft: <b>" + v.title + "</b>");
+					$("#video_title").html(v.title);
 					resizeFont();
 				}
 				if(starting || event.data == YT.PlayerState.ENDED) {

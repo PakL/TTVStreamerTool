@@ -5,6 +5,8 @@ import Path from 'path';
 import winston from 'winston';
 import ws from 'ws';
 
+import fontList from 'font-list';
+
 import TTVSTMain from '../../dist/dev.pakl.ttvst/main/TTVSTMain';
 import BroadcastMain from '../../dist/dev.pakl.ttvst/main/BroadcastMain';
 import * as Settings from '../../dist/dev.pakl.ttvst/main/Util/Settings';
@@ -16,6 +18,7 @@ declare var TTVST: TTVSTMain;
 
 let disconnectedButtons = [{ icon: 'PlugConnected', action: 'app.ttvst.overlayhost.listen', title: 'Connect' }];
 let connectedButtons = [{ icon: 'PlugDisconnected', action: 'app.ttvst.overlayhost.close', title: 'Disconnect' }];
+
 class OverlayHost {
 
 	overlayport: number = 8090;
@@ -59,13 +62,15 @@ class OverlayHost {
 		this.onWSConnection = this.onWSConnection.bind(this);
 		this.onWSMessage = this.onWSMessage.bind(this);
 
-		this.onGetVolume = this.onGetVolume.bind(this)
-		this.onSetVolume = this.onSetVolume.bind(this)
-		this.onGetPlaylist = this.onGetPlaylist.bind(this)
-		this.onSetPlaylist = this.onSetPlaylist.bind(this)
-		this.onSkipTrack = this.onSkipTrack.bind(this)
+		this.onGetVolume = this.onGetVolume.bind(this);
+		this.onSetVolume = this.onSetVolume.bind(this);
+		this.onGetPlaylist = this.onGetPlaylist.bind(this);
+		this.onSetPlaylist = this.onSetPlaylist.bind(this);
+		this.onSkipTrack = this.onSkipTrack.bind(this);
 
 		this.startListen();
+
+		ipcMain.handle('overlayhost.font-list', () => fontList.getFonts());
 
 		ipcMain.on('app.ttvst.overlayhost.listen', this.startListen);
 		ipcMain.on('app.ttvst.overlayhost.close', this.close);
@@ -81,8 +86,10 @@ class OverlayHost {
 		BroadcastMain.instance.on('app.ttvst.overlay.music.skipTrack', this.onSkipTrack);
 	}
 
-	startListen() {
+	async startListen() {
 		if(this.overlayserver === null || !this.overlayserver.listening) {
+			this.overlayport = parseInt(await Settings.getString('overlayhost.global.port', '8090'));
+
 			TTVST.startpage.broadcastStatus({ key: 'app.ttvst.overlay', icon: 'ArrangeBringForward', status: 'error', title: 'Overlay Server', info: 'Server not running yet.', buttons: [] });
 			BroadcastMain.instance.emit('app.ttvst.overlay.statuschange', false);
 
@@ -147,6 +154,12 @@ class OverlayHost {
 		if(filename === 'send') {
 			BroadcastMain.instance.emit(u.query);
 		} else if(allowed) {
+			if(filename == 'font.css') {
+				this.respondFontCss(response);
+				return;
+			}
+
+
 			let filePath = await this.findFileInFolder('resources', filename);
 			if(filePath === null) {
 				filePath = await this.findFileInFolder('addons', filename);
@@ -185,6 +198,31 @@ class OverlayHost {
 			response.writeHead(403, { 'Content-Length': 0 });
 			response.end();
 		}
+	}
+
+	async respondFontCss(response: http.ServerResponse) {
+		let fileContent : Buffer = null;
+		try {
+			fileContent = await this.readFileAsync(Path.join(__dirname, 'overlays', 'font.css'));
+		
+			let fileContentText = fileContent.toString('utf8');
+
+			fileContentText = fileContentText.replace(/\{FONT\}/g, await Settings.getString('overlayhost.global.font', 'Segoe UI'));
+			fileContentText = fileContentText.replace(/\{FONT_COLOR\}/g, await Settings.getString('overlayhost.global.fontcolor', '#ffffff'));
+			fileContentText = fileContentText.replace(/\{BORDER_THICK\}/g, await Settings.getString('overlayhost.global.borderthick', '2'));
+			fileContentText = fileContentText.replace(/\{BORDER_COLOR\}/g, await Settings.getString('overlayhost.global.bordercolor', '#000000'));
+
+			fileContent = Buffer.from(fileContentText);
+		} catch(e) {
+			logger.verbose('[Overlay][HTTP] < 500, Content-Length: 0');
+			response.writeHead(500, { 'Content-Length': 0 });
+			response.end();
+			return;
+		}
+		
+		logger.verbose(`[Overlay][HTTP] < 200, Content-Length: ${fileContent.byteLength}`);
+		response.writeHead(200, { 'Content-Length': fileContent.byteLength, 'Content-Type': 'text/css' });
+		response.end(fileContent);
 	}
 
 	readFileAsync(path: string): Promise<Buffer> {
@@ -328,20 +366,18 @@ class OverlayHost {
 	}
 
 	async onGetPlaylist(executeId: string) {
-		const playlistid = await Settings.getString('overlay_music_playlist', 'UU_aEa8K-EOJ3D6gOs7HcyNg');
+		const playlistid = await Settings.getString('overlay_music_playlist', 'PLRBp0Fe2Gpglq-J-Hv0p-y0wk3lQk570u');
 		BroadcastMain.instance.executeRespond(executeId, playlistid);
 	}
 
 	async onSetPlaylist(playlistid: string) {
-		await Settings.setString('overlay_music_volume', playlistid);
+		await Settings.setString('overlay_music_playlist', playlistid);
 		BroadcastMain.instance.emit('app.ttvst.overlay.music.playlistchange', playlistid);
 	}
 
 	onSkipTrack() {
 		BroadcastMain.instance.emit('app.ttvst.overlay.music.skipsongrequest');
 	}
-
-
 
 }
 

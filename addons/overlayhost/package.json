@@ -1,6 +1,6 @@
 {
 	"addonid": "app.ttvst.overlay",
-	"name": "Overlay Host",
+	"name": "overlay-host",
 	"version": "1.0.0",
 	"description": "This addon will create a http server that you can use to create overlays. Via a websocket connection you can create interactions with your overlays. This addon comes bundled with an music overlay that plays a YouTube playlist.",
 	"author": {
@@ -9,5 +9,9 @@
 		"name": "PakL"
 	},
 	"toolversion": "2.x.x",
-	"main": "main.js"
+	"main": "main.js",
+	"renderer": "renderer.js",
+	"dependencies": {
+		"font-list": "1.2.11"
+	}
 }
