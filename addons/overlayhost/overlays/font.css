@@ -1,0 +1,6 @@
+html, body {
+	font-family: {FONT}, Sans-serif;
+	color: {FONT_COLOR};
+	-webkit-text-stroke: {BORDER_THICK}px {BORDER_COLOR};
+	text-stroke: {BORDER_THICK}px {BORDER_COLOR};
+}
