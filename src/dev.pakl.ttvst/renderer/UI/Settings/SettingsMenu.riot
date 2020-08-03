@@ -83,10 +83,14 @@
 
 				let sets = this.$$('settingsset');
 				for(let i = 0; i < sets.length; i++) {
-					sets[i].style.display = 'none';
+					if(this.currentset.length == 0 && i == 0) {
+						sets[i].style.display = 'initial'
+					} else {
+						sets[i].style.display = 'none';
+					}
 				}
 				if(this.currentset.length > 0) {
-					this.$('settingsset[data-key="'+setkey+'"]').style.display = 'initial';
+					this.$('settingsset[data-key="'+this.currentset+'"]').style.display = 'initial';
 				}
 			},
 
