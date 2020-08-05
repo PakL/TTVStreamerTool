@@ -1,7 +1,7 @@
 <SettingsMenu>
-	<div class="nav accent-contrast-font accent-contrast-border">
+	<div class="nav accent-contrast-border">
 		<ul>
-			<li each={ (set, index) in sets }><a class="accent-contrast-background-hover" onclick={ openset } data-index={ index } data-key={ set.key } title={ __(set.label) }>{ __(set.label) }</a></li>
+			<li each={ (set, index) in sets }><a class="accent-contrast-border accent-background-hover" onclick={ openset } data-index={ index } data-key={ set.key } title={ __(set.label) }>{ __(set.label) }</a></li>
 		</ul>
 	</div><div class="settings">
 		<SettingsSet each={ set in sets } data-key={ set.key } { ...set }></SettingsSet>
@@ -20,6 +20,7 @@
 			overflow: auto;
 			float: left;
 			border-right: 1px solid;
+			color: #ffffff;
 		}
 		.nav > ul {
 			margin: 0;
@@ -73,11 +74,11 @@
 				let setLinks = this.$$('.nav ul li a');
 				for(let i = 0; i < setLinks.length; i++) {
 					if((this.currentset.length == 0 && i == 0) || (this.currentset == setLinks[i].dataset.key)) {
-						setLinks[i].classList.remove('accent-contrast-background-hover')
-						setLinks[i].classList.add('accent-contrast-background')
+						setLinks[i].classList.remove('accent-background-hover')
+						setLinks[i].classList.add('accent-background')
 					} else {
-						setLinks[i].classList.remove('accent-contrast-background')
-						setLinks[i].classList.add('accent-contrast-background-hover')
+						setLinks[i].classList.remove('accent-background')
+						setLinks[i].classList.add('accent-background-hover')
 					}
 				}
 

@@ -1,56 +1,56 @@
 @mixin accent-normal($name, $setting, $altsetting: "") {
 	.accent-#{$name} {
-		#{$setting}: $accentColor;
+		#{$setting}: $accentColor !important;
 		@if $altsetting != "" {
-			#{$altsetting}: $fontColorOnAccent;
+			#{$altsetting}: $fontColorOnAccent !important;
 		}
 	}
 	.accent-#{$name}-hover:hover {
-		#{$setting}: $accentColor;
+		#{$setting}: $accentColor !important;
 		@if $altsetting != "" {
-			#{$altsetting}: $fontColorOnAccent;
+			#{$altsetting}: $fontColorOnAccent !important;
 		}
 	}
 }
 @mixin accent-contrast($name, $setting, $altsetting: "") {
 	.accent-contrast-#{$name} {
-		#{$setting}: $accentColorContrast;
+		#{$setting}: $accentColorContrast !important;
 		@if $altsetting != "" {
-			#{$altsetting}: $globalBackground;
+			#{$altsetting}: $globalBackground !important;
 		}
 	}
 	.accent-contrast-#{$name}-hover:hover {
-		#{$setting}: $accentColorContrast;
+		#{$setting}: $accentColorContrast !important;
 		@if $altsetting != "" {
-			#{$altsetting}: $globalBackground;
+			#{$altsetting}: $globalBackground !important;
 		}
 	}
 }
 @mixin accent-light($name, $setting, $altsetting: "") {
 	.accent-light-#{$name} {
-		#{$setting}: $accentColorLight;
+		#{$setting}: $accentColorLight !important;
 		@if $altsetting != "" {
-			#{$altsetting}: $globalBackground;
+			#{$altsetting}: $globalBackground !important;
 		}
 	}
 	.accent-light-#{$name}-hover:hover {
-		#{$setting}: $accentColorLight;
+		#{$setting}: $accentColorLight !important;
 		@if $altsetting != "" {
-			#{$altsetting}: $globalBackground;
+			#{$altsetting}: $globalBackground !important;
 		}
 	}
 }
 @mixin accent-dark($name, $setting, $altsetting: "") {
 	.accent-dark-#{$name} {
-		#{$setting}: $accentColorDark;
+		#{$setting}: $accentColorDark !important;
 		@if $altsetting != "" {
-			#{$altsetting}: $globalForeground;
+			#{$altsetting}: $globalForeground !important;
 		}
 	}
 	.accent-dark-#{$name}-hover:hover {
-		#{$setting}: $accentColorDark;
+		#{$setting}: $accentColorDark !important;
 		@if $altsetting != "" {
-			#{$altsetting}: $globalForeground;
+			#{$altsetting}: $globalForeground !important;
 		}
 	}
 }

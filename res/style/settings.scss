@@ -27,6 +27,18 @@ input[type=color] {
 	width: 70px;
 	height: 30px;
 }
+input[type=date], input[type=time] {
+	position: relative;
+	padding-left: 32px;
+}
+input[type=date]::-webkit-calendar-picker-indicator,
+input[type=time]::-webkit-calendar-picker-indicator
+{
+	position: absolute;
+	left: 3px;
+	margin: 0;
+	background-color: $accentColorContrast;
+}
 
 button {
 	background: $accentColor;
