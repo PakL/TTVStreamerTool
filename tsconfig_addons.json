@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+		"lib": ["es2020", "dom"],
+		"module": "commonjs",
+		"target": "es2019",
+		"noImplicitAny": true,
+		"sourceMap": true,
+
+		"baseUrl": ".",
+		"esModuleInterop": true,
+		"paths": {
+			"*": ["node_modules/*"]
+		},
+		"removeComments": true,
+		"resolveJsonModule": true,
+		"declaration": true
+	},
+	"include": [
+		"addons/**/*"
+	],
+	"exclude": [
+		"node_modules/**/*",
+		"src/**/*"
+	]
+}

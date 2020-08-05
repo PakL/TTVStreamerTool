@@ -68,6 +68,9 @@ class OverlayHost {
 		this.onSetPlaylist = this.onSetPlaylist.bind(this);
 		this.onSkipTrack = this.onSkipTrack.bind(this);
 
+		this.onAddTime = this.onAddTime.bind(this);
+		this.onSetTime = this.onSetTime.bind(this);
+
 		this.startListen();
 
 		ipcMain.handle('overlayhost.font-list', () => fontList.getFonts());
@@ -84,6 +87,9 @@ class OverlayHost {
 		BroadcastMain.instance.on('app.ttvst.overlay.music.getPlaylist', this.onGetPlaylist);
 		BroadcastMain.instance.on('app.ttvst.overlay.music.setPlaylist', this.onSetPlaylist);
 		BroadcastMain.instance.on('app.ttvst.overlay.music.skipTrack', this.onSkipTrack);
+
+		BroadcastMain.instance.on('app.ttvst.timer.addTime', this.onAddTime);
+		BroadcastMain.instance.on('app.ttvst.timer.setTime', this.onSetTime);
 	}
 
 	async startListen() {
@@ -116,11 +122,11 @@ class OverlayHost {
 		}
 	}
 
-	onGetStatus(executeId: string) {
+	private onGetStatus(executeId: string) {
 		BroadcastMain.instance.executeRespond(executeId, (this.overlayserver !== null && this.overlayserver.listening));
 	}
 
-	onError(error: NodeJS.ErrnoException) {
+	private onError(error: NodeJS.ErrnoException) {
 		if(error.code === 'EADDRINUSE') {
 			TTVST.startpage.broadcastStatus({ key: 'app.ttvst.overlay', status: 'error', info: 'Server could not be started. The network port {{port}} is already in use.', infoValues: { port: this.overlayport }, buttons: disconnectedButtons });
 			BroadcastMain.instance.emit('app.ttvst.overlay.statuschange', false);
@@ -132,13 +138,13 @@ class OverlayHost {
 		}
 	}
 
-	onListening() {
+	private onListening() {
 		logger.info(`[Overlay] Host is now listening on port ${this.overlayport}`);
 		TTVST.startpage.broadcastStatus({ key: 'app.ttvst.overlay', status: 'good', info: 'Server is running and listening on port {{port}}.', infoValues: { port: this.overlayport }, buttons: connectedButtons });
 		BroadcastMain.instance.emit('app.ttvst.overlay.statuschange', true);
 	}
 
-	async onHttpRequest(request: http.IncomingMessage, response: http.ServerResponse) {
+	private async onHttpRequest(request: http.IncomingMessage, response: http.ServerResponse) {
 		logger.verbose(`[Overlay][HTTP] > ${request.method} ${request.url}`);
 
 		let u = url.parse(request.url);
@@ -200,7 +206,7 @@ class OverlayHost {
 		}
 	}
 
-	async respondFontCss(response: http.ServerResponse) {
+	private async respondFontCss(response: http.ServerResponse) {
 		let fileContent : Buffer = null;
 		try {
 			fileContent = await this.readFileAsync(Path.join(__dirname, 'overlays', 'font.css'));
@@ -272,7 +278,7 @@ class OverlayHost {
 		});
 	}
 
-	onClose() {
+	private onClose() {
 		logger.info(`[Overlay] Server closed`);
 		TTVST.startpage.broadcastStatus({ key: 'app.ttvst.overlay', status: 'error', info: 'Server was stopped.', buttons: disconnectedButtons });
 		BroadcastMain.instance.emit('app.ttvst.overlay.statuschange', false);
@@ -280,13 +286,13 @@ class OverlayHost {
 		this.lastwssocketid = 0;
 	}
 
-	onWSConnection(socket: ws) {
+	private onWSConnection(socket: ws) {
 		socket.on('message', ((data: ws.Data) => { this.onWSMessage(socket, data) }).bind(this));
 		this.lastwssocketid++;
 		logger.info(`[Overlay] New websocket connection`);
 	}
 
-	async onWSMessage(socket: ws, data: ws.Data) {
+	private async onWSMessage(socket: ws, data: ws.Data) {
 		let dataStr = data.toString();
 		let broadcastData: any = null;
 		try {
@@ -338,7 +344,7 @@ class OverlayHost {
 		}
 	}
 
-	onBroadcastTrigger(channel: string): (...args: Array<any>) => void {
+	private onBroadcastTrigger(channel: string): (...args: Array<any>) => void {
 		return ((...args: Array<any>) => {
 			let sockets = this.broadcastwslistener[channel];
 			this.overlaywebsocket.clients.forEach((socket) => {
@@ -352,12 +358,12 @@ class OverlayHost {
 	}
 
 
-	async onGetVolume(executeId: string) {
+	private async onGetVolume(executeId: string) {
 		const volume = parseFloat(await Settings.getString('overlay_music_volume', '50'));
 		BroadcastMain.instance.executeRespond(executeId, volume);
 	}
 
-	async onSetVolume(volume: number, ease: boolean) {
+	private async onSetVolume(volume: number, ease: boolean) {
 		if(volume < 0) volume = 0;
 		if(volume > 100) volume = 100;
 		await Settings.setString('overlay_music_volume', volume.toString());
@@ -365,18 +371,26 @@ class OverlayHost {
 		BroadcastMain.instance.emit('app.ttvst.overlay.music.volumechange', volume, ease);
 	}
 
-	async onGetPlaylist(executeId: string) {
+	private async onGetPlaylist(executeId: string) {
 		const playlistid = await Settings.getString('overlay_music_playlist', 'PLRBp0Fe2Gpglq-J-Hv0p-y0wk3lQk570u');
 		BroadcastMain.instance.executeRespond(executeId, playlistid);
 	}
 
-	async onSetPlaylist(playlistid: string) {
+	private async onSetPlaylist(playlistid: string) {
 		await Settings.setString('overlay_music_playlist', playlistid);
 		BroadcastMain.instance.emit('app.ttvst.overlay.music.playlistchange', playlistid);
 	}
 
-	onSkipTrack() {
+	private onSkipTrack() {
 		BroadcastMain.instance.emit('app.ttvst.overlay.music.skipsongrequest');
+	}
+
+	private onAddTime(hours: number, minutes: number, seconds: number) {
+		BroadcastMain.instance.emit('app.ttvst.timer.add', hours, minutes, seconds);
+	}
+
+	private onSetTime(time: string, date: string) {
+		BroadcastMain.instance.emit('app.ttvst.timer.set', time, date);
 	}
 
 }

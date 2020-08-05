@@ -43,6 +43,40 @@
 			"description": "This is triggered if the user requested to skip a song",
 			"channel": "app.ttvst.overlay.music.skipsongrequest",
 			"arguments": []
+		},
+		{
+			"label": "Add time to coutdown",
+			"addon": "Overlay Host",
+			"description": "This is triggered if the user adds time to the countdown",
+			"channel": "app.ttvst.timer.add",
+			"arguments": [{
+				"label": "hours",
+				"description": "Amount of hours to add",
+				"type": "number"
+			},{
+				"label": "minutes",
+				"description": "Amount of minutes to add",
+				"type": "number"
+			},{
+				"label": "seconds",
+				"description": "Amount of seconds to add",
+				"type": "number"
+			}]
+		},
+		{
+			"label": "Set destination of coutdown",
+			"addon": "Overlay Host",
+			"description": "This is triggered if the user sets a destination time for the countdown",
+			"channel": "app.ttvst.timer.set",
+			"arguments": [{
+				"label": "time",
+				"description": "Time in the format hh:mm(:ss)",
+				"type": "string"
+			},{
+				"label": "date",
+				"description": "An optional date in the format yyyy-mm-dd",
+				"type": "string"
+			}]
 		}
 	],
 	"actions": [
@@ -128,6 +162,40 @@
 			"description": "Skips the current playing track",
 			"channel": "app.ttvst.overlay.music.skipTrack",
 			"parameters": []
+		},
+		{
+			"label": "Add time to coutdown",
+			"addon": "Overlay Host",
+			"description": "This is triggered if the user adds time to the countdown",
+			"channel": "app.ttvst.timer.addTime",
+			"parameters": [{
+				"label": "hours",
+				"description": "Amount of hours to add",
+				"type": "number"
+			},{
+				"label": "minutes",
+				"description": "Amount of minutes to add",
+				"type": "number"
+			},{
+				"label": "seconds",
+				"description": "Amount of seconds to add",
+				"type": "number"
+			}]
+		},
+		{
+			"label": "Set destination of coutdown",
+			"addon": "Overlay Host",
+			"description": "This is triggered if the user sets a destination time for the countdown",
+			"channel": "app.ttvst.timer.setTime",
+			"parameters": [{
+				"label": "time",
+				"description": "Time in the format hh:mm(:ss)",
+				"type": "string"
+			},{
+				"label": "date",
+				"description": "An optional date in the format yyyy-mm-dd",
+				"type": "string"
+			}]
 		}
 	]
 }
