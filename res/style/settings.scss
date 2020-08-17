@@ -67,7 +67,7 @@ hr {
 	border-top: 1px solid $accentColor;
 }
 
-settingsinput > label {
+settingsinput > label, modal .form > label, modal .form > * > label {
 	margin: 20px;
 	display: block;
 
@@ -88,5 +88,8 @@ settingsinput > label {
 	}
 }
 
+modal .form > label, modal .form > * > label {
+	margin: 10px;
+}
 
 @import 'win10-switch';

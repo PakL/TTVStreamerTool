@@ -4,9 +4,13 @@ import * as Settings from '../../dist/dev.pakl.ttvst/renderer/Settings';
 
 import * as riot from 'riot';
 
+import TTVSTRenderer from '../../dist/dev.pakl.ttvst/renderer/TTVST';
 import SettingsMenu from '../../dist/dev.pakl.ttvst/renderer/UI/Settings/SettingsMenu';
 import { ISettingsSetProps } from '../../dist/dev.pakl.ttvst/renderer/UI/Settings/SettingsConfiguration';
 import { ipcRenderer } from 'electron';
+
+
+declare var TTVST: TTVSTRenderer;
 
 class OverlayPage extends Page {
 
@@ -24,10 +28,36 @@ class OverlayPage extends Page {
 			]
 		},
 		{
+			label: "Webhooks",
+			key: "overlayhost.webhooks",
+			settings: [
+				{ setting: '', default: '', type: 'description', label: '', description: 'Webhooks are a way for external applications to execute an action inside the TTVStreamerTool. They are designed for local use only. With the right firewall setup it might be possible to expose the overlay host to the internet; this is very discuraged, however. You can generate a Webook-URL below, that you can use for example inside of OBS or an Elgato Stream Deck.' },
+				{ setting: 'overlayhost.webhooks.generated', default: '', type: 'text', label: 'Generated URL', description: 'Use the Button below to start generating an URL', readonly: true },
+				{ setting: '', default: '', type: 'button', label: 'Generate Webook URL', description: '', oninputclick: (() => { TTVST.ui.selectAction().then((result) => {
+					let action = Broadcast.getAction({ channel: result.channel });
+					if(action.length > 0) {
+						let query = ''
+						if(result.parameter.length == action[0].parameters.length) {
+							for(let i = 0; i < action[0].parameters.length; i++) {
+								let v = result.parameter[i];
+								if(typeof(v) !== 'string') {
+									v = JSON.stringify(v);
+								}
+								query += '&' + encodeURIComponent(action[0].parameters[i].label) + '=' + encodeURIComponent(v);
+							}
+							query = '?' + query.substr(1);
+						}
+						Settings.setString('overlayhost.webhooks.generated', 'http://localhost:' + Settings.getString('overlayhost.global.port', '8090') + '/send/' + encodeURIComponent(result.channel) + query);
+					}
+					this.updateSettings();
+				}) }).bind(this) } 
+			]
+		},
+		{
 			label: "Music overlay",
 			key: "overlayhost.music",
 			settings: [
-				{ setting: '', default: 'http://localhost:8090/music.html', type: 'text', label: 'Overlay-URL', description: 'Example URL to music overlay. If you changed the host port you\'ll need to make changes accordingly.', readonly: true },
+				{ setting: '', default: 'http://localhost:' + Settings.getString('overlayhost.global.port', '8090') + '/music.html', type: 'text', label: 'Overlay-URL', description: 'Example URL to music overlay. If you changed the host port you\'ll need to make changes accordingly.', readonly: true },
 				{ setting: 'overlay_music_playlist', default: 'PLRBp0Fe2Gpglq-J-Hv0p-y0wk3lQk570u', type: 'text', label: 'Youtube playlist id', description: 'Public youtube playlist id to play', oninputchange: this.broadcastPlaylistChange.bind(this) },
 				{ setting: 'overlay_music_volume', default: 50, type: 'range', label: 'Volume', description: 'Current music volume', min: 0, max: 100, oninputchange: this.broadcastVolumeChange.bind(this) },
 				{ setting: '', default: true, type: 'button', label: 'Skip track', description: 'Skip the current playing track', oninputclick: this.broadcastSkipTrack.bind(this) }
@@ -37,7 +67,7 @@ class OverlayPage extends Page {
 			label: "Countdown overlay",
 			key: "overlayhost.countdown",
 			settings: [
-				{ setting: '', default: 'http://localhost:8090/countdown.html', type: 'text', label: 'Overlay-URL', description: 'Example URL to music overlay. If you changed the host port you\'ll need to make changes accordingly.', readonly: true },
+				{ setting: '', default: 'http://localhost:' + Settings.getString('overlayhost.global.port', '8090') + '/countdown.html', type: 'text', label: 'Overlay-URL', description: 'Example URL to music overlay. If you changed the host port you\'ll need to make changes accordingly.', readonly: true },
 
 				{ type: 'separator',  setting: '', default: '', label: '', description: '' },
 				{ setting: 'overlayhost.countdown.hours', default: 0, type: 'number', label: 'Add hours to countdown', description: 'Adds the amount of hours to the countdown when clicking the button below', min: 0 },

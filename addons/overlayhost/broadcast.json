@@ -13,7 +13,7 @@
 		},
 		{
 			"label": "Volume change",
-			"addon": "Overlay Host",
+			"addon": "Overlay Host - Music overlay",
 			"description": "When the music overlay volume changes this triggers",
 			"channel": "app.ttvst.overlay.music.volumechange",
 			"arguments": [{
@@ -28,7 +28,7 @@
 		},
 		{
 			"label": "Playlist changed",
-			"addon": "Overlay Host",
+			"addon": "Overlay Host - Music overlay",
 			"description": "When the Youtube playlist changes this triggers",
 			"channel": "app.ttvst.overlay.music.playlistchange",
 			"arguments": [{
@@ -39,14 +39,14 @@
 		},
 		{
 			"label": "Skipping song",
-			"addon": "Overlay Host",
+			"addon": "Overlay Host - Music overlay",
 			"description": "This is triggered if the user requested to skip a song",
 			"channel": "app.ttvst.overlay.music.skipsongrequest",
 			"arguments": []
 		},
 		{
 			"label": "Add time to coutdown",
-			"addon": "Overlay Host",
+			"addon": "Overlay Host - Countdown overlay",
 			"description": "This is triggered if the user adds time to the countdown",
 			"channel": "app.ttvst.timer.add",
 			"arguments": [{
@@ -65,7 +65,7 @@
 		},
 		{
 			"label": "Set destination of coutdown",
-			"addon": "Overlay Host",
+			"addon": "Overlay Host - Countdown overlay",
 			"description": "This is triggered if the user sets a destination time for the countdown",
 			"channel": "app.ttvst.timer.set",
 			"arguments": [{
@@ -108,7 +108,7 @@
 		},
 		{
 			"label": "Get volume",
-			"addon": "Overlay Host",
+			"addon": "Overlay Host - Music overlay",
 			"description": "Gets volume with an optional ease effect",
 			"channel": "app.ttvst.overlay.music.getVolume",
 			"parameters": [],
@@ -120,7 +120,7 @@
 		},
 		{
 			"label": "Set volume",
-			"addon": "Overlay Host",
+			"addon": "Overlay Host - Music overlay",
 			"description": "Sets volume with an optional ease effect",
 			"channel": "app.ttvst.overlay.music.setVolume",
 			"parameters": [{
@@ -135,7 +135,7 @@
 		},
 		{
 			"label": "Get Youtube playlist",
-			"addon": "Overlay Host",
+			"addon": "Overlay Host - Music overlay",
 			"description": "Returns the current youtube playlist",
 			"channel": "app.ttvst.overlay.music.getPlaylist",
 			"parameters": [],
@@ -147,7 +147,7 @@
 		},
 		{
 			"label": "Set Youtube playlist",
-			"addon": "Overlay Host",
+			"addon": "Overlay Host - Music overlay",
 			"description": "Sets a new youtube playlist",
 			"channel": "app.ttvst.overlay.music.setPlaylist",
 			"parameters": [{
@@ -158,14 +158,14 @@
 		},
 		{
 			"label": "Skip current track",
-			"addon": "Overlay Host",
+			"addon": "Overlay Host - Music overlay",
 			"description": "Skips the current playing track",
 			"channel": "app.ttvst.overlay.music.skipTrack",
 			"parameters": []
 		},
 		{
 			"label": "Add time to coutdown",
-			"addon": "Overlay Host",
+			"addon": "Overlay Host - Countdown overlay",
 			"description": "This is triggered if the user adds time to the countdown",
 			"channel": "app.ttvst.timer.addTime",
 			"parameters": [{
@@ -184,7 +184,7 @@
 		},
 		{
 			"label": "Set destination of coutdown",
-			"addon": "Overlay Host",
+			"addon": "Overlay Host - Countdown overlay",
 			"description": "This is triggered if the user sets a destination time for the countdown",
 			"channel": "app.ttvst.timer.setTime",
 			"parameters": [{

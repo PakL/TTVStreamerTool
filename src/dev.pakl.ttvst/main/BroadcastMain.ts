@@ -41,7 +41,14 @@ export interface IBroadcastFilter {
 class BroadcastMain extends EventEmitter {
 
 	private static _triggers: Array<IBroadcastTrigger> = [];
-	private static _actions: Array<IBroadcastAction> = [];
+	private static _actions: Array<IBroadcastAction> = [
+		{ label: 'number', addon: '-', description: 'Action number input test', channel: 'app.ttvst.broadcast.test.number', parameters: [{ label: 'input', description: 'number', type: 'number' }]},
+		{ label: 'string', addon: '-', description: 'Action string input test', channel: 'app.ttvst.broadcast.test.string', parameters: [{ label: 'input', description: 'string', type: 'string' }]},
+		{ label: 'boolean', addon: '-', description: 'Action boolean input test', channel: 'app.ttvst.broadcast.test.boolean', parameters: [{ label: 'input', description: 'boolean', type: 'boolean' }]},
+		{ label: 'file', addon: '-', description: 'Action file input test', channel: 'app.ttvst.broadcast.test.file', parameters: [{ label: 'input', description: 'file', type: 'file' }]},
+		{ label: 'list', addon: '-', description: 'Action list input test', channel: 'app.ttvst.broadcast.test.list', parameters: [{ label: 'input', description: 'list', type: 'list' }]},
+		{ label: 'assoc', addon: '-', description: 'Action assoc input test', channel: 'app.ttvst.broadcast.test.assoc', parameters: [{ label: 'input', description: 'assoc', type: 'assoc' }]}
+	];
 
 	static registerTrigger(trigger: IBroadcastTrigger) {
 		if(BroadcastMain.hasTrigger(trigger.channel) < 0) {
@@ -127,7 +134,17 @@ class BroadcastMain extends EventEmitter {
 		if(actions.length > 0) {
 			let action = actions[0];
 			for(let i = 0; i < action.parameters.length; i++) {
-				result.push(obj[action.parameters[i].label]);
+				let v: any = obj[action.parameters[i].label];
+				if(typeof(v) === 'string') {
+					if(action.parameters[i].type === 'number') {
+						v = parseFloat(v);
+					} else if(action.parameters[i].type === 'boolean') {
+						v = (v === 'true' || v === '1');
+					} else if(action.parameters[i].type === 'list' || action.parameters[i].type === 'assoc') {
+						v = JSON.parse(v);
+					}
+				}
+				result.push(v);
 			}
 		}
 		return result;

@@ -3,6 +3,7 @@ import * as riot from 'riot';
 
 import App from '../../../../dist/dev.pakl.ttvst/renderer/UI/Main/App';
 import Modal from '../../../../dist/dev.pakl.ttvst/renderer/UI/Main/Modal';
+import ActionSelect from '../../../../dist/dev.pakl.ttvst/renderer/UI/Broadcast/ActionSelect';
 
 import i18n from 'i18n-nodejs';
 
@@ -21,6 +22,7 @@ let steps = Math.floor((100 - accentBrightness) / 5);
 let accentColorRGB = Color.hexToRGB(accentColor);
 
 let modalCmpnt: any = null;
+let actionSelectCmpnt: any = null;
 
 export interface IModalButton {
 	key: string;
@@ -54,6 +56,7 @@ export default class UI {
 		this.app = appCmpnt(document.createElement('App'));
 
 		modalCmpnt = riot.component<null, null>(Modal);
+		actionSelectCmpnt = riot.component<null, null>(ActionSelect);
 
 		this.root = document.querySelector('#root');
 		this.root.appendChild(this.app.root);
@@ -169,6 +172,31 @@ export default class UI {
 		let modalR: riot.RiotComponent = modalCmpnt(modal, { content, title, icon, buttons, onclose, hideOnOob });
 		document.querySelector('body').appendChild(modalR.root);
 		return modalR;
+	}
+
+	selectAction(): Promise<{ channel: string, parameter: any[] }> {
+		return new Promise((res) => {
+			let select = document.createElement('ActionSelect');
+			let selectR: riot.RiotComponent = actionSelectCmpnt(select);
+
+			let modal = document.createElement('Modal');
+			let response = false;
+			let modalR: riot.RiotComponent = modalCmpnt(modal, {
+				content: selectR.root,
+				title: 'Select Action',
+				icon: '',
+				buttons: [
+					{ key: 'ok', title: 'OK', callback: () => { response = true; } },
+					{ key: 'cancel', title: 'Cancel' }
+				],
+				onclose: () => {
+					res({ channel: selectR.getSelectedActionChannel(), parameter: selectR.getParameterValues() });
+				},
+				hideOnOob: false
+			});
+
+			document.querySelector('body').appendChild(modalR.root);
+		});
 	}
 
 }

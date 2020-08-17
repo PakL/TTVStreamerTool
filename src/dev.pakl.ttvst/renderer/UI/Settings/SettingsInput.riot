@@ -60,6 +60,14 @@
 					return
 				}
 
+				if(options.type == 'description') {
+					this.root.innerHTML = '';
+					let lbl = document.createElement('label');
+					lbl.appendChild(document.createTextNode(this.__(options.description)));
+					this.root.appendChild(lbl);
+					return;
+				}
+
 				let labelElement = document.createElement('label')
 				let inputElement = null
 				if(options.type == 'select') {

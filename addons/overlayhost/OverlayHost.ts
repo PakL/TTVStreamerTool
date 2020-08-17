@@ -157,8 +157,45 @@ class OverlayHost {
 		let allowed = (Object.keys(this.mimeTypes).indexOf(fileEnding) >= 0);
 		let access = false;
 
-		if(filename === 'send') {
-			BroadcastMain.instance.emit(u.query);
+		if(filename.startsWith('send/') || filename === 'send') {
+			let channel = filename.substr(5);
+			let action = BroadcastMain.getAction({ channel });
+			if(action.length > 0) {
+				let query: { [key: string]: string } = {};
+
+				let args = [];
+
+				if(u.query !== null) {
+					let qs = u.query.split('&');
+					for(let i = 0; i < qs.length; i++) {
+						let [key, value] = qs[i].split('=', 2);
+						key = decodeURIComponent(key);
+						value = decodeURIComponent(value);
+						query[key] = value;
+					}
+
+					args = BroadcastMain.objectToParameters(channel, query);
+				}
+
+				if(typeof(action[0].result) !== 'undefined') {
+					let result = await BroadcastMain.instance.execute(channel, ...args);
+					let resultString: string = '';
+					if(typeof(result) !== 'string') {
+						resultString = JSON.stringify(result);
+					} else {
+						resultString = result;
+					}
+					response.writeHead(200, { 'Content-type': 'text/plain; charset=utf-8', 'Content-Length': Buffer.from(resultString).byteLength });
+					response.end(resultString);
+				} else {
+					BroadcastMain.instance.execute(channel, ...args);
+					response.writeHead(200, { 'Content-Length': 0 });
+					response.end();
+				}
+			} else {
+				response.writeHead(404, { 'Content-Length': 0 });
+				response.end();
+			}
 		} else if(allowed) {
 			if(filename == 'font.css') {
 				this.respondFontCss(response);

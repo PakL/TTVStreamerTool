@@ -1,4 +1,4 @@
-import { BrowserWindow, ipcMain, systemPreferences } from 'electron';
+import { BrowserWindow, ipcMain, systemPreferences, dialog, IpcMainEvent } from 'electron';
 import { EventEmitter } from 'events';
 import * as url from 'url';
 import * as path from 'path';
@@ -44,6 +44,9 @@ class MainWindow extends EventEmitter {
 		
 		ipcMain.on('request-accent-color', this.onRequestAccentColor.bind(this));
 		ipcMain.on('request-node-env', this.onRequestNodeEnv.bind(this));
+
+		ipcMain.handle('dialog.showOpenDialog', this.onShowOpenDialog.bind(this));
+		ipcMain.handle('dialog.showSaveDialog', this.onShowSaveDialog.bind(this));
 
 		this.window.loadURL(url.format({
 			pathname: path.join(__dirname, '../../../views/index.html'),
@@ -91,6 +94,30 @@ class MainWindow extends EventEmitter {
 
 	private onRequestNodeEnv(_event: Electron.IpcMainEvent) {
 		_event.returnValue = process.env.NODE_ENV;
+	}
+
+	private async onShowOpenDialog(event: IpcMainEvent, options: Electron.OpenDialogOptions) {
+		if(this.window == null) return false;
+		try {
+			let result = await dialog.showOpenDialog(this.window, options);
+			if(result.canceled) return false;
+			return result.filePaths;
+		} catch(e) {
+			logger.error(e);
+			return false;
+		}
+	}
+
+	private async onShowSaveDialog(event: IpcMainEvent, options: Electron.SaveDialogOptions) {
+		if(this.window == null) return false;
+		try {
+			let result = await dialog.showSaveDialog(this.window, options);
+			if(result.canceled) return false;
+			return result.filePath;
+		} catch(e) {
+			logger.error(e);
+			return false;
+		}
 	}
 
 }

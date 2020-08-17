@@ -8,7 +8,7 @@ export interface ISettingsSetProps {
 export interface ISettingsProps {
 	setting: string;
 	default: string | number | boolean;
-	type: 'select' | 'toggle' | 'checkbox' | 'separator' | 'text' | 'password' | 'number' | 'range' | 'button' | 'color' | 'date' | 'time' | 'datetime-local';
+	type: 'description' | 'select' | 'toggle' | 'checkbox' | 'separator' | 'text' | 'password' | 'number' | 'range' | 'button' | 'color' | 'date' | 'time' | 'datetime-local';
 	label: string;
 	description: string;
 	selection?: Array<{ key: string, text: string, fonteqkey?: boolean }>;

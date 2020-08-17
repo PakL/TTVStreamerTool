@@ -110,6 +110,12 @@
 		:host > div.wrap > div.content > div.form {
 			flex-basis: calc(100% - 43px);
 		}
+		:host > div.wrap > div.content.noicon > div.icon {
+			display:none;
+		}
+		:host > div.wrap > div.content.noicon > div.form {
+			flex-basis: 100%;
+		}
 		:host > div.wrap > div.title {
 			padding: 10px;
 			font-weight: bold;
@@ -159,6 +165,11 @@
 					}
 				} else {
 					this.$('.form').appendChild(props.content);
+				}
+				if(this.icon.length <= 0) {
+					this.$('.content').classList.add('noicon');
+				} else {
+					this.$('.content').classList.remove('noicon');
 				}
 				this.root.onclick = this.onOuterClick;
 			},
