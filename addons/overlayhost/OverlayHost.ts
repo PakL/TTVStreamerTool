@@ -1,9 +1,11 @@
 import fs from 'fs';
+import util from 'util';
 import http from 'http';
 import url from 'url';
 import Path from 'path';
 import winston from 'winston';
 import ws from 'ws';
+import process from 'process';
 
 import fontList from 'font-list';
 
@@ -18,6 +20,121 @@ declare var TTVST: TTVSTMain;
 
 let disconnectedButtons = [{ icon: 'PlugConnected', action: 'app.ttvst.overlayhost.listen', title: 'Connect' }];
 let connectedButtons = [{ icon: 'PlugDisconnected', action: 'app.ttvst.overlayhost.close', title: 'Disconnect' }];
+
+const fsstat = util.promisify(fs.stat);
+const fsopen = util.promisify(fs.open);
+const fsread = util.promisify(fs.read);
+
+class FileHandleHandler {
+
+	static fileStats: { [filepath: string]: fs.Stats } = {};
+	static fileHandles: { [filepath: string]: number } = {};
+	static lastAccess: { [filepath: string]: number } = {};
+
+	static closingTimer: NodeJS.Timeout = null;
+
+	static async prepareFile(path: string): Promise<fs.Stats|false> {
+		path = path.toLowerCase();
+		if(typeof(FileHandleHandler.fileStats[path]) !== 'undefined') {
+			await FileHandleHandler.getHandle(path);
+			return FileHandleHandler.fileStats[path];
+		}
+		try {
+			let stat = await fsstat(path);
+			FileHandleHandler.fileStats[path] = stat;
+			await FileHandleHandler.getHandle(path);
+			return stat;
+		} catch(e) {
+			logger.error(e);
+			return false;
+		}
+	}
+
+	static async getHandle(path: string): Promise<number|false> {
+		path = path.toLowerCase();
+		FileHandleHandler.lastAccess[path] = new Date().getTime();
+
+		if(typeof(FileHandleHandler.fileHandles[path]) === 'number') {
+			return FileHandleHandler.fileHandles[path];
+		}
+		try {
+			let handle = await fsopen(path, 'r');
+			FileHandleHandler.fileHandles[path] = handle;
+			return handle;
+		} catch(e) {
+			logger.error(e);
+			return false;
+		}
+	}
+
+	static async getChunk(path: string, position: number, length: number): Promise<Buffer> {
+		let handle = await FileHandleHandler.getHandle(path);
+		if(handle !== false) {
+			try {
+				FileHandleHandler.lastAccess[path] = new Date().getTime();
+				let result = await fsread(handle, Buffer.alloc(length), 0, length, position);
+				if(result.bytesRead < length) {
+					let rBuffer = Buffer.alloc(result.bytesRead);
+					result.buffer.copy(rBuffer, 0, 0, result.bytesRead);
+					result.buffer = rBuffer;
+				}
+				return result.buffer;
+			} catch(e) {
+				logger.error(e);
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}
+
+	static pipeFileToResponse(path: string, response: http.ServerResponse, start: number = 0, end: number = Infinity): Promise<void> {
+		return new Promise(async (resolve) => {
+			path = path.toLowerCase();
+			let fd = await FileHandleHandler.getHandle(path);
+			if(fd !== false) {
+				FileHandleHandler.lastAccess[path] = new Date().getTime();
+				fs.createReadStream(path, { fd, start, end, autoClose: false })
+					.on('data', () => {
+						FileHandleHandler.lastAccess[path] = new Date().getTime();
+					})
+					.on('end', () => {
+						resolve();
+					})
+					.pipe(response);
+			}
+		})
+	}
+
+	static cleanupHandlers(forceAll: boolean = false) {
+		let keys: string[] = Object.keys(FileHandleHandler.lastAccess);
+
+		for(let i = 0; i < keys.length; i++) {
+			if(forceAll || FileHandleHandler.lastAccess[keys[i]] < (new Date().getTime() - 180000)) {
+				if(forceAll) {
+					try {
+						fs.closeSync(FileHandleHandler.fileHandles[keys[i]]);
+					} catch(e){}
+				} else {
+					fs.close(FileHandleHandler.fileHandles[keys[i]], () => {});
+				}
+			}
+		}
+	}
+
+	static startTimer() {
+		if(FileHandleHandler.closingTimer === null) {
+			FileHandleHandler.closingTimer = setInterval(FileHandleHandler.cleanupHandlers, 10000);
+		}
+	}
+
+}
+
+process.on('exit', () => {
+	clearInterval(FileHandleHandler.closingTimer);
+	FileHandleHandler.cleanupHandlers(true);
+});
+FileHandleHandler.startTimer();
 
 class OverlayHost {
 
@@ -158,6 +275,13 @@ class OverlayHost {
 		let access = false;
 
 		if(filename.startsWith('send/') || filename === 'send') {
+			if(request.method.toLowerCase() === 'head') {
+				logger.verbose('[Overlay][HTTP] < 405, Content-Length: 0');
+				response.writeHead(405, { 'Allow': 'GET, POST', 'Content-Length': 0 });
+				response.end();
+				return;
+			}
+
 			let channel = filename.substr(5);
 			let action = BroadcastMain.getAction({ channel });
 			if(action.length > 0) {
@@ -185,20 +309,166 @@ class OverlayHost {
 					} else {
 						resultString = result;
 					}
+					logger.verbose(`[Overlay][HTTP] < 200, Content-Length: ${Buffer.from(resultString).byteLength}`);
 					response.writeHead(200, { 'Content-type': 'text/plain; charset=utf-8', 'Content-Length': Buffer.from(resultString).byteLength });
 					response.end(resultString);
 				} else {
 					BroadcastMain.instance.execute(channel, ...args);
+					logger.verbose('[Overlay][HTTP] < 200, Content-Length: 0');
 					response.writeHead(200, { 'Content-Length': 0 });
 					response.end();
 				}
 			} else {
+				logger.verbose('[Overlay][HTTP] < 404, Content-Length: 0');
 				response.writeHead(404, { 'Content-Length': 0 });
 				response.end();
 			}
+		} else if(filename.startsWith('fs/') || filename === 'fs') {
+			if(request.method.toLowerCase() !== 'head' && request.method.toLowerCase() !== 'get') {
+				logger.verbose('[Overlay][HTTP] < 405, Content-Length: 0');
+				response.writeHead(405, { 'Allow': 'HEAD, GET', 'Content-Length': 0 });
+				response.end();
+				return;
+			}
+
+			let fsFile = decodeURIComponent(u.query).replace(/\//g, '\\');
+
+			let fsAllowed: boolean = false;
+
+			let allowedSources: string[] = await Settings.getJSON('overlayhost.global.allowedsources', []);
+			for(let i = 0; i < allowedSources.length; i++) {
+				if(fsFile.toLowerCase().startsWith(allowedSources[i].toLowerCase())) {
+					fsAllowed = true;
+					break;
+				}
+			}
+
+			let i = fsFile.lastIndexOf('.');
+			let fsfileEnding = fsFile.substr(i).toLowerCase();
+			fsAllowed = fsAllowed && (Object.keys(this.mimeTypes).indexOf(fsfileEnding) >= 0);
+
+			if(!fsAllowed) {
+				logger.verbose('[Overlay][HTTP] < 403, Content-Length: 0');
+				response.writeHead(403, { 'Content-Length': 0 });
+				response.end();
+				return;
+			} else {
+				let stat = await FileHandleHandler.prepareFile(fsFile);
+				if(stat === false) {
+					logger.verbose('[Overlay][HTTP] < 404, Content-Length: 0');
+					response.writeHead(404, { 'Content-Length': 0 });
+					response.end();
+				} else {
+					let fsmime = this.mimeTypes[fsfileEnding];
+					if(request.method.toLowerCase() === 'head') {
+						logger.verbose('[Overlay][HTTP] < 200, Content-Length: 0');
+						response.writeHead(200, { 'Accept-Ranges': 'bytes', 'Content-Length': stat.size, 'Content-Type': fsmime });
+						response.end();
+					} else {
+						if(typeof(request.headers.range) === 'string') {
+							let range = request.headers.range.toLowerCase();
+							if(range.startsWith('bytes=')) {
+								range = range.substr(6);
+								let rangeParts = range.split(',');
+								let partsAbsolute: Array<{l:number,r:number}> = [];
+
+								let issuesFound: boolean = false;
+
+								for(let r of rangeParts) {
+									let [left, right] = r.trim().split('-', 2);
+
+									let leftN = -1;
+									let rightN = -1;
+
+									if(left.length > 0) {
+										leftN = parseInt(left);
+										if(isNaN(leftN)) {
+											issuesFound = true;
+											break;
+										}
+									}
+									if(right.length > 0) {
+										rightN = parseInt(right);
+										if(isNaN(rightN)) {
+											issuesFound = true;
+											break;
+										}
+									}
+									
+									if(leftN < 0 && rightN > -1) {
+										leftN = stat.size-rightN;
+										rightN = stat.size;
+									}
+									if(rightN < 0 && leftN > -1) {
+										rightN = leftN + 3145728;
+										if(rightN > stat.size) {
+											rightN = stat.size;
+										}
+									}
+
+									let length = rightN - leftN;
+									if(length <= 0) {
+										issuesFound = true;
+										break;
+									}
+
+									partsAbsolute.push({l:leftN,r:rightN});
+								}
+
+								if(issuesFound) {
+									logger.verbose(`[Overlay][HTTP] < 416, Content-Length: 0`);
+									response.writeHead(416, { 'Content-Length': '0' });
+									response.end();
+								} else {
+									if(partsAbsolute.length == 1) {
+										logger.verbose(`[Overlay][HTTP] < 206, Content-Length: ${partsAbsolute[0].r-partsAbsolute[0].l}`);
+										response.writeHead(206, { 'Accept-Ranges': 'bytes', 'Content-Range': `bytes ${partsAbsolute[0].l}-${partsAbsolute[0].r}/${stat.size}`, 'Content-Length': (partsAbsolute[0].r-partsAbsolute[0].l), 'Content-Type': fsmime });
+										FileHandleHandler.pipeFileToResponse(fsFile, response, partsAbsolute[0].l, partsAbsolute[0].r);
+									} else if(partsAbsolute.length > 1) {
+										let boundary = `[[${new Date().getTime()}-${Path.basename(fsFile)}]]--`
+										let multipartHeaders = [];
+										let contentLength = 0;
+										for(let i = 0; i < partsAbsolute.length; i++) {
+											let partHeader = (i > 0 ? '\r\n' : '') + '--' + boundary + '\r\nContent-Type: ' + fsmime + `\r\nContent-Range: bytes ${partsAbsolute[i].l}-${partsAbsolute[i].r}/${stat.size}\r\n\r\n`;
+											let partHeaderBuffer = Buffer.from(partHeader);
+											multipartHeaders.push(partHeaderBuffer);
+											contentLength += (partsAbsolute[i].r-partsAbsolute[i].l) + partHeaderBuffer.byteLength;
+										}
+
+										logger.verbose(`[Overlay][HTTP] < 206, Content-Length: ${contentLength}`);
+										response.writeHead(206, { 'Accept-Ranges': 'bytes', 'Content-Length': contentLength, 'Content-Type': `multipart/byteranges; boundary=${boundary}` });
+										
+										for(let i = 0; i < partsAbsolute.length; i++) {
+											response.write(multipartHeaders[i]);
+											await FileHandleHandler.pipeFileToResponse(fsFile, response, partsAbsolute[0].l, partsAbsolute[0].r);
+										}
+										response.end();
+									} else {
+										logger.verbose(`[Overlay][HTTP] < 404, Content-Length: 0`);
+										response.writeHead(404, { 'Content-Length': '0' });
+										response.end();
+									}
+								}
+								return;
+							}
+						}
+
+						logger.verbose(`[Overlay][HTTP] < 200, Content-Length: ${stat.size}`);
+						response.writeHead(200, { 'Accept-Ranges': 'bytes', 'Content-Length': stat.size, 'Content-Type': fsmime });
+						await FileHandleHandler.pipeFileToResponse(fsFile, response);
+					}
+				}
+			}
 		} else if(allowed) {
+			if(request.method.toLowerCase() !== 'head' && request.method.toLowerCase() !== 'get') {
+				logger.verbose('[Overlay][HTTP] < 405, Content-Length: 0');
+				response.writeHead(405, { 'Allow': 'HEAD, GET', 'Content-Length': 0 });
+				response.end();
+				return;
+			}
+
 			if(filename == 'font.css') {
-				this.respondFontCss(response);
+				this.respondFontCss(response, (request.method.toLowerCase() === 'head'));
 				return;
 			}
 
@@ -228,9 +498,14 @@ class OverlayHost {
 					fileContent = Buffer.from(fileContentText);
 				}*/
 
-				logger.verbose(`[Overlay][HTTP] < 200, Content-Length: ${fileContent.byteLength}`);
 				response.writeHead(200, { 'Content-Length': fileContent.byteLength, 'Content-Type': mime });
-				response.end(fileContent);
+				if(request.method.toLowerCase() === 'head') {
+					logger.verbose(`[Overlay][HTTP] < 200, Content-Length: 0`);
+					response.end();
+				} else {
+					logger.verbose(`[Overlay][HTTP] < 200, Content-Length: ${fileContent.byteLength}`);
+					response.end(fileContent);
+				}
 			} else {
 				logger.verbose('[Overlay][HTTP] < 404, Content-Length: 0');
 				response.writeHead(404, { 'Content-Length': 0 });
@@ -243,7 +518,7 @@ class OverlayHost {
 		}
 	}
 
-	private async respondFontCss(response: http.ServerResponse) {
+	private async respondFontCss(response: http.ServerResponse, headerOnly: boolean) {
 		let fileContent : Buffer = null;
 		try {
 			fileContent = await this.readFileAsync(Path.join(__dirname, 'overlays', 'font.css'));
@@ -263,9 +538,14 @@ class OverlayHost {
 			return;
 		}
 		
-		logger.verbose(`[Overlay][HTTP] < 200, Content-Length: ${fileContent.byteLength}`);
 		response.writeHead(200, { 'Content-Length': fileContent.byteLength, 'Content-Type': 'text/css' });
-		response.end(fileContent);
+		if(headerOnly) {
+			logger.verbose(`[Overlay][HTTP] < 200, Content-Length: 0`);
+			response.end();
+		} else {
+			logger.verbose(`[Overlay][HTTP] < 200, Content-Length: ${fileContent.byteLength}`);
+			response.end(fileContent);
+		}
 	}
 
 	readFileAsync(path: string): Promise<Buffer> {
