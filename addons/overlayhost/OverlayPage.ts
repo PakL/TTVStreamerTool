@@ -9,6 +9,9 @@ import SettingsMenu from '../../dist/dev.pakl.ttvst/renderer/UI/Settings/Setting
 import { ISettingsSetProps } from '../../dist/dev.pakl.ttvst/renderer/UI/Settings/SettingsConfiguration';
 import { ipcRenderer } from 'electron';
 
+import FolderListInput from './FolderListInput';
+
+let folderListInputCmpnt: any = null;
 
 declare var TTVST: TTVSTRenderer;
 
@@ -33,24 +36,7 @@ class OverlayPage extends Page {
 			settings: [
 				{ setting: '', default: '', type: 'description', label: '', description: 'Webhooks are a way for external applications to execute an action inside the TTVStreamerTool. They are designed for local use only. With the right firewall setup it might be possible to expose the overlay host to the internet; this is very discuraged, however. You can generate a Webook-URL below, that you can use for example inside of OBS or an Elgato Stream Deck.' },
 				{ setting: 'overlayhost.webhooks.generated', default: '', type: 'text', label: 'Generated URL', description: 'Use the Button below to start generating an URL', readonly: true },
-				{ setting: '', default: '', type: 'button', label: 'Generate Webook URL', description: '', oninputclick: (() => { TTVST.ui.selectAction().then((result) => {
-					let action = Broadcast.getAction({ channel: result.channel });
-					if(action.length > 0) {
-						let query = ''
-						if(result.parameter.length == action[0].parameters.length) {
-							for(let i = 0; i < action[0].parameters.length; i++) {
-								let v = result.parameter[i];
-								if(typeof(v) !== 'string') {
-									v = JSON.stringify(v);
-								}
-								query += '&' + encodeURIComponent(action[0].parameters[i].label) + '=' + encodeURIComponent(v);
-							}
-							query = '?' + query.substr(1);
-						}
-						Settings.setString('overlayhost.webhooks.generated', 'http://localhost:' + Settings.getString('overlayhost.global.port', '8090') + '/send/' + encodeURIComponent(result.channel) + query);
-					}
-					this.updateSettings();
-				}) }).bind(this) } 
+				{ setting: '', default: '', type: 'button', label: 'Generate Webhook URL', description: '', oninputclick: this.onWebhookGenerateClick.bind(this) } 
 			]
 		},
 		{
@@ -71,7 +57,7 @@ class OverlayPage extends Page {
 
 				{ type: 'separator',  setting: '', default: '', label: '', description: '' },
 				{ setting: 'overlayhost.countdown.hours', default: 0, type: 'number', label: 'Add hours to countdown', description: 'Adds the amount of hours to the countdown when clicking the button below', min: 0 },
-				{ setting: 'overlayhost.countdown.minutes', default: 5, type: 'number', label: 'Add minutes to countdown', description: 'Adds the amount of mminutes to the countdown when clicking the button below', min: 0 },
+				{ setting: 'overlayhost.countdown.minutes', default: 5, type: 'number', label: 'Add minutes to countdown', description: 'Adds the amount of minutes to the countdown when clicking the button below', min: 0 },
 				{ setting: 'overlayhost.countdown.seconds', default: 0, type: 'number', label: 'Add seconds to countdown', description: 'Adds the amount of seconds to the countdown when clicking the button below', min: 0 },
 				{ setting: '', default: true, type: 'button', label: 'Add to countdown', description: 'Add the time entered above to the countdown', oninputclick: this.broadcastAddCountdown.bind(this) },
 
@@ -82,6 +68,7 @@ class OverlayPage extends Page {
 			]
 		}
 	];
+	allowedSourcesFolderListInput: riot.RiotComponent = null;
 
 	constructor() {
 		super('Overlays');
@@ -90,6 +77,18 @@ class OverlayPage extends Page {
 
 		Broadcast.instance.on('app.ttvst.overlay.music.volumechange', this.updateSettings);
 		Broadcast.instance.on('app.ttvst.overlay.music.playlistchange', this.updateSettings);
+
+		folderListInputCmpnt = riot.component<null, null>(FolderListInput);
+
+		this.allowedSourcesFolderListInput = folderListInputCmpnt(document.createElement('FolderListInput'));
+		this.settings[0].settings.push({
+			type: 'custom',
+			setting: 'overlayhost.global.allowedsources',
+			label: 'Allowed file sources',
+			description: 'Select folders on your PC where TTVST is allowed to load files from and transfer them via the Overlay HTTP Server.',
+			default: '[]',
+			custom_input: this.allowedSourcesFolderListInput.root
+		});
 
 		ipcRenderer.invoke('overlayhost.font-list').then(((fonts: Array<string>) => {
 			let fontsSelection: Array<{ key: string, text: string, fonteqkey: boolean }> = []
@@ -151,6 +150,26 @@ class OverlayPage extends Page {
 		Broadcast.instance.execute('app.ttvst.timer.setTime',
 			Settings.getString('overlayhost.countdown.time', ''),
 			Settings.getString('overlayhost.countdown.date', ''));
+	}
+
+	async onWebhookGenerateClick() {
+		let result = await TTVST.ui.selectAction();
+		let action = Broadcast.getAction({ channel: result.channel });
+		if(action.length > 0) {
+			let query = ''
+			if(result.parameter.length > 0 && result.parameter.length == action[0].parameters.length) {
+				for(let i = 0; i < action[0].parameters.length; i++) {
+					let v = result.parameter[i];
+					if(typeof(v) !== 'string') {
+						v = JSON.stringify(v);
+					}
+					query += '&' + encodeURIComponent(action[0].parameters[i].label) + '=' + encodeURIComponent(v);
+				}
+				query = '?' + query.substr(1);
+			}
+			Settings.setString('overlayhost.webhooks.generated', 'http://localhost:' + Settings.getString('overlayhost.global.port', '8090') + '/send/' + encodeURIComponent(result.channel) + query);
+		}
+		this.updateSettings();
 	}
 
 }

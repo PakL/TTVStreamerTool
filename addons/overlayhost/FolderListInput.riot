@@ -1,0 +1,75 @@
+<FolderListInput>
+	<template each={ (item, index) in items}>
+		<input type="text" data-index={index} value={ item } readonly /><button onclick={ selectFolder } data-index={index}><i class="ms-Icon ms-Icon--OpenFolderHorizontal"></i></button><button onclick={ removeFolder } data-index={index}><i class="ms-Icon ms-Icon--RecycleBin"></i></button>
+	</template>
+	<button onclick={ onAddList }>+</button>
+
+	<style>
+		:host {
+			display: block;
+		}
+		:host > input {
+			display: inline-block !important;
+			width: calc(100% - 80px) !important;
+		}
+		:host > input + button {
+			display: inline-block;
+			width: 40px;
+		}
+		:host > input + button + button {
+			display: inline-block;
+			width: 40px;
+		}
+	</style>
+	<script>
+		export default {
+
+			items: [],
+
+			onBeforeMount(props, state) {
+				this.__ = global.TTVST.i18n.__;
+
+				const self = this;
+				Object.defineProperty(this.root, 'value', {
+					get: function() { return JSON.stringify(self.items); },
+					set: function(items) { self.items = JSON.parse(items); if(!Array.isArray(self.items)) { self.items = []; } self.update(); }
+				});
+			},
+
+			onUpdated() {
+				this.dispatchChangeEvent();
+			},
+
+			onAddList() {
+				this.items.push('');
+				this.update();
+			},
+
+			dispatchChangeEvent() {
+				let event = document.createEvent('Event');
+				event.initEvent('change', true, false);
+				this.root.dispatchEvent(event);
+			},
+
+			selectFolder(e) {
+				e.preventDefault();
+				let index = parseInt(e.currentTarget.dataset.index);
+				const self = this;
+				ipcRenderer.invoke('dialog.showOpenDialog', { properties: ['openDirectory'] }).then((files) => {
+					if(files !== false) {
+						self.items[index] = files[0];
+						self.update();
+					}
+				})
+			},
+
+			removeFolder(e) {
+				e.preventDefault();
+				let index = parseInt(e.currentTarget.dataset.index);
+				this.items.splice(index, 1);
+				this.update();
+			}
+
+		}
+	</script>
+</FolderListInput>
