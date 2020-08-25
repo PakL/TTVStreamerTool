@@ -160,5 +160,56 @@
 	},
 	"Unknown": {
 		"de": "Unbekannt"
+	},
+	"Addons": {
+		"de": "Addons"
+	},
+	"English": {
+		"de": "English"
+	},
+	"Deutsch": {
+		"de": "Deutsch"
+	},
+	"About TTVST": {
+		"de": "Über TTVST"
+	},
+	"Twitch Messaging Interface (TMI)": {
+		"de": "Twitch Messaging Interface (TMI)"
+	},
+	"Select Action": {
+		"de": "Aktion auswählen"
+	},
+	"Action": {
+		"de": "Action"
+	},
+	"Select Trigger": {
+		"de": "Auslöser wählen"
+	},
+	"Trigger": {
+		"de": "Auslöser"
+	},
+	"number": {
+		"en": "Number",
+		"de": "Nummer"
+	},
+	"string": {
+		"en": "Text",
+		"de": "Text"
+	},
+	"boolean": {
+		"en": "Boolean",
+		"de": "Boolean"
+	},
+	"file": {
+		"en": "File",
+		"de": "Datei"
+	},
+	"list": {
+		"en": "List",
+		"de": "Liste"
+	},
+	"assoc": {
+		"en": "Associative array",
+		"de": "Assoziative Datenfelder"
 	}
 }

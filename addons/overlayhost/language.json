@@ -16,5 +16,290 @@
 	},
 	"Server was stopped.": {
 		"de": "Server wurde angehalten."
+	},
+	"Overlays": {
+		"de": "Overlays"
+	},
+	"Host configuration": {
+		"de": "Host-Konfiguration"
+	},
+	"Port": {
+		"de": "Port"
+	},
+	"The port that the HTTP host will listen on. Restart host after changing to make it take effect!": {
+		"de": "Der Port, den der HTTP-Host abhören wird. Bei Änderungen muss der Host neugestartet werden!"
+	},
+	"Default font": {
+		"de": "Standard Schriftart"
+	},
+	"Select the default font that the overlay should use - this previews all installed fonts, it may take a few seconds to open": {
+		"de": "Wähle die Standard-Schriftarten für Overlays aus - Dies wird alle installierten Schriftarten anzeigen; es kann ein paar Sekunden dauern"
+	},
+	"Default font color": {
+		"de": "Standard Schriftfarbe"
+	},
+	"Select the default font color that the overlay should use": {
+		"de": "Wähle die Standard-Schriftfarbe für Overlays aus"
+	},
+	"Default font border thickness": {
+		"de": "Standard Schriftrahmen-Dicke"
+	},
+	"Select the default font border thickness in pixel": {
+		"de": "Wähle die Standard-Schriftrahmen-Dicke in Pixel aus"
+	},
+	"Default font border color": {
+		"de": "Standard Schriftrahmen-Farbe"
+	},
+	"Select the default font border color that the overlay should use": {
+		"de": "Wähle die Standard-Schriftrahmen-Farbe für Overlays aus"
+	},
+	"Webhooks": {
+		"de": "Webhooks"
+	},
+	"Webhooks are a way for external applications to execute an action inside the TTVStreamerTool. They are designed for local use only. With the right firewall setup it might be possible to expose the overlay host to the internet; this is very discuraged, however. You can generate a Webook-URL below, that you can use for example inside of OBS or an Elgato Stream Deck.": {
+		"de": "Webhooks bieten externen Anwendungen die Möglichkeit, eine Aktion im TTVStreamerTool auszuführen. Sie sind nur für den lokalen Gebrauch bestimmt. Mit dem richtigen Firewall-Setup ist es möglich, den Overlay-Host dem Internet auszusetzen. Dies wird jedoch sehr nicht empfohlen. Sie können unten eine Webook-URL generieren, die Sie beispielsweise innerhalb von OBS oder einem Elgato Stream Deck verwenden können."
+	},
+	"Use the Button below to start generating an URL": {
+		"de": "Verwenden Sie den Button unten, um eine URL zu generieren"
+	},
+	"Generated URL": {
+		"de": "Generierte URL"
+	},
+	"Generate Webhook URL": {
+		"de": "Webhook-URL generieren"
+	},
+	"Music overlay": {
+		"de": "Musik-Overlay"
+	},
+	"Example URL to music overlay. If you changed the host port you'll need to make changes accordingly.": {
+		"de": "Beispiel-URL für das Musik-Overlay. Wenn Sie den Host-Port geändert haben, müssen Sie entsprechende Änderungen vornehmen."
+	},
+	"Overlay-URL": {
+		"de": "Overlay-URL"
+	},
+	"Public youtube playlist id to play": {
+		"de": "Youtube-ID einer öffentlichen Playlist die abgespielt werden soll"
+	},
+	"Youtube playlist id": {
+		"de": "Youtube-Playlist-ID"
+	},
+	"Current music volume": {
+		"de": "Aktuelle Musiklautstärke"
+	},
+	"Volume": {
+		"de": "Lautstärke"
+	},
+	"Skip track": {
+		"de": "Titel überspringen"
+	},
+	"Skip the current playing track": {
+		"de": "Den aktuell laufenden Titel überspringen"
+	},
+	"Countdown overlay": {
+		"de": "Countdown-Overlay"
+	},
+	"Adds the amount of hours to the countdown when clicking the button below": {
+		"de": "Fügt die Anzahl an Stunden zum Countdown hinzu, wenn der Button unten angeklickt wird"
+	},
+	"Add hours to countdown": {
+		"de": "Stunden zum Countdown hinzufügen"
+	},
+	"Adds the amount of minutes to the countdown when clicking the button below": {
+		"de": "Fügt die Anzahl an Minuten zum Countdown hinzu, wenn der Button unten angeklickt wird"
+	},
+	"Add minutes to countdown": {
+		"de": "Minuten zum Countdown hinzufügen"
+	},
+	"Adds the amount of seconds to the countdown when clicking the button below": {
+		"de": "Fügt die Anzahl an Sekunden zum Countdown hinzu, wenn der Button unten angeklickt wird"
+	},
+	"Add seconds to countdown": {
+		"de": "Sekunden zum Countdown hinzufügen"
+	},
+	"Add to countdown": {
+		"de": "Zum Countdown hinzufügen"
+	},
+	"Add the time entered above to the countdown": {
+		"de": "Fügt die oben angegebene Zeit zum Countdown"
+	},
+	"Sets the countdown destination to this specific date": {
+		"de": "Setzt das Countdown-Ziel zu einem spezifischen Zeitpunkt"
+	},
+	"Set date destination": {
+		"de": "Setze Zieldatum"
+	},
+	"Sets the countdown destination to this specific time. If no date is set the destination will the very next time (up to 24 hours)": {
+		"de": "Setzt der Countdown-Ziel zu diesem Zeitpunkt. Wenn kein Datum angegeben wird, ist das Ziel immer der nächst-frühste Zeitpunkt (bis zu 24 Stunden)"
+	},
+	"Set time destination": {
+		"de": "Setze Zielzeit"
+	},
+	"Set as countdown destination": {
+		"de": "Als Countdown-Ziel festlegen"
+	},
+	"Overlay Host": {
+		"de": "Overlay-Host"
+	},
+	"Start server": {
+		"de": "Server starten"
+	},
+	"Stop server": {
+		"de": "Server anhalten"
+	},
+	"Get server status": {
+		"de": "Serverstatus abrufen"
+	},
+	"Overlay Host - Music overlay": {
+		"de": "Overlay-Host - Musik-Overlay"
+	},
+	"Get volume": {
+		"de": "Lautstärke abrufen"
+	},
+	"Set volume": {
+		"de": "Lautstärke setzen"
+	},
+	"Get Youtube playlist": {
+		"de": "Youtube-Playlist abrufen"
+	},
+	"Set Youtube playlist": {
+		"de": "Youtube-Playlist setzen"
+	},
+	"Skip current track": {
+		"de": "Aktuellen Titel überspringen"
+	},
+	"Overlay Host - Countdown overlay": {
+		"de": "Overlay-Host - Countdown-Overlay"
+	},
+	"Add time to coutdown": {
+		"de": "Zeit zum Countdown hinzufügen"
+	},
+	"Set destination of coutdown": {
+		"de": "Countdown-Ziel setzen"
+	},
+	"Starts the overlay host server": {
+		"de": "Startet den Overlay-Server"
+	},
+	"Stops the overlay host server": {
+		"de": "Stoppt den Overlay-Server"
+	},
+	"Returns the current server status": {
+		"de": "Gibt den aktuellen Status der Server wieder"
+	},
+	"Gets current volume": {
+		"de": "Gibt die aktuelle Lautstärke wieder"
+	},
+	"Sets volume with an optional ease effect": {
+		"de": "Setzt die Lautstärke mit einem optionalen weichen Übergang"
+	},
+	"volume": {
+		"en": "Volume",
+		"de": "Lautsärke"
+	},
+	"Volume - a number between 0 and 100": {
+		"de": "Lautstärke - eine Nummer zwischen 0 und 100"
+	},
+	"ease": {
+		"en": "Ease",
+		"de": "Weicher Übergang"
+	},
+	"Ease the volume transition": {
+		"de": "Verändert die Lautstärke mit einem weichen Übergang"
+	},
+	"Returns the current youtube playlist": {
+		"de": "Gibt die aktuelle Youtube-Playlist wieder"
+	},
+	"Sets a new youtube playlist": {
+		"de": "Setzt die neue Youtube-Playlist"
+	},
+	"playlistid": {
+		"en": "Playlist id",
+		"de": "Playlist-Id"
+	},
+	"The Youtube playlist id": {
+		"de": "Die Youtube-Playlist-Id"
+	},
+	"Skips the current playing track": {
+		"de": "Überspringt den aktuell laufenden Titel"
+	},
+	"This is triggered if the user adds time to the countdown": {
+		"de": "Dies wird ausgelöst wenn der Benutzer zeit zum Countdown hinzufügt"
+	},
+	"hours": {
+		"en": "Hours",
+		"de": "Stunden"
+	},
+	"Amount of hours to add": {
+		"de": "Anzahl an Stunden hinzufügen"
+	},
+	"minutes": {
+		"en": "Minutes",
+		"de": "Minuten"
+	},
+	"Amount of minutes to add": {
+		"de": "Anzahl an Minuten hinzufügen"
+	},
+	"seconds": {
+		"en": "Seconds",
+		"de": "Sekunden"
+	},
+	"Amount of seconds to add": {
+		"de": "Anzahl an Sekunden hinzufügen"
+	},
+	"This is triggered if the user sets a destination time for the countdown": {
+		"de": "Dies wird ausgelöst wenn der Benutzer ein Ziel für den Countdown setzt"
+	},
+	"time": {
+		"en": "Time",
+		"de": "Zeit"
+	},
+	"Time in the format hh:mm(:ss)": {
+		"de": "Zeit im Format hh:mm(:ss)"
+	},
+	"date": {
+		"en": "Date",
+		"de": "Datum"
+	},
+	"An optional date in the format yyyy-mm-dd": {
+		"de": "Ein optinales Datum im Format JJJJ-MM-DD"
+	},
+	"Status change": {
+		"de": "Statusänderung"
+	},
+	"Volume change": {
+		"de": "Lautstärkenänderung"
+	},
+	"Playlist changed": {
+		"de": "Playliständerung"
+	},
+	"Skipping song": {
+		"de": "Titel wird übersprungen"
+	},
+	"Notifys when the overlay host server goes online or offline": {
+		"de": "Benachrichtigt wenn der Overlay-Host online oder offline geht"
+	},
+	"Is the server online now?": {
+		"de": "Ist der Server jetzt online?"
+	},
+	"online": {
+		"en": "Online",
+		"de": "Online"
+	},
+	"When the music overlay volume changes this triggers": {
+		"de": "Löst aus wenn das Musik-Overlay die Lautstärke ändert"
+	},
+	"The current volume between 0 and 100": {
+		"de": "Die aktuelle Lautstärke zwischen 0 und 100"
+	},
+	"Whether or not the volume should ease": {
+		"de": "Ob die Lautstärke einen weichen Übergang hat"
+	},
+	"When the Youtube playlist changes this triggers": {
+		"de": "Löst aus wenn die Youtube-Playlist geändert wird"
+	},
+	"The new playlist id": {
+		"de": "Die neue Playlist-Id"
+	},
+	"This is triggered if the user requested to skip a song": {
+		"de": "Löst aus wenn der Benutzer einen Titel überspringen möchte"
 	}
 }
