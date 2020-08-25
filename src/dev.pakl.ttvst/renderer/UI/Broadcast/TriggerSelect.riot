@@ -1,0 +1,63 @@
+<TriggerSelect>
+	<label>
+		{ __('Trigger') }
+		<select onchange={ onTriggerSelect } class="trigger_select">
+			<optgroup each={ triggergroup in triggers } label={ __(triggergroup[0].addon) }>
+				<option each={ trigger in triggergroup } value={ trigger.channel }>{ __(trigger.label) }</option>
+			</optgroup>
+		</select>
+		<small>{ __(triggerdesc) }</small>
+	</label>
+	<hr />
+	<label each={ argument in trarguments }>
+		<strong>{ __(argument.label) }</strong><br>
+		{ __(argument.description) }
+		<small>{ __(argument.type) }</small>
+	</label>
+
+	<script>
+		const { ipcRenderer } = require('electron');
+		const Broadcast = require('../../Broadcast');
+
+		export default {
+			triggers: [],
+			triggergroups: {},
+			trarguments: [],
+			triggerdesc: '',
+
+			onBeforeMount(props, state) {
+				this.__ = global.TTVST.i18n.__;
+
+				this.triggers = [];
+				this.triggergroups = {};
+				this.trarguments = [];
+				let triggers = Broadcast.getTrigger();
+				for(let i = 0; i < triggers.length; i++) {
+					let trg = triggers[i]
+					if(typeof(this.triggergroups[trg.addon]) !== 'number') {
+						let index = this.triggers.length;
+						this.triggergroups[trg.addon] = index;
+						this.triggers.push([]);
+					}
+					this.triggers[this.triggergroups[trg.addon]].push(trg);
+				}
+			},
+
+			onMounted(props, state) {
+				this.onTriggerSelect();
+			},
+
+			onTriggerSelect() {
+				let trigger = Broadcast.getTrigger({ channel: this.$('.trigger_select').value });
+				this.trarguments = trigger[0].arguments;
+				this.triggerdesc = trigger[0].description;
+				this.update();
+			},
+
+			getSelectedTriggerChannel() {
+				return this.$('.trigger_select').value;
+			}
+
+		}
+	</script>
+</TriggerSelect>

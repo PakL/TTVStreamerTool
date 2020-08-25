@@ -46,7 +46,8 @@
 					max: 100,
 					step: null,
 					readonly: false,
-					id: null
+					id: null,
+					custom_input: null
 				}
 				if(typeof(options) == 'object') {
 					options = Object.assign(options_default, options)
@@ -60,6 +61,7 @@
 					return
 				}
 
+
 				if(options.type == 'description') {
 					this.root.innerHTML = '';
 					let lbl = document.createElement('label');
@@ -70,7 +72,13 @@
 
 				let labelElement = document.createElement('label')
 				let inputElement = null
-				if(options.type == 'select') {
+
+				if(options.type == 'custom') {
+					inputElement = options.custom_input;
+					if(typeof(inputElement.value) !== 'undefined') {
+						inputElement.value = Settings.getString(options.setting, (typeof(options.default) === 'string' ? options.default : ''));
+					}
+				} else if(options.type == 'select') {
 					inputElement = document.createElement('select')
 					let selectedIndex = Settings.getString(options.setting, options.default)
 					for(let i = 0; i < options.selection.length; i++) {
@@ -79,7 +87,7 @@
 						if(typeof(sel.fonteqkey) !== 'boolean') sel.fonteqkey = false;
 						if(sel.fonteqkey) { optionElement.style.fontFamily = sel.key }
 						optionElement.value = sel.key
-						optionElement.innerText = this.__(sel.text)
+						optionElement.innerText = sel.fonteqkey ? sel.text : this.__(sel.text)
 						if(selectedIndex == sel.key) {
 							optionElement.setAttribute('selected', true)
 						}

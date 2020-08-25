@@ -109,7 +109,7 @@
 		{
 			"label": "Get volume",
 			"addon": "Overlay Host - Music overlay",
-			"description": "Gets volume with an optional ease effect",
+			"description": "Gets current volume",
 			"channel": "app.ttvst.overlay.music.getVolume",
 			"parameters": [],
 			"result": {

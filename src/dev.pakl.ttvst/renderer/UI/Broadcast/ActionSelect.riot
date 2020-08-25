@@ -6,6 +6,7 @@
 				<option each={ action in actiongroup } value={ action.channel }>{ __(action.label) }</option>
 			</optgroup>
 		</select>
+		<small>{ __(actiondesc) }</small>
 	</label>
 	<hr />
 	<label each={ parameter in parameters }>
@@ -59,6 +60,7 @@
 			actions: [],
 			actionsgroups: {},
 			parameters: [],
+			actiondesc: '',
 
 			onBeforeMount(props, state) {
 				this.__ = global.TTVST.i18n.__;
@@ -85,6 +87,7 @@
 			onActionSelect() {
 				let action = Broadcast.getAction({ channel: this.$('.action_select').value });
 				this.parameters = action[0].parameters;
+				this.actiondesc = action[0].description;
 				this.update();
 			},
 

@@ -4,6 +4,7 @@ import * as riot from 'riot';
 import App from '../../../../dist/dev.pakl.ttvst/renderer/UI/Main/App';
 import Modal from '../../../../dist/dev.pakl.ttvst/renderer/UI/Main/Modal';
 import ActionSelect from '../../../../dist/dev.pakl.ttvst/renderer/UI/Broadcast/ActionSelect';
+import TriggerSelect from '../../../../dist/dev.pakl.ttvst/renderer/UI/Broadcast/TriggerSelect';
 
 import i18n from 'i18n-nodejs';
 
@@ -23,6 +24,7 @@ let accentColorRGB = Color.hexToRGB(accentColor);
 
 let modalCmpnt: any = null;
 let actionSelectCmpnt: any = null;
+let triggerSelectCmpnt: any = null;
 
 export interface IModalButton {
 	key: string;
@@ -57,6 +59,7 @@ export default class UI {
 
 		modalCmpnt = riot.component<null, null>(Modal);
 		actionSelectCmpnt = riot.component<null, null>(ActionSelect);
+		triggerSelectCmpnt = riot.component<null, null>(TriggerSelect);
 
 		this.root = document.querySelector('#root');
 		this.root.appendChild(this.app.root);
@@ -191,6 +194,31 @@ export default class UI {
 				],
 				onclose: () => {
 					res({ channel: selectR.getSelectedActionChannel(), parameter: selectR.getParameterValues() });
+				},
+				hideOnOob: false
+			});
+
+			document.querySelector('body').appendChild(modalR.root);
+		});
+	}
+
+	selectTrigger(): Promise<string> {
+		return new Promise((res) => {
+			let select = document.createElement('TriggerSelect');
+			let selectR: riot.RiotComponent = triggerSelectCmpnt(select);
+
+			let modal = document.createElement('Modal');
+			let response = false;
+			let modalR: riot.RiotComponent = modalCmpnt(modal, {
+				content: selectR.root,
+				title: 'Select Trigger',
+				icon: '',
+				buttons: [
+					{ key: 'ok', title: 'OK', callback: () => { response = true; } },
+					{ key: 'cancel', title: 'Cancel' }
+				],
+				onclose: () => {
+					res(selectR.getSelectedTriggerChannel());
 				},
 				hideOnOob: false
 			});

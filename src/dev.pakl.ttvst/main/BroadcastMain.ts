@@ -41,14 +41,7 @@ export interface IBroadcastFilter {
 class BroadcastMain extends EventEmitter {
 
 	private static _triggers: Array<IBroadcastTrigger> = [];
-	private static _actions: Array<IBroadcastAction> = [
-		{ label: 'number', addon: '-', description: 'Action number input test', channel: 'app.ttvst.broadcast.test.number', parameters: [{ label: 'input', description: 'number', type: 'number' }]},
-		{ label: 'string', addon: '-', description: 'Action string input test', channel: 'app.ttvst.broadcast.test.string', parameters: [{ label: 'input', description: 'string', type: 'string' }]},
-		{ label: 'boolean', addon: '-', description: 'Action boolean input test', channel: 'app.ttvst.broadcast.test.boolean', parameters: [{ label: 'input', description: 'boolean', type: 'boolean' }]},
-		{ label: 'file', addon: '-', description: 'Action file input test', channel: 'app.ttvst.broadcast.test.file', parameters: [{ label: 'input', description: 'file', type: 'file' }]},
-		{ label: 'list', addon: '-', description: 'Action list input test', channel: 'app.ttvst.broadcast.test.list', parameters: [{ label: 'input', description: 'list', type: 'list' }]},
-		{ label: 'assoc', addon: '-', description: 'Action assoc input test', channel: 'app.ttvst.broadcast.test.assoc', parameters: [{ label: 'input', description: 'assoc', type: 'assoc' }]}
-	];
+	private static _actions: Array<IBroadcastAction> = [];
 
 	static registerTrigger(trigger: IBroadcastTrigger) {
 		if(BroadcastMain.hasTrigger(trigger.channel) < 0) {
