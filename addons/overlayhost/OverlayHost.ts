@@ -58,6 +58,7 @@ class FileHandleHandler {
 			return FileHandleHandler.fileHandles[path];
 		}
 		try {
+			logger.verbose('[Overlay][HTTP] Opening file handle for ' + path);
 			let handle = await fsopen(path, 'r');
 			FileHandleHandler.fileHandles[path] = handle;
 			return handle;
@@ -72,6 +73,7 @@ class FileHandleHandler {
 		if(handle !== false) {
 			try {
 				FileHandleHandler.lastAccess[path] = new Date().getTime();
+				logger.verbose('[Overlay][HTTP] Reading a chunk of ' + path + ':' + position + '-' + (position+length));
 				let result = await fsread(handle, Buffer.alloc(length), 0, length, position);
 				if(result.bytesRead < length) {
 					let rBuffer = Buffer.alloc(result.bytesRead);
@@ -88,20 +90,30 @@ class FileHandleHandler {
 		}
 	}
 
-	static pipeFileToResponse(path: string, response: http.ServerResponse, start: number = 0, end: number = Infinity): Promise<void> {
+	static pipeFileToResponse(path: string, response: http.ServerResponse, request: http.IncomingMessage, start: number = 0, end: number = Infinity): Promise<void> {
 		return new Promise(async (resolve) => {
 			path = path.toLowerCase();
 			let fd = await FileHandleHandler.getHandle(path);
 			if(fd !== false) {
 				FileHandleHandler.lastAccess[path] = new Date().getTime();
-				fs.createReadStream(path, { fd, start, end, autoClose: false })
+				logger.verbose('[Overlay][HTTP] Piping a chunk of ' + path + ':' + start + '-' + end);
+				let pipestream = fs.createReadStream(path, { fd, start, end, autoClose: false })
 					.on('data', () => {
 						FileHandleHandler.lastAccess[path] = new Date().getTime();
 					})
 					.on('end', () => {
+						logger.verbose('[Overlay][HTTP] Piping of ' + path + ':' + start + '-' + end + ' done');
 						resolve();
 					})
-					.pipe(response);
+					.on('error', (e) => {
+						logger.error(e);
+					});
+				pipestream.pipe(response);
+				request.on('aborted', () => {
+					logger.verbose('[Overlay][HTTP] Request was aborted in the middle of piping ' + path + ':' + start + '-' + end);
+					pipestream.unpipe(response);
+					response.end();
+				})
 			}
 		})
 	}
@@ -111,6 +123,7 @@ class FileHandleHandler {
 
 		for(let i = 0; i < keys.length; i++) {
 			if(forceAll || FileHandleHandler.lastAccess[keys[i]] < (new Date().getTime() - 180000)) {
+				logger.verbose('[Overlay][HTTP] Closing handle for ' + keys[i]);
 				if(forceAll) {
 					try {
 						fs.closeSync(FileHandleHandler.fileHandles[keys[i]]);
@@ -118,6 +131,9 @@ class FileHandleHandler {
 				} else {
 					fs.close(FileHandleHandler.fileHandles[keys[i]], () => {});
 				}
+				delete FileHandleHandler.lastAccess[keys[i]];
+				delete FileHandleHandler.fileHandles[keys[i]];
+				delete FileHandleHandler.fileStats[keys[i]];
 			}
 		}
 	}
@@ -370,7 +386,7 @@ class OverlayHost {
 							if(range.startsWith('bytes=')) {
 								range = range.substr(6);
 								let rangeParts = range.split(',');
-								let partsAbsolute: Array<{l:number,r:number}> = [];
+								let partsAbsolute: Array<{l:number,r:number,length:number}> = [];
 
 								let issuesFound: boolean = false;
 
@@ -400,19 +416,16 @@ class OverlayHost {
 										rightN = stat.size;
 									}
 									if(rightN < 0 && leftN > -1) {
-										rightN = leftN + 3145728;
-										if(rightN > stat.size) {
-											rightN = stat.size;
-										}
+										rightN = stat.size-1;
 									}
 
-									let length = rightN - leftN;
+									let length = (rightN+1) - leftN;
 									if(length <= 0) {
 										issuesFound = true;
 										break;
 									}
 
-									partsAbsolute.push({l:leftN,r:rightN});
+									partsAbsolute.push({l:leftN,r:rightN,length});
 								}
 
 								if(issuesFound) {
@@ -421,9 +434,9 @@ class OverlayHost {
 									response.end();
 								} else {
 									if(partsAbsolute.length == 1) {
-										logger.verbose(`[Overlay][HTTP] < 206, Content-Length: ${partsAbsolute[0].r-partsAbsolute[0].l}`);
-										response.writeHead(206, { 'Accept-Ranges': 'bytes', 'Content-Range': `bytes ${partsAbsolute[0].l}-${partsAbsolute[0].r}/${stat.size}`, 'Content-Length': (partsAbsolute[0].r-partsAbsolute[0].l), 'Content-Type': fsmime });
-										FileHandleHandler.pipeFileToResponse(fsFile, response, partsAbsolute[0].l, partsAbsolute[0].r);
+										logger.verbose(`[Overlay][HTTP] < 206, Content-Length: ${partsAbsolute[0].length}`);
+										response.writeHead(206, { 'Accept-Ranges': 'bytes', 'Content-Range': `bytes ${partsAbsolute[0].l}-${partsAbsolute[0].r}/${stat.size}`, 'Content-Length': (partsAbsolute[0].length), 'Content-Type': fsmime });
+										FileHandleHandler.pipeFileToResponse(fsFile, response, request, partsAbsolute[0].l, partsAbsolute[0].r);
 									} else if(partsAbsolute.length > 1) {
 										let boundary = `[[${new Date().getTime()}-${Path.basename(fsFile)}]]--`
 										let multipartHeaders = [];
@@ -432,7 +445,7 @@ class OverlayHost {
 											let partHeader = (i > 0 ? '\r\n' : '') + '--' + boundary + '\r\nContent-Type: ' + fsmime + `\r\nContent-Range: bytes ${partsAbsolute[i].l}-${partsAbsolute[i].r}/${stat.size}\r\n\r\n`;
 											let partHeaderBuffer = Buffer.from(partHeader);
 											multipartHeaders.push(partHeaderBuffer);
-											contentLength += (partsAbsolute[i].r-partsAbsolute[i].l) + partHeaderBuffer.byteLength;
+											contentLength += (partsAbsolute[i].length) + partHeaderBuffer.byteLength;
 										}
 
 										logger.verbose(`[Overlay][HTTP] < 206, Content-Length: ${contentLength}`);
@@ -440,7 +453,7 @@ class OverlayHost {
 										
 										for(let i = 0; i < partsAbsolute.length; i++) {
 											response.write(multipartHeaders[i]);
-											await FileHandleHandler.pipeFileToResponse(fsFile, response, partsAbsolute[0].l, partsAbsolute[0].r);
+											await FileHandleHandler.pipeFileToResponse(fsFile, response, request, partsAbsolute[0].l, partsAbsolute[0].r);
 										}
 										response.end();
 									} else {
@@ -455,7 +468,7 @@ class OverlayHost {
 
 						logger.verbose(`[Overlay][HTTP] < 200, Content-Length: ${stat.size}`);
 						response.writeHead(200, { 'Accept-Ranges': 'bytes', 'Content-Length': stat.size, 'Content-Type': fsmime });
-						await FileHandleHandler.pipeFileToResponse(fsFile, response);
+						await FileHandleHandler.pipeFileToResponse(fsFile, response, request, 0, Infinity);
 					}
 				}
 			}
