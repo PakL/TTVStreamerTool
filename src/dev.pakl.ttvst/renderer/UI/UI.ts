@@ -177,7 +177,7 @@ export default class UI {
 		return modalR;
 	}
 
-	selectAction(): Promise<{ channel: string, parameter: any[] }> {
+	selectAction(): Promise<{ channel: string, parameter: any[] }|null> {
 		return new Promise((res) => {
 			let select = document.createElement('ActionSelect');
 			let selectR: riot.RiotComponent = actionSelectCmpnt(select);
@@ -193,7 +193,11 @@ export default class UI {
 					{ key: 'cancel', title: 'Cancel' }
 				],
 				onclose: () => {
-					res({ channel: selectR.getSelectedActionChannel(), parameter: selectR.getParameterValues() });
+					if(response) {
+						res({ channel: selectR.getSelectedActionChannel(), parameter: selectR.getParameterValues() });
+					} else {
+						res(null);
+					}
 				},
 				hideOnOob: false
 			});
@@ -202,7 +206,7 @@ export default class UI {
 		});
 	}
 
-	selectTrigger(): Promise<string> {
+	selectTrigger(): Promise<string|null> {
 		return new Promise((res) => {
 			let select = document.createElement('TriggerSelect');
 			let selectR: riot.RiotComponent = triggerSelectCmpnt(select);
@@ -218,7 +222,11 @@ export default class UI {
 					{ key: 'cancel', title: 'Cancel' }
 				],
 				onclose: () => {
-					res(selectR.getSelectedTriggerChannel());
+					if(response) {
+						res(selectR.getSelectedTriggerChannel());
+					} else {
+						res(null);
+					}
 				},
 				hideOnOob: false
 			});
