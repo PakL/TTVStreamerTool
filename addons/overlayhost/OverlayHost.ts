@@ -161,6 +161,7 @@ class OverlayHost {
 		'.html': 'text/html',
 		'.htm': 'text/html',
 		'.png': 'image/png',
+		'.apng': 'image/png',
 		'.jpg': 'image/jpeg',
 		'.jpeg': 'image/jpeg',
 		'.gif': 'image/gif',
