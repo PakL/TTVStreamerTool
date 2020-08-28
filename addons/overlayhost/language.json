@@ -301,5 +301,11 @@
 	},
 	"This is triggered if the user requested to skip a song": {
 		"de": "Löst aus wenn der Benutzer einen Titel überspringen möchte"
+	},
+	"Select folders on your PC where TTVST is allowed to load files from and transfer them via the Overlay HTTP Server. Subfolders are included!": {
+		"de": "Wähle Ordner auf deinem PC, aus denen das TTVST Dateien laden und via des Overlay-HTTP-Server übertragen darf. Unterordner werden auch freigeschaltet!"
+	},
+	"Allowed file sources": {
+		"de": "Erlaubte Dateiquellen"
 	}
 }

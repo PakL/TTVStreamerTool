@@ -85,7 +85,7 @@ class OverlayPage extends Page {
 			type: 'custom',
 			setting: 'overlayhost.global.allowedsources',
 			label: 'Allowed file sources',
-			description: 'Select folders on your PC where TTVST is allowed to load files from and transfer them via the Overlay HTTP Server.',
+			description: 'Select folders on your PC where TTVST is allowed to load files from and transfer them via the Overlay HTTP Server. Subfolders are included!',
 			default: '[]',
 			custom_input: this.allowedSourcesFolderListInput.root
 		});
@@ -154,20 +154,22 @@ class OverlayPage extends Page {
 
 	async onWebhookGenerateClick() {
 		let result = await TTVST.ui.selectAction();
-		let action = Broadcast.getAction({ channel: result.channel });
-		if(action.length > 0) {
-			let query = ''
-			if(result.parameter.length > 0 && result.parameter.length == action[0].parameters.length) {
-				for(let i = 0; i < action[0].parameters.length; i++) {
-					let v = result.parameter[i];
-					if(typeof(v) !== 'string') {
-						v = JSON.stringify(v);
+		if(result !== null) {
+			let action = Broadcast.getAction({ channel: result.channel });
+			if(action.length > 0) {
+				let query = ''
+				if(result.parameter.length > 0 && result.parameter.length == action[0].parameters.length) {
+					for(let i = 0; i < action[0].parameters.length; i++) {
+						let v = result.parameter[i];
+						if(typeof(v) !== 'string') {
+							v = JSON.stringify(v);
+						}
+						query += '&' + encodeURIComponent(action[0].parameters[i].label) + '=' + encodeURIComponent(v);
 					}
-					query += '&' + encodeURIComponent(action[0].parameters[i].label) + '=' + encodeURIComponent(v);
+					query = '?' + query.substr(1);
 				}
-				query = '?' + query.substr(1);
+				Settings.setString('overlayhost.webhooks.generated', 'http://localhost:' + Settings.getString('overlayhost.global.port', '8090') + '/send/' + encodeURIComponent(result.channel) + query);
 			}
-			Settings.setString('overlayhost.webhooks.generated', 'http://localhost:' + Settings.getString('overlayhost.global.port', '8090') + '/send/' + encodeURIComponent(result.channel) + query);
 		}
 		this.updateSettings();
 	}
