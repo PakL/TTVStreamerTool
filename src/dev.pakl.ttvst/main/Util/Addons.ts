@@ -131,6 +131,7 @@ export default class Addons {
 				if(typeof(addon.main) === 'string') {
 					try {
 						let modpath = Path.relative(__dirname, Path.join(process.cwd(), addon.path, addon.main.substring(0, addon.main.lastIndexOf('.')))).replace(new RegExp('\\'+Path.sep, 'g'), '/');
+						logger.debug(`[Addons] Loading addon main module for ${addon.name} at ${modpath}`);
 						require(modpath);
 						this.setFlag(this.installedAddons[i].addonid, 'loaded');
 
@@ -162,10 +163,12 @@ export default class Addons {
 	checkForRendererStuff(addon: IAddon) {
 		fs.exists(Path.join(process.cwd(), addon.path, 'language.json'), (exists) => {
 			if(exists) {
+				logger.debug(`[Addons] Remind renderer to load language file for ${addon.name}`);
 				TTVST.mainWindow.ipcSend('Addons.language', addon.path);
 			}
 
 			if(typeof(addon.renderer) === 'string') {
+				logger.debug(`[Addons] Remind renderer load renderer module for ${addon.name}`);
 				TTVST.mainWindow.ipcSend('Addons.load', addon.path, addon.renderer.substring(0, addon.renderer.lastIndexOf('.')));
 			}
 		});
@@ -174,11 +177,11 @@ export default class Addons {
 	checkForBroadcastStuff(addon: IAddon) {
 		fs.readFile(Path.join(process.cwd(), addon.path, 'broadcast.json'), { encoding: 'utf8' }, (err: NodeJS.ErrnoException, data: string) => {
 			if(err) {
-				logger.error(err);
 				return;
 			}
 
 			try {
+				logger.debug(`[Addons] Loading broadcast information for ${addon.name}`);
 				let broadcastData = JSON.parse(data);
 				if(Array.isArray(broadcastData.triggers)) {
 					for(let i = 0; i < broadcastData.triggers.length; i++) {
