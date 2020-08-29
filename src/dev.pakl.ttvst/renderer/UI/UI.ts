@@ -3,6 +3,7 @@ import * as riot from 'riot';
 
 import App from '../../../../dist/dev.pakl.ttvst/renderer/UI/Main/App';
 import Modal from '../../../../dist/dev.pakl.ttvst/renderer/UI/Main/Modal';
+import SettingsMenu from '../../../../dist/dev.pakl.ttvst/renderer/UI/Settings/SettingsMenu';
 import ActionSelect from '../../../../dist/dev.pakl.ttvst/renderer/UI/Broadcast/ActionSelect';
 import TriggerSelect from '../../../../dist/dev.pakl.ttvst/renderer/UI/Broadcast/TriggerSelect';
 
@@ -33,8 +34,6 @@ export interface IModalButton {
 }
 
 export default class UI {
-
-	private tool: TTVST;
 	
 	private pages: Array<Page> = [];
 
@@ -45,9 +44,7 @@ export default class UI {
 
 	private components: Array<riot.RiotComponent> = [];
 
-	constructor(tool: TTVST) {
-		this.tool = tool;
-
+	constructor() {
 		const self = this;
 		riot.install((comp: riot.RiotComponent<any, any>): riot.RiotComponent<any, any> => {
 			self.registerComponent(comp);
@@ -64,6 +61,13 @@ export default class UI {
 		this.root = document.querySelector('#root');
 		this.root.appendChild(this.app.root);
 	}
+
+	get Page(): typeof Page { return Page; }
+
+	get Modal(): typeof Modal { return Modal; }
+
+	get SettingsMenu(): typeof SettingsMenu { return SettingsMenu; }
+
 
 	registerComponent(component: riot.RiotComponent) {
 		if(this.components.indexOf(component) < 0) {

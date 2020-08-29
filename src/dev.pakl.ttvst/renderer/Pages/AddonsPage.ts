@@ -3,7 +3,6 @@ import { ipcRenderer } from 'electron';
 import Path from 'path';
 
 import * as Settings from '../Settings';
-import Broadcast from '../Broadcast';
 
 import { IAddon } from '../../main/Util/AddonsTypes';
 
@@ -11,7 +10,6 @@ import * as riot from 'riot';
 import AddonsPageCmp from '../../../../dist/dev.pakl.ttvst/renderer/UI/Addons/AddonsPage';
 
 import _ttvst from '../TTVST';
-import { loggers } from 'winston';
 declare var TTVST: _ttvst;
 
 class AddonsPage extends Page {
@@ -111,7 +109,7 @@ class AddonsPage extends Page {
 				packages.push(packagesRaw[i]);
 			}
 		}
-		TTVST.settings.setJSON('addon_packagelists', packages);
+		TTVST.Settings.setJSON('addon_packagelists', packages);
 		this.startLoadRepository();
 	}
 

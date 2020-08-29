@@ -10,13 +10,12 @@ import process from 'process';
 import fontList from 'font-list';
 
 import TTVSTMain from '../../dist/dev.pakl.ttvst/main/TTVSTMain';
-import BroadcastMain from '../../dist/dev.pakl.ttvst/main/BroadcastMain';
-import * as Settings from '../../dist/dev.pakl.ttvst/main/Util/Settings';
 
 import { ipcMain } from 'electron';
 
 declare var logger: winston.Logger;
 declare var TTVST: TTVSTMain;
+const { Settings, BroadcastMain } = TTVST;
 
 let disconnectedButtons = [{ icon: 'PlugConnected', action: 'app.ttvst.overlayhost.listen', title: 'Connect' }];
 let connectedButtons = [{ icon: 'PlugDisconnected', action: 'app.ttvst.overlayhost.close', title: 'Disconnect' }];

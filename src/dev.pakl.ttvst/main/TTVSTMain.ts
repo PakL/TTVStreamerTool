@@ -78,4 +78,12 @@ export default class TTVSTMain {
 		return this._addons;
 	}
 
+	get Settings(): typeof Settings {
+		return Settings;
+	}
+
+	get BroadcastMain(): typeof BroadcastMain {
+		return BroadcastMain;
+	}
+
 }

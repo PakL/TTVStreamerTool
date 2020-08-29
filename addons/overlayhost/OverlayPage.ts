@@ -1,21 +1,20 @@
-import Page from '../../dist/dev.pakl.ttvst/renderer/UI/Page';
-import Broadcast from '../../dist/dev.pakl.ttvst/renderer/Broadcast';
-import * as Settings from '../../dist/dev.pakl.ttvst/renderer/Settings';
-
 import * as riot from 'riot';
-
-import TTVSTRenderer from '../../dist/dev.pakl.ttvst/renderer/TTVST';
-import SettingsMenu from '../../dist/dev.pakl.ttvst/renderer/UI/Settings/SettingsMenu';
-import { ISettingsSetProps } from '../../dist/dev.pakl.ttvst/renderer/UI/Settings/SettingsConfiguration';
 import { ipcRenderer } from 'electron';
+
+import { ISettingsSetProps } from '../../dist/dev.pakl.ttvst/renderer/UI/Settings/SettingsConfiguration';
 
 import FolderListInput from './FolderListInput';
 
-let folderListInputCmpnt: any = null;
-
+import TTVSTRenderer from '../../dist/dev.pakl.ttvst/renderer/TTVST';
 declare var TTVST: TTVSTRenderer;
 
-class OverlayPage extends Page {
+const { Settings, Broadcast } = TTVST;
+const { SettingsMenu } = TTVST.ui;
+
+
+let folderListInputCmpnt: any = null;
+
+class OverlayPage extends TTVST.ui.Page {
 
 	settingsCmpnt: riot.RiotComponent = null;
 	settings: Array<ISettingsSetProps> = [

@@ -4,7 +4,9 @@ process.env.NODE_ENV = ipcRenderer.sendSync('request-node-env');
 import i18n from 'i18n-nodejs';
 
 import UI from './UI/UI';
-import * as Settings from './Settings'
+import * as Settings from './Settings';
+
+import Broadcast from './Broadcast';
 
 import Startpage from './Pages/Startpage';
 import AddonsPage from './Pages/AddonsPage';
@@ -23,7 +25,7 @@ class TTVST {
 	init() {
 		this._i18n = new i18n(Settings.language(), './../../language.json');
 		this._i18n.__ = this._i18n.__.bind(this._i18n);
-		this._ui = new UI(this);
+		this._ui = new UI();
 
 		this._startpage = new Startpage();
 		this._addonspage = new AddonsPage();
@@ -43,8 +45,12 @@ class TTVST {
 		return this._ui;
 	}
 
-	get settings(): typeof Settings {
+	get Settings(): typeof Settings {
 		return Settings;
+	}
+
+	get Broadcast(): typeof Broadcast {
+		return Broadcast;
 	}
 
 }
