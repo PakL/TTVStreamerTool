@@ -28,11 +28,11 @@
 		"electron-squirrel-startup": "1.0.0",
 		"fluent-reveal-effect": "1.1.1",
 		"follow-redirects": "1.12.1",
-		"got": "11.5.1",
+		"got": "11.6.0",
 		"i18n-nodejs": "3.0.0",
 		"office-ui-fabric-core": "11.0.0",
 		"randexp": "0.5.3",
-		"riot": "4.13.4",
+		"riot": "4.14.0",
 		"sass": "1.26.10",
 		"sass-yiq": "1.0.0",
 		"stringz": "2.1.0",
@@ -41,10 +41,10 @@
 		"ws": "7.3.1"
 	},
 	"devDependencies": {
-		"electron": "9.1.2",
-		"electron-winstaller": "4.0.0",
+		"electron": "10.1.1",
+		"electron-winstaller": "4.0.1",
 		"typescript": "3.9.7",
 		"@riotjs/cli": "4.0.3",
-		"@riotjs/compiler": "4.9.3"
+		"@riotjs/compiler": "4.11.0"
 	}
 }

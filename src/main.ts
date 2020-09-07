@@ -50,7 +50,6 @@ const logger = winston.createLogger({
 Object.assign(global, { logger });
 
 
-app.allowRendererProcessReuse = false;
 app.setAppUserModelId('dev.pakl.TTVStreamerTool');
 if(!app.requestSingleInstanceLock()) {
 	app.quit();
