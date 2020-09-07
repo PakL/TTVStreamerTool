@@ -181,10 +181,10 @@ export default class UI {
 		return modalR;
 	}
 
-	selectAction(): Promise<{ channel: string, parameter: any[] }|null> {
+	selectAction(channel: string = '', parameters: any[] = []): Promise<{ channel: string, parameter: any[] }|null> {
 		return new Promise((res) => {
 			let select = document.createElement('ActionSelect');
-			let selectR: riot.RiotComponent = actionSelectCmpnt(select);
+			let selectR: riot.RiotComponent = actionSelectCmpnt(select, { initchannel: channel, initparams: parameters });
 
 			let modal = document.createElement('Modal');
 			let response = false;

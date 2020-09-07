@@ -81,7 +81,50 @@
 			},
 
 			onMounted(props, state) {
+				if(typeof(this.props.initchannel) === 'string' && this.props.initchannel.length > 0) {
+					this.$('.action_select').value = this.props.initchannel;
+				}
+				if(!Array.isArray(this.props.initparams)) {
+					this.props.initparams = [];
+				}
 				this.onActionSelect();
+			},
+
+			onUpdated(props, state) {
+				if(this.$('.action_select').value == this.props.initchannel) {
+					for(let i = 0; i < this.parameters.length; i++) {
+						if(this.props.initparams.length <= i) break;
+						if(this.parameters[i].type == 'boolean') {
+							if(this.props.initparams[i]) {
+								this.$('input[data-parameter="'+this.parameters[i].label+'"]').setAttribute('checked', 'true');
+							}
+						} else if(this.parameters[i].type == 'list') {
+							for(let j = 0; j < this.props.initparams[i].length; j++) {
+								if(j == 0) {
+									this.$('input[data-parameter="'+this.parameters[i].label+'"]').value = this.props.initparams[i][j];
+									continue;
+								}
+								let input = this.onAddList(this.parameters[i].label);
+								input.value = this.props.initparams[i][j];
+							}
+						} else if(this.parameters[i].type == 'assoc') {
+							let j = 0;
+							for(let key of Object.keys(this.props.initparams[i])) {
+								if(j == 0) {
+									j++;
+									this.$('input.key[data-parameter="'+this.parameters[i].label+'"]').value = key;
+									this.$('input.value[data-parameter="'+this.parameters[i].label+'"]').value = this.props.initparams[i][key];
+									continue;
+								}
+								let [inputKey, inputVal] = this.onAddAssoc(this.parameters[i].label);
+								inputKey.value = key;
+								inputVal.value = this.props.initparams[i][key];
+							}
+						} else {
+							this.$('input[data-parameter="'+this.parameters[i].label+'"]').value = this.props.initparams[i];
+						}
+					}
+				}
 			},
 
 			onActionSelect() {
@@ -101,16 +144,27 @@
 			},
 
 			onAddList(e) {
-				let btn = e.currentTarget;
+				let btn = null;
+				if(typeof(e) == 'object') {
+					btn = e.currentTarget;
+				} else {
+					btn = this.$('button[data-parameter="'+e+'"]')
+				}
 				let parent = btn.parentNode;
 
 				let newInput = document.createElement('input');
 				newInput.setAttribute('type', 'text');
 				newInput.dataset.parameter = btn.dataset.parameter;
 				parent.insertBefore(newInput, btn);
+				return newInput;
 			},
 			onAddAssoc(e) {
-				let btn = e.currentTarget;
+				let btn = null;
+				if(typeof(e) == 'object') {
+					btn = e.currentTarget;
+				} else {
+					btn = this.$('button[data-parameter="'+e+'"]')
+				}
 				let parent = btn.parentNode;
 
 				let newInputKey = document.createElement('input');
@@ -127,6 +181,7 @@
 				parent.insertBefore(newInputKey, btn);
 				parent.insertBefore(newSpacer, btn);
 				parent.insertBefore(newInputValue, btn);
+				return [newInputKey, newInputValue];
 			},
 
 			onRemoveList(e) {
