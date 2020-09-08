@@ -162,12 +162,12 @@ export default class Addons {
 
 	checkForRendererStuff(addon: IAddon) {
 		fs.exists(Path.join(process.cwd(), addon.path, 'language.json'), (exists) => {
-			if(exists) {
+			if(exists && TTVST.mainWindow.window !== null && TTVST.mainWindow.window.isVisible()) {
 				logger.debug(`[Addons] Remind renderer to load language file for ${addon.name}`);
 				TTVST.mainWindow.ipcSend('Addons.language', addon.path);
 			}
 
-			if(typeof(addon.renderer) === 'string') {
+			if(typeof(addon.renderer) === 'string' && TTVST.mainWindow.window !== null && TTVST.mainWindow.window.isVisible()) {
 				logger.debug(`[Addons] Remind renderer load renderer module for ${addon.name}`);
 				TTVST.mainWindow.ipcSend('Addons.load', addon.path, addon.renderer.substring(0, addon.renderer.lastIndexOf('.')));
 			}
@@ -181,7 +181,7 @@ export default class Addons {
 			}
 
 			try {
-				logger.debug(`[Addons] Loading broadcast information for ${addon.name}`);
+				logger.debug(`[Addons] Adding broadcast information for ${addon.name}`);
 				let broadcastData = JSON.parse(data);
 				if(Array.isArray(broadcastData.triggers)) {
 					for(let i = 0; i < broadcastData.triggers.length; i++) {
