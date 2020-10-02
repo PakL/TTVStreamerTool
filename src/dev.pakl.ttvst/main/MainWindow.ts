@@ -34,7 +34,7 @@ class MainWindow extends EventEmitter {
 			minHeight: 600,
 			autoHideMenuBar: true,
 			icon: path.join(__dirname, '../../../res/img/icon.ico'),
-			webPreferences: { nodeIntegration: true, webviewTag: true },
+			webPreferences: { nodeIntegration: true, webviewTag: true, worldSafeExecuteJavaScript: true },
 			show: false
 		});
 
