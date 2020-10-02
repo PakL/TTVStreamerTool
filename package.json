@@ -22,6 +22,7 @@
 		"@types/node": "12.12.6",
 		"@types/sass": "1.16.0",
 		"@types/ws": "7.2.6",
+		"@types/dateformat": "3.0.1",
 		"bufferutil": "4.0.1",
 		"compare-versions": "3.6.0",
 		"dateformat": "3.0.3",

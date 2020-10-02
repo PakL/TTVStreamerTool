@@ -1,4 +1,5 @@
 import { ipcRenderer } from 'electron';
+import dateFormat, { DateFormatI18n } from 'dateformat';
 process.env.NODE_ENV = ipcRenderer.sendSync('request-node-env');
 
 import i18n from 'i18n-nodejs';
@@ -18,6 +19,7 @@ class TTVST {
 
 	private _ui: UI;
 	private _i18n: i18n;
+	private _dateformat: typeof dateFormat;
 
 	private _startpage: Startpage;
 	private _addonspage: AddonsPage;
@@ -25,6 +27,10 @@ class TTVST {
 	init() {
 		this._i18n = new i18n(Settings.language(), './../../language.json');
 		this._i18n.__ = this._i18n.__.bind(this._i18n);
+		this._dateformat = dateFormat;
+		let dateformatI18n: { [lang: string]: DateFormatI18n } = require('./../../../dateformat.i18n.json');
+		this._dateformat.i18n = dateformatI18n[Settings.language()];
+
 		this._ui = new UI();
 
 		this._startpage = new Startpage();
@@ -39,6 +45,10 @@ class TTVST {
 
 	get i18n(): i18n {
 		return this._i18n;
+	}
+
+	get DateFormat(): typeof dateFormat {
+		return this._dateformat;
 	}
 
 	get ui(): UI {
