@@ -1,4 +1,4 @@
-import { BrowserWindow, ipcMain, systemPreferences, dialog, IpcMainEvent } from 'electron';
+import { BrowserWindow, ipcMain, systemPreferences, dialog, IpcMainEvent, WillNavigateEvent, webContents } from 'electron';
 import { EventEmitter } from 'events';
 import * as url from 'url';
 import * as path from 'path';
@@ -34,19 +34,25 @@ class MainWindow extends EventEmitter {
 			minHeight: 600,
 			autoHideMenuBar: true,
 			icon: path.join(__dirname, '../../../res/img/icon.ico'),
-			webPreferences: { nodeIntegration: true, webviewTag: true, worldSafeExecuteJavaScript: true },
+			webPreferences: {
+				nodeIntegration: true, contextIsolation: false,
+				webviewTag: true, worldSafeExecuteJavaScript: true, enableRemoteModule: false
+			},
 			show: false
 		});
 
 		this.window.on('ready-to-show', this.onReadyToShow.bind(this))
 		this.window.on('show', this.onShow.bind(this));
 		this.window.on('closed', this.onClosed.bind(this));
+
+		this.window.webContents.on('will-navigate', this.onContentWillNavigate.bind(this));
 		
 		ipcMain.on('request-accent-color', this.onRequestAccentColor.bind(this));
 		ipcMain.on('request-node-env', this.onRequestNodeEnv.bind(this));
 
 		ipcMain.handle('dialog.showOpenDialog', this.onShowOpenDialog.bind(this));
 		ipcMain.handle('dialog.showSaveDialog', this.onShowSaveDialog.bind(this));
+		ipcMain.handle('webview.preventnavigation', this.onPreventWebviewNavigation.bind(this));
 
 		this.window.loadURL(url.format({
 			pathname: path.join(__dirname, '../../../views/index.html'),
@@ -88,15 +94,15 @@ class MainWindow extends EventEmitter {
 		this.window = null;
 	}
 
-	private onRequestAccentColor(_event: Electron.IpcMainEvent) {
+	private onRequestAccentColor(_event: IpcMainEvent) {
 		_event.returnValue = systemPreferences.getAccentColor().substr(0, 6);
 	}
 
-	private onRequestNodeEnv(_event: Electron.IpcMainEvent) {
+	private onRequestNodeEnv(_event: IpcMainEvent) {
 		_event.returnValue = process.env.NODE_ENV;
 	}
 
-	private async onShowOpenDialog(event: IpcMainEvent, options: Electron.OpenDialogOptions) {
+	private async onShowOpenDialog(event: IpcMainEvent, options: Electron.OpenDialogOptions): Promise<string[]|false> {
 		if(this.window == null) return false;
 		try {
 			let result = await dialog.showOpenDialog(this.window, options);
@@ -108,7 +114,7 @@ class MainWindow extends EventEmitter {
 		}
 	}
 
-	private async onShowSaveDialog(event: IpcMainEvent, options: Electron.SaveDialogOptions) {
+	private async onShowSaveDialog(event: IpcMainEvent, options: Electron.SaveDialogOptions): Promise<string|false> {
 		if(this.window == null) return false;
 		try {
 			let result = await dialog.showSaveDialog(this.window, options);
@@ -118,6 +124,20 @@ class MainWindow extends EventEmitter {
 			logger.error(e);
 			return false;
 		}
+	}
+
+	private async onPreventWebviewNavigation(event: IpcMainEvent, webcontentid: number): Promise<void> {
+		try {
+			let wc = webContents.fromId(webcontentid);
+			if(wc !== null) {
+				wc.on('will-navigate', this.onContentWillNavigate);
+			}	
+		} catch(e){}
+	}
+
+	private onContentWillNavigate(event: WillNavigateEvent, url: string) {
+		// Prevent any and all navigation outside. This is very important!
+		event.preventDefault();
 	}
 
 }

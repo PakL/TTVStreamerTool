@@ -1,4 +1,4 @@
-import { BrowserWindow, ipcMain, app, autoUpdater } from 'electron';
+import { BrowserWindow, ipcMain, app, autoUpdater, WillNavigateEvent } from 'electron';
 import { EventEmitter } from 'events';
 import * as url from 'url';
 import * as path from 'path';
@@ -37,6 +37,7 @@ class SplashWindow extends EventEmitter {
 		
 		ipcMain.on('splash-done', this.onSplashDone.bind(this));
 		this.window.on('ready-to-show', this.onReadyToShow.bind(this));
+		this.window.webContents.on('will-navigate', this.onContentWillNavigate.bind(this));
 
 		this.onUpdaterError = this.onUpdaterError.bind(this);
 		this.onUpdaterUpdateAvailable = this.onUpdaterUpdateAvailable.bind(this);
@@ -65,6 +66,11 @@ class SplashWindow extends EventEmitter {
 		logger.verbose('Showing splash screen window');
 		this.window.show();
 		this.window.moveTop();
+	}
+
+	private onContentWillNavigate(event: WillNavigateEvent, url: string) {
+		// Prevent any and all navigation outside. This is very important!
+		event.preventDefault();
 	}
 
 	private onSplashDone() {

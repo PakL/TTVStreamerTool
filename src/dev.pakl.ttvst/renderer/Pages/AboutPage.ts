@@ -12,9 +12,8 @@ class AboutPage extends Page {
 
 	content(): any {
 		let frame: Electron.WebviewTag = document.createElement('webview');
-		frame.setAttribute('src', 'about.html');
-		frame.setAttribute('nodeintegration', 'true');
-		frame.setAttribute('enableremotemodule', 'false');
+		frame.setAttribute('src', 'about:blank');
+		frame.setAttribute('preload', '../dist/view-helper.js');
 		frame.style.width = '100%';
 		frame.style.height = '100%';
 		frame.style.border = '0';
@@ -22,7 +21,14 @@ class AboutPage extends Page {
 	}
 
 	open() {
-		(document.querySelector(`#contentWrapper > div[data-name="About TTVST"] > webview`) as Electron.WebviewTag).setZoomFactor(1);
+		let webviewtag = (document.querySelector('#contentWrapper > div[data-name="About TTVST"] > webview') as Electron.WebviewTag);
+		webviewtag.setZoomFactor(1);
+		webviewtag.setAttribute('src', 'about.html');
+	}
+
+	close() {
+		let webviewtag = (document.querySelector('#contentWrapper > div[data-name="About TTVST"] > webview') as Electron.WebviewTag);
+		webviewtag.setAttribute('src', 'about:blank');
 	}
 
 }

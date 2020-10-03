@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron';
 import Page from '../UI/Page';
 
 class ChangelogPage extends Page {
@@ -12,9 +13,8 @@ class ChangelogPage extends Page {
 
 	content(): any {
 		let frame: Electron.WebviewTag = document.createElement('webview');
-		frame.setAttribute('src', 'changelog.html');
-		frame.setAttribute('nodeintegration', 'true');
-		frame.setAttribute('enableremotemodule', 'false');
+		frame.setAttribute('src', 'about:blank');
+		frame.setAttribute('preload', '../dist/view-helper.js');
 		frame.style.width = '100%';
 		frame.style.height = '100%';
 		frame.style.border = '0';
@@ -22,7 +22,14 @@ class ChangelogPage extends Page {
 	}
 
 	open() {
-		(document.querySelector(`#contentWrapper > div[data-name="Changelog"] > webview`) as Electron.WebviewTag).setZoomFactor(1);
+		let webviewtag = (document.querySelector('#contentWrapper > div[data-name="Changelog"] > webview') as Electron.WebviewTag);
+		webviewtag.setZoomFactor(1);
+		webviewtag.setAttribute('src', 'changelog.html');
+	}
+
+	close() {
+		let webviewtag = (document.querySelector('#contentWrapper > div[data-name="Changelog"] > webview') as Electron.WebviewTag);
+		webviewtag.setAttribute('src', 'about:blank');
 	}
 
 }
