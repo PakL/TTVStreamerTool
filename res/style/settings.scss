@@ -61,6 +61,12 @@ button:active {
 	transform: scaleX(0.95) scaleY(0.95);
 	outline: none;
 }
+button:disabled {
+	filter: contrast(75%);
+}
+button:disabled:hover {
+	border-color: $accentColor;
+}
 
 hr {
 	border: 0;
