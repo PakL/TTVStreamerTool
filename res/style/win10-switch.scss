@@ -53,8 +53,17 @@ label.win10-switch {
 			content: 'On';
 			color: $accentColorContrast;
 		}
-		&:checked + span::before {
+		&:checked + span.lang-de::before {
 			content: 'An';
+		}
+	}
+}
+settingsinput > label.win10-switch, modal .form > label.win10-switch, modal .form > * > label.win10-switch {
+	input[type=checkbox] {
+		&+ span::before {
+			position: absolute;
+			margin-top: -2.5em;
+			margin-left: 60px;
 		}
 	}
 }
