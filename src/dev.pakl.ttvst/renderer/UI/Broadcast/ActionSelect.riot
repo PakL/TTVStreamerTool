@@ -15,7 +15,7 @@
 		<input if={ parameter.type == 'string' } type="text" data-parameter={ parameter.label } />
 		<input if={ parameter.type == 'boolean' } type="checkbox" data-parameter={ parameter.label } />
 		<div if={ parameter.type == 'file' } class="fileselect">
-			<input type="text" readonly data-parameter={ parameter.label } /><button onclick={ selectFile }><i class="ms-Icon ms-Icon--OpenFolderHorizontal"></i></button>
+			<input type="text" data-parameter={ parameter.label } /><button onclick={ selectFile }><i class="ms-Icon ms-Icon--OpenFolderHorizontal"></i></button>
 		</div>
 		<div if={ parameter.type == 'list' } class="list">
 			<input type="text" data-parameter={ parameter.label }/>
