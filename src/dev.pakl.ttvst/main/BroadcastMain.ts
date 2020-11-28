@@ -51,7 +51,7 @@ class BroadcastMain extends EventEmitter {
 
 	static hasTrigger(channel: string) {
 		for(let i = 0; i < BroadcastMain._triggers.length; i++) {
-			if(BroadcastMain._triggers[i].channel === channel) {
+			if(BroadcastMain._triggers[i].channel.toLocaleLowerCase() === channel.toLocaleLowerCase()) {
 				return i;
 			}
 		}
@@ -66,9 +66,9 @@ class BroadcastMain extends EventEmitter {
 		let result = [];
 		for(let i = 0; i < BroadcastMain._triggers.length; i++) {
 			let add = false;
-			if(typeof(where.label) === 'string' && BroadcastMain._triggers[i].label.toLowerCase().indexOf(where.label.toLowerCase()) >= 0) add = true;
-			if(typeof(where.addon) === 'string' && BroadcastMain._triggers[i].addon.toLowerCase().indexOf(where.addon.toLowerCase()) >= 0) add = true;
-			if(typeof(where.channel) === 'string' && BroadcastMain._triggers[i].channel.toLowerCase().indexOf(where.channel.toLowerCase()) >= 0) add = true;
+			if(typeof(where.label) === 'string' && BroadcastMain._triggers[i].label.toLocaleLowerCase() === where.label.toLocaleLowerCase()) add = true;
+			if(typeof(where.addon) === 'string' && BroadcastMain._triggers[i].addon.toLocaleLowerCase() === where.addon.toLocaleLowerCase()) add = true;
+			if(typeof(where.channel) === 'string' && BroadcastMain._triggers[i].channel.toLocaleLowerCase() === where.channel.toLocaleLowerCase()) add = true;
 
 			if(add) result.push(BroadcastMain._triggers[i]);
 		}
@@ -97,7 +97,7 @@ class BroadcastMain extends EventEmitter {
 
 	static hasAction(channel: string) {
 		for(let i = 0; i < BroadcastMain._actions.length; i++) {
-			if(BroadcastMain._actions[i].channel === channel) {
+			if(BroadcastMain._actions[i].channel.toLocaleLowerCase() === channel.toLocaleLowerCase()) {
 				return i;
 			}
 		}
@@ -112,9 +112,9 @@ class BroadcastMain extends EventEmitter {
 		let result = [];
 		for(let i = 0; i < BroadcastMain._actions.length; i++) {
 			let add = false;
-			if(typeof(where.label) === 'string' && BroadcastMain._actions[i].label.toLowerCase().indexOf(where.label.toLowerCase()) >= 0) add = true;
-			if(typeof(where.addon) === 'string' && BroadcastMain._actions[i].addon.toLowerCase().indexOf(where.addon.toLowerCase()) >= 0) add = true;
-			if(typeof(where.channel) === 'string' && BroadcastMain._actions[i].channel.toLowerCase().indexOf(where.channel.toLowerCase()) >= 0) add = true;
+			if(typeof(where.label) === 'string' && BroadcastMain._actions[i].label.toLocaleLowerCase() === where.label.toLocaleLowerCase()) add = true;
+			if(typeof(where.addon) === 'string' && BroadcastMain._actions[i].addon.toLocaleLowerCase() === where.addon.toLocaleLowerCase()) add = true;
+			if(typeof(where.channel) === 'string' && BroadcastMain._actions[i].channel.toLocaleLowerCase() === where.channel.toLocaleLowerCase()) add = true;
 
 			if(add) result.push(BroadcastMain._actions[i]);
 		}
