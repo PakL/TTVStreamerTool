@@ -29,10 +29,7 @@ const logFormat = winston.format.printf((log) => {
 	return msg;
 })
 
-if(!fs.existsSync(path.join('.', 'logs'))) {
-	fs.mkdirSync(path.join('.', 'logs'));
-}
-const errorTransport = new winston.transports.File({ level: 'error', dirname: path.join('.', 'logs'), filename: 'error_' + new Date().getTime() + '.log' })
+const errorTransport = new winston.transports.File({ level: 'error', dirname: app.getPath('logs'), filename: 'error_' + new Date().getTime() + '.log' })
 const logger = winston.createLogger({
 	transports: [
 		new winston.transports.Console({ level: (process.env.NODE_ENV === 'development' ? 'debug' : 'info') }),
