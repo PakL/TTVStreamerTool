@@ -49,6 +49,13 @@ class BroadcastMain extends EventEmitter {
 		}
 	}
 
+	static removeTrigger(channel: string) {
+		let index = BroadcastMain.hasTrigger(channel);
+		if(index >= 0) {
+			BroadcastMain._triggers.splice(index, 1);
+		}
+	}
+
 	static hasTrigger(channel: string) {
 		for(let i = 0; i < BroadcastMain._triggers.length; i++) {
 			if(BroadcastMain._triggers[i].channel.toLocaleLowerCase() === channel.toLocaleLowerCase()) {
@@ -92,6 +99,13 @@ class BroadcastMain extends EventEmitter {
 	static registerAction(action: IBroadcastAction) {
 		if(BroadcastMain.hasAction(action.channel) < 0) {
 			BroadcastMain._actions.push(action);
+		}
+	}
+
+	static removeAction(channel: string) {
+		let index = BroadcastMain.hasAction(channel);
+		if(index >= 0) {
+			BroadcastMain._actions.splice(index, 1);
 		}
 	}
 
