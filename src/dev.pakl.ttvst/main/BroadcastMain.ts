@@ -212,7 +212,7 @@ class BroadcastMain extends EventEmitter {
 
 	execute(channel: string, ...args: any[]): Promise<any|void> {
 		const self = this;
-		return new Promise<any>((resolve, reject) => {
+		return new Promise<any|void>((resolve, reject) => {
 			let actions = BroadcastMain.getAction({ channel });
 			if(actions.length >= 1) {
 				let action = actions[0];
@@ -233,7 +233,7 @@ class BroadcastMain extends EventEmitter {
 						reject(new Error('Execution timed out'));
 					}, 10000);
 				} else {
-					resolve();
+					resolve(undefined);
 				}
 				self.emitIpc(channel, ...args);
 				self.broadcastToAll('broadcast.execute', channel, ...args);

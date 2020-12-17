@@ -21,31 +21,31 @@
 	"dependencies": {
 		"@types/node": "12.12.6",
 		"@types/sass": "1.16.0",
-		"@types/ws": "7.2.6",
+		"@types/ws": "7.4.0",
 		"@types/dateformat": "3.0.1",
 		"bufferutil": "4.0.1",
 		"compare-versions": "3.6.0",
 		"dateformat": "3.0.3",
 		"electron-squirrel-startup": "1.0.0",
 		"fluent-reveal-effect": "1.1.1",
-		"follow-redirects": "1.12.1",
-		"got": "11.6.0",
+		"follow-redirects": "1.13.0",
+		"got": "11.8.0",
 		"i18n-nodejs": "3.0.0",
 		"office-ui-fabric-core": "11.0.0",
 		"randexp": "0.5.3",
-		"riot": "4.14.0",
-		"sass": "1.26.10",
+		"riot": "5.1.1",
+		"sass": "1.29.0",
 		"sass-yiq": "1.0.0",
 		"stringz": "2.1.0",
-		"utf-8-validate": "5.0.2",
+		"utf-8-validate": "5.0.3",
 		"winston": "3.3.3",
-		"ws": "7.3.1"
+		"ws": "7.4.0"
 	},
 	"devDependencies": {
-		"electron": "10.1.1",
+		"electron": "11.0.3",
 		"electron-winstaller": "4.0.1",
 		"typescript": "3.9.7",
-		"@riotjs/cli": "4.0.3",
-		"@riotjs/compiler": "4.11.0"
+		"@riotjs/cli": "5.0.0",
+		"@riotjs/compiler": "5.1.2"
 	}
 }

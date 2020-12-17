@@ -62,7 +62,7 @@ class Broadcast extends EventEmitter {
 
 	execute(channel: string, ...args: any[]): Promise<any|void> {
 		const self = this;
-		return new Promise<any>((resolve, reject) => {
+		return new Promise<any|void>((resolve, reject) => {
 			let actions = Broadcast.getAction({ channel });
 			if(actions.length >= 1) {
 				let action = actions[0];
@@ -83,7 +83,7 @@ class Broadcast extends EventEmitter {
 						reject(new Error('Execution timed out'));
 					}, 10000);
 				} else {
-					resolve();
+					resolve(undefined);
 				}
 				self.emitIpc(channel, ...args);
 				ipcRenderer.send('broadcast.execute', channel, ...args);
