@@ -15,7 +15,7 @@ class MainWindow extends EventEmitter {
 
 	constructor() {
 		super();
-		this.state = new WindowState({ defaultWidth: 800, defaultHeight: 600 });
+		this.state = new WindowState({ defaultWidth: 1024, defaultHeight: 768 });
 	}
 
 	createAndLoad() {
@@ -30,8 +30,8 @@ class MainWindow extends EventEmitter {
 			y: this.state.y,
 			width: this.state.width,
 			height: this.state.height,
-			minWidth: 800,
-			minHeight: 600,
+			minWidth: 1024,
+			minHeight: 768,
 			autoHideMenuBar: true,
 			icon: path.join(__dirname, '../../../res/img/icon.ico'),
 			webPreferences: {
