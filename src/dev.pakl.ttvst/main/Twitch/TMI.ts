@@ -314,14 +314,14 @@ class TMI extends EventEmitter {
 							/**
 							 * Fires when a user sends an action message. It's exactly like a normal message but is usually display in the user name color.
 							 * @event TMI#action
-							 * @param {TMIMessage} obj
+							 * @param {T.TMIMessage} obj
 							 * @param {Object} obj.prefix Message prefix - there is usually nothing interesting here
 							 * @param {String} obj.prefix.user Username in the prefix
 							 * @param {String} obj.prefix.host Host in the prefix
 							 * @param {String} obj.user Username that sent the message
 							 * @param {String} obj.channel Channel that the message was sent to
 							 * @param {String} obj.message The message that was sent
-							 * @param {TMIMessage} obj.tags The message tags
+							 * @param {T.TMITagsPrivmsg} obj.tags The message tags
 							 * @see {@link https://dev.twitch.tv/docs/v5/guides/irc/#twitch-irc-capability-tags}
 							 */
 							this.emit('action', { prefix, user: prefix.user, channel: to, message: msg, tags });
@@ -329,14 +329,14 @@ class TMI extends EventEmitter {
 							/**
 							 * Fires when a user sends an message
 							 * @event TMI#message
-							 * @param {TMIMessage} obj
+							 * @param {T.TMIMessage} obj
 							 * @param {Object} obj.prefix Message prefix - there is usually nothing interesting here
 							 * @param {String} obj.prefix.user Username in the prefix
 							 * @param {String} obj.prefix.host Host in the prefix
 							 * @param {String} obj.user Username that sent the message
 							 * @param {String} obj.channel Channel that the message was sent to
 							 * @param {String} obj.message The message that was sent
-							 * @param {TMIMessage} obj.tags The message tags
+							 * @param {T.TMITagsPrivmsg} obj.tags The message tags
 							 * @see {@link https://dev.twitch.tv/docs/v5/guides/irc/#twitch-irc-capability-tags}
 							 */
 							this.emit('message', { prefix, user: prefix.user, channel: to, message: msg, tags });

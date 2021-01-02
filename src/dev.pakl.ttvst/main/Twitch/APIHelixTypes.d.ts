@@ -114,6 +114,14 @@ export interface IAPIHelixClips {
 	}>;
 }
 
+export interface IAPIHelixGames extends IAPIHelixPagination {
+	data: Array<{
+		box_art_url: string,
+		id: string,
+		name: string
+	}>
+}
+
 export interface IAPIHelixValidation {
 	client_id: string;
 	login: string;

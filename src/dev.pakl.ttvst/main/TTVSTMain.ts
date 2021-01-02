@@ -8,6 +8,8 @@ import BroadcastMain from './BroadcastMain';
 import Addons from './Util/Addons';
 import * as Settings from './Util/Settings';
 
+import TwitchBroadcast from './Util/TwitchBroadcast';
+
 export default class TTVSTMain {
 
 	private _mainWindow: MainWindow = null;
@@ -44,6 +46,8 @@ export default class TTVSTMain {
 				'whispers:edit',
 				'user:edit:broadcast',
 				'channel:read:subscriptions',
+				'channel:read:redemptions',
+				'channel:manage:redemptions',
 				'channel:moderate',
 				'moderation:read',
 				'user_read',
@@ -55,6 +59,8 @@ export default class TTVSTMain {
 		});
 
 		this._tmi = new TMI();
+
+		new TwitchBroadcast();
 	}
 
 	get helix(): APIHelix {

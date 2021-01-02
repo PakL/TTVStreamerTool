@@ -26,10 +26,10 @@ class Startpage extends Page {
 
 		this.onStatusUpdate = this.onStatusUpdate.bind(this);
 
-		let token = Settings.getString('tw_auth_token', '');
+		/*let token = Settings.getString('tw_auth_token', '');
 		this.validateAndGetUserInfo(token).catch((e) => {
 			console.error(e);
-		});
+		});*/
 
 		Broadcast.instance.on('cockpit.status', this.onStatusUpdate);
 		Broadcast.instance.emit('startpage-ready');
@@ -40,8 +40,16 @@ class Startpage extends Page {
 	}
 
 	async onLogin() {
+		let token = Settings.getString('tw_auth_token', '');
 		try {
-			let token = await ipcRenderer.invoke('cockpit.login');
+			if(await this.validateAndGetUserInfo(token)) {
+				return;
+			}
+		} catch(e) {}
+
+		try {
+
+			token = await ipcRenderer.invoke('cockpit.login');
 			if(token.length > 0) {
 				await this.validateAndGetUserInfo(token);
 			} else {
@@ -58,8 +66,8 @@ class Startpage extends Page {
 		Settings.setString('tw_auth_token', '');
 	}
 
-	async validateAndGetUserInfo(token: string) {
-		if(typeof(token) !== 'string' || token.length <= 0) return;
+	async validateAndGetUserInfo(token: string): Promise<boolean> {
+		if(typeof(token) !== 'string' || token.length <= 0) return false;
 
 		let validation: Helix.IAPIHelixValidation = await ipcRenderer.invoke('cockpit.check-login', token);
 		if(typeof(validation.login) === 'string') {
@@ -68,9 +76,11 @@ class Startpage extends Page {
 			if(users.data.length >= 1) {
 				let user = users.data[0];
 				this.startpage.updateLogin({ waiting: false, loggedin: true, loginName: user.display_name, avatarUrl: user.profile_image_url });
-				//ipcRenderer.send('cockpit.tmi.connect');
+				ipcRenderer.send('cockpit.tmi.connect');
+				return true;
 			}
 		}
+		return false;
 	}
 
 	onStatusUpdate(statusObject: IStatusObject) {
