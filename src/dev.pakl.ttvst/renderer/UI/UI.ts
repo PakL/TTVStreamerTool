@@ -210,10 +210,10 @@ export default class UI {
 		});
 	}
 
-	selectTrigger(): Promise<string|null> {
+	selectTrigger(channel: string = ''): Promise<string|null> {
 		return new Promise((res) => {
 			let select = document.createElement('TriggerSelect');
-			let selectR: riot.RiotComponent = triggerSelectCmpnt(select);
+			let selectR: riot.RiotComponent = triggerSelectCmpnt(select, { initchannel: channel });
 
 			let modal = document.createElement('Modal');
 			let response = false;

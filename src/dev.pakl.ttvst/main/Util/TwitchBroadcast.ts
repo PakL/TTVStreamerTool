@@ -67,6 +67,30 @@ class TwitchBroadcast {
 			result: { label: 'game', description: 'The game', type: 'string' }
 		});
 		Broadcast.instance.on('app.ttvst.helix.getGame', this.onHelixGetStreamGame.bind(this));
+
+		
+		Broadcast.registerAction({
+			label: 'Set channel title',
+			description: 'Set the title of your channel',
+			channel: 'app.ttvst.helix.setTitle',
+			addon: 'Twitch',
+			parameters: [
+				{ label: 'title', description: 'New channel title. Must not be empty', type: 'string' }
+			],
+			result: { label: 'success', description: 'True if the title was changed', type: 'boolean' }
+		});
+		Broadcast.instance.on('app.ttvst.helix.setTitle', this.onHelixSetStreamTitle.bind(this));
+		Broadcast.registerAction({
+			label: 'Sets channel game',
+			description: 'Sets the channel game. Does not have to be precise but takes the first search result. Try to be as precise as possible.',
+			channel: 'app.ttvst.helix.setGame',
+			addon: 'Twitch',
+			parameters: [
+				{ label: 'game', description: 'The game name you want the channel to set to', type: 'string' }
+			],
+			result: { label: 'game', description: 'The game name the channel was set to. Empty on failure.', type: 'string' }
+		});
+		Broadcast.instance.on('app.ttvst.helix.setGame', this.onHelixSetStreamGame.bind(this));
 	}
 
 	onTMIMessage(msg: T.TMIMessage) {
@@ -97,15 +121,18 @@ class TwitchBroadcast {
 		this.tmi.say(TTVST.helix.userobj.login, message);
 	}
 
-	async getAPICache(apiRoute: 'getStreams'|'getGames', ...parameters: any[]): Promise<H.IAPIHelixStreams|H.IAPIHelixGames> {
+	async getAPICache(apiRoute: 'getStreams'|'getGames'|'getChannel'|'getUsers'|'searchCategories', cacheTime: number, ...parameters: any[]): Promise<H.IAPIHelixStreams|H.IAPIHelixGames|H.IAPIHelixChannel|H.IAPIHelixUserList|H.IAPIHelixSearchCategories> {
 		let parameterString = JSON.stringify(parameters);
 
 		if(apiRoute === 'getStreams' && parameters.length < 1) return null;
 		if(apiRoute === 'getGames' && parameters.length < 2) return null;
+		if(apiRoute === 'getChannel' && parameters.length < 1) return null;
+		if(apiRoute === 'getUsers' && parameters.length < 1) return null;
+		if(apiRoute === 'searchCategories' && parameters.length < 1) return null;
 
 		let cache = await TTVST.Settings.getJSON('helix_' + apiRoute + '_' + parameterString, null, true);
 		let cache_time = parseInt(await TTVST.Settings.getString('helix_' + apiRoute + '_' + parameterString + '_time', '0', true));
-		if(cache === null || (apiRoute === 'getStreams' && cache_time < ((new Date()).getTime() - 30000))) {
+		if(cache === null || ( cacheTime > 0 && cache_time < ((new Date()).getTime() - (cacheTime * 1000)) )) {
 			try {
 				let stream = await TTVST.helix[apiRoute](...parameters as [any, any]);
 				if(stream.data.length == 1) {
@@ -123,14 +150,42 @@ class TwitchBroadcast {
 		return cache;
 	}
 
-	async getStreamAPIProperty(channel: string, property: 'title'|'game_id'|'started_at'|'viewer_count'): Promise<string|number> {
+	async getStreamAPIProperty(channel: string, property: keyof H.IAPIHelixStreamObject): Promise<string|number> {
 		if(typeof(channel) !== 'string') channel = '';
 		if(channel.length <= 0) channel = TTVST.helix.userobj.login;
 
 		let response: string|number = '';
-		let stream_cache = (await this.getAPICache('getStreams', { user_login: channel }) as H.IAPIHelixStreams);
+		let stream_cache = (await this.getAPICache('getStreams', 30, { user_login: channel }) as H.IAPIHelixStreams);
 		if(stream_cache !== null && stream_cache.data.length > 0) {
-			response = stream_cache.data[0][property];
+			if(Array.isArray(stream_cache.data[0][property])) {
+				response = (stream_cache.data[0][property] as Array<string>).join(';');
+			} else {
+				response = (stream_cache.data[0][property] as string|number);
+			}
+		}
+
+		return response;
+	}
+
+	async getChannelAPIProperty(channel: string, property: keyof H.IAPIHelixChannelObject): Promise<string|number> {
+		if(typeof(channel) !== 'string') channel = '';
+
+		let channel_id = '';
+		if(channel.length <= 0)  {
+			channel_id = TTVST.helix.userobj.id;
+		} else {
+			let users = (await this.getAPICache('getUsers', 8 * 60 * 60, { login: channel }) as H.IAPIHelixUserList)
+			if(users.data.length > 0) {
+				channel_id = users.data[0].id;
+			} else {
+				return '';
+			}
+		}
+
+		let response: string|number = '';
+		let stream_cache = (await this.getAPICache('getChannel', 30, channel_id) as H.IAPIHelixChannel);
+		if(stream_cache !== null && stream_cache.data.length > 0) {
+			response = (stream_cache.data[0][property] as string|number);
 		}
 
 		return response;
@@ -142,7 +197,15 @@ class TwitchBroadcast {
 			return;
 		}
 
-		let response = await this.getStreamAPIProperty(channel, 'title');
+		let response = '';
+		try {
+			response = (await this.getStreamAPIProperty(channel, 'title') as string);
+			if(response.length == 0) {
+				response = (await this.getChannelAPIProperty(channel, 'title') as string);
+			}
+		} catch(e) {
+			logger.error(e);
+		}
 		TTVST.BroadcastMain.instance.executeRespond(executeId, response);
 	}
 
@@ -153,15 +216,65 @@ class TwitchBroadcast {
 		}
 
 		let response = '';
-		let game_id = (await this.getStreamAPIProperty(channel, 'game_id') as string);
-		if(game_id.length > 0) {
-			let gamecache = (await this.getAPICache('getGames', game_id) as H.IAPIHelixGames);
-			if(gamecache !== null && gamecache.data.length > 0) {
-				response = gamecache.data[0].name;
+		try {
+			response = (await this.getStreamAPIProperty(channel, 'game_name') as string);
+			if(response.length == 0) {
+				response = (await this.getChannelAPIProperty(channel, 'game_name') as string);
 			}
+		} catch(e) {
+			logger.error(e);
+		}
+		TTVST.BroadcastMain.instance.executeRespond(executeId, response);
+	}
+
+	async onHelixSetStreamTitle(executeId: string, title: string) {
+		if(typeof(title) !== 'string' || title.length <= 0 || TTVST.helix.userobj === null || typeof(TTVST.helix.userobj.login) !== 'string') {
+			TTVST.BroadcastMain.instance.executeRespond(executeId, false);
+			return;
 		}
 
-		TTVST.BroadcastMain.instance.executeRespond(executeId, response);
+		let success = false;
+		try {
+			await this.helix.patchChannel(this.helix.userobj.id, { title });
+			success = true;
+		} catch(e) {
+			logger.error(e);
+		}
+		TTVST.BroadcastMain.instance.executeRespond(executeId, success);
+	}
+
+	async onHelixSetStreamGame(executeId: string, game: string) {
+		if(typeof(game) !== 'string' || game.length <= 0 || TTVST.helix.userobj === null || typeof(TTVST.helix.userobj.login) !== 'string') {
+			TTVST.BroadcastMain.instance.executeRespond(executeId, false);
+			return;
+		}
+
+		let result = '';
+		try {
+			let game_id = '';
+			let game_name = '';
+			let search = await this.getAPICache('searchCategories', -1, { query: game }) as H.IAPIHelixSearchCategories;
+			if(search.data.length > 0) {
+				for(let i = 0; i < search.data.length; i++) {
+					if(search.data[i].name.toLowerCase() === game.toLowerCase()) {
+						game_id = search.data[i].id;
+						game_name = search.data[i].name;
+					}
+				}
+				if(game_id.length <= 0) {
+					game_id = search.data[0].id;
+					game_name = search.data[0].name;
+				}
+			}
+
+			if(game_id.length > 0) {
+				await this.helix.patchChannel(this.helix.userobj.id, { game_id });
+				result = game_name;
+			}
+		} catch(e) {
+			logger.error(e);
+		}
+		TTVST.BroadcastMain.instance.executeRespond(executeId, result);
 	}
 
 }

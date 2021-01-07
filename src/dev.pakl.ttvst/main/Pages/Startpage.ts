@@ -22,11 +22,15 @@ class Startpage {
 		this.onGetUser = this.onGetUser.bind(this);
 		this.onConnectTMI = this.onConnectTMI.bind(this);
 		this.onDisconnectTMI = this.onDisconnectTMI.bind(this);
+		this.onConnectPubsub = this.onConnectPubsub.bind(this);
+		this.onDisconnectPubsub = this.onDisconnectPubsub.bind(this);
 
 		this.onTMIReady = this.onTMIReady.bind(this);
 		this.onTMIRegistered = this.onTMIRegistered.bind(this);
 		this.onTMIAuthFail = this.onTMIAuthFail.bind(this);
 		this.onTMIClose = this.onTMIClose.bind(this);
+		this.onPubsubConnected = this.onPubsubConnected.bind(this);
+		this.onPubsubClosed = this.onPubsubClosed.bind(this);
 		
 		this.repeatBroadcast = this.repeatBroadcast.bind(this);
 
@@ -37,6 +41,7 @@ class Startpage {
 		ipcMain.handle('cockpit.get-user', this.onGetUser);
 
 		this.broadcastStatus({ key: 'app.ttvst.tmi', icon: 'CannedChat', status: 'error', title: 'Twitch Messaging Interface (TMI)', info: 'Disconnected.', buttons: [{ icon: 'PlugConnected', action: 'cockpit.tmi.connect', title: 'Connect' }]});
+		this.broadcastStatus({ key: 'app.ttvst.pubsub', icon: 'Glimmer', status: 'error', title: 'PubSub (Twitch Events)', info: 'Disconnected.', buttons: [{ icon: 'PlugConnected', action: 'cockpit.pubsub.connect', title: 'Connect' }]});
 		Broadcast.instance.on('startpage-ready', this.repeatBroadcast);
 
 		ipcMain.on('cockpit.tmi.connect', this.onConnectTMI);
@@ -45,6 +50,11 @@ class Startpage {
 		TTVST.tmi.on('registered', this.onTMIRegistered);
 		TTVST.tmi.on('auth-fail', this.onTMIAuthFail);
 		TTVST.tmi.on('close', this.onTMIClose);
+
+		ipcMain.on('cockpit.pubsub.connect', this.onConnectPubsub);
+		ipcMain.on('cockpit.pubsub.disconnect', this.onDisconnectPubsub);
+		TTVST.pubsub.on('connected', this.onPubsubConnected);
+		TTVST.pubsub.on('closed', this.onPubsubClosed);
 
 		TTVST.tmi.on('incoming', (msg) => {
 			logger.verbose('[TMI] > ' + msg);
@@ -73,6 +83,7 @@ class Startpage {
 		logger.verbose('Logging out');
 		TTVST.helix.setAuthToken(null);
 		TTVST.tmi.disconnect();
+		TTVST.pubsub.disconnect();
 		return null;
 	}
 
@@ -112,18 +123,15 @@ class Startpage {
 			TTVST.tmi.auth(TTVST.helix.userobj.login, TTVST.helix.token);
 		}
 	}
-
 	onTMIRegistered() {
 		this.broadcastStatus({ key: 'app.ttvst.tmi', status: 'good', info: 'Connection established and logged in.', buttons: [{ icon: 'PlugDisconnected', action: 'cockpit.tmi.disconnect', title: 'Disconnect' }] });
 		this.lastStatus = 'registered';
 		TTVST.tmi.join(TTVST.helix.userobj.login);
 	}
-
 	onTMIAuthFail() {
 		this.broadcastStatus({ key: 'app.ttvst.tmi', status: 'warn', info: 'Connection established but login failed.', buttons: [{ icon: 'PlugDisconnected', action: 'cockpit.tmi.disconnect', title: 'Disconnect' }] });
 		this.lastStatus = 'auth-failed';
 	}
-
 	onTMIClose(had_error: boolean) {
 		if(had_error) {
 			this.broadcastStatus({ key: 'app.ttvst.tmi', status: 'error', info: 'Connection closed due to an error.', buttons: [{ icon: 'PlugConnected', action: 'cockpit.tmi.connect', title: 'Connect' }] });
@@ -131,6 +139,24 @@ class Startpage {
 			this.broadcastStatus({ key: 'app.ttvst.tmi', status: 'error', info: 'Disconnected.', buttons: [{ icon: 'PlugConnected', action: 'cockpit.tmi.connect', title: 'Connect' }] });
 		}
 	}
+
+	onConnectPubsub() {
+		if(TTVST.helix.token.length > 0 && TTVST.helix.userobj !== null) {
+			TTVST.pubsub.setupTopicsForChannel(TTVST.helix.userobj.id);
+			TTVST.pubsub.setAuthToken(TTVST.helix.token);
+		}
+	}
+	onDisconnectPubsub() {
+		TTVST.pubsub.disconnect();
+	}
+
+	onPubsubConnected(){
+		this.broadcastStatus({ key: 'app.ttvst.pubsub', status: 'good', info: 'Connection established and listening.', buttons: [{ icon: 'PlugDisconnected', action: 'cockpit.pubsub.disconnect', title: 'Disconnect' }] });
+	}
+	onPubsubClosed() {
+		this.broadcastStatus({ key: 'app.ttvst.pubsub', status: 'error', info: 'Disconnected.', buttons: [{ icon: 'PlugConnected', action: 'cockpit.pubsub.connect', title: 'Connect' }] });
+	}
+
 
 	repeatBroadcast() {
 		for(let i = 0; i < this.currentStatus.length; i++) {

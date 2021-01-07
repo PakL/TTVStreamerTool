@@ -4,6 +4,7 @@ import APIHelix from './Twitch/APIHelix';
 
 import Startpage from './Pages/Startpage';
 import TMI from './Twitch/TMI';
+import PubSub from './Twitch/PubSub';
 import BroadcastMain from './BroadcastMain';
 import Addons from './Util/Addons';
 import * as Settings from './Util/Settings';
@@ -16,6 +17,7 @@ export default class TTVSTMain {
 
 	private _helix: APIHelix = null;
 	private _tmi: TMI = null;
+	private _pubsub: PubSub;
 
 	private _startpage: Startpage = null;
 	private _addons: Addons = null;
@@ -59,6 +61,7 @@ export default class TTVSTMain {
 		});
 
 		this._tmi = new TMI();
+		this._pubsub = new PubSub();
 
 		new TwitchBroadcast();
 	}
@@ -69,6 +72,10 @@ export default class TTVSTMain {
 
 	get tmi(): TMI {
 		return this._tmi;
+	}
+
+	get pubsub(): PubSub {
+		return this._pubsub;
 	}
 
 	private initApp() {

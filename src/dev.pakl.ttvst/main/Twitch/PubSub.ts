@@ -10,7 +10,7 @@ const _maxReconnectTimeout = 120000
  * 
  * @class TwPubSub
  */
-class TwPubSub extends EventEmitter {
+class PubSub extends EventEmitter {
 
 	private _token: string = '';
 	private _connection: ws = null;
@@ -34,17 +34,21 @@ class TwPubSub extends EventEmitter {
 	setAuthToken(token: string) {
 		this._token = token;
 		if(this._topics.length > 0) {
-			this._connect();
+			this._connect().catch((e) => { logger.error('[PubSub]', e); });
 		}
+	}
+
+	setupTopicsForChannel(channel_id: string) {
+		//37955130
+		this.listen('channel-points-channel-v1.' + channel_id);
 	}
 
 	/**
 	 * Connects to the PubSub websocket
 	 */
-	private _connect()
+	private _connect(): Promise<void>
 	{
 		const self = this;
-		let responded = false;
 		return new Promise((res, rej) => {
 			if(self._connection !== null) {
 				res();
@@ -54,32 +58,35 @@ class TwPubSub extends EventEmitter {
 			logger.info('[PubSub] Connecting to pubsub-edge.twitch.tv');
 			self._connection = new ws('wss://pubsub-edge.twitch.tv');
 			
-			self._connection.once('open', () => {
+			let onOpen = () => {
+				self._connection.off('error', onError);
+
 				logger.info('[PubSub] Connection established');
+				self.emit('connected');
 				self._connected = true;
 				self._autoreconnect = true;
 				self._reconnectTimeout = 1000;
-				if(!responded) {
-					self._connection.on('text', (t) => { self._onMessage(t); });
-					self._connection.on('close', () => { self._onClose(); });
+				
+				self._connection.on('message', (t) => { self._onMessage(t); });
+				self._connection.on('close', () => { self._onClose(); });
 
-					if(self._topics.length > 0) {
-						self._out({ type: 'LISTEN', data: { topics: self._topics, auth_token: self._token } });
-					}
+				if(self._topics.length > 0) {
+					self._out({ type: 'LISTEN', data: { topics: self._topics, auth_token: self._token } });
+				}
 
-					responded = true;
-					res();
-				}
-			});
-			self._connection.once('error', (err) => {
-				if(!responded) {
-					responded = true;
-					rej(err);
-					self._connection = null;
-					self._autoreconnect = true;
-					self._onClose();
-				}
-			});
+				res();
+			};
+			let onError = (err: any) => {
+				self._connection.off('open', onOpen);
+
+				rej(err);
+				self._connection = null;
+				self._autoreconnect = true;
+				self._onClose();
+			}
+
+			self._connection.once('open', onOpen);
+			self._connection.once('error', onError);
 		});
 	}
 
@@ -108,7 +115,7 @@ class TwPubSub extends EventEmitter {
 			this._out({ type: 'PING' });
 			const self = this;
 			this._pingTimeout = setTimeout(() => {
-				self._disconnect(true);
+				self.disconnect(true);
 			}, 2000);
 		}
 	}
@@ -116,7 +123,8 @@ class TwPubSub extends EventEmitter {
 	/**
 	 * Processes messages from the PubSub
 	 */
-	private _onMessage(text: string) {
+	private _onMessage(data: ws.Data) {
+		let text = data.toString('utf8').trim();
 		logger.verbose('[PubSub] < ' + text);
 		try {
 			let msg = JSON.parse(text);
@@ -171,7 +179,7 @@ class TwPubSub extends EventEmitter {
 							this.emit('mod-command', message.moderation_action, message.args, message.created_by);
 							break
 					}
-				} else if(msg.data.topic.startsWith('community-points-channel-v1.')) {
+				} else if(msg.data.topic.startsWith('community-points-channel-v1.') || msg.data.topic.startsWith('channel-points-channel-v1.')) {
 					if(message.type == 'reward-redeemed') {
 						let image = (message.data.redemption.reward.image == null || message.data.redemption.reward.image.url_1x == null ? message.data.redemption.reward.default_image.url_1x : message.data.redemption.reward.image.url_1x);
 						/**
@@ -195,7 +203,7 @@ class TwPubSub extends EventEmitter {
 		}
 
 		if(this._topics.length == 0) {
-			this._disconnect(false);
+			this.disconnect(false);
 		}
 	}
 
@@ -206,14 +214,15 @@ class TwPubSub extends EventEmitter {
 	 */
 	private _onClose() {
 		logger.info('[PubSub] Connection closed');
+		this.emit('closed');
 		this._connection = null;
 		this._connected = false;
 		if(this._autoreconnect) {
 			let jitter = Math.floor(Math.random()*1000);
 			const self = this;
-			logger.verbose('[PubSub] Reconnect in ' + (this._reconnectTimeout + jitter / 1000) + ' seconds');
+			logger.verbose('[PubSub] Reconnect in ' + ((this._reconnectTimeout + jitter) / 1000) + ' seconds');
 			setTimeout(() => {
-				self._connect();
+				self._connect().catch((e) => { logger.error('[PubSub]', e); });
 			}, this._reconnectTimeout + jitter);
 			if(this._reconnectTimeout < _maxReconnectTimeout) {
 				this._reconnectTimeout *= 2;
@@ -224,7 +233,7 @@ class TwPubSub extends EventEmitter {
 	/**
 	 * Disconnects from the PubSub
 	 */
-	private _disconnect(reconnect?: boolean)
+	disconnect(reconnect?: boolean)
 	{
 		if(this._connected) {
 			if(typeof(reconnect) !== 'boolean') reconnect = false;
@@ -286,4 +295,4 @@ class TwPubSub extends EventEmitter {
 
 }
 
-export = TwPubSub
+export = PubSub

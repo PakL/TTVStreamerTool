@@ -206,7 +206,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 				self.emitStatusUpdate();
 
 				let body = response.body;
-				if(response.statusCode !== 200) {
+				if(response.statusCode < 200 || response.statusCode > 299) {
 					if(response.statusCode == 429) {
 						let ratelimitReset: string = '';
 						if(Array.isArray(response.headers['ratelimit-reset'])) {
@@ -232,6 +232,8 @@ export default class TwitchHelix extends IpcEventEmitter {
 				let data = null;
 				if(typeof(body) == 'object') {
 					data = body;
+				} else if(response.statusCode == 204) {
+					resolve({});
 				} else {
 					try {
 						data = JSON.parse(body);
@@ -321,6 +323,53 @@ export default class TwitchHelix extends IpcEventEmitter {
 
 
 	/**
+	 * Gets channel information for users.
+	 * 
+	 * @see {@link https://dev.twitch.tv/docs/api/reference#get-channel-information}
+	 */
+	getChannel(broadcaster_id: string): Promise<T.IAPIHelixChannel> {
+		let uri = '/helix/channels';
+		let opt: Record<string, string> = {};
+		
+		if(typeof(broadcaster_id) == 'string' && broadcaster_id.length > 0) opt.broadcaster_id = broadcaster_id;
+
+		if(typeof(opt.broadcaster_id) !== 'string' || opt.broadcaster_id.length <= 0) {
+			return Promise.reject(new Error('broadcaster_id must not be empty'));
+		}
+		return this.requestAPI(uri, opt, false);
+	}
+
+	/**
+	 * Modifies channel information for users.
+	 * 
+	 * @see {@link https://dev.twitch.tv/docs/api/reference#modify-channel-information}
+	 */
+	patchChannel(broadcaster_id: string, query: T.IAPIHelixChannelPatchOptions): Promise<{}> {
+		let uri = '/helix/channels';
+		let opt: Record<string, string> = {};
+		let post: Record<string, string> = {};
+
+		if(typeof(broadcaster_id) == 'string' && broadcaster_id.length > 0) opt.broadcaster_id = broadcaster_id;
+
+		if(typeof(query) == 'object') {
+			if(query.hasOwnProperty('game_id') && typeof(query.game_id) == "string") post.game_id = query.game_id;
+			if(query.hasOwnProperty('broadcaster_language') && typeof(query.broadcaster_language) == "string") post.broadcaster_language = query.broadcaster_language;
+			if(query.hasOwnProperty('title') && typeof(query.title) == "string") post.title = query.title;
+		}
+		if(typeof(opt.broadcaster_id) !== 'string') {
+			return Promise.reject(new Error('broadcaster_id must be defined'));
+		}
+		if(
+			(typeof(post.game_id) !== 'string' || post.game_id.length <= 0) &&
+			(typeof(post.broadcaster_language) !== 'string' || post.broadcaster_language.length <= 0) &&
+			(typeof(post.title) !== 'string' || post.title.length <= 0)
+		) {
+			return Promise.reject(new Error('One of either game_id, broadcaster_language or title must be defined'));
+		}
+		return this.requestAPI(uri, opt, true, post, true, 'PATCH');
+	}
+
+	/**
 	 * Gets information about active streams. Streams are returned sorted by number of current viewers, in descending order. Across multiple pages of results, there may be duplicate or missing streams, as viewers join and leave streams.
 	 * 
 	 * @see {@link https://dev.twitch.tv/docs/api/reference/#get-streams}
@@ -367,7 +416,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 	 * 
 	 * @see {@link https://dev.twitch.tv/docs/api/reference/#get-users-follows}
 	 */
-	getGames(id: string | Array<string>, name: string | Array<string>) {
+	getGames(id: string | Array<string>, name: string | Array<string>): Promise<T.IAPIHelixGames> {
 		var uri = '/helix/games';
 		var opt: Record<string, string | Array<string>> = {};
 
@@ -379,6 +428,25 @@ export default class TwitchHelix extends IpcEventEmitter {
 			!Array.isArray(opt.id) && !Array.isArray(opt.name)
 		) {
 			return Promise.reject(new Error('One of either id or name must be defined'));
+		}
+		return this.requestAPI(uri, opt, false);
+	}
+
+	/**
+	 * Returns a list of games or categories that match the query via name either entirely or partially.
+	 * 
+	 * @see {@link https://dev.twitch.tv/docs/api/reference#search-categories}
+	 */
+	searchCategories(query: string, first?: number, after?: string): Promise<T.IAPIHelixSearchCategories> {
+		let uri = '/helix/search/categories';
+		let opt: Record<string, string> = {};
+
+		if(typeof(query) == 'string' && query.length > 0) opt.query = query;
+		if(typeof(first) == 'number' && first > 0 && first <= 100) opt.first = first.toString();
+		if(typeof(after) == 'string' && after.length > 0) opt.after = after;
+
+		if(typeof(opt.query) !== 'string' || opt.query.length <= 0) {
+			return Promise.reject(new Error('query must not be empty'));
 		}
 		return this.requestAPI(uri, opt, false);
 	}

@@ -4,7 +4,7 @@
 		"module": "commonjs",
 		"target": "es2019",
 		"noImplicitAny": true,
-		"sourceMap": true,
+		"sourceMap": false,
 		"outDir": "dist",
 		"baseUrl": ".",
 		"esModuleInterop": true,

@@ -77,6 +77,7 @@ class Startpage extends Page {
 				let user = users.data[0];
 				this.startpage.updateLogin({ waiting: false, loggedin: true, loginName: user.display_name, avatarUrl: user.profile_image_url });
 				ipcRenderer.send('cockpit.tmi.connect');
+				ipcRenderer.send('cockpit.pubsub.connect');
 				return true;
 			}
 		}

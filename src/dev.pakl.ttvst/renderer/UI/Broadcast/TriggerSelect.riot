@@ -44,6 +44,9 @@
 			},
 
 			onMounted(props, state) {
+				if(typeof(this.props.initchannel) === 'string' && this.props.initchannel.length > 0) {
+					this.$('.trigger_select').value = this.props.initchannel;
+				}
 				this.onTriggerSelect();
 			},
 
