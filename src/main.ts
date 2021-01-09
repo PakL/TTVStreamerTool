@@ -1,8 +1,7 @@
-import { app, globalShortcut, autoUpdater, ipcMain } from 'electron';
+import { app, globalShortcut, ipcMain } from 'electron';
 import winston from 'winston';
 import fs from 'fs';
 import path from 'path';
-import electronSquirrelStartup from 'electron-squirrel-startup';
 
 import MainWindow from './dev.pakl.ttvst/main/MainWindow';
 import SplashWindow from './dev.pakl.ttvst/main/SplashWindow';
@@ -12,8 +11,6 @@ import TTVSTMain from './dev.pakl.ttvst/main/TTVSTMain';
 
 let mainWin: MainWindow = null;
 let splashWin: SplashWindow = null;
-
-let doNotOpenMainWindow: boolean = false;
 
 let TTVST: TTVSTMain = null;
 
@@ -51,18 +48,8 @@ app.setAppUserModelId('dev.pakl.TTVStreamerTool');
 if(!app.requestSingleInstanceLock()) {
 	app.quit();
 }
-autoUpdater.setFeedURL({ url: 'https://update.ttvst.app/' });
-
-autoUpdater.on('update-available', () => {
-	doNotOpenMainWindow = true
-});
 
 async function main() {
-	if(electronSquirrelStartup) {
-		app.quit();
-		return;
-	}
-	
 	app.on('browser-window-created', (e, window) => {
 		window.setAutoHideMenuBar(true);
 		if(process.env.NODE_ENV !== 'development') {
@@ -106,13 +93,6 @@ async function main() {
 	let spX = (mainBounds.x + ((mainBounds.width - 300) / 2));
 	let spY = (mainBounds.y + ((mainBounds.height - 450) / 2));
 	splashWin = new SplashWindow({ x: spX, y: spY });
-
-	if(doNotOpenMainWindow) {
-		splashWin.once('done', () => {
-			splashWin.close();
-		})
-		return;
-	}
 
 	TTVST = new TTVSTMain(mainWin);
 	Object.assign(global, { TTVST });

@@ -42,10 +42,9 @@
 		"ws": "7.4.0"
 	},
 	"devDependencies": {
-		"electron": "11.1.1",
-		"electron-winstaller": "4.0.1",
-		"typescript": "3.9.7",
 		"@riotjs/cli": "5.0.0",
-		"@riotjs/compiler": "5.1.2"
+		"@riotjs/compiler": "5.1.2",
+		"electron": "11.1.1",
+		"typescript": "3.9.7"
 	}
 }
