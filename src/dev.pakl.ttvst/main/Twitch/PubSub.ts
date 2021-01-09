@@ -201,16 +201,26 @@ class PubSub extends EventEmitter {
 						/**
 						 * Fires when a reward was redeemed
 						 * @event TwPubSub#reward-redeemed
+						 * @param {String} redemptionid The redemption id
 						 * @param {String} rewardid The reward id
+						 * @param {String} channelid The channel id
 						 * @param {String} rewardtitle The reward title
 						 * @param {Object} user The user object
 						 * @param {String} user.id The user's id
 						 * @param {String} user.login The user's login
 						 * @param {String} user.display_name The user's dispaly name
 						 * @param {Number} cost The cost of the reward
-						 * @param {String} icon Url to the points icon
+						 * @param {String} userinput The user input if reward allows it
 						 */
-						this.emit('reward-redeemed', message.data.redemption.reward.id, message.data.redemption.reward.title, message.data.redemption.user, message.data.redemption.reward.cost, image);
+						this.emit('reward-redeemed',
+							message.data.redemption.id,
+							message.data.redemption.reward.id,
+							message.data.redemption.channel_id,
+							message.data.redemption.reward.title,
+							message.data.redemption.user,
+							message.data.redemption.reward.cost,
+							typeof(message.data.redemption.user_input) === 'string' ? message.data.redemption.user_input : ''
+						);
 					}
 				}
 			}

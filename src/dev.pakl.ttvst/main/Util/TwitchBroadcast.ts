@@ -4,11 +4,85 @@ import APIHelix from '../Twitch/APIHelix';
 import * as H from '../Twitch/APIHelixTypes';
 
 import TTVSTMain from '../TTVSTMain';
-import Broadcast from '../BroadcastMain';
-import winston, { debug } from 'winston';
+import Broadcast, { IBroadcastAction, IBroadcastTrigger } from '../BroadcastMain';
+import winston from 'winston';
 
 declare var logger: winston.Logger;
 declare var TTVST: TTVSTMain;
+
+const _trigger: IBroadcastTrigger[] = [{
+	label: 'Incoming Twitch Chat Message',
+	description: 'Incoming Twitch Chat Message for your channel',
+	channel: 'app.ttvst.tmi.message',
+	addon: 'Twitch',
+	arguments: [
+		{ label: 'message', description: 'The message that was sent by the user', type: 'string' },
+		{ label: 'login', description: 'The unformatted user name', type: 'string' },
+		{ label: 'username', description: 'By the user formatted user name with uppercase or localization', type: 'string' },
+		{ label: 'permissions', description: 'An associative array with booleans of permissions. Keys are: isSubscriber, isVIP, isModerator, isBroadcaster', type: 'assoc' },
+		{ label: 'tags', description: 'The complete TMI message tags as associative array. Check https://dev.twitch.tv/docs/irc/tags#privmsg-twitch-tags for more info', type: 'assoc' }
+	]
+}, {
+	label: 'Channel point reward redemption',
+	description: 'When a user redeemes a reward with their channel points',
+	channel: 'app.ttvst.pubsub.reward',
+	addon: 'Twitch',
+	arguments: [
+		{ label: 'redemptionid', description: 'ID of the redemption - useful for advanced users', type: 'string' },
+		{ label: 'rewardid', description: 'ID of the reward - useful for advanced users', type: 'string' },
+		{ label: 'rewardtitle', description: 'Title of the reward', type: 'string' },
+		{ label: 'cost', description: 'Number of points that were used to redeem the reward', type: 'number' },
+		{ label: 'userinput', description: 'The message that was sent by the user if the reward allows it', type: 'string' },
+		{ label: 'login', description: 'The unformatted user name', type: 'string' },
+		{ label: 'username', description: 'By the user formatted user name with uppercase or localization', type: 'string' }
+	]
+}];
+
+const _actions: IBroadcastAction[] = [{
+	label: 'Send Twitch Chat Message',
+	description: 'Send a chat message to your channel',
+	channel: 'app.ttvst.tmi.sendMessage',
+	addon: 'Twitch',
+	parameters: [
+		{ label: 'message', description: 'The message that you want to send', type: 'string' }
+	]
+}, {
+	label: 'Get channel title',
+	description: 'Loads and returns the current channel title. If no channel is given the channel of the tool\'s user is requested.',
+	channel: 'app.ttvst.helix.getStream',
+	addon: 'Twitch',
+	parameters: [
+		{ label: 'channel', description: 'The channel you request the info of. Optional.', type: 'string' }
+	],
+	result: { label: 'title', description: 'The channel title', type: 'string' }
+}, {
+	label: 'Get channel game',
+	description: 'Loads and returns the current channel game. If no channel is given the channel of the tool\'s user is requested.',
+	channel: 'app.ttvst.helix.getGame',
+	addon: 'Twitch',
+	parameters: [
+		{ label: 'channel', description: 'The channel you request the info of. Optional.', type: 'string' }
+	],
+	result: { label: 'game', description: 'The game', type: 'string' }
+}, {
+	label: 'Set channel title',
+	description: 'Set the title of your channel',
+	channel: 'app.ttvst.helix.setTitle',
+	addon: 'Twitch',
+	parameters: [
+		{ label: 'title', description: 'New channel title. Must not be empty', type: 'string' }
+	],
+	result: { label: 'success', description: 'True if the title was changed', type: 'boolean' }
+}, {
+	label: 'Sets channel game',
+	description: 'Sets the channel game. Does not have to be precise but takes the first search result. Try to be as precise as possible.',
+	channel: 'app.ttvst.helix.setGame',
+	addon: 'Twitch',
+	parameters: [
+		{ label: 'game', description: 'The game name you want the channel to set to', type: 'string' }
+	],
+	result: { label: 'game', description: 'The game name the channel was set to. Empty on failure.', type: 'string' }
+}]
 
 class TwitchBroadcast {
 
@@ -19,77 +93,17 @@ class TwitchBroadcast {
 		this.tmi = TTVST.tmi;
 		this.helix = TTVST.helix;
 
-		Broadcast.registerTrigger({
-			label: 'Incoming Twitch Chat Message',
-			description: 'Incoming Twitch Chat Message for your channel',
-			channel: 'app.ttvst.tmi.message',
-			addon: 'Twitch',
-			arguments: [
-				{ label: 'message', description: 'The message that was sent by the user', type: 'string' },
-				{ label: 'login', description: 'The unformatted user name', type: 'string' },
-				{ label: 'username', description: 'By the user formatted user name with uppercase or localization', type: 'string' },
-				{ label: 'permissions', description: 'An associative array with booleans of permissions. Keys are: isSubscriber, isVIP, isModerator, isBroadcaster', type: 'assoc' },
-				{ label: 'tags', description: 'The complete TMI message tags as associative array. Check https://dev.twitch.tv/docs/irc/tags#privmsg-twitch-tags for more info', type: 'assoc' }
-			]
-		});
+		for(let i = 0; i < _trigger.length; i++) Broadcast.registerTrigger(_trigger[i]);
+		for(let i = 0; i < _actions.length; i++) Broadcast.registerAction(_actions[i]);
+
 		this.tmi.on('message', this.onTMIMessage.bind(this));
+		TTVST.pubsub.on('reward-redeemed', this.onPubsubReward.bind(this));
 
-		Broadcast.registerAction({
-			label: 'Send Twitch Chat Message',
-			description: 'Send a chat message to your channel',
-			channel: 'app.ttvst.tmi.sendMessage',
-			addon: 'Twitch',
-			parameters: [
-				{ label: 'message', description: 'The message that you want to send', type: 'string' }
-			]
-		});
 		Broadcast.instance.on('app.ttvst.tmi.sendMessage', this.onTMISendMessage.bind(this));
-
-		Broadcast.registerAction({
-			label: 'Get channel title',
-			description: 'Loads and returns the current channel title. If no channel is given the channel of the tool\'s user is requested.',
-			channel: 'app.ttvst.helix.getStream',
-			addon: 'Twitch',
-			parameters: [
-				{ label: 'channel', description: 'The channel you request the info of. Optional.', type: 'string' }
-			],
-			result: { label: 'title', description: 'The channel title', type: 'string' }
-		});
 		Broadcast.instance.on('app.ttvst.helix.getStream', this.onHelixGetStreamTitle.bind(this));
-		Broadcast.registerAction({
-			label: 'Get channel game',
-			description: 'Loads and returns the current channel game. If no channel is given the channel of the tool\'s user is requested.',
-			channel: 'app.ttvst.helix.getGame',
-			addon: 'Twitch',
-			parameters: [
-				{ label: 'channel', description: 'The channel you request the info of. Optional.', type: 'string' }
-			],
-			result: { label: 'game', description: 'The game', type: 'string' }
-		});
 		Broadcast.instance.on('app.ttvst.helix.getGame', this.onHelixGetStreamGame.bind(this));
 
-		
-		Broadcast.registerAction({
-			label: 'Set channel title',
-			description: 'Set the title of your channel',
-			channel: 'app.ttvst.helix.setTitle',
-			addon: 'Twitch',
-			parameters: [
-				{ label: 'title', description: 'New channel title. Must not be empty', type: 'string' }
-			],
-			result: { label: 'success', description: 'True if the title was changed', type: 'boolean' }
-		});
 		Broadcast.instance.on('app.ttvst.helix.setTitle', this.onHelixSetStreamTitle.bind(this));
-		Broadcast.registerAction({
-			label: 'Sets channel game',
-			description: 'Sets the channel game. Does not have to be precise but takes the first search result. Try to be as precise as possible.',
-			channel: 'app.ttvst.helix.setGame',
-			addon: 'Twitch',
-			parameters: [
-				{ label: 'game', description: 'The game name you want the channel to set to', type: 'string' }
-			],
-			result: { label: 'game', description: 'The game name the channel was set to. Empty on failure.', type: 'string' }
-		});
 		Broadcast.instance.on('app.ttvst.helix.setGame', this.onHelixSetStreamGame.bind(this));
 	}
 
@@ -114,6 +128,15 @@ class TwitchBroadcast {
 		}
 
 		Broadcast.instance.emit('app.ttvst.tmi.message', msg.message, msg.user, dispName, { isSubscriber, isVIP, isModerator, isBroadcaster }, msg.tags);
+	}
+
+	onPubsubReward(redemptionid: string, rewardid: string, channelid: string, rewardtitle: string, user: { id: string, login: string, display_name: string }, cost: number, userinput: string) {
+		if(TTVST.helix.userobj === null || typeof(TTVST.helix.userobj.login) !== 'string' || TTVST.helix.userobj.id !== channelid) return;
+
+		let dispName = user.login;
+		if(typeof(user.display_name) === 'string' && user.display_name.length > 0) dispName = user.display_name;
+
+		Broadcast.instance.emit('app.ttvst.pubsub.reward', redemptionid, rewardid, rewardtitle, cost, userinput, user.login, dispName);
 	}
 
 	onTMISendMessage(message: string) {
