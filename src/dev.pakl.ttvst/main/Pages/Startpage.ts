@@ -29,7 +29,9 @@ class Startpage {
 		this.onTMIRegistered = this.onTMIRegistered.bind(this);
 		this.onTMIAuthFail = this.onTMIAuthFail.bind(this);
 		this.onTMIClose = this.onTMIClose.bind(this);
+		this.onPubsubConnecting = this.onPubsubConnecting.bind(this);
 		this.onPubsubConnected = this.onPubsubConnected.bind(this);
+		this.onPubsubListening = this.onPubsubListening.bind(this);
 		this.onPubsubClosed = this.onPubsubClosed.bind(this);
 		
 		this.repeatBroadcast = this.repeatBroadcast.bind(this);
@@ -53,7 +55,9 @@ class Startpage {
 
 		ipcMain.on('cockpit.pubsub.connect', this.onConnectPubsub);
 		ipcMain.on('cockpit.pubsub.disconnect', this.onDisconnectPubsub);
+		TTVST.pubsub.on('connecting', this.onPubsubConnecting);
 		TTVST.pubsub.on('connected', this.onPubsubConnected);
+		TTVST.pubsub.on('listening', this.onPubsubListening);
 		TTVST.pubsub.on('closed', this.onPubsubClosed);
 
 		TTVST.tmi.on('incoming', (msg) => {
@@ -150,11 +154,21 @@ class Startpage {
 		TTVST.pubsub.disconnect();
 	}
 
+	onPubsubConnecting(){
+		this.broadcastStatus({ key: 'app.ttvst.pubsub', status: 'warn', info: 'Connecting', buttons: [] });
+	}
 	onPubsubConnected(){
+		this.broadcastStatus({ key: 'app.ttvst.pubsub', status: 'warn', info: 'Connection established', buttons: [{ icon: 'PlugDisconnected', action: 'cockpit.pubsub.disconnect', title: 'Disconnect' }] });
+	}
+	onPubsubListening(){
 		this.broadcastStatus({ key: 'app.ttvst.pubsub', status: 'good', info: 'Connection established and listening.', buttons: [{ icon: 'PlugDisconnected', action: 'cockpit.pubsub.disconnect', title: 'Disconnect' }] });
 	}
-	onPubsubClosed() {
-		this.broadcastStatus({ key: 'app.ttvst.pubsub', status: 'error', info: 'Disconnected.', buttons: [{ icon: 'PlugConnected', action: 'cockpit.pubsub.connect', title: 'Connect' }] });
+	onPubsubClosed(error: string) {
+		if(error.length > 0) {
+			this.broadcastStatus({ key: 'app.ttvst.pubsub', status: 'error', info: 'Connection closed due to an error: {{error}}', infoValues: { error }, buttons: [{ icon: 'PlugConnected', action: 'cockpit.pubsub.connect', title: 'Connect' }] });
+		} else {
+			this.broadcastStatus({ key: 'app.ttvst.pubsub', status: 'error', info: 'Disconnected.', buttons: [{ icon: 'PlugConnected', action: 'cockpit.pubsub.connect', title: 'Connect' }] });
+		}
 	}
 
 

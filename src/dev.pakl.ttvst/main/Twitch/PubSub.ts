@@ -18,6 +18,8 @@ class PubSub extends EventEmitter {
 	private _autoreconnect: boolean = false;
 	private _reconnectTimeout: number = 1000;
 	private _pingTimeout: NodeJS.Timeout = null;
+	private _lastError = '';
+
 
 	private _topics: Array<string> = [];
 	
@@ -32,14 +34,15 @@ class PubSub extends EventEmitter {
 	 * Fills the user token
 	 */
 	setAuthToken(token: string) {
-		this._token = token;
-		if(this._topics.length > 0) {
-			this._connect().catch((e) => { logger.error('[PubSub]', e); });
+		if(!this._connected) {
+			this._token = token;
+			if(this._topics.length > 0) {
+				this._connect().catch((e) => { logger.error('[PubSub]', e); });
+			}
 		}
 	}
 
 	setupTopicsForChannel(channel_id: string) {
-		//37955130
 		this.listen('channel-points-channel-v1.' + channel_id);
 	}
 
@@ -55,6 +58,7 @@ class PubSub extends EventEmitter {
 				return;
 			}
 	
+			self.emit('connecting');
 			logger.info('[PubSub] Connecting to pubsub-edge.twitch.tv');
 			self._connection = new ws('wss://pubsub-edge.twitch.tv');
 			
@@ -63,6 +67,7 @@ class PubSub extends EventEmitter {
 
 				logger.info('[PubSub] Connection established');
 				self.emit('connected');
+				self._lastError = '';
 				self._connected = true;
 				self._autoreconnect = true;
 				self._reconnectTimeout = 1000;
@@ -79,6 +84,8 @@ class PubSub extends EventEmitter {
 			let onError = (err: any) => {
 				self._connection.off('open', onOpen);
 
+				this.emit('closed', 'Connection error');
+
 				rej(err);
 				self._connection = null;
 				self._autoreconnect = true;
@@ -93,7 +100,7 @@ class PubSub extends EventEmitter {
 	/**
 	 * Sends a payload to the PubSub
 	 */
-	private _out(json: Record<string, any>) {
+	private _out(json: { type: string, nonce?: string, data?: any }) {
 		if(this._connected) {
 			if(typeof(json.data) !== 'undefined' && typeof(json.data.auth_token) !== 'undefined') {
 				let publicStr = JSON.stringify(Object.assign({}, json, { data: Object.assign({}, json.data, { auth_token: '***' }) }));
@@ -132,6 +139,15 @@ class PubSub extends EventEmitter {
 				this._out({ type: 'PONG' });
 			} else if(msg.type == 'PONG') {
 				clearTimeout(this._pingTimeout);
+			} else if(msg.type == 'RESPONSE') {
+				if(typeof(msg.error) === 'string' && msg.error.length > 0) {
+					this._lastError = msg.error;
+					this.disconnect(false);
+				} else {
+					this.emit('listening');
+				}
+			} else if(msg.type == 'RECONNECT') {
+				this.disconnect(true);
 			} else if(msg.type == 'MESSAGE') {
 				let message = JSON.parse(msg.data.message);
 				if(msg.data.topic.startsWith('chat_moderator_actions.')) {
@@ -214,7 +230,7 @@ class PubSub extends EventEmitter {
 	 */
 	private _onClose() {
 		logger.info('[PubSub] Connection closed');
-		this.emit('closed');
+		this.emit('closed', this._lastError);
 		this._connection = null;
 		this._connected = false;
 		if(this._autoreconnect) {
