@@ -70,7 +70,7 @@ const _actions: IBroadcastAction[] = [{
 	channel: 'app.ttvst.helix.setStreamInfo',
 	addon: 'Twitch',
 	parameters: [
-		{ label: 'title', description: 'New channel title. Empty means no change.', type: 'string' }
+		{ label: 'title', description: 'New channel title. Empty means no change.', type: 'string' },
 		{ label: 'game', description: 'New channel game. Does not have to be precise but takes the first search result. Try to be as precise as possible. Empty means no change.', type: 'string' }
 	],
 	result: { label: 'success', description: 'True if the channel was updated', type: 'boolean' }
@@ -80,8 +80,8 @@ const _actions: IBroadcastAction[] = [{
 	channel: 'app.ttvst.helix.updateRedemption',
 	addon: 'Twitch',
 	parameters: [
-		{ label: 'redemptionid', description: 'ID of the redemption - take from trigger', type: 'string' }
-		{ label: 'rewardid', description: 'ID of the reward - take from trigger', type: 'string' }
+		{ label: 'redemptionid', description: 'ID of the redemption - take from trigger', type: 'string' },
+		{ label: 'rewardid', description: 'ID of the reward - take from trigger', type: 'string' },
 		{ label: 'status', description: 'on = fulfilled, off = canceled', type: 'boolean' }
 	],
 	result: { label: 'success', description: 'True if the redemption status was updated', type: 'boolean' }
