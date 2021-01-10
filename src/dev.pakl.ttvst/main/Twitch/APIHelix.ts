@@ -44,7 +44,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 	 * Returns a complete URL for the grant flow authentication and creates a state.
 	 */
 	getAuthImplicitGrantFlowUrl(overwriteRedirect?: string): string {
-		var state = Math.floor(Date.now() / 1000).toString(16);
+		let state = Math.floor(Date.now() / 1000).toString(16);
 		this.validstates.push(state);
 
 		return 'https://id.twitch.tv/oauth2/authorize' +
@@ -60,7 +60,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 	 * Verifys if this returned state is one of the valid states and removes it from the local list.
 	 */
 	verifyState(state: string): boolean {
-		var i = this.validstates.indexOf(state);
+		let i = this.validstates.indexOf(state);
 		if(i >= 0) {
 			this.validstates.splice(i, 1);
 			return true;
@@ -110,7 +110,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 	 *     // Do something with data
 	 * })
 	 */
-	requestAPI(uri: string, query?: Record<string, string | Array<string>>, authNeeded?: boolean, postdata?: Record<string, any>, noretry?: boolean, method?: Method): Promise<T.IAPIHelixResponse> {
+	requestAPI(uri: string, query?: { [key: string]: string|string[] }, authNeeded?: boolean, postdata?: { [key: string]: any }, noretry?: boolean, method?: Method): Promise<T.IAPIHelixResponse> {
 		const self = this;
 		if(typeof(authNeeded) != 'boolean') authNeeded = false;
 		if(typeof(query) != 'object' || query == null) query = {};
@@ -125,7 +125,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 		if(Object.keys(postdata).length > 0) authNeeded = true;
 
 		let querystr = '';
-		for(var key in query) {
+		for(let key in query) {
 			if(query.hasOwnProperty(key)) {
 				let val = query[key];
 				if(!Array.isArray(val)) {
@@ -141,7 +141,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 			uri += querystr;
 		}
 
-		let headers: Record<string, string> = {
+		let headers: { [key: string]: string } = {
 			'Client-ID': self.clientid
 		};
 		if(self.token.length > 0) {
@@ -151,7 +151,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 		}
 
 		/*
-		var poststr = ''
+		let poststr = ''
 		if(Object.keys(postdata).length > 0) {
 			poststr = JSON.stringify(postdata)
 			headers['Content-Type'] = 'application/json; charset=UTF-8'
@@ -160,7 +160,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 
 		let overridehost = 'api.twitch.tv';
 		if(uri.startsWith('https://')) {
-			var parsedurl = url.parse(uri);
+			let parsedurl = url.parse(uri);
 			overridehost = parsedurl.hostname;
 			uri = parsedurl.path;
 
@@ -185,7 +185,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 			self.requestCount++;
 
 			let requestURL = 'https://' + overridehost + uri;
-			let requestOptions: Record<string, any> = {
+			let requestOptions: { [key: string]: any } = {
 				method: 'GET',
 				responseType: 'json',
 				headers: headers,
@@ -276,7 +276,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 	getUsers(query?: T.IAPIHelixUserOptions): Promise<T.IAPIHelixUserList>
 	{
 		let uri = '/helix/users';
-		let opt: Record<string, string | Array<string>> = {};
+		let opt: { [key: string]: string|string[] } = {};
 		if(typeof(query) == 'object') {
 			if(query.hasOwnProperty('id') && (Array.isArray(query.id) || typeof(query.id) == "string")) opt.id = query.id;
 			if(query.hasOwnProperty('login') && (Array.isArray(query.login) || typeof(query.login) == "string")) opt.login = query.login;
@@ -305,7 +305,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 	getUsersFollows(from_id: string | number, to_id: string | number, first?: number, after?: string): Promise<T.IAPIHelixFollows>
 	{
 		let uri = '/helix/users/follows';
-		let opt: Record<string, string> = {};
+		let opt: { [key: string]: string } = {};
 
 		if(typeof(from_id) == 'number') from_id = from_id.toString();
 		if(typeof(to_id) == 'number') to_id = to_id.toString();
@@ -329,7 +329,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 	 */
 	getChannel(broadcaster_id: string): Promise<T.IAPIHelixChannel> {
 		let uri = '/helix/channels';
-		let opt: Record<string, string> = {};
+		let opt: { [key: string]: string } = {};
 		
 		if(typeof(broadcaster_id) == 'string' && broadcaster_id.length > 0) opt.broadcaster_id = broadcaster_id;
 
@@ -346,8 +346,8 @@ export default class TwitchHelix extends IpcEventEmitter {
 	 */
 	patchChannel(broadcaster_id: string, query: T.IAPIHelixChannelPatchOptions): Promise<{}> {
 		let uri = '/helix/channels';
-		let opt: Record<string, string> = {};
-		let post: Record<string, string> = {};
+		let opt: { [key: string]: string } = {};
+		let post: { [key: string]: string } = {};
 
 		if(typeof(broadcaster_id) == 'string' && broadcaster_id.length > 0) opt.broadcaster_id = broadcaster_id;
 
@@ -376,8 +376,8 @@ export default class TwitchHelix extends IpcEventEmitter {
 	 */
 	getStreams(query?: T.IAPIHelixStreamOptions): Promise<T.IAPIHelixStreams>
 	{
-		var uri = '/helix/streams';
-		var opt: Record<string, string | Array<string>> = {};
+		let uri = '/helix/streams';
+		let opt: { [key: string]: string|string[] } = {};
 		if(typeof(query) == 'object') {
 			if(query.hasOwnProperty('after') && typeof(query.after) == "string") opt.after = query.after;
 			if(query.hasOwnProperty('before') && typeof(query.before) == "string") opt.before = query.before;
@@ -398,8 +398,8 @@ export default class TwitchHelix extends IpcEventEmitter {
 	 */
 	createStreamMarker(query: T.IAPIHelixStreamMarkerOptions): Promise<T.IAPIHelixStreamMarker>
 	{
-		var uri = '/helix/streams/markers';
-		var post: Record<string, string> = {};
+		let uri = '/helix/streams/markers';
+		let post: { [key: string]: string } = {};
 		if(typeof(query) == 'object') {
 			if(query.hasOwnProperty('user_id') && typeof(query.user_id) == "string") post.user_id = query.user_id;
 			if(query.hasOwnProperty('description') && typeof(query.description) == "string") post.description = query.description;
@@ -417,8 +417,8 @@ export default class TwitchHelix extends IpcEventEmitter {
 	 * @see {@link https://dev.twitch.tv/docs/api/reference/#get-users-follows}
 	 */
 	getGames(id: string | Array<string>, name: string | Array<string>): Promise<T.IAPIHelixGames> {
-		var uri = '/helix/games';
-		var opt: Record<string, string | Array<string>> = {};
+		let uri = '/helix/games';
+		let opt: { [key: string]: string|string[] } = {};
 
 		if((Array.isArray(id) || typeof(id) == "string") && id.length > 0) opt.id = id;
 		if((Array.isArray(name) || typeof(name) == "string") && name.length > 0) opt.name = name;
@@ -439,7 +439,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 	 */
 	searchCategories(query: string, first?: number, after?: string): Promise<T.IAPIHelixSearchCategories> {
 		let uri = '/helix/search/categories';
-		let opt: Record<string, string> = {};
+		let opt: { [key: string]: string } = {};
 
 		if(typeof(query) == 'string' && query.length > 0) opt.query = query;
 		if(typeof(first) == 'number' && first > 0 && first <= 100) opt.first = first.toString();
@@ -458,8 +458,8 @@ export default class TwitchHelix extends IpcEventEmitter {
 	 * @see {@link https://dev.twitch.tv/docs/api/reference/#get-clips}
 	 */
 	getClips(query: T.IAPIHelixClipsOptions): Promise<T.IAPIHelixClips> {
-		var uri = '/helix/clips';
-		var opt: Record<string, string | Array<string>> = {};
+		let uri = '/helix/clips';
+		let opt: { [key: string]: string|string[] } = {};
 
 		if((Array.isArray(query.id) || typeof(query.id) == "string") && query.id.length > 0) opt.id = query.id;
 		if(typeof(query.broadcaster_id) == "string" && query.broadcaster_id.length > 0) opt.broadcaster_id = query.broadcaster_id;
@@ -479,5 +479,82 @@ export default class TwitchHelix extends IpcEventEmitter {
 			return Promise.reject(new Error('One of either id, broadcaster_id or game_id must be defined'));
 		}
 		return this.requestAPI(uri, opt, false);
+	}
+
+	/**
+	 * Returns a list of Custom Reward objects for the Custom Rewards on a channel. Developers only have access to update and delete rewards that the same/calling client_id created.
+	 * 
+	 * @see {@link https://dev.twitch.tv/docs/api/reference#get-custom-reward}
+	 */
+	getCustomRewards(query?: { id?: string, only_manageable_rewards?: boolean }): Promise<T.IAPIHelixRewards> {
+		let uri = '/helix/channel_points/custom_rewards';
+		let opt: { [key: string]: string } = {};
+
+		opt.broadcaster_id = this.userobj.id;
+
+		if(typeof(query) !== 'undefined') {
+			if(typeof(query.id) == "string" && query.id.length > 0) opt.id = query.id;
+			if(typeof(query.only_manageable_rewards) == "boolean") opt.only_manageable_rewards = query.only_manageable_rewards ? 'true' : 'false';
+		}
+
+		return this.requestAPI(uri, opt, true);
+	}
+
+	/**
+	 * Updates a Custom Reward created on a channel. Only rewards created by the same client_id can be updated.
+	 * 
+	 * @see {@link https://dev.twitch.tv/docs/api/reference#update-custom-reward}
+	 */
+	updateCustomReward(id: string, query: T.IAPIHelixRewardUpdateOptions) {
+		let uri = '/helix/channel_points/custom_rewards';
+		let opt: { [key: string]: string } = {};
+		let post: { [key: string]: string|number|boolean } = {};
+
+		opt.broadcaster_id = this.userobj.id;
+		if(typeof(id) === 'string' && id.length > 0) opt.id = id;
+
+		if(typeof(query.title) === 'string' && query.title.length > 0) post.title = query.title;
+		if(typeof(query.prompt) === 'string') post.prompt = query.prompt;
+		if(typeof(query.cost) === 'number' && query.cost > 0) post.cost = query.cost;
+		if(typeof(query.background_color) === 'string' && query.background_color.match(/^#[0-9a-f]{6}/i)) post.background_color = query.background_color;
+		if(typeof(query.is_enabled) === 'boolean') post.is_enabled = query.is_enabled;
+		if(typeof(query.is_user_input_required) === 'boolean') post.is_user_input_required = query.is_user_input_required;
+		if(typeof(query.is_max_per_stream_enabled) === 'boolean') post.is_max_per_stream_enabled = query.is_max_per_stream_enabled;
+		if(typeof(query.max_per_stream) === 'number') post.max_per_stream = query.max_per_stream;
+		if(typeof(query.is_max_per_user_per_stream_enabled) === 'boolean') post.is_max_per_user_per_stream_enabled = query.is_max_per_user_per_stream_enabled;
+		if(typeof(query.max_per_user_per_stream) === 'number') post.max_per_user_per_stream = query.max_per_user_per_stream;
+		if(typeof(query.is_global_cooldown_enabled) === 'boolean') post.is_global_cooldown_enabled = query.is_global_cooldown_enabled;
+		if(typeof(query.global_cooldown_seconds) === 'number') post.global_cooldown_seconds = query.global_cooldown_seconds;
+		if(typeof(query.is_paused) === 'boolean') post.is_paused = query.is_paused;
+		if(typeof(query.should_redemptions_skip_request_queue) === 'boolean') post.should_redemptions_skip_request_queue = query.should_redemptions_skip_request_queue;
+
+		if(typeof(opt.id) !== 'string' || opt.id.length <= 0) {
+			return Promise.reject(new Error('id must not be empty'));
+		}
+
+		return this.requestAPI(uri, opt, true, post, true, 'PATCH');
+	}
+
+	/**
+	 * Updates the status of Custom Reward Redemption objects on a channel that are in the UNFULFILLED status.
+	 * Only redemptions for a reward created by the same client_id as attached to the access token can be updated.
+	 * 
+	 * @see {@link https://dev.twitch.tv/docs/api/reference#update-redemption-status}
+	 */
+	updateRedemptionStatus(redemption_id: string, reward_id: string, status: 'FULFILLED'|'CANCELED'): Promise<T.IAPIHelixRewards> {
+		let uri = '/helix/channel_points/custom_rewards/redemptions';
+		let opt: { [key: string]: string } = {};
+		let post: { [key: string]: string|number|boolean } = {};
+
+		opt.broadcaster_id = this.userobj.id;
+		if(typeof(redemption_id) === 'string' && redemption_id.length > 0) opt.id = redemption_id;
+		if(typeof(reward_id) === 'string' && reward_id.length > 0) opt.reward_id = reward_id;
+
+		if(typeof(status) === 'string' && ['FULFILLED','CANCELED'].indexOf(status) >= 0) post.status = status;
+
+		if(typeof(opt.id) !== 'string' || typeof(opt.reward_id) !== 'string' || typeof(post.status) !== 'string') {
+			return Promise.reject(new Error('redemption_id, reward_id and status must not be empty'));
+		}
+		return this.requestAPI(uri, opt, true, post, true, 'PATCH');
 	}
 }

@@ -15,7 +15,6 @@
 	},
 	"scripts": {
 		"start": ".\\node_modules\\.bin\\electron .\\",
-		"generate-docs": "jsdoc -c jsdoc.json",
 		"copy-def": "copyfiles src/**/*.d.ts -u 1 ./dist/"
 	},
 	"dependencies": {
