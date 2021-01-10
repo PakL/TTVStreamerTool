@@ -541,7 +541,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 	 * 
 	 * @see {@link https://dev.twitch.tv/docs/api/reference#update-redemption-status}
 	 */
-	updateRedemptionStatus(redemption_id: string, reward_id: string, status: 'FULFILLED'|'CANCELED'): Promise<T.IAPIHelixRewards> {
+	updateRedemptionStatus(redemption_id: string, reward_id: string, status: 'FULFILLED'|'CANCELED'): Promise<T.IAPIHelixRewardRedemptionStatusUpateResponse> {
 		let uri = '/helix/channel_points/custom_rewards/redemptions';
 		let opt: { [key: string]: string } = {};
 		let post: { [key: string]: string|number|boolean } = {};

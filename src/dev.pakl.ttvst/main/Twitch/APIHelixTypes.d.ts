@@ -190,6 +190,25 @@ export interface IAPIHelixRewardUpdateOptions {
 	should_redemptions_skip_request_queue?: boolean;
 }
 
+export interface IAPIHelixRewardRedemptionObject {
+	broadcaster_name: string;
+	broadcaster_id: string;
+	id: string;
+	user_id: string;
+	user_name: string;
+	user_input: string;
+	status: 'UNFULFILLED'|'FULFILLED'|'CANCELED';
+	redeemed_at: string;
+	reward: {
+		id: string;
+		title: string;
+		prompt: string;
+		cost: number;
+	}
+}
+
+export interface IAPIHelixRewardRedemptionStatusUpateResponse { data: Array<IAPIHelixRewardRedemptionObject> }
+
 export interface IAPIHelixValidation {
 	client_id: string;
 	login: string;

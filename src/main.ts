@@ -26,7 +26,9 @@ const logFormat = winston.format.printf((log) => {
 	return msg;
 })
 
-const errorTransport = new winston.transports.File({ level: 'error', dirname: app.getPath('logs'), filename: 'error_' + new Date().getTime() + '.log' })
+const errorlogFilename = 'error_' + new Date().getTime() + '.log';
+const errorlogPathFile = path.join(app.getPath('logs'), errorlogFilename);
+const errorTransport = new winston.transports.File({ level: 'error', dirname: app.getPath('logs'), filename: errorlogFilename });
 const logger = winston.createLogger({
 	transports: [
 		new winston.transports.Console({ level: (process.env.NODE_ENV === 'development' ? 'debug' : 'info') }),

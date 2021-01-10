@@ -65,23 +65,26 @@ const _actions: IBroadcastAction[] = [{
 	],
 	result: { label: 'game', description: 'The game', type: 'string' }
 }, {
-	label: 'Set channel title',
-	description: 'Set the title of your channel',
-	channel: 'app.ttvst.helix.setTitle',
+	label: 'Set channel informations',
+	description: 'Set the title and/or the game of your channel',
+	channel: 'app.ttvst.helix.setStreamInfo',
 	addon: 'Twitch',
 	parameters: [
-		{ label: 'title', description: 'New channel title. Must not be empty', type: 'string' }
+		{ label: 'title', description: 'New channel title. Empty means no change.', type: 'string' }
+		{ label: 'game', description: 'New channel game. Does not have to be precise but takes the first search result. Try to be as precise as possible. Empty means no change.', type: 'string' }
 	],
-	result: { label: 'success', description: 'True if the title was changed', type: 'boolean' }
+	result: { label: 'success', description: 'True if the channel was updated', type: 'boolean' }
 }, {
-	label: 'Sets channel game',
-	description: 'Sets the channel game. Does not have to be precise but takes the first search result. Try to be as precise as possible.',
-	channel: 'app.ttvst.helix.setGame',
+	label: 'Set channel point redemption status',
+	description: 'Set a channel point redemption status to fulfilled or canceled. Canceling will refunde points to the user.',
+	channel: 'app.ttvst.helix.updateRedemption',
 	addon: 'Twitch',
 	parameters: [
-		{ label: 'game', description: 'The game name you want the channel to set to', type: 'string' }
+		{ label: 'redemptionid', description: 'ID of the redemption - take from trigger', type: 'string' }
+		{ label: 'rewardid', description: 'ID of the reward - take from trigger', type: 'string' }
+		{ label: 'status', description: 'on = fulfilled, off = canceled', type: 'boolean' }
 	],
-	result: { label: 'game', description: 'The game name the channel was set to. Empty on failure.', type: 'string' }
+	result: { label: 'success', description: 'True if the redemption status was updated', type: 'boolean' }
 }]
 
 class TwitchBroadcast {
@@ -103,8 +106,9 @@ class TwitchBroadcast {
 		Broadcast.instance.on('app.ttvst.helix.getStream', this.onHelixGetStreamTitle.bind(this));
 		Broadcast.instance.on('app.ttvst.helix.getGame', this.onHelixGetStreamGame.bind(this));
 
-		Broadcast.instance.on('app.ttvst.helix.setTitle', this.onHelixSetStreamTitle.bind(this));
-		Broadcast.instance.on('app.ttvst.helix.setGame', this.onHelixSetStreamGame.bind(this));
+		Broadcast.instance.on('app.ttvst.helix.setStreamInfo', this.onHelixSetStreamInfo.bind(this));
+
+		Broadcast.instance.on('app.ttvst.helix.updateRedemption', this.onHelixUpdateRedemption.bind(this));
 	}
 
 	onTMIMessage(msg: T.TMIMessage) {
@@ -250,29 +254,14 @@ class TwitchBroadcast {
 		TTVST.BroadcastMain.instance.executeRespond(executeId, response);
 	}
 
-	async onHelixSetStreamTitle(executeId: string, title: string) {
-		if(typeof(title) !== 'string' || title.length <= 0 || TTVST.helix.userobj === null || typeof(TTVST.helix.userobj.login) !== 'string') {
+	async onHelixSetStreamInfo(executeId: string, title: string, game: string) {
+		if(TTVST.helix.userobj === null || typeof(TTVST.helix.userobj.login) !== 'string' || ((typeof(title) !== 'string' || title.length <= 0) && (typeof(game) !== 'string' || game.length <= 0))) {
 			TTVST.BroadcastMain.instance.executeRespond(executeId, false);
 			return;
 		}
 
-		let success = false;
-		try {
-			await this.helix.patchChannel(this.helix.userobj.id, { title });
-			success = true;
-		} catch(e) {
-			logger.error(e);
-		}
-		TTVST.BroadcastMain.instance.executeRespond(executeId, success);
-	}
-
-	async onHelixSetStreamGame(executeId: string, game: string) {
-		if(typeof(game) !== 'string' || game.length <= 0 || TTVST.helix.userobj === null || typeof(TTVST.helix.userobj.login) !== 'string') {
-			TTVST.BroadcastMain.instance.executeRespond(executeId, false);
-			return;
-		}
-
-		let result = '';
+		let success: boolean = false;
+		let opt: { title?: string; game_id?: string; } = {};
 		try {
 			let game_id = '';
 			let game_name = '';
@@ -290,14 +279,38 @@ class TwitchBroadcast {
 				}
 			}
 
-			if(game_id.length > 0) {
-				await this.helix.patchChannel(this.helix.userobj.id, { game_id });
-				result = game_name;
+			if(typeof(opt.title) === 'string' || typeof(opt.game_id) === 'string') {
+				await this.helix.patchChannel(this.helix.userobj.id, opt);
+				success = true;
 			}
 		} catch(e) {
 			logger.error(e);
 		}
-		TTVST.BroadcastMain.instance.executeRespond(executeId, result);
+		TTVST.BroadcastMain.instance.executeRespond(executeId, success);
+	}
+
+	async onHelixUpdateRedemption(executeId: string, redemption_id: string, reward_id: string, status: boolean) {
+		if(TTVST.helix.userobj === null || typeof(TTVST.helix.userobj.login) !== 'string' ||
+			typeof(redemption_id) !== 'string' || redemption_id.length <= 0 ||
+			typeof(reward_id) !== 'string' || reward_id.length <= 0 ||
+			typeof(status) !== 'boolean'
+		) {
+			TTVST.BroadcastMain.instance.executeRespond(executeId, false);
+			return;
+		}
+
+		let success = false;
+		try {
+			let resp = await this.helix.updateRedemptionStatus(redemption_id, reward_id, status ? 'FULFILLED' : 'CANCELED');
+			if(resp.data.length > 0) {
+				if(resp.data[0].status == (status ? 'FULFILLED' : 'CANCELED')) {
+					success = true;
+				}
+			}
+		} catch(e) {
+			logger.error(e);
+		}
+		TTVST.BroadcastMain.instance.executeRespond(executeId, success);
 	}
 
 }
