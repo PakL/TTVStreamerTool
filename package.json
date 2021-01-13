@@ -18,10 +18,11 @@
 		"copy-def": "copyfiles src/**/*.d.ts -u 1 ./dist/"
 	},
 	"dependencies": {
+		"@types/dateformat": "3.0.1",
 		"@types/node": "12.12.6",
 		"@types/sass": "1.16.0",
 		"@types/ws": "7.4.0",
-		"@types/dateformat": "3.0.1",
+		"app-module-path": "2.2.0",
 		"bufferutil": "4.0.1",
 		"compare-versions": "3.6.0",
 		"dateformat": "3.0.3",

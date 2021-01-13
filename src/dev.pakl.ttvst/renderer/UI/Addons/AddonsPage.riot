@@ -302,6 +302,15 @@
 				this.update();
 			},
 
+			alreadySelected(addon) {
+				for(let i = 0; i < this.selectedAddons.length; i++) {
+					if(this.selectedAddons[i].addonid == addon.addonid) {
+						return true;
+					}
+				}
+				return false;
+			},
+
 			selectUpdate() {
 				this.selectedAddons = [];
 				let addons = this.installedAddons.concat(this.availableAddons);
@@ -309,7 +318,7 @@
 					let checkboxes = this.$$(`input.${this.view}`);
 					for(let j = 0; j < checkboxes.length; j++) {
 						if(checkboxes[j].dataset.addonid == addons[i].addonid) {
-							if(checkboxes[j].checked) {
+							if(checkboxes[j].checked && !this.alreadySelected(addons[i])) {
 								this.selectedAddons.push(addons[i]);
 							}
 							break;

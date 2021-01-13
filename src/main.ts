@@ -1,7 +1,10 @@
 import { app, globalShortcut, ipcMain } from 'electron';
-import winston from 'winston';
 import fs from 'fs';
 import path from 'path';
+
+require('app-module-path').addPath(path.join(__dirname, '..', 'node_modules'));
+
+import winston from 'winston';
 
 import MainWindow from './dev.pakl.ttvst/main/MainWindow';
 import SplashWindow from './dev.pakl.ttvst/main/SplashWindow';

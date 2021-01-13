@@ -105,7 +105,7 @@ class OverlayPage extends TTVST.ui.Page {
 	}
 
 	content(): HTMLElement {
-		let settCmpnt = riot.component<null, null>(SettingsMenu);
+		let settCmpnt = riot.component<null, null>(SettingsMenu as { css: string, exports: any, template: () => any, name: string });
 		this.settingsCmpnt = settCmpnt(document.createElement('SettingsMenu'));
 
 		this.settingsCmpnt.setSettings(this.settings);

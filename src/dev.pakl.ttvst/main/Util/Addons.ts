@@ -2,7 +2,7 @@ import fs from 'fs';
 import originalFs from 'original-fs';
 import Path from 'path';
 import { app, ipcMain } from 'electron';
-import { spawn } from 'child_process';
+import { spawn, execFileSync } from 'child_process';
 import compareVersions from 'compare-versions';
 import winston from 'winston';
 import TTVSTMain from '../TTVSTMain';
@@ -44,6 +44,17 @@ export default class Addons {
 		ipcMain.on('Addons.uninstall', this.onUninstall);
 		ipcMain.on('Addons.install', this.onInstall);
 		ipcMain.on('Addons.restart', this.onRestart);
+
+		let batchPath = Path.join(app.getPath('temp'), 'addons.bat');
+		console.log(batchPath);
+		fs.access(batchPath, fs.constants.W_OK, (err) => {
+			if(err) return;
+			fs.unlink(batchPath, (err) => {
+				if(err) {
+					logger.error('[Addons]', err);
+				}
+			});
+		})
 	}
 
 	checkForAddons(directory: string): Promise<void> {
@@ -60,7 +71,7 @@ export default class Addons {
 										await this.checkAddon(p);
 									}
 								}
-								re();
+								re(null);
 							});
 						});
 					}
@@ -161,8 +172,8 @@ export default class Addons {
 	}
 
 	checkForRendererStuff(addon: IAddon) {
-		fs.exists(Path.join(process.cwd(), addon.path, 'language.json'), (exists) => {
-			if(exists && TTVST.mainWindow.window !== null && TTVST.mainWindow.window.isVisible()) {
+		fs.access(Path.join(process.cwd(), addon.path, 'language.json'), fs.constants.R_OK, (err) => {
+			if(!err && TTVST.mainWindow.window !== null && TTVST.mainWindow.window.isVisible()) {
 				logger.debug(`[Addons] Remind renderer to load language file for ${addon.name}`);
 				TTVST.mainWindow.ipcSend('Addons.language', addon.path);
 			}
@@ -207,13 +218,15 @@ export default class Addons {
 				this.setFlag(this.installedAddons[i].addonid, 'compatible');
 				logger.error(`[Addons] Addon (renderer) at ${addonpath} could not be loaded`);
 				logger.error(error);
+
+				this.sendAddonUpdate();
 				break;
 			}
 		}
 	}
 
 	languageError(event: Electron.IpcMainEvent, addonpath: string, error: { code: string, message: string, stack: string }) {
-		logger.error(`[Addons] Addon language packat ${addonpath} could not be loaded`);
+		logger.error(`[Addons] Addon language pack ${addonpath} could not be loaded`);
 		logger.error(error);
 	}
 
@@ -299,10 +312,11 @@ export default class Addons {
 				let resp = await got(addon.download, { responseType: 'buffer', timeout: 20000 })
 				if(resp.statusCode === 200) {
 					let sanitizedAddonName = addon.addonid.replace(/[^a-z0-9\.\-]/ig, '');
+					let addonDownload = Path.join(app.getPath('temp'), sanitizedAddonName + '.asar');
 					await new Promise((res, rej) => {
-						originalFs.writeFile(`resources\\${sanitizedAddonName}.part`, resp.body, (err) => {
+						originalFs.writeFile(addonDownload, resp.body, (err) => {
 							if(err === null) {
-								res();
+								res(null);
 							} else {
 								rej(err);
 							}
@@ -310,7 +324,7 @@ export default class Addons {
 					});
 					Addons.batchLines[addon.addonid] = [];
 					Addons.batchLines[addon.addonid].push(Addons.getRetryDeleteSnippet(addon.path));
-					Addons.batchLines[addon.addonid].push(`rename resources\\${sanitizedAddonName}.part ${sanitizedAddonName}.asar`);
+					Addons.batchLines[addon.addonid].push(`move "${addonDownload}" resources\\${sanitizedAddonName}.asar`);
 					
 					this.setFlag(addon.addonid, 'updateready');
 				} else {
@@ -344,13 +358,28 @@ export default class Addons {
 						logger.error(`[Addons] Addon uninstall failed`);
 						logger.error(err);
 					}
-					res();
+					res(null);
 				});
 			})
 		}
 	}
 
+	isSomethingInstalling() {
+		for(let i = 0; i < this.availableAddons.length; i++) {
+			if(this.hasFlag(this.availableAddons[i], 'installing')) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	async onInstall(event: Electron.IpcMainEvent, addons: Array<IAddon>) {
+		let installingRows: string[] = [];
+		let addonFileNames: Array<string[]> = [];
+		if(this.isSomethingInstalling()) {
+			return;
+		}
+
 		for(let i = 0; i < addons.length; i++) {
 			let addon = addons[i];
 			if(typeof(addon.download) !== 'string' || !addon.download.startsWith('https://')) {
@@ -363,15 +392,17 @@ export default class Addons {
 				if(resp.statusCode === 200) {
 					let sanitizedAddonName = addon.addonid.replace(/[^a-z0-9\.\-]/ig, '');
 					await new Promise((res, rej) => {
-						originalFs.writeFile(`resources\\${sanitizedAddonName}.asar`, resp.body, (err) => {
+						let addonDownload = Path.join(app.getPath('temp'), sanitizedAddonName + '.asar');
+						originalFs.writeFile(addonDownload, resp.body, (err) => {
 							if(err === null) {
-								res();
+								installingRows.push('move "' + addonDownload + '" "resources\\' + sanitizedAddonName + '.asar"');
+								addonFileNames.push([addon.addonid, sanitizedAddonName]);
+								res(null);
 							} else {
 								rej(err);
 							}
 						});
 					});
-					await this.checkAddon(`resources\\${sanitizedAddonName}.asar\\`);
 				} else {
 					this.setFlag(addon.addonid, 'installfailed');
 					logger.error(`[Addons] Addon download failed. Server responded with status code ${resp.statusCode}`);
@@ -382,6 +413,26 @@ export default class Addons {
 				logger.error(e);
 			}
 		}
+
+		let batch = '@echo off\r\n' + installingRows.join('\r\n');
+		let batchPath = Path.join(app.getPath('temp'), 'addons.bat');
+
+		try {
+			fs.writeFileSync(batchPath, batch);
+			
+			execFileSync('resources\\elevate', ['-w', '-c', batchPath]);
+
+			for(let i = 0; i < addonFileNames.length; i++) {
+				try {
+					originalFs.accessSync(`resources\\${addonFileNames[i][1]}.asar`, fs.constants.R_OK);
+					await this.checkAddon(`resources\\${addonFileNames[i][1]}.asar`);
+				} catch(e) {
+					this.setFlag(addonFileNames[i][0], 'installfailed');
+					logger.error(`[Addons] Addon install failed`);
+					logger.error(e);
+				}
+			}
+		} catch(e) {}
 
 		this.loadAddons();
 	}
@@ -394,10 +445,11 @@ export default class Addons {
 			batchLines = batchLines.concat(Addons.batchLines[addonid]);
 		}
 
+		let batchPath = Path.join(app.getPath('temp'), 'addons.bat');
 		let batch = '@echo off\r\n' + batchLines.join('\r\n') + '\r\nstart "" "' + process.execPath + '"' + (execArgv.length > 0 ? ' "' + execArgv.join('" "') + '"' : '') + '\r\nexit'
-		fs.writeFile('addons.bat', batch, (err: NodeJS.ErrnoException) => {
+		fs.writeFile(batchPath, batch, (err: NodeJS.ErrnoException) => {
 			if(err === null) {
-				spawn('start', ['addons.bat'], { cwd: process.cwd(), env: process.env, shell: true, detached: true, windowsHide: false });
+				spawn('resources\\elevate', ['-c', batchPath], { cwd: process.cwd(), env: process.env, shell: true, detached: true, windowsHide: false });
 				app.quit();
 			} else {
 				TTVST.mainWindow.ipcSend('Addons.batchFailed');

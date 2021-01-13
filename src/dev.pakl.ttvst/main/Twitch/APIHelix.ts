@@ -122,7 +122,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 		}
 		if(typeof(uri) != 'string') return Promise.reject(new Error('uri must be of type string'));
 
-		if(Object.keys(postdata).length > 0) authNeeded = true;
+		authNeeded = true;
 
 		let querystr = '';
 		for(let key in query) {
