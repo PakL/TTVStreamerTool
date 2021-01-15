@@ -162,7 +162,7 @@ class TwitchBroadcast {
 		if(cache === null || ( cacheTime > 0 && cache_time < ((new Date()).getTime() - (cacheTime * 1000)) )) {
 			try {
 				let stream = await TTVST.helix[apiRoute](...parameters as [any, any]);
-				if(stream.data.length == 1) {
+				if(typeof(stream.data) !== 'undefined') {
 					cache = stream;
 					cache_time = (new Date()).getTime();
 
