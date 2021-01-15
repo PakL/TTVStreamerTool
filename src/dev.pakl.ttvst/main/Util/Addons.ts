@@ -46,7 +46,6 @@ export default class Addons {
 		ipcMain.on('Addons.restart', this.onRestart);
 
 		let batchPath = Path.join(app.getPath('temp'), 'addons.bat');
-		console.log(batchPath);
 		fs.access(batchPath, fs.constants.W_OK, (err) => {
 			if(err) return;
 			fs.unlink(batchPath, (err) => {
