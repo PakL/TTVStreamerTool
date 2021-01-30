@@ -13,6 +13,7 @@ import TTVST from '../TTVST';
 import * as Color from './ColorFunctions';
 
 import Page from './Page';
+import { IBroadcastArgument } from '../../main/BroadcastMain';
 
 let accentColor: string = ipcRenderer.sendSync('request-accent-color');
 let accentBrightness = Color.getBrightness(Color.hexToRGB(accentColor));
@@ -181,10 +182,10 @@ export default class UI {
 		return modalR;
 	}
 
-	selectAction(channel: string = '', parameters: any[] = []): Promise<{ channel: string, parameter: any[] }|null> {
+	selectAction(channel: string = '', parameters: any[] = [], dynamicinput?: Array<{ value: string, param: IBroadcastArgument }>): Promise<{ channel: string, parameter: any[] }|null> {
 		return new Promise((res) => {
 			let select = document.createElement('ActionSelect');
-			let selectR: riot.RiotComponent = actionSelectCmpnt(select, { initchannel: channel, initparams: parameters });
+			let selectR: riot.RiotComponent = actionSelectCmpnt(select, { initchannel: channel, initparams: parameters, dynamicinput });
 
 			let modal = document.createElement('Modal');
 			let response = false;

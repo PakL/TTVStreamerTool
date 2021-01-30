@@ -9,24 +9,33 @@
 		<small>{ __(actiondesc) }</small>
 	</label>
 	<hr />
-	<label each={ parameter in parameters }>
+	<label each={ parameter in parameters } for={ 'input_' + key }>
+		<div if={ dynamicinput !== null } class="dynamiccheck">{ __('Select dynamic input') } <input type="checkbox" data-dynamic={ parameter.label } onchange={ onDynamicInputCheck }></div>
 		{ __(parameter.label) }
-		<input if={ parameter.type == 'number' } type="number" data-parameter={ parameter.label } />
-		<input if={ parameter.type == 'string' } type="text" data-parameter={ parameter.label } />
-		<input if={ parameter.type == 'boolean' } type="checkbox" data-parameter={ parameter.label } />
-		<div if={ parameter.type == 'file' } class="fileselect">
-			<input type="text" data-parameter={ parameter.label } /><button onclick={ selectFile }><i class="ms-Icon ms-Icon--OpenFolderHorizontal"></i></button>
-		</div>
-		<div if={ parameter.type == 'list' } class="list">
-			<input type="text" data-parameter={ parameter.label }/>
-			<button onclick={ onAddList } data-parameter={ parameter.label }>+</button>
-			<button onclick={ onRemoveList } data-parameter={ parameter.label }>-</button>
-		</div>
-		<div if={ parameter.type == 'assoc' } class="assoc">
-			<input type="text" data-parameter={ parameter.label } class="key"><span class="spacer">: </span><input type="text" data-parameter={ parameter.label } class="value">
-			<button onclick={ onAddAssoc } data-parameter={ parameter.label }>+</button>
-			<button onclick={ onRemoveAssoc } data-parameter={ parameter.label }>-</button>
-		</div>
+		
+		<template if={ dynamicinput === null || !$('input[data-dynamic="' + parameter.label + '"]').checked }>
+			<input if={ parameter.type == 'number' } type="number" data-parameter={ parameter.label } id={ 'input_' + key } />
+			<input if={ parameter.type == 'string' } type="text" data-parameter={ parameter.label } id={ 'input_' + key } />
+			<input if={ parameter.type == 'boolean' } type="checkbox" data-parameter={ parameter.label } id={ 'input_' + key } />
+			<div if={ parameter.type == 'file' } class="fileselect">
+				<input type="text" data-parameter={ parameter.label } id={ 'input_' + key } /><button onclick={ selectFile }><i class="ms-Icon ms-Icon--OpenFolderHorizontal"></i></button>
+			</div>
+			<div if={ parameter.type == 'list' } class="list">
+				<input type="text" data-parameter={ parameter.label }/>
+				<button onclick={ onAddList } data-parameter={ parameter.label }>+</button>
+				<button onclick={ onRemoveList } data-parameter={ parameter.label }>-</button>
+			</div>
+			<div if={ parameter.type == 'assoc' } class="assoc">
+				<input type="text" data-parameter={ parameter.label } class="key"><span class="spacer">: </span><input type="text" data-parameter={ parameter.label } class="value">
+				<button onclick={ onAddAssoc } data-parameter={ parameter.label }>+</button>
+				<button onclick={ onRemoveAssoc } data-parameter={ parameter.label }>-</button>
+			</div>
+		</template>
+		<template if={ dynamicinput !== null && $('input[data-dynamic="' + parameter.label + '"]').checked }>
+			<select data-parameter={ parameter.label } id={ 'input_' + key }>
+				<option each={ dyninput in dynamicinput } if={ dyninput.param.type === parameter.type } selected={ $('.action_select').value == props.initchannel && dyninput.value == props.initparams[i] } value={ dyninput.value }>{ dyninput.param.label }</option>
+			</select>
+		</template>
 		<small>{ __(parameter.description) }</small>
 	</label>
 
@@ -51,6 +60,18 @@
 			display: inline-block;
 			width: 40px;
 		}
+		div.dynamiccheck {
+			float: right;
+			font-size: 0.7em;
+		}
+		div.dynamiccheck > input {
+			display: inline;
+			margin-right: 0;
+			margin-left: 5px;
+		}
+		div.dynamiccheck > input::before {
+			font-size: 1.2em;
+		}
 	</style>
 	<script>
 		const { ipcRenderer } = require('electron');
@@ -61,6 +82,8 @@
 			actionsgroups: {},
 			parameters: [],
 			actiondesc: '',
+			dynamicinput: null,
+			actionchange: false,
 
 			onBeforeMount(props, state) {
 				this.__ = global.TTVST.i18n.__;
@@ -78,6 +101,9 @@
 					}
 					this.actions[this.actionsgroups[act.addon]].push(act);
 				}
+				if(Array.isArray(this.props.dynamicinput)) {
+					this.dynamicinput = this.props.dynamicinput;
+				}
 			},
 
 			onMounted(props, state) {
@@ -91,39 +117,53 @@
 			},
 
 			onUpdated(props, state) {
-				if(this.$('.action_select').value == this.props.initchannel) {
-					for(let i = 0; i < this.parameters.length; i++) {
-						if(this.props.initparams.length <= i) break;
-						if(this.parameters[i].type == 'boolean') {
-							if(this.props.initparams[i]) {
-								this.$('input[data-parameter="'+this.parameters[i].label+'"]').setAttribute('checked', 'true');
-							}
-						} else if(this.parameters[i].type == 'list') {
-							for(let j = 0; j < this.props.initparams[i].length; j++) {
-								if(j == 0) {
-									this.$('input[data-parameter="'+this.parameters[i].label+'"]').value = this.props.initparams[i][j];
-									continue;
+				if(this.actionchange) {
+					if(this.$('.action_select').value == this.props.initchannel) {
+						for(let i = 0; i < this.parameters.length; i++) {
+							if(this.props.initparams.length <= i) break;
+
+							if(this.dynamicinput !== null) {
+								for(let i = 0; i < this.dynamicinput.length; i++) {
+									if(this.dynamicinput[i].value === this.props.initparams[i]) {
+										this.$('input[data-dynamic="' + this.parameters[i].label + '"]').checked = true;
+										continue;
+									}
 								}
-								let input = this.onAddList(this.parameters[i].label);
-								input.value = this.props.initparams[i][j];
 							}
-						} else if(this.parameters[i].type == 'assoc') {
-							let j = 0;
-							for(let key of Object.keys(this.props.initparams[i])) {
-								if(j == 0) {
-									j++;
-									this.$('input.key[data-parameter="'+this.parameters[i].label+'"]').value = key;
-									this.$('input.value[data-parameter="'+this.parameters[i].label+'"]').value = this.props.initparams[i][key];
-									continue;
+
+							if(this.parameters[i].type == 'boolean') {
+								if(this.props.initparams[i]) {
+									this.$('input[data-parameter="'+this.parameters[i].label+'"]').setAttribute('checked', 'true');
 								}
-								let [inputKey, inputVal] = this.onAddAssoc(this.parameters[i].label);
-								inputKey.value = key;
-								inputVal.value = this.props.initparams[i][key];
+							} else if(this.parameters[i].type == 'list') {
+								for(let j = 0; j < this.props.initparams[i].length; j++) {
+									if(j == 0) {
+										this.$('input[data-parameter="'+this.parameters[i].label+'"]').value = this.props.initparams[i][j];
+										continue;
+									}
+									let input = this.onAddList(this.parameters[i].label);
+									input.value = this.props.initparams[i][j];
+								}
+							} else if(this.parameters[i].type == 'assoc') {
+								let j = 0;
+								for(let key of Object.keys(this.props.initparams[i])) {
+									if(j == 0) {
+										j++;
+										this.$('input.key[data-parameter="'+this.parameters[i].label+'"]').value = key;
+										this.$('input.value[data-parameter="'+this.parameters[i].label+'"]').value = this.props.initparams[i][key];
+										continue;
+									}
+									let [inputKey, inputVal] = this.onAddAssoc(this.parameters[i].label);
+									inputKey.value = key;
+									inputVal.value = this.props.initparams[i][key];
+								}
+							} else {
+								this.$('input[data-parameter="'+this.parameters[i].label+'"]').value = this.props.initparams[i];
 							}
-						} else {
-							this.$('input[data-parameter="'+this.parameters[i].label+'"]').value = this.props.initparams[i];
 						}
 					}
+					this.actionchange = false;
+					if(this.$('.action_select').value == this.props.initchannel) this.update();
 				}
 			},
 
@@ -131,6 +171,11 @@
 				let action = Broadcast.getAction({ channel: this.$('.action_select').value });
 				this.parameters = action[0].parameters;
 				this.actiondesc = action[0].description;
+				let uncheckall = this.$$('input[type="checkbox"]');
+				for(let i = 0; i < uncheckall.length; i++) {
+					uncheckall[i].checked = false;
+				}
+				this.actionchange = true;
 				this.update();
 			},
 
@@ -215,26 +260,31 @@
 				let parameters = action[0].parameters;
 				let result = [];
 				for(let i = 0; i < parameters.length; i++) {
+					if(this.dynamicinput !== null && this.$('input[data-dynamic="' + parameters[i].label + '"').checked) {
+						result.push(this.$('select[data-parameter="' + parameters[i].label + '"]').value);
+						continue;
+					}
+
 					if(parameters[i].type == 'number') {
-						let val = parseFloat(this.$('input[data-parameter="' + parameters[i].label + '"').value);
+						let val = parseFloat(this.$('input[data-parameter="' + parameters[i].label + '"]').value);
 						if(isNaN(val)) val = 0;
 						result.push(val);
 					} else if(parameters[i].type == 'string') {
-						result.push(this.$('input[data-parameter="' + parameters[i].label + '"').value);
+						result.push(this.$('input[data-parameter="' + parameters[i].label + '"]').value);
 					} else if(parameters[i].type == 'boolean') {
-						result.push(this.$('input[data-parameter="' + parameters[i].label + '"').checked);
+						result.push(this.$('input[data-parameter="' + parameters[i].label + '"]').checked);
 					} else if(parameters[i].type == 'file') {
-						let file = this.$('input[data-parameter="' + parameters[i].label + '"').value;
+						let file = this.$('input[data-parameter="' + parameters[i].label + '"]').value;
 						result.push(file);
 					} else if(parameters[i].type == 'list') {
-						let items = this.$$('input[data-parameter="' + parameters[i].label + '"');
+						let items = this.$$('input[data-parameter="' + parameters[i].label + '"]');
 						let val = [];
 						for(let j = 0; j < items.length; j++) {
 							val.push(items[j].value);
 						}
 						result.push(val);
 					} else if(parameters[i].type == 'assoc') {
-						let items = this.$$('input[data-parameter="' + parameters[i].label + '"');
+						let items = this.$$('input[data-parameter="' + parameters[i].label + '"]');
 						let val = {};
 						for(let j = 0; j < items.length; j+=2) {
 							val[items[j].value] = items[j+1].value;
@@ -243,6 +293,10 @@
 					}
 				}
 				return result;
+			},
+
+			onDynamicInputCheck() {
+				this.update();
 			}
 
 		}
