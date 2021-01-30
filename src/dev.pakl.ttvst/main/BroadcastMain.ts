@@ -210,12 +210,49 @@ class BroadcastMain extends EventEmitter {
 		return super.emit(event, ...args);
 	}
 
+	cleanUpBroadcastParameters(parameters: Array<IBroadcastArgument>, input: any[]) {
+		for(let i = 0; i < parameters.length; i++) {
+			if(i >= input.length) input[i] = '';
+			let t = parameters[i].type
+			if(t === 'number') {
+				if(typeof(input[i]) === 'string') {
+					input[i] = parseFloat(input[i] as string);
+				} else if(typeof(input[i]) === 'boolean') {
+					if(input[i]) input[i] = 1;
+					else input[i] = 0;
+				}
+				if(typeof(input[i]) !== 'number' || isNaN(input[i] as number)) {
+					input[i] = 0;
+				}
+			} else if(t === 'boolean') {
+				if(typeof(input[i]) === 'number') {
+					if(input[i] > 0) input[i] = true;
+					else input[i] = false;
+				} else if(typeof(input[i]) === 'string') {
+					if(input[i] === '1' || input[i] === 'true') input[i] = true;
+					else input[i] = false;
+				}
+			} else if(t === 'assoc') {
+				if(typeof(input[i]) !== 'object') input[i] = {};
+			} else if(t === 'list') {
+				if(!Array.isArray(input[i])) input[i] = [];
+			} else {
+				if(typeof(input[i]) !== 'string') input[i] = input[i].toString();
+			}
+		}
+
+		return input;
+	}
+
 	execute(channel: string, ...args: any[]): Promise<any|void> {
 		const self = this;
 		return new Promise<any|void>((resolve, reject) => {
 			let actions = BroadcastMain.getAction({ channel });
 			if(actions.length >= 1) {
 				let action = actions[0];
+
+				args = this.cleanUpBroadcastParameters(action.parameters, args);
+
 				if(typeof(action.result) !== 'undefined') {
 					let hrtime = process.hrtime();
 					let executeId = hrtime[0].toString(16) + '-' + hrtime[1].toString(16);
