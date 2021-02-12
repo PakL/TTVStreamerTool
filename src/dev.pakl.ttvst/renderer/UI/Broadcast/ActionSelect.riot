@@ -119,14 +119,14 @@
 			onUpdated(props, state) {
 				if(this.actionchange) {
 					if(this.$('.action_select').value == this.props.initchannel) {
-						for(let i = 0; i < this.parameters.length; i++) {
+						parloop: for(let i = 0; i < this.parameters.length; i++) {
 							if(this.props.initparams.length <= i) break;
 
 							if(this.dynamicinput !== null) {
-								for(let i = 0; i < this.dynamicinput.length; i++) {
-									if(this.dynamicinput[i].value === this.props.initparams[i]) {
+								for(let j = 0; j < this.dynamicinput.length; j++) {
+									if(this.dynamicinput[j].value === this.props.initparams[i]) {
 										this.$('input[data-dynamic="' + this.parameters[i].label + '"]').checked = true;
-										continue;
+										continue parloop;
 									}
 								}
 							}

@@ -191,16 +191,8 @@
 	"Sets volume with an optional ease effect": {
 		"de": "Setzt die Lautstärke mit einem optionalen weichen Übergang"
 	},
-	"volume": {
-		"en": "Volume",
-		"de": "Lautsärke"
-	},
 	"Volume - a number between 0 and 100": {
 		"de": "Lautstärke - eine Nummer zwischen 0 und 100"
-	},
-	"ease": {
-		"en": "Ease",
-		"de": "Weicher Übergang"
 	},
 	"Ease the volume transition": {
 		"de": "Verändert die Lautstärke mit einem weichen Übergang"
@@ -211,10 +203,6 @@
 	"Sets a new youtube playlist": {
 		"de": "Setzt die neue Youtube-Playlist"
 	},
-	"playlistid": {
-		"en": "Playlist id",
-		"de": "Playlist-Id"
-	},
 	"The Youtube playlist id": {
 		"de": "Die Youtube-Playlist-Id"
 	},
@@ -224,23 +212,11 @@
 	"This is triggered if the user adds time to the countdown": {
 		"de": "Dies wird ausgelöst wenn der Benutzer zeit zum Countdown hinzufügt"
 	},
-	"hours": {
-		"en": "Hours",
-		"de": "Stunden"
-	},
 	"Amount of hours to add": {
 		"de": "Anzahl an Stunden hinzufügen"
 	},
-	"minutes": {
-		"en": "Minutes",
-		"de": "Minuten"
-	},
 	"Amount of minutes to add": {
 		"de": "Anzahl an Minuten hinzufügen"
-	},
-	"seconds": {
-		"en": "Seconds",
-		"de": "Sekunden"
 	},
 	"Amount of seconds to add": {
 		"de": "Anzahl an Sekunden hinzufügen"
@@ -248,16 +224,8 @@
 	"This is triggered if the user sets a destination time for the countdown": {
 		"de": "Dies wird ausgelöst wenn der Benutzer ein Ziel für den Countdown setzt"
 	},
-	"time": {
-		"en": "Time",
-		"de": "Zeit"
-	},
 	"Time in the format hh:mm(:ss)": {
 		"de": "Zeit im Format hh:mm(:ss)"
-	},
-	"date": {
-		"en": "Date",
-		"de": "Datum"
 	},
 	"An optional date in the format yyyy-mm-dd": {
 		"de": "Ein optinales Datum im Format JJJJ-MM-DD"
@@ -279,10 +247,6 @@
 	},
 	"Is the server online now?": {
 		"de": "Ist der Server jetzt online?"
-	},
-	"online": {
-		"en": "Online",
-		"de": "Online"
 	},
 	"When the music overlay volume changes this triggers": {
 		"de": "Löst aus wenn das Musik-Overlay die Lautstärke ändert"

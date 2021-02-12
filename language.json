@@ -211,5 +211,35 @@
 	"assoc": {
 		"en": "Associative array",
 		"de": "Assoziative Datenfelder"
+	},
+	"PubSub (Twitch Events)": {
+		"de": "PubSub (Twitch Ereignisse)"
+	},
+	"Incoming Twitch Chat Message": {
+		"de": "Incoming Twitch Chat Message"
+	},
+	"Twitch": {
+		"de": "Twitch"
+	},
+	"Channel point reward redemption": {
+		"de": "Kanalpunkt-Belohnungs-Einlösung"
+	},
+	"Incoming Twitch Chat Message for your channel": {
+		"de": "Eingehende Twitch-Chat-Nachricht in deinem Kanal"
+	},
+	"The message that was sent by the user": {
+		"de": "Die Nachricht, die von einem Benutzer gesendet wurde"
+	},
+	"The unformatted user name": {
+		"de": "Der unformatierte Benutzername"
+	},
+	"By the user formatted user name with uppercase or localization": {
+		"de": "Der vom Benutzer formatierte Benutzername mit Großbuchstaben oder Lokalisierung"
+	},
+	"An associative array with booleans of permissions. Keys are: isSubscriber, isVIP, isModerator, isBroadcaster": {
+		"de": "Assoziative Datenfelder mit Booleans der Berechtigungen. Schlüssel sind: isSubscriber, isVIP, isModerator, isBroadcaster"
+	},
+	"The complete TMI message tags as associative array. Check https://dev.twitch.tv/docs/irc/tags#privmsg-twitch-tags for more info": {
+		"de": "Alle TMI-Tags in assoziativen Datenfelder. Besuche https://dev.twitch.tv/docs/irc/tags#privmsg-twitch-tags für mehr Informationen"
 	}
 }
