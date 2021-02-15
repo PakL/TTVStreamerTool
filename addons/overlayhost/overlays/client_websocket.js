@@ -51,6 +51,7 @@ WebsocketHelper.prototype.reconnect = function() {
 			self.subscribe(self.listener[i].channel)
 		}
 		self.onmsg({ data: '{"channel":":open","data":{}}' })
+		self.send({ action: 'loaded', location: document.location.href });
 	}
 	this.connection.onmessage = function(e){self.onmsg(e);};
 	this.connection.onerror = function() {

@@ -12,6 +12,7 @@ import fontList from 'font-list';
 import TTVSTMain from '../../dist/dev.pakl.ttvst/main/TTVSTMain';
 
 import { ipcMain } from 'electron';
+import { setInterval } from 'timers';
 
 declare var logger: winston.Logger;
 declare var TTVST: TTVSTMain;
@@ -181,6 +182,7 @@ class OverlayHost {
 	lastwssocketid: number = 0;
 	broadcastwslistener: { [channel: string] : Array<ws> } = {};
 	broadcastlistener: { [channel: string] : (...args: Array<any>) => void } = {};
+	socketlocations: Array<{ socket: ws, location: string }> = [];
 
 	constructor() {
 		this.onHttpRequest = this.onHttpRequest.bind(this);
@@ -618,6 +620,8 @@ class OverlayHost {
 
 	private onWSConnection(socket: ws) {
 		socket.on('message', ((data: ws.Data) => { this.onWSMessage(socket, data) }).bind(this));
+		socket.on('close', (() => { this.cleanupBroadcastwslistener(); }).bind(this));
+		
 		this.lastwssocketid++;
 		logger.info(`[Overlay] New websocket connection`);
 	}
@@ -668,6 +672,13 @@ class OverlayHost {
 					logger.info(`[Overlay] Websocket client tried to listen to unknown channel ${broadcastData.channel}`);
 				}
 			}
+		} else if(typeof(broadcastData.action) === 'string') {
+			if(broadcastData.action === 'loaded') {
+				let u = new url.URL(broadcastData.location);
+				let pname = u.pathname.toLowerCase();
+				this.socketlocations.push({ socket, location: pname });
+				BroadcastMain.instance.emit('app.ttvst.overlay.interactiveloaded', pname);
+			}
 		} else {
 			logger.info(`[Overlay] Websocket client sent an incomprehensible message`);
 			logger.verbose(dataStr);
@@ -677,14 +688,45 @@ class OverlayHost {
 	private onBroadcastTrigger(channel: string): (...args: Array<any>) => void {
 		return ((...args: Array<any>) => {
 			let sockets = this.broadcastwslistener[channel];
-			this.overlaywebsocket.clients.forEach((socket) => {
-				if(sockets.includes(socket)) {
-					if(socket.readyState === ws.OPEN) {
-						socket.send(JSON.stringify({ channel, data: BroadcastMain.argumentsToObject(channel, ...args) }));
+			if(sockets.length > 0) {
+				this.overlaywebsocket.clients.forEach((socket) => {
+					if(sockets.includes(socket)) {
+						if(socket.readyState === ws.OPEN) {
+							socket.send(JSON.stringify({ channel, data: BroadcastMain.argumentsToObject(channel, ...args) }));
+						}
 					}
-				}
-			});
+				});
+			}
 		}).bind(this);
+	}
+
+	private cleanupBroadcastwslistener() {
+		logger.info(`[Overlay] Cleaning up websocket client references`);
+		let channels = Object.keys(this.broadcastwslistener);
+		for(let i = 0; i < channels.length; i++) {
+			let sockets = this.broadcastwslistener[channels[i]];
+			let newSockets = [];
+			for(let j = 0; j < sockets.length; j++) {
+				if(sockets[j].readyState !== ws.CLOSING && sockets[j].readyState !== ws.CLOSED) {
+					newSockets.push(sockets[j]);
+				}
+			}
+			this.broadcastwslistener[channels[i]] = newSockets;
+		}
+
+		let newSocketlocations: Array<{ socket: ws, location: string }> = [];
+		let locationsRemoved: Array<string> = [];
+		for(let i = 0; i < this.socketlocations.length; i++) {
+			if(this.socketlocations[i].socket.readyState !== ws.CLOSING && this.socketlocations[i].socket.readyState !== ws.CLOSED) {
+				newSocketlocations.push(this.socketlocations[i]);
+			} else {
+				locationsRemoved.push(this.socketlocations[i].location);
+			}
+		}
+		this.socketlocations = newSocketlocations;
+		for(let i = 0; i < locationsRemoved.length; i++) {
+			BroadcastMain.instance.emit('app.ttvst.overlay.interactivedisconnected', locationsRemoved[i]);
+		}
 	}
 
 
