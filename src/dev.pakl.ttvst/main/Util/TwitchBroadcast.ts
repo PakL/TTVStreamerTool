@@ -76,7 +76,7 @@ const _actions: IBroadcastAction[] = [{
 	result: { label: 'success', description: 'True if the channel was updated', type: 'boolean' }
 }, {
 	label: 'Set channel point redemption status',
-	description: 'Set a channel point redemption status to fulfilled or canceled. Canceling will refunde points to the user.',
+	description: 'Set a channel point redemption status to fulfilled or canceled. Canceling will refund points to the user.',
 	channel: 'app.ttvst.helix.updateRedemption',
 	addon: 'Twitch',
 	parameters: [

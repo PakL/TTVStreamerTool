@@ -241,5 +241,62 @@
 	},
 	"The complete TMI message tags as associative array. Check https://dev.twitch.tv/docs/irc/tags#privmsg-twitch-tags for more info": {
 		"de": "Alle TMI-Tags in assoziativen Datenfelder. Besuche https://dev.twitch.tv/docs/irc/tags#privmsg-twitch-tags für mehr Informationen"
+	},
+	"Send Twitch Chat Message": {
+		"de": "Twitch-Chat Nachricht senden"
+	},
+	"Get channel title": {
+		"de": "Kanaltitel abfragen"
+	},
+	"Get channel game": {
+		"de": "Kanalspiel abfragen"
+	},
+	"Set channel informations": {
+		"de": "Kanalinformationen festlegen"
+	},
+	"Set channel point redemption status": {
+		"de": "Kanalpunkt-Einlösungs-Status festlegen"
+	},
+	"Send a chat message to your channel": {
+		"de": "Sende eine Nachricht an deinen Kanal-Chat"
+	},
+	"The message that you want to send": {
+		"de": "Die Nachricht, die gesendet werden soll"
+	},
+	"Loads and returns the current channel game. If no channel is given the channel of the tool's user is requested.": {
+		"de": "Läd das aktuelle Kanalspiel. Wenn kein Kanal angegeben wird, wird der Nutzer des Tools verwendet."
+	},
+	"The channel you request the info of. Optional.": {
+		"de": "Der Kanal von dem du Informationen abrufen willst. Optional."
+	},
+	"Loads and returns the current channel title. If no channel is given the channel of the tool's user is requested.": {
+		"de": "Läd den aktuellen Kanaltitel. Wenn kein Kanal angegeben wird, wird der Nutzer des Tools verwendet."
+	},
+	"Set the title and/or the game of your channel": {
+		"de": "Den Titel und/oder das Spiel deines Kanals festlegen"
+	},
+	"New channel title. Empty means no change.": {
+		"de": "Neuer Kanaltitel. Leer bedeutet keine Änderung."
+	},
+	"New channel game. Does not have to be precise but takes the first search result. Try to be as precise as possible. Empty means no change.": {
+		"de": "Neues Kanalspiel. Muss nicht präzise sein nimmt aber das erste Suchergebnis. Versuche so präzise wie möglich zu sein. Leer bedeutet keine Änderung."
+	},
+	"Set a channel point redemption status to fulfilled or canceled. Canceling will refund points to the user.": {
+		"de": "Status einer Kanalpunkt-Einlösung auf erfüllt oder storniert festlegen. Stornieren wird dem Benutzer die Punkte wieder gut schreiben."
+	},
+	"ID of the redemption - take from trigger": {
+		"de": "ID der Einlösung - benutze Daten vom Auslöser"
+	},
+	"ID of the reward - take from trigger": {
+		"de": "ID der Belohnung - benutze Daten vom Auslöser"
+	},
+	"on = fulfilled, off = canceled": {
+		"de": "an = erfüllt, aus = storniert"
+	},
+	"Errors": {
+		"de": "Fehler"
+	},
+	"Refresh": {
+		"de": "Aktualisieren"
 	}
 }

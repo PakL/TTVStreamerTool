@@ -84,7 +84,7 @@
 				}
 				if(!state.waiting) {
 					if(!state.loggedin) {
-						this.state.loginName = 'Not logged in';
+						this.state.loginName = this.__('Not logged in');
 						this.logintext = 'Please log in to twitch to use the TTVStreamerTool to its full potential.';
 						this.btntext = 'Login';
 					} else {
@@ -92,7 +92,7 @@
 						this.btntext = 'Logout';
 					}
 				} else {
-					this.state.loginName = 'Waiting...';
+					this.state.loginName = this.__('Waiting...');
 					this.logintext = 'Something is happening right now. Please wait.';
 					this.btntext = '...';
 				}
