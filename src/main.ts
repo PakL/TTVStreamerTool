@@ -115,5 +115,20 @@ async function main() {
 	ipcMain.handle('get-app-version', async () => {
 		return app.getVersion();
 	});
+	ipcMain.handle('get-error-log', async () => {
+		for(let i = 0; i < logger.transports.length; i++) {
+			if(logger.transports[i] instanceof winston.transports.File) {
+				let filetransp = logger.transports[i] as winston.transports.FileTransportInstance;
+				let logfile = path.join(filetransp.dirname, filetransp.filename);
+
+				try {
+					return fs.readFileSync(logfile, { encoding: 'utf8' });
+				} catch(e) {
+					return 'Failed to read error log';
+				}
+			}
+		}
+		return 'Failed to find error log';
+	});
 }
 main();

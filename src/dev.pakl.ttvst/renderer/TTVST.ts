@@ -14,6 +14,7 @@ import AddonsPage from './Pages/AddonsPage';
 import SettingsPage from './Pages/SettingsPage';
 import ChangelogPage from './Pages/ChangelogPage';
 import AboutPage from './Pages/AboutPage';
+import ErrorsPage from './Pages/ErrorsPage';
 
 class TTVST {
 
@@ -39,6 +40,7 @@ class TTVST {
 		this._ui.addPage(this._startpage);
 		this._ui.addPage(this._addonspage, true);
 		this._ui.addPage(new SettingsPage(), true);
+		this._ui.addPage(new ErrorsPage(), true);
 		this._ui.addPage(new ChangelogPage(), true);
 		this._ui.addPage(new AboutPage(), true);
 	}
