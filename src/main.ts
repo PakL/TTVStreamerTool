@@ -1,6 +1,7 @@
 import { app, globalShortcut, ipcMain } from 'electron';
 import fs from 'fs';
 import path from 'path';
+import { spawn } from 'child_process';
 
 require('app-module-path').addPath(path.join(__dirname, '..', 'node_modules'));
 
@@ -106,8 +107,24 @@ async function main() {
 	splashWin.once('done', () => {
 		mainWin.once('show', () => {
 			splashWin.close();
+			splashWin = null;
 			TTVST.addons.loadAddons();
-		})
+		});
+
+		let updateAvailable = splashWin.updateAvailable;
+		if(updateAvailable) {
+			ipcMain.on('app.ttvst.startupdater', () => {
+				try {
+					let u = spawn('resources/elevate.exe', ['Update.exe'], { detached: true });
+					u.on('error', (e) => { logger.error(e); });
+				} catch(e){
+					logger.error(e);
+				}
+			});
+			TTVST.startpage.broadcastStatus({ key: 'app.ttvst.update', icon: 'Starburst', status: 'good', title: 'TTVStreamertool Update', info: 'A new version of TTVStreamerTool is available!', buttons: [{ icon: 'Installation', action: 'app.ttvst.startupdater', title: 'Start Updater' }]});
+		} else {
+			TTVST.startpage.broadcastStatus({ key: 'app.ttvst.update', status: 'remove', info: 'No update available' });
+		}
 		mainWin.createAndLoad();
 	})
 

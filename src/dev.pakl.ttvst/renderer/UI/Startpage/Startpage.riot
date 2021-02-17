@@ -54,7 +54,11 @@
 			updateStatus(statusObject) {
 				for(let i = 0; i < this.statusObjects.length; i++) {
 					if(this.statusObjects[i].key == statusObject.key) {
-						Object.assign(this.statusObjects[i], statusObject);
+						if(statusObject.status == 'remove') {
+							this.statusObjects.splice(i, 1);
+						} else {
+							Object.assign(this.statusObjects[i], statusObject);
+						}
 						this.update();
 						return;
 					}

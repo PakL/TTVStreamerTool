@@ -41,7 +41,7 @@ class MainWindow extends EventEmitter {
 			show: false
 		});
 
-		this.window.on('ready-to-show', this.onReadyToShow.bind(this))
+		this.window.once('ready-to-show', this.onReadyToShow.bind(this))
 		this.window.on('show', this.onShow.bind(this));
 		this.window.on('closed', this.onClosed.bind(this));
 

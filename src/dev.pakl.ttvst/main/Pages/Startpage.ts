@@ -42,6 +42,7 @@ class Startpage {
 		ipcMain.handle('cockpit.check-login', this.onCheckLogin);
 		ipcMain.handle('cockpit.get-user', this.onGetUser);
 
+		this.broadcastStatus({ key: 'app.ttvst.update', icon: 'Starburst', status: 'error', title: 'TTVStreamertool Update', info: 'Checking for updates...', buttons: []});
 		this.broadcastStatus({ key: 'app.ttvst.tmi', icon: 'CannedChat', status: 'error', title: 'Twitch Messaging Interface (TMI)', info: 'Disconnected.', buttons: [{ icon: 'PlugConnected', action: 'cockpit.tmi.connect', title: 'Connect' }]});
 		this.broadcastStatus({ key: 'app.ttvst.pubsub', icon: 'Glimmer', status: 'error', title: 'PubSub (Twitch Events)', info: 'Disconnected.', buttons: [{ icon: 'PlugConnected', action: 'cockpit.pubsub.connect', title: 'Connect' }]});
 		Broadcast.instance.on('startpage-ready', this.repeatBroadcast);
@@ -183,6 +184,9 @@ class Startpage {
 			if(this.currentStatus[i].key == status.key) {
 				Object.assign(this.currentStatus[i], status);
 				Broadcast.instance.emit('cockpit.status', this.currentStatus[i]);
+				if(this.currentStatus[i].status === 'remove') {
+					this.currentStatus.splice(i, 1);
+				}
 				return;
 			}
 		}

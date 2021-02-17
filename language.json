@@ -298,5 +298,14 @@
 	},
 	"Refresh": {
 		"de": "Aktualisieren"
+	},
+	"TTVStreamertool Update": {
+		"de": "TTVStreamertool Update"
+	},
+	"A new version of TTVStreamerTool is available!": {
+		"de": "Eine neue Version des TTVStreamerTool ist verfügbar!"
+	},
+	"Start Updater": {
+		"de": "Updater starten"
 	}
 }
