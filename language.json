@@ -216,7 +216,7 @@
 		"de": "PubSub (Twitch Ereignisse)"
 	},
 	"Incoming Twitch Chat Message": {
-		"de": "Incoming Twitch Chat Message"
+		"de": "Eingehende Twitch-Chat-Nachricht"
 	},
 	"Twitch": {
 		"de": "Twitch"
@@ -307,5 +307,8 @@
 	},
 	"Start Updater": {
 		"de": "Updater starten"
+	},
+	"Select dynamic input": {
+		"de": "Dynamische Eingabe"
 	}
 }
