@@ -100,7 +100,7 @@ export default class Addons {
 							typeof(packageJson.toolversion) === 'string' &&
 							(typeof(packageJson.main) === 'string' || typeof(packageJson.renderer) === 'string')
 						) {
-							if(compareVersions(packageJson.toolversion, app.getVersion()) >= 0 && !this.addonInstalled(packageJson.addonid)) {
+							if(compareVersions.compare(packageJson.toolversion, app.getVersion(), '>=') && !this.addonInstalled(packageJson.addonid)) {
 								self.installedAddons.push(Object.assign(packageJson, { path, flags: ['compatible'], loaderror: '', updateAvaiable: '' }));
 							} else {
 								self.installedAddons.push(Object.assign(packageJson, { path, flags: [], loaderror: 'Addon is not compatible with the current version of TTVStreamerTool', updateAvaiable: '' }));
@@ -133,7 +133,10 @@ export default class Addons {
 	async loadAddons() {
 		for(let i = 0; i < this.installedAddons.length; i++) {
 			let addon = this.installedAddons[i];
-			if(this.hasFlag(addon, 'loaded') || !this.hasFlag(addon, 'compatible')) {
+			if(!this.hasFlag(addon, 'compatible')) {
+				continue;
+			}
+			if(this.hasFlag(addon, 'loaded')) {
 				this.checkForRendererStuff(addon);
 				continue;
 			}

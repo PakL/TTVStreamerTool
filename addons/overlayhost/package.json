@@ -8,7 +8,7 @@
 		"url": "https://pakl.dev",
 		"name": "PakL"
 	},
-	"toolversion": "2.x.x",
+	"toolversion": "2.0.x",
 	"main": "main.js",
 	"renderer": "renderer.js",
 	"dependencies": {
