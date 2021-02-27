@@ -335,19 +335,30 @@
 				});
 			},
 
+			unselectAll() {
+				let checkboxes = this.$$('input.installed,input.available');
+				for(let i = 0; i < checkboxes.length; i++) {
+					checkboxes[i].checked = false;
+				}
+				this.update();
+			},
+
 			onUpdateClick(e) {
 				e.preventDefault();
 				ipcRenderer.send('Addons.update', this.selectedAddons);
+				this.unselectAll();
 			},
 
 			onUninstallClick(e) {
 				e.preventDefault();
 				ipcRenderer.send('Addons.uninstall', this.selectedAddons);
+				this.unselectAll();
 			},
 
 			onInstallClick(e) {
 				e.preventDefault();
 				ipcRenderer.send('Addons.install', this.selectedAddons);
+				this.unselectAll();
 			},
 
 			setRepositoryCallback(callback) {
