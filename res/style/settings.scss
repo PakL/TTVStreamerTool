@@ -83,6 +83,10 @@ settingsinput > label, modal .form > label, modal .form > * > label {
 		box-sizing: border-box;
 		width: 100%;
 	}
+	input[type=checkbox] {
+		display: inline-block;
+		width: auto;
+	}
 	textarea {
 		resize: vertical;
 	}

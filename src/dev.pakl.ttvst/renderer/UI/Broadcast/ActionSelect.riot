@@ -9,7 +9,7 @@
 		<small>{ __(actiondesc) }</small>
 	</label>
 	<hr />
-	<label each={ parameter in parameters } for={ 'input_' + key }>
+	<label each={ (parameter, key) in parameters } for={ 'input_' + key }>
 		<div if={ dynamicinput !== null } class="dynamiccheck">{ __('Select dynamic input') } <input type="checkbox" data-dynamic={ parameter.label } onchange={ onDynamicInputCheck }></div>
 		{ __(parameter.label) }
 		
@@ -33,7 +33,7 @@
 		</template>
 		<template if={ dynamicinput !== null && $('input[data-dynamic="' + parameter.label + '"]').checked }>
 			<select data-parameter={ parameter.label } id={ 'input_' + key }>
-				<option each={ dyninput in dynamicinput } if={ dyninput.param.type === parameter.type } selected={ $('.action_select').value == props.initchannel && dyninput.value == props.initparams[i] } value={ dyninput.value }>{ dyninput.param.label }</option>
+				<option each={ dyninput in dynamicinput } if={ dyninput.param.type === parameter.type } selected={ $('.action_select').value == props.initchannel && dyninput.value == props.initparams[key] } value={ dyninput.value }>{ dyninput.param.label }</option>
 			</select>
 		</template>
 		<small>{ __(parameter.description) }</small>
