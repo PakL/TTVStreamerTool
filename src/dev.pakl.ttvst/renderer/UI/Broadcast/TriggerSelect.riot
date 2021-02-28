@@ -52,8 +52,10 @@
 
 			onTriggerSelect() {
 				let trigger = Broadcast.getTrigger({ channel: this.$('.trigger_select').value });
-				this.trarguments = trigger[0].arguments;
-				this.triggerdesc = trigger[0].description;
+				if(trigger.length > 0) {
+					this.trarguments = trigger[0].arguments;
+					this.triggerdesc = trigger[0].description;
+				}
 				this.update();
 			},
 

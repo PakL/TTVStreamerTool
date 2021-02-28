@@ -169,11 +169,13 @@
 
 			onActionSelect() {
 				let action = Broadcast.getAction({ channel: this.$('.action_select').value });
-				this.parameters = action[0].parameters;
-				this.actiondesc = action[0].description;
-				let uncheckall = this.$$('input[type="checkbox"]');
-				for(let i = 0; i < uncheckall.length; i++) {
-					uncheckall[i].checked = false;
+				if(action.length > 0) {
+					this.parameters = action[0].parameters;
+					this.actiondesc = action[0].description;
+					let uncheckall = this.$$('input[type="checkbox"]');
+					for(let i = 0; i < uncheckall.length; i++) {
+						uncheckall[i].checked = false;
+					}
 				}
 				this.actionchange = true;
 				this.update();
