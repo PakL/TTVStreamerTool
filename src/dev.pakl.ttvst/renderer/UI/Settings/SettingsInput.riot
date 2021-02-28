@@ -103,7 +103,7 @@
 				} else {
 					inputElement = document.createElement('input')
 					inputElement.setAttribute('type', options.type)
-					if(options.type == 'checkbox') {
+					if(options.type == 'checkbox' || options.type == 'toggle') {
 						if(Settings.getBoolean(options.setting, (typeof(options.default) !== 'boolean' ? false : options.default))) {
 							inputElement.setAttribute('checked', Settings.getBoolean(options.setting))
 						}

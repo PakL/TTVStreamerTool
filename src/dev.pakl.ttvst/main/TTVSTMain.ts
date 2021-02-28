@@ -1,4 +1,5 @@
 import MainWindow from './MainWindow';
+import dateFormat, { DateFormatI18n } from 'dateformat';
 
 import APIHelix from './Twitch/APIHelix';
 
@@ -18,12 +19,20 @@ export default class TTVSTMain {
 	private _helix: APIHelix = null;
 	private _tmi: TMI = null;
 	private _pubsub: PubSub;
+	private _ttvbroadcast: TwitchBroadcast = null;
 
 	private _startpage: Startpage = null;
 	private _addons: Addons = null;
 
+
+	private _dateformat: typeof dateFormat;
+	private _dateformatI18n: { [lang: string]: DateFormatI18n };
+
 	constructor(mainWindow: MainWindow) {
 		this._mainWindow = mainWindow;
+
+		this._dateformat = dateFormat;
+		this._dateformatI18n = require('./../../../dateformat.i18n.json');
 	}
 
 	get mainWindow(): MainWindow {
@@ -63,7 +72,7 @@ export default class TTVSTMain {
 		this._tmi = new TMI();
 		this._pubsub = new PubSub();
 
-		new TwitchBroadcast();
+		this._ttvbroadcast = new TwitchBroadcast();
 	}
 
 	get helix(): APIHelix {
@@ -97,6 +106,17 @@ export default class TTVSTMain {
 
 	get BroadcastMain(): typeof BroadcastMain {
 		return BroadcastMain;
+	}
+
+	get ttvbroadcast(): TwitchBroadcast {
+		return this._ttvbroadcast;
+	}
+
+	async DateFormat(): Promise<typeof dateFormat> {
+		try {
+			this._dateformat.i18n = this._dateformatI18n[await Settings.language()];
+		} catch(e) {}
+		return this._dateformat;
 	}
 
 }

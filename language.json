@@ -310,5 +310,8 @@
 	},
 	"Select dynamic input": {
 		"de": "Dynamische Eingabe"
+	},
+	"Login on startup": {
+		"de": "Beim Start einloggen"
 	}
 }

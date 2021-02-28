@@ -1,6 +1,8 @@
 import { app, ipcMain } from 'electron';
 import TTVSTMain from '../TTVSTMain';
 
+const availableLanguages = ['en', 'de']
+
 declare var TTVST: TTVSTMain;
 
 ipcMain.on('app.getLocale', (event: Electron.IpcMainEvent) => {
@@ -10,6 +12,16 @@ ipcMain.on('app.getLocale', (event: Electron.IpcMainEvent) => {
 const createRequestId = () => {
 	let hrtime = process.hrtime();
 	return hrtime[0].toString(16) + '-' + hrtime[1].toString(16);
+}
+export function language(lang?: string): Promise<string> {
+	if(lang && availableLanguages.includes(lang)) {
+		setString('language', lang);
+		return Promise.resolve(lang);
+	}
+
+	let locale = app.getLocale().toLowerCase();
+	if(availableLanguages.indexOf(locale) < 0) locale = 'en';
+	return getString('language', locale);
 }
 
 export function getBoolean(name: string, defaultValue: boolean, session: boolean = false): Promise<boolean> {

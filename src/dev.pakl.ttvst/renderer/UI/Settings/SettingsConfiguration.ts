@@ -30,7 +30,8 @@ const config: Array<ISettingsSetProps> = [
 		label: 'Global',
 		key: 'ttvst.global',
 		settings: [
-			{ setting: 'language', label: 'Language', type: 'select', selection: [{ key: 'en', text: 'English' }, { key: 'de', text: 'Deutsch' }], default: Settings.language(), description: '' }
+			{ setting: 'language', label: 'Language', type: 'select', selection: [{ key: 'en', text: 'English' }, { key: 'de', text: 'Deutsch' }], default: Settings.language(), description: '' },
+			{ setting: 'ttvst.global.loginonstartup', label: 'Login on startup', type: 'toggle', default: true, description: '' }
 		]
 	}
 ];

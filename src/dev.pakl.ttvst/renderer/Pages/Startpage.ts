@@ -26,10 +26,13 @@ class Startpage extends Page {
 
 		this.onStatusUpdate = this.onStatusUpdate.bind(this);
 
-		/*let token = Settings.getString('tw_auth_token', '');
-		this.validateAndGetUserInfo(token).catch((e) => {
-			console.error(e);
-		});*/
+		let loginOnStartup = Settings.getBoolean('ttvst.global.loginonstartup', true);
+		if(loginOnStartup) {
+			let token = Settings.getString('tw_auth_token', '');
+			this.validateAndGetUserInfo(token).catch((e) => {
+				console.error(e);
+			});
+		}
 
 		Broadcast.instance.on('cockpit.status', this.onStatusUpdate);
 		Broadcast.instance.emit('startpage-ready');
