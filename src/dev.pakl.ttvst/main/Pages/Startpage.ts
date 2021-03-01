@@ -107,6 +107,7 @@ class Startpage {
 	async onGetUser(event: Electron.IpcMainInvokeEvent) {
 		try {
 			let user = await TTVST.helix.getUsers();
+			TTVST.Settings.setString('ttvst.lastloginusername', user.data[0].login);
 			return user;
 		} catch(e) {
 			logger.error(e);

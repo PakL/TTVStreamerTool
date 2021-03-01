@@ -125,9 +125,6 @@
 				}
 				inputElement.dataset.setting = options.setting
 
-				if(typeof(options.oninputchange) === 'function') {
-					inputElement.addEventListener('change', options.oninputchange)
-				}
 				if(typeof(options.setting) === 'string' && options.setting.length > 0) {
 					inputElement.addEventListener('change', () => {
 						if(options.type == 'checkbox' || options.type == 'toggle') {
@@ -136,6 +133,9 @@
 							Settings.setString(options.setting, inputElement.value)
 						}
 					})
+				}
+				if(typeof(options.oninputchange) === 'function') {
+					inputElement.addEventListener('change', options.oninputchange)
 				}
 
 				let descriptionElement = null

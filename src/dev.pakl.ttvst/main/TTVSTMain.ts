@@ -1,3 +1,5 @@
+import path from 'path';
+
 import MainWindow from './MainWindow';
 import dateFormat, { DateFormatI18n } from 'dateformat';
 
@@ -117,6 +119,10 @@ export default class TTVSTMain {
 			this._dateformat.i18n = this._dateformatI18n[await Settings.language()];
 		} catch(e) {}
 		return this._dateformat;
+	}
+
+	get iconpath(): string {
+		return path.join(__dirname, '../../../res/img/icon.ico');
 	}
 
 }

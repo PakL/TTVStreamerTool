@@ -49,6 +49,9 @@ const logger = winston.createLogger({
 });
 Object.assign(global, { logger });
 
+process.on('unhandledRejection', (reason: any, prom: Promise<any>) => {
+	logger.error('Unhandled Promise rejection: ' + reason);
+});
 
 app.setAppUserModelId('dev.pakl.TTVStreamerTool');
 if(!app.requestSingleInstanceLock()) {

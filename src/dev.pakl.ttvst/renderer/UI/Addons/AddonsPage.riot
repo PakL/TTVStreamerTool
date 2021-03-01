@@ -378,7 +378,7 @@
 					height: '200px',
 					resize: 'none'
 				});
-				sourcesInput.value = TTVST.settings.getJSON('addon_packagelists', []).join('\n');
+				sourcesInput.value = TTVST.Settings.getJSON('addon_packagelists', []).join('\n');
 				sourcesInput.setAttribute('placeholder', 'https://...');
 				const self = this;
 				TTVST.ui.modal([sourceInputDesc, sourcesInput], this.__('Addon sources'), 'Repo', () => {}, [{
@@ -390,7 +390,7 @@
 				}, {
 					key: 'cancel',
 					title: this.__('Cancel')
-				}]);
+				}], false);
 			},
 
 			async onRestartClick(e) {
