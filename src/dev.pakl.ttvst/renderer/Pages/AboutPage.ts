@@ -14,6 +14,7 @@ class AboutPage extends Page {
 		let frame: Electron.WebviewTag = document.createElement('webview');
 		frame.setAttribute('src', 'about:blank');
 		frame.setAttribute('preload', '../dist/view-helper.js');
+		frame.setAttribute('webpreferences', 'contextIsolation=false');
 		frame.style.width = '100%';
 		frame.style.height = '100%';
 		frame.style.border = '0';
