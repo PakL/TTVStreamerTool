@@ -1,4 +1,4 @@
-import { app, globalShortcut, ipcMain } from 'electron';
+import { app, globalShortcut, ipcMain, shell } from 'electron';
 import fs from 'fs';
 import path from 'path';
 import { spawn } from 'child_process';
@@ -149,6 +149,9 @@ async function main() {
 			}
 		}
 		return 'Failed to find error log';
+	});
+	ipcMain.on('open-error-log-folder', () => {
+		shell.openPath(app.getPath('logs'));
 	});
 }
 main();

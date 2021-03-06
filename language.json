@@ -313,5 +313,8 @@
 	},
 	"Login on startup": {
 		"de": "Beim Start einloggen"
+	},
+	"Open log folder": {
+		"de": "Ordner mit Logs öffnen"
 	}
 }

@@ -26,13 +26,20 @@ class ErrorsPage extends Page {
 		refreshButton.onclick = (() => {
 			this.refreshErrorLog();
 		}).bind(this);
+		let openFolderButton = document.createElement('button');
+		openFolderButton.style.marginLeft = '5px';
+		openFolderButton.innerText = TTVST.i18n.__('Open log folder');
+		openFolderButton.onclick = (() => {
+			this.onOpenErrorFolder();
+		}).bind(this);
 
 		this.errorDocElement = document.createElement('div');
 		this.errorDocElement.style.fontFamily = 'monospace';
-		this.errorDocElement.style.whiteSpace = 'pre';
+		this.errorDocElement.style.whiteSpace = 'pre-wrap';
 		this.errorDocElement.style.marginTop = '10px';
 
 		mainElement.appendChild(refreshButton);
+		mainElement.appendChild(openFolderButton);
 		mainElement.appendChild(this.errorDocElement);
 
 		return mainElement;
@@ -51,6 +58,10 @@ class ErrorsPage extends Page {
 			console.error(e);
 		}
 		this.loading = false;
+	}
+
+	async onOpenErrorFolder() {
+		ipcRenderer.send('open-error-log-folder');
 	}
 
 	open() {
