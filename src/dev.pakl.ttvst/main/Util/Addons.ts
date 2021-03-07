@@ -233,6 +233,15 @@ export default class Addons {
 	}
 
 	async loadResporitory(event: Electron.IpcMainEvent, url: string) {
+		for(let i = 0; i < TTVST.startpage.currentStatus.length; i++) {
+			if(TTVST.startpage.currentStatus[i].key == 'app.ttvst.update') {
+				if(TTVST.startpage.currentStatus[i].status == 'good') {
+					return;
+				}
+				break;
+			}
+		}
+
 		if(!url.startsWith('https://')) return;
 		try {
 			logger.info(`[Addons] Load addons at repository ${url}`);

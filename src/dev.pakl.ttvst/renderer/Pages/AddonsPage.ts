@@ -3,8 +3,10 @@ import { ipcRenderer } from 'electron';
 import Path from 'path';
 
 import * as Settings from '../Settings';
+import Broadcast from '../Broadcast';
 
 import { IAddon } from '../../main/Util/AddonsTypes';
+import { IStatusObject } from '../../main/Pages/StartpageTypes';
 
 import * as riot from 'riot';
 import AddonsPageCmp from '../../../../dist/dev.pakl.ttvst/renderer/UI/Addons/AddonsPage';
@@ -19,9 +21,13 @@ class AddonsPage extends Page {
 	private packageLists: Array<string> = [];
 
 	private addons: Array<IAddon> = [];
+
+	private mainUpdateAvaiable: boolean = false;
 	
 	constructor() {
 		super('Addons');
+
+		this.onCockpitStatus = this.onCockpitStatus.bind(this);
 
 		this.loadAddon = this.loadAddon.bind(this);
 		this.loadLanguage = this.loadLanguage.bind(this);
@@ -30,6 +36,8 @@ class AddonsPage extends Page {
 		this.onBatchFailed = this.onBatchFailed.bind(this);
 
 		this.onRepositoryChange = this.onRepositoryChange.bind(this);
+
+		Broadcast.instance.on('cockpit.status', this.onCockpitStatus);
 
 		ipcRenderer.on('Addons.load', this.loadAddon);
 		ipcRenderer.on('Addons.language', this.loadLanguage);
@@ -46,6 +54,12 @@ class AddonsPage extends Page {
 		return 'Puzzle';
 	}
 
+	onCockpitStatus(statusObject: IStatusObject) {
+		if(statusObject.key === 'app.ttvst.update' && statusObject.status == 'good') {
+			this.mainUpdateAvaiable = true;
+		}
+	}
+
 
 	content(): HTMLElement {
 		if(this.addonspage === null) {
@@ -55,6 +69,12 @@ class AddonsPage extends Page {
 			this.addonspage.setRepositoryCallback(this.onRepositoryChange);
 		}
 		return this.addonspage.root;
+	}
+
+	open() {
+		if(this.mainUpdateAvaiable) {
+			TTVST.ui.alert(TTVST.i18n.__('You cannot install or update addons while an update for TTVST is available. Please update TTVST first!'), 'Update available');
+		}
 	}
 
 	async loadLanguage(event: Electron.IpcRendererEvent, addonpath: string) {

@@ -316,5 +316,8 @@
 	},
 	"Open log folder": {
 		"de": "Ordner mit Logs öffnen"
+	},
+	"You cannot install or update addons while an update for TTVST is available. Please update TTVST first!": {
+		"de": "Addons können nicht installiert oder aktualisiert werden wenn ein Update für TTVST verfügbar ist. Bitte aktualisiere zuerst TTVST!"
 	}
 }

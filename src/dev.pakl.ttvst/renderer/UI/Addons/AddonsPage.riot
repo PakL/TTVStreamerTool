@@ -5,6 +5,7 @@
 	</div>
 	<div class="nocontextbtns">
 		<button if={ batchReady } onclick={ onRestartClick } type="button">{ __('Restart tool for changes to take effect') }</button>
+		<button onclick={ onRefreshClick } type="button">{ __('Refresh') }</button>
 		<button onclick={ openSourcesDialog } type="button">{ __('Addon sources') }</button>
 	</div>
 
@@ -391,6 +392,10 @@
 					key: 'cancel',
 					title: this.__('Cancel')
 				}], false);
+			},
+
+			onRefreshClick() {
+				this.repositoryCallback(TTVST.Settings.getJSON('addon_packagelists', []).join('\n').replace(/\r/g, ''));
 			},
 
 			async onRestartClick(e) {
