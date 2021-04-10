@@ -162,6 +162,10 @@
 						labelElement.appendChild(descriptionElement)
 					}
 				} else {
+					if(options.type == 'custom') {
+						labelElement = document.createElement('div');
+						labelElement.style.margin = '20px';
+					}
 					labelElement.appendChild(document.createTextNode(this.__(options.label)))
 					labelElement.appendChild(inputElement)
 					if(descriptionElement != null) {

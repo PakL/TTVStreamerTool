@@ -139,6 +139,7 @@ export interface IAPIHelixChannelPatchOptions {
 
 export interface IAPIHelixRewardObject {
 	broadcaster_name: string;
+	broadcaster_login: string;
 	broadcaster_id: string;
 	id: string;
 	image?: string|null;
