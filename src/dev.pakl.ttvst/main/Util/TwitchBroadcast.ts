@@ -36,6 +36,22 @@ const _trigger: IBroadcastTrigger[] = [{
 		{ label: 'login', description: 'The unformatted user name', type: 'string' },
 		{ label: 'username', description: 'By the user formatted user name with uppercase or localization', type: 'string' }
 	]
+}, {
+	label: 'Channel subscription',
+	description: 'When a user shares a channel subscription',
+	channel: 'app.ttvst.pubsub.subscription',
+	addon: 'Twitch',
+	arguments: [
+		{ label: 'type', description: 'Type of message. One of: sub, resub, subgift, anonsubgift', type: 'string' },
+		{ label: 'tier', description: 'One of: Prime, 1000, 2000, 3000', type: 'string' },
+		{ label: 'cumulative_months', description: 'Number of months the user has subscribed to your channel', type: 'number' },
+		{ label: 'streak_months', description: 'Number of months the user has subscribed to your channel in a row', type: 'number' },
+		{ label: 'message', description: 'An optional message by the user', type: 'string' },
+		{ label: 'user_login', description: '(User who triggered the event) The unformatted user name', type: 'string' },
+		{ label: 'user_name', description: 'By the user formatted user name with uppercase or localization', type: 'string' },
+		{ label: 'recipient_login', description: '(User who recieved subscription - might be the same as user_login) The unformatted user name', type: 'string' },
+		{ label: 'recipient_name', description: 'By the user formatted user name with uppercase or localization', type: 'string' }
+	]
 }];
 
 const _actions: IBroadcastAction[] = [{
@@ -100,6 +116,7 @@ class TwitchBroadcast {
 		for(let i = 0; i < _actions.length; i++) Broadcast.registerAction(_actions[i]);
 
 		this.tmi.on('message', this.onTMIMessage.bind(this));
+		this.tmi.on('usernotice', this.onTMIUsernotice.bind(this));
 		TTVST.pubsub.on('reward-redeemed', this.onPubsubReward.bind(this));
 
 		Broadcast.instance.on('app.ttvst.tmi.sendMessage', this.onTMISendMessage.bind(this));
@@ -134,6 +151,30 @@ class TwitchBroadcast {
 		Broadcast.instance.emit('app.ttvst.tmi.message', msg.message, msg.user, dispName, { isSubscriber, isVIP, isModerator, isBroadcaster }, msg.tags);
 	}
 
+	onTMIUsernotice(channel: string, tags: T.TMITagsUsernotice, message: string) {
+		if(TTVST.helix.userobj === null || typeof(TTVST.helix.userobj.login) !== 'string' || TTVST.helix.userobj.login !== channel) return;
+
+		if(['sub', 'resub', 'subgift', 'anonsubgift'].indexOf(tags['msg-id']) < 0) return;
+
+		let dispName = tags.login;
+		if(typeof(tags['display-name']) === 'string' && tags['display-name'].length > 0) dispName = tags['display-name'];
+		let rdispName = typeof(tags['msg-param-recipient-user-name']) === 'string' ? tags['msg-param-recipient-user-name'] : dispName;
+		if(typeof(tags['msg-param-recipient-display-name']) === 'string' && tags['msg-param-recipient-display-name'].length > 0) rdispName = tags['msg-param-recipient-display-name'];
+
+		Broadcast.instance.emit(
+			'app.ttvst.pubsub.subscription',
+			tags['msg-id'],
+			tags['msg-param-sub-plan'],
+			typeof(tags['msg-param-cumulative-months']) !== 'undefined' ? parseInt(tags['msg-param-cumulative-months']) : parseInt(tags['msg-param-months']),
+			typeof(tags['msg-param-streak-months']) !== 'undefined' ? parseInt(tags['msg-param-streak-months']) : 0,
+			message,
+			tags.login,
+			dispName,
+			typeof(tags['msg-param-recipient-user-name']) === 'string' ? tags['msg-param-recipient-user-name'] : tags.login,
+			rdispName
+		);
+	}
+
 	onPubsubReward(redemptionid: string, rewardid: string, channelid: string, rewardtitle: string, user: { id: string, login: string, display_name: string }, cost: number, userinput: string) {
 		if(TTVST.helix.userobj === null || typeof(TTVST.helix.userobj.login) !== 'string' || TTVST.helix.userobj.id !== channelid) return;
 
@@ -141,6 +182,17 @@ class TwitchBroadcast {
 		if(typeof(user.display_name) === 'string' && user.display_name.length > 0) dispName = user.display_name;
 
 		Broadcast.instance.emit('app.ttvst.pubsub.reward', redemptionid, rewardid, rewardtitle, cost, userinput, user.login, dispName);
+	}
+
+	onPubsubSubscribe(channelid: string, type: 'sub'|'resub'|'subgift'|'anonsubgift'|'resubgift'|'anonresubgift', tier: 'Prime'|'1000'|'2000'|'3000', cumulative_months: number, streak_months: number, message: string, user: { id: string, login: string, display_name: string }, recipient: { id: string, login: string, display_name: string }) {
+		if(TTVST.helix.userobj === null || typeof(TTVST.helix.userobj.login) !== 'string' || TTVST.helix.userobj.id !== channelid) return;
+		
+		let dispName = user.login;
+		if(typeof(user.display_name) === 'string' && user.display_name.length > 0) dispName = user.display_name;
+		let rdispName = recipient.login;
+		if(typeof(recipient.display_name) === 'string' && recipient.display_name.length > 0) rdispName = recipient.display_name;
+
+		Broadcast.instance.emit('app.ttvst.pubsub.subscription', type, tier, cumulative_months, streak_months, message, user.login, dispName, recipient.login, rdispName);
 	}
 
 	onTMISendMessage(message: string) {

@@ -44,6 +44,7 @@ class PubSub extends EventEmitter {
 
 	setupTopicsForChannel(channel_id: string) {
 		this.listen('channel-points-channel-v1.' + channel_id);
+		//this.listen('channel-subscribe-events-v1.' + channel_id);
 	}
 
 	/**
@@ -222,6 +223,40 @@ class PubSub extends EventEmitter {
 							typeof(message.data.redemption.user_input) === 'string' ? message.data.redemption.user_input : ''
 						);
 					}
+				} else if(msg.data.topic.startsWith('channel-subscribe-events-v1.')) {
+					/**
+					 * Fires when a user subscribes or gifts a subscription
+					 * @event TwPubSub#subscribe
+					 * @param {String} channelid The channel id
+					 * @param {String} type One of: sub, resub, subgift, anonsubgift, resubgift, anonresubgift
+					 * @param {String} tier One of: Prime, 1000, 2000, 3000
+					 * @param {number} cumulative_months
+					 * @param {number} streak_months
+					 * @param {String} message
+					 * @param {Object} user The user that caused this event
+					 * @param {String} user.id The user's id
+					 * @param {String} user.login The user's login
+					 * @param {String} user.display_name The user's dispaly name
+					 * @param {Object} recipient The recipient of the gift - might be the same as user
+					 * @param {String} recipient.id The user's id
+					 * @param {String} recipient.login The user's login
+					 * @param {String} recipient.display_name The user's dispaly name
+					 * */
+
+					this.emit('subscribe',
+						message.channel_id,
+						message.context,
+						message.sub_plan,
+						message.cumulative_months,
+						message.streak_months,
+						(typeof(message.sub_message) === 'object' ? message.sub_message.message : ''),
+						{ id: message.user_id, login: message.user_name, display_name: message.display_name },
+						{
+							id: typeof(message.recipient_id) === 'string' ? message.recipient_id : message.user_id,
+							login: typeof(message.recipient_user_name) === 'string' ? message.recipient_user_name : message.user_name,
+							display_name: typeof(message.recipient_display_name) === 'string' ? message.recipient_display_name : message.display_name
+						}
+					);
 				}
 			}
 		} catch(e) {

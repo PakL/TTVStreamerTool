@@ -319,5 +319,32 @@
 	},
 	"You cannot install or update addons while an update for TTVST is available. Please update TTVST first!": {
 		"de": "Addons können nicht installiert oder aktualisiert werden wenn ein Update für TTVST verfügbar ist. Bitte aktualisiere zuerst TTVST!"
+	},
+	"Channel subscription": {
+		"de": "Kanalabonnement"
+	},
+	"When a user shares a channel subscription": {
+		"de": "Wenn ein Nutzer ein Kanalabonnement teilt"
+	},
+	"Type of message. One of: sub, resub, subgift, anonsubgift": {
+		"de": "Typ der Nachricht. Mögliche Werte: sub, resub, subgift, anonsubgift"
+	},
+	"One of: Prime, 1000, 2000, 3000": {
+		"de": "Mögliche Werte: Prime, 1000, 2000, 3000"
+	},
+	"Number of months the user has subscribed to your channel": {
+		"de": "Anzahl an Monaten die der Nutzer den Kanal bereits abonniert hat"
+	},
+	"streak_months": {
+		"de": "Anzahl an Monaten die der Nutzer den Kanal in Folge abonniert hat"
+	},
+	"An optional message by the user": {
+		"de": "Eine optionale Nachricht des Nutzers"
+	},
+	"(User who triggered the event) The unformatted user name": {
+		"de": "(Nutzer, der das Event ausgelöst hat) Der unformatierte Benutzername"
+	},
+	"(User who recieved subscription - might be the same as user_login) The unformatted user name": {
+		"de": "(Nutzer, der das Abonnement erhalten hat - kann derselbe sein wie user_login) Der unformatierte Benutzername"
 	}
 }
