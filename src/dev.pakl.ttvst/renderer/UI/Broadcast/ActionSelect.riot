@@ -163,7 +163,9 @@
 						}
 					}
 					this.actionchange = false;
-					if(this.$('.action_select').value == this.props.initchannel) this.update();
+					if(this.$('.action_select').value == this.props.initchannel) {
+						setTimeout((() => { this.update(); }).bind(this), 0);
+					}
 				}
 			},
 
