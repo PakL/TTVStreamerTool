@@ -2,7 +2,7 @@ import fs from 'fs';
 import originalFs from 'original-fs';
 import Path from 'path';
 import { app, ipcMain } from 'electron';
-import { spawn, execFileSync } from 'child_process';
+import { spawn, spawnSync } from 'child_process';
 import compareVersions from 'compare-versions';
 import winston from 'winston';
 import TTVSTMain from '../TTVSTMain';
@@ -391,6 +391,8 @@ export default class Addons {
 			return;
 		}
 
+		let tempPath = app.getPath('temp');
+
 		for(let i = 0; i < addons.length; i++) {
 			let addon = addons[i];
 			if(typeof(addon.download) !== 'string' || !addon.download.startsWith('https://')) {
@@ -403,7 +405,7 @@ export default class Addons {
 				if(resp.statusCode === 200) {
 					let sanitizedAddonName = addon.addonid.replace(/[^a-z0-9\.\-]/ig, '');
 					await new Promise((res, rej) => {
-						let addonDownload = Path.join(app.getPath('temp'), sanitizedAddonName + '.asar');
+						let addonDownload = Path.join(tempPath, sanitizedAddonName + '.asar');
 						originalFs.writeFile(addonDownload, resp.body, (err) => {
 							if(err === null) {
 								installingRows.push('move "' + addonDownload + '" "resources\\' + sanitizedAddonName + '.asar"');
@@ -426,12 +428,12 @@ export default class Addons {
 		}
 
 		let batch = '@echo off\r\n' + installingRows.join('\r\n');
-		let batchPath = Path.join(app.getPath('temp'), 'addons.bat');
+		let batchPath = Path.join(tempPath, 'addons.bat');
 
 		try {
 			fs.writeFileSync(batchPath, batch);
 			
-			execFileSync('resources\\elevate', ['-w', '-c', batchPath]);
+			spawnSync('resources\\elevate -w -c "'+batchPath+'"', { cwd: process.cwd(), env: process.env, shell: true, windowsHide: true });
 
 			for(let i = 0; i < addonFileNames.length; i++) {
 				try {
@@ -460,7 +462,7 @@ export default class Addons {
 		let batch = '@echo off\r\n' + batchLines.join('\r\n') + '\r\nstart "" "' + process.execPath + '"' + (execArgv.length > 0 ? ' "' + execArgv.join('" "') + '"' : '') + '\r\nexit'
 		fs.writeFile(batchPath, batch, (err: NodeJS.ErrnoException) => {
 			if(err === null) {
-				spawn('resources\\elevate', ['-c', batchPath], { cwd: process.cwd(), env: process.env, shell: true, detached: true, windowsHide: false });
+				spawn('resources\\elevate -c "'+batchPath+'"', { cwd: process.cwd(), env: process.env, shell: true, detached: true, windowsHide: false });
 				app.quit();
 			} else {
 				TTVST.mainWindow.ipcSend('Addons.batchFailed');
