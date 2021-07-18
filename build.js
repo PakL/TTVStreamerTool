@@ -11,7 +11,7 @@ console.log('Creating Windows installer...')
 
 let result = electronInstaller.createWindowsInstaller({
 	appDirectory: './build',
-	outputDirectory: './dist',
+	outputDirectory: './bin',
 	name: "ttvst",
 	exe: 'TTVStreamerTool.exe',
 	loadingGif: 'res/img/install.gif',

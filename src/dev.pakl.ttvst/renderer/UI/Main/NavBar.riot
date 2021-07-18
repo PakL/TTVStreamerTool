@@ -1,0 +1,64 @@
+<NavBar>
+	<nav class={navClasses}>
+		<ul id="nav-main-menu">
+			<li><a className="menu-collapse" onclick={this.toggleMenu}><i class="ms-Icon ms-Icon--GlobalNavButton" aria-hidden="true"></i><span>TTVStreamerTool</span></a></li>
+
+			<li each={ link in state.pages }><a data-name={ link.name } onclick={openPage}><i class={ 'ms-Icon ms-Icon--' + link.icon }></i>{ link.localizedName }</a></li>
+		</ul>
+		<ul class="bottom">
+			<li each={ link in state.bottompages }><a data-name={ link.name }  onclick={openPage}><i class={ 'ms-Icon ms-Icon--' + link.icon }></i>{ link.localizedName }</a></li>
+		</ul>
+	</nav>
+
+	<style>
+		nav > ul > li > a > span {
+			font-weight: bold;
+		}
+	</style>
+
+	<script>
+		export default {
+			navClasses: 'side-nav collapsed',
+
+			onBeforeMount(props, state) {
+				this.__ = global.TTVST.i18n.__;
+				this.state = Object.assign({ collapsed: true, pages: [], bottompages: [] }, state)
+			},
+
+			onBeforeUpdate(props, state) {
+				this.navClasses = 'side-nav' + (this.state.collapsed ? ' collapsed' : '');
+			},
+
+			toggleMenu(e) {
+				e.preventDefault();
+				this.update({ collapsed: !this.state.collapsed });
+			},
+
+			addPage(page, bottom) {
+				if(typeof(bottom) !== 'boolean') bottom = false;
+
+				if(bottom) {
+					this.state.bottompages.push(page);
+				} else {
+					this.state.pages.push(page);
+				}
+
+				this.update();
+			},
+
+			openPage(e) {
+				e.preventDefault();
+				let link = null;
+				for(let i = 0; i < e.path.length; i++) {
+					if(e.path[i].tagName === 'A') {
+						link = e.path[i];
+						break;
+					}
+				}
+				if(link === null) return;
+
+				TTVST.ui.openPage(link.dataset.name);
+			}
+		}
+	</script>
+</NavBar>

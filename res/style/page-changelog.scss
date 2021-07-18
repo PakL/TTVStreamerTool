@@ -1,0 +1,31 @@
+.page-changelog {
+	user-select: text;
+	-webkit-user-select: text;
+	
+	a {
+		cursor: pointer;
+		color: $accentColorContrast;
+		text-decoration: underline;
+	}
+
+	> div {
+		padding: 10px;
+	}
+
+	.highlight {
+		color: $accentColorContrast;
+	}
+
+	.tag {
+		padding: 0 3px;
+		font-size: $globalFontSize - 2px;
+		color: darken($accentColorContrast, 5%);
+		background-color: lighten($globalBackground, 5%);
+		border-radius: 4px;
+	}
+
+	hr {
+		border: 0;
+		border-top: 1px solid $accentColorContrast;
+	}
+}

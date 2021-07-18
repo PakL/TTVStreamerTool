@@ -1,0 +1,28 @@
+{
+	"en": {
+		"dayNames": [
+			"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+			"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+		],
+		"monthNames": [
+			"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+			"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+		],
+		"timeNames": [
+			"a", "p", "am", "pm", "A", "P", "AM", "PM"
+		]
+	},
+	"de": {
+		"dayNames": [
+			"Son", "Mon", "Die", "Mit", "Don", "Fre", "Sam",
+			"Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"
+		],
+		"monthNames": [
+			"Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez",
+			"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"
+		],
+		"timeNames": [
+			"a", "p", "am", "pm", "A", "P", "AM", "PM"
+		]
+	}
+}

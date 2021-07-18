@@ -1,0 +1,8 @@
+.ms-Card {
+	background: lighten($globalBackground, 5%);
+}
+
+.cockpit-control-middle {
+	width: calc(100% - 120px) !important;
+	padding-left: 5px;
+}

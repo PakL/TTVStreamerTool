@@ -1,0 +1,308 @@
+<ActionSelect>
+	<label>
+		{ __('Action') }
+		<select onchange={ onActionSelect } class="action_select">
+			<optgroup each={ actiongroup in actions } label={ __(actiongroup[0].addon) }>
+				<option each={ action in actiongroup } value={ action.channel }>{ __(action.label) }</option>
+			</optgroup>
+		</select>
+		<small>{ __(actiondesc) }</small>
+	</label>
+	<hr />
+	<label each={ (parameter, key) in parameters } for={ 'input_' + key }>
+		<div if={ dynamicinput !== null } class="dynamiccheck">{ __('Select dynamic input') } <input type="checkbox" data-dynamic={ parameter.label } onchange={ onDynamicInputCheck }></div>
+		{ __(parameter.label) }
+		
+		<template if={ dynamicinput === null || !$('input[data-dynamic="' + parameter.label + '"]').checked }>
+			<input if={ parameter.type == 'number' } type="number" data-parameter={ parameter.label } id={ 'input_' + key } />
+			<input if={ parameter.type == 'string' } type="text" data-parameter={ parameter.label } id={ 'input_' + key } />
+			<input if={ parameter.type == 'boolean' } type="checkbox" data-parameter={ parameter.label } id={ 'input_' + key } />
+			<div if={ parameter.type == 'file' } class="fileselect">
+				<input type="text" data-parameter={ parameter.label } id={ 'input_' + key } /><button onclick={ selectFile }><i class="ms-Icon ms-Icon--OpenFolderHorizontal"></i></button>
+			</div>
+			<div if={ parameter.type == 'list' } class="list">
+				<input type="text" data-parameter={ parameter.label }/>
+				<button onclick={ onAddList } data-parameter={ parameter.label }>+</button>
+				<button onclick={ onRemoveList } data-parameter={ parameter.label }>-</button>
+			</div>
+			<div if={ parameter.type == 'assoc' } class="assoc">
+				<input type="text" data-parameter={ parameter.label } class="key"><span class="spacer">: </span><input type="text" data-parameter={ parameter.label } class="value">
+				<button onclick={ onAddAssoc } data-parameter={ parameter.label }>+</button>
+				<button onclick={ onRemoveAssoc } data-parameter={ parameter.label }>-</button>
+			</div>
+		</template>
+		<template if={ dynamicinput !== null && $('input[data-dynamic="' + parameter.label + '"]').checked }>
+			<select data-parameter={ parameter.label } id={ 'input_' + key }>
+				<option each={ dyninput in dynamicinput } if={ dyninput.param.type === parameter.type } selected={ $('.action_select').value == props.initchannel && dyninput.value == props.initparams[key] } value={ dyninput.value }>{ dyninput.param.label }</option>
+			</select>
+		</template>
+		<small>{ __(parameter.description) }</small>
+	</label>
+
+	<style>
+		div.assoc > .key {
+			display: inline-block;
+			width: 30%;
+		}
+		div.assoc > .spacer {
+			display: inline-block;
+			width: 1%;
+		}
+		div.assoc > .value {
+			display: inline-block;
+			width: 69%
+		}
+		div.fileselect > input {
+			display: inline-block;
+			width: calc(100% - 40px);
+		}
+		div.fileselect > button {
+			display: inline-block;
+			width: 40px;
+		}
+		div.dynamiccheck {
+			float: right;
+			font-size: 0.7em;
+		}
+		div.dynamiccheck > input {
+			display: inline;
+			margin-right: 0;
+			margin-left: 5px;
+		}
+		div.dynamiccheck > input::before {
+			font-size: 1.2em;
+		}
+	</style>
+	<script>
+		const { ipcRenderer } = require('electron');
+		const Broadcast = require('../../Broadcast');
+
+		export default {
+			actions: [],
+			actionsgroups: {},
+			parameters: [],
+			actiondesc: '',
+			dynamicinput: null,
+			actionchange: false,
+
+			onBeforeMount(props, state) {
+				this.__ = global.TTVST.i18n.__;
+
+				this.actions = [];
+				this.actionsgroups = {};
+				this.parameters = [];
+				let actions = Broadcast.getAction();
+				for(let i = 0; i < actions.length; i++) {
+					let act = actions[i]
+					if(typeof(this.actionsgroups[act.addon]) !== 'number') {
+						let index = this.actions.length;
+						this.actionsgroups[act.addon] = index;
+						this.actions.push([]);
+					}
+					this.actions[this.actionsgroups[act.addon]].push(act);
+				}
+				if(Array.isArray(this.props.dynamicinput)) {
+					this.dynamicinput = this.props.dynamicinput;
+				}
+			},
+
+			onMounted(props, state) {
+				if(typeof(this.props.initchannel) === 'string' && this.props.initchannel.length > 0) {
+					this.$('.action_select').value = this.props.initchannel;
+				}
+				if(!Array.isArray(this.props.initparams)) {
+					this.props.initparams = [];
+				}
+				this.onActionSelect();
+			},
+
+			onUpdated(props, state) {
+				if(this.actionchange) {
+					if(this.$('.action_select').value == this.props.initchannel) {
+						parloop: for(let i = 0; i < this.parameters.length; i++) {
+							if(this.props.initparams.length <= i) break;
+
+							if(this.dynamicinput !== null) {
+								for(let j = 0; j < this.dynamicinput.length; j++) {
+									if(this.dynamicinput[j].value === this.props.initparams[i]) {
+										this.$('input[data-dynamic="' + this.parameters[i].label + '"]').checked = true;
+										continue parloop;
+									}
+								}
+							}
+
+							if(this.parameters[i].type == 'boolean') {
+								if(this.props.initparams[i]) {
+									this.$('input[data-parameter="'+this.parameters[i].label+'"]').setAttribute('checked', 'true');
+								}
+							} else if(this.parameters[i].type == 'list') {
+								for(let j = 0; j < this.props.initparams[i].length; j++) {
+									if(j == 0) {
+										this.$('input[data-parameter="'+this.parameters[i].label+'"]').value = this.props.initparams[i][j];
+										continue;
+									}
+									let input = this.onAddList(this.parameters[i].label);
+									input.value = this.props.initparams[i][j];
+								}
+							} else if(this.parameters[i].type == 'assoc') {
+								let j = 0;
+								for(let key of Object.keys(this.props.initparams[i])) {
+									if(j == 0) {
+										j++;
+										this.$('input.key[data-parameter="'+this.parameters[i].label+'"]').value = key;
+										this.$('input.value[data-parameter="'+this.parameters[i].label+'"]').value = this.props.initparams[i][key];
+										continue;
+									}
+									let [inputKey, inputVal] = this.onAddAssoc(this.parameters[i].label);
+									inputKey.value = key;
+									inputVal.value = this.props.initparams[i][key];
+								}
+							} else {
+								this.$('input[data-parameter="'+this.parameters[i].label+'"]').value = this.props.initparams[i];
+							}
+						}
+					}
+					this.actionchange = false;
+					if(this.$('.action_select').value == this.props.initchannel) {
+						setTimeout((() => { this.update(); }).bind(this), 0);
+					}
+				}
+			},
+
+			onActionSelect() {
+				let action = Broadcast.getAction({ channel: this.$('.action_select').value });
+				if(action.length > 0) {
+					this.parameters = action[0].parameters;
+					this.actiondesc = action[0].description;
+					let uncheckall = this.$$('input[type="checkbox"]');
+					for(let i = 0; i < uncheckall.length; i++) {
+						uncheckall[i].checked = false;
+					}
+				}
+				this.actionchange = true;
+				this.update();
+			},
+
+			selectFile(e) {
+				let input = e.currentTarget.parentNode.querySelector('input');
+				ipcRenderer.invoke('dialog.showOpenDialog').then((files) => {
+					if(files !== false) {
+						input.value = files[0];
+					}
+				})
+			},
+
+			onAddList(e) {
+				let btn = null;
+				if(typeof(e) == 'object') {
+					btn = e.currentTarget;
+				} else {
+					btn = this.$('button[data-parameter="'+e+'"]')
+				}
+				let parent = btn.parentNode;
+
+				let newInput = document.createElement('input');
+				newInput.setAttribute('type', 'text');
+				newInput.dataset.parameter = btn.dataset.parameter;
+				parent.insertBefore(newInput, btn);
+				return newInput;
+			},
+			onAddAssoc(e) {
+				let btn = null;
+				if(typeof(e) == 'object') {
+					btn = e.currentTarget;
+				} else {
+					btn = this.$('button[data-parameter="'+e+'"]')
+				}
+				let parent = btn.parentNode;
+
+				let newInputKey = document.createElement('input');
+				let newSpacer = document.createElement('span');
+				let newInputValue = document.createElement('input');
+				newInputKey.setAttribute('type', 'text');
+				newSpacer.innerText = ':';
+				newInputValue.setAttribute('type', 'text');
+				newInputKey.dataset.parameter = btn.dataset.parameter;
+				newInputValue.dataset.parameter = btn.dataset.parameter;
+				newInputKey.classList.add('key');
+				newSpacer.classList.add('spacer');
+				newInputValue.classList.add('value');
+				parent.insertBefore(newInputKey, btn);
+				parent.insertBefore(newSpacer, btn);
+				parent.insertBefore(newInputValue, btn);
+				return [newInputKey, newInputValue];
+			},
+
+			onRemoveList(e) {
+				let btn = e.currentTarget;
+				let parent = btn.parentNode;
+
+				let allInputs = parent.querySelectorAll('input');
+				if(allInputs.length > 0) {
+					parent.removeChild(allInputs[allInputs.length-1]);
+				}
+			},
+			onRemoveAssoc(e) {
+				let btn = e.currentTarget;
+				let parent = btn.parentNode;
+
+				let allInputs = parent.querySelectorAll('input');
+				let allSpacers = parent.querySelectorAll('span');
+				if(allInputs.length > 0) {
+					parent.removeChild(allInputs[allInputs.length-2]);
+					parent.removeChild(allInputs[allInputs.length-1]);
+					parent.removeChild(allSpacers[allSpacers.length-1]);
+				}
+			},
+
+			getSelectedActionChannel() {
+				return this.$('.action_select').value;
+			},
+
+			getParameterValues() {
+				let action = Broadcast.getAction({ channel: this.$('.action_select').value });
+				let parameters = action[0].parameters;
+				let result = [];
+				for(let i = 0; i < parameters.length; i++) {
+					if(this.dynamicinput !== null && this.$('input[data-dynamic="' + parameters[i].label + '"').checked) {
+						result.push(this.$('select[data-parameter="' + parameters[i].label + '"]').value);
+						continue;
+					}
+
+					if(parameters[i].type == 'number') {
+						let val = parseFloat(this.$('input[data-parameter="' + parameters[i].label + '"]').value);
+						if(isNaN(val)) val = 0;
+						result.push(val);
+					} else if(parameters[i].type == 'string') {
+						result.push(this.$('input[data-parameter="' + parameters[i].label + '"]').value);
+					} else if(parameters[i].type == 'boolean') {
+						result.push(this.$('input[data-parameter="' + parameters[i].label + '"]').checked);
+					} else if(parameters[i].type == 'file') {
+						let file = this.$('input[data-parameter="' + parameters[i].label + '"]').value;
+						result.push(file);
+					} else if(parameters[i].type == 'list') {
+						let items = this.$$('input[data-parameter="' + parameters[i].label + '"]');
+						let val = [];
+						for(let j = 0; j < items.length; j++) {
+							val.push(items[j].value);
+						}
+						result.push(val);
+					} else if(parameters[i].type == 'assoc') {
+						let items = this.$$('input[data-parameter="' + parameters[i].label + '"]');
+						let val = {};
+						for(let j = 0; j < items.length; j+=2) {
+							val[items[j].value] = items[j+1].value;
+						}
+						result.push(val);
+					}
+				}
+				return result;
+			},
+
+			onDynamicInputCheck() {
+				this.update();
+			}
+
+		}
+	</script>
+</ActionSelect>

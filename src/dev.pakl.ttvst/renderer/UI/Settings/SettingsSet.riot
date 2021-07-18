@@ -1,0 +1,15 @@
+<SettingsSet>
+	<SettingsInput each={ setting in props.settings } {... setting}></SettingsInput>
+
+	<script>
+		const riot = require('riot');
+		import SettingsInput from './SettingsInput.riot';
+		riot.register('settingsinput', SettingsInput);
+
+		export default {
+			onBeforeMount(props, state) {
+				this.__ = global.TTVST.i18n.__;
+			}
+		}
+	</script>
+</SettingsSet>

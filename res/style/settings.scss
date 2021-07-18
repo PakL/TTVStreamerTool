@@ -1,0 +1,105 @@
+input, textarea, select {
+	background: $globalBackground;
+	font-family: $globalFontFamily;
+	font-size: $globalFontSize;
+	border: 2px solid #ffffff;
+	padding: 3px 8px;
+	color: #ffffff;
+	box-sizing: border-box;
+}
+input:hover, textarea:hover, select:hover {
+	border: 2px solid #aaaaaa;
+}
+input:focus, textarea:focus, select:focus {
+	border: 2px solid $accentColorContrast;
+	outline: none;
+}
+input:disabled, input:read-only {
+	color: darken(#ffffff, 40%);
+	border: 2px solid #aaaaaa;
+}
+input[type=range] {
+	padding: 3px 0;
+}
+input[type=color] {
+	border: 0;
+	padding: 0;
+	width: 70px;
+	height: 30px;
+}
+input[type=date], input[type=time] {
+	position: relative;
+	padding-left: 32px;
+}
+input[type=date]::-webkit-calendar-picker-indicator,
+input[type=time]::-webkit-calendar-picker-indicator
+{
+	position: absolute;
+	left: 3px;
+	margin: 0;
+	background-color: $accentColorContrast;
+}
+
+button {
+	background: $accentColor;
+	font-family: $globalFontFamily;
+	font-size: $globalFontSize;
+	padding: 5px 10px;
+	color: $fontColorOnAccent;
+	border: 2px solid $accentColor;
+	transition: transform 0.1s ease-out;
+}
+button:hover {
+	border-color: darken($accentColor, 15%);
+}
+button:focus {
+	outline: none;
+}
+button:active {
+	outline: none;
+	background: darken($accentColor, 15%);
+	transform: scaleX(0.95) scaleY(0.95);
+	outline: none;
+}
+button:disabled {
+	filter: contrast(75%);
+}
+button:disabled:hover {
+	border-color: $accentColor;
+}
+
+hr {
+	border: 0;
+	border-top: 1px solid $accentColor;
+}
+
+settingsinput > label, modal .form > label, modal .form > * > label {
+	margin: 20px;
+	display: block;
+
+	input, select, textarea {
+		margin-top: 5px;
+		display: block;
+		box-sizing: border-box;
+		width: 100%;
+	}
+	input[type=checkbox] {
+		display: inline-block;
+		width: auto;
+	}
+	textarea {
+		resize: vertical;
+	}
+	small {
+		display: block;
+		margin-top: 5px;
+		font-size: $globalFontSize - 4px;
+		color: $accentColorContrast;
+	}
+}
+
+modal .form > label, modal .form > * > label {
+	margin: 10px;
+}
+
+@import 'win10-switch';

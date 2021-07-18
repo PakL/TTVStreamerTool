@@ -1,0 +1,82 @@
+$accentColor: #feb404;
+$fontColorOnAccent: #000000;
+
+$globalFontFamily: "Segoe UI Web (West European)", "Segoe UI", sans-serif;
+$globalFontSize: 16px;
+
+$globalForeground: #ffffff;
+$globalBackground: #121212;
+
+$accentColorContrast: $accentColor;
+
+$accentColorLight: $accentColor;
+$accentColorDark: $accentColor;
+
+@import 'yiq';
+
+
+@while not yiq-is-light($accentColorContrast, 128) {
+	$accentColorContrast: lighten($accentColorContrast, 1%);
+	$accentColorLight: lighten($accentColorLight, 1%);
+}
+@while yiq-is-light($accentColorDark, 100) {
+	$accentColorDark: darken($accentColorDark, 1%);
+}
+
+html, body {
+	font-family: $globalFontFamily;
+	font-size: $globalFontSize;
+	background: $globalBackground;
+	color: $globalForeground;
+	
+	user-select: none;
+	-webkit-user-select: none;
+
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+}
+::-webkit-scrollbar-thumb {
+	background-color: darken($accentColor, 10%);
+}
+::-webkit-scrollbar-track-piece {
+	background-color: darken($globalBackground, 5%);
+}
+
+::placeholder {
+	color: #999999;
+}
+
+#root {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+#contentWrapper {
+	display: block;
+	overflow: auto;
+	position: absolute;
+	top: 0;
+	left: 48px;
+	right: 0;
+	bottom: 0;
+
+	> div {
+		width: 100%;
+		height: 100%;
+		padding: 0.1px;
+	}
+	> div.closed {
+		display: none;
+	}
+}
+
+@import 'side-nav', 'uifabric-fixes', 'settings';
+@import 'page-about', 'page-changelog';
+@import 'accent';

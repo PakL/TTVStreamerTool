@@ -47,3 +47,6 @@ jspm_packages
 /var/tags/*.js
 *.bat
 /jsdoc.json
+/bin
+/.vscode
+/.vs

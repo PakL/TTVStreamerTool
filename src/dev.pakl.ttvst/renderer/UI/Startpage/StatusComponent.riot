@@ -1,0 +1,116 @@
+<StatusComponent>
+	<div class={ iconclasses }><i class={ 'ms-Icon ms-Icon--' + state.icon }></i></div>
+	<div class="status">
+		<h4 class="accent-contrast-font">{ __(state.title) }</h4>
+		<span>{ __(state.info, state.infoValues) }</span>
+	</div>
+	<div class="buttons" if={ state.buttons.length > 0 }>
+		<button class="button" type="button" each={ button in state.buttons } title={ __(button.title) } data-action={ button.action } onclick={ actionClick }><i class={ 'ms-Icon ms-Icon--' + button.icon }></i></button>
+	</div>
+	<div class="buttons_placeholder" if={ state.buttons.length <= 0 }></div>
+
+	<style>
+		:host {
+			display: flex;
+			justify-content: center;
+			align-content: stretch;
+			height: 100px;
+			background: rgba(255,255,255, 0.01);
+			border: 1px solid rgba(0,0,0, 0.3);
+			width: 100%;
+		}
+		:host > div.icon {
+			width: 60px;
+			padding: 20px;
+			background: rgba(255,255,255, 0.01);
+			font-size: 60px;
+			line-height: 60px;
+			text-align: center;
+		}
+		:host > div.icon.status-error {
+			background: rgba(255, 0, 0, 0.1);
+		}
+		:host > div.icon.status-warn {
+			background: rgba(255, 255, 0, 0.1);
+		}
+		:host > div.icon.status-good {
+			background: rgba(0, 255, 0, 0.1);
+		}
+		:host > div.status {
+			padding: 5px 10px;
+			overflow: hidden;
+		}
+		:host > div.status > h4 {
+			margin: 0;
+			margin-bottom: 5px;
+			font-weight: bold;
+			font-size: 1.05em;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		:host > div.status > span {
+			overflow : hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: 3;
+			-webkit-box-orient: vertical;
+		}
+		:host > div.buttons {
+			margin-left: auto;
+			width: 32px;
+			border-left: 1px solid rgba(255,255,255, 0.1);
+		}
+		:host > div.buttons > button {
+			background: transparent;
+			padding: 0px;
+			font-size: 14px;
+			width: 32px;
+			height: 32px;
+			line-height: 32px;
+			text-align: center;
+			color: rgba(255,255,255, 0.5);
+			border: 0;
+		}
+		:host > div.buttons > button:hover, :host > div.buttons > button:active {
+			cursor: pointer;
+			color: #ffffff;
+		}
+		:host > div.buttons_placeholder {
+			margin-left: auto;
+			width: 0px;
+		}
+	</style>
+
+	<script>
+		const { ipcRenderer } = require('electron');
+
+		export default {
+
+			iconclasses: 'icon',
+			
+			onBeforeMount(props, state) {
+				this.__ = global.TTVST.i18n.__;
+				this.onBeforeUpdate(props, state);
+			},
+
+			onBeforeUpdate(props, state) {
+				this.state = Object.assign({ icon: 'Lightbulb', status: 'warn', title: 'Unknown', info: 'Unknown', infoValues: {}, buttons: [] }, props);
+				this.iconclasses = 'icon status-' + this.state.status;
+			},
+
+			actionClick(e) {
+				e.preventDefault();
+				let btn = e.target;
+				let i = 1;
+				while(btn.tagName !== 'BUTTON') {
+					if(e.path.length <= i) break;
+					btn = e.path[i];
+					i++;
+				}
+				ipcRenderer.send(btn.dataset.action);
+			}
+
+		}
+	</script>
+</StatusComponent>

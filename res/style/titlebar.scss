@@ -1,0 +1,36 @@
+section.titlebar {
+	background-color: $accentColor;
+	height: 31px;
+	line-height: 30px;
+	border-bottom: 1px solid $accentColor;
+	-webkit-user-select: none;
+	-webkit-app-region: drag;
+
+	span {
+		color: $globalBackground;
+		font-size: 12px;
+		margin-left: 10px;
+	}
+
+	> button {
+		float: right;
+		width: 46px;
+		height: 31px;
+		background-color: transparent;
+		border: 0;
+		font-size: 10px;
+		margin-left: 1px;
+		transition: all 0.1s ease-in-out;
+		-webkit-app-region: no-drag;
+	}
+	> button.minimize {
+		vertical-align: text-bottom;
+	}
+	> button:hover {
+		background-color: darken($accentColor, 10%);
+	}
+	> button.close:hover {
+		background-color: #e81123;
+		color: darken(#ffffff, 3%);
+	}
+}

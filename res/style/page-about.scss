@@ -1,0 +1,21 @@
+.page-about {
+	user-select: text;
+	-webkit-user-select: text;
+	
+	a {
+		cursor: pointer;
+		color: $accentColorContrast;
+		text-decoration: underline;
+	}
+
+	pre {
+		white-space: pre-wrap;
+		font-size: $globalFontSize - 4px;
+		padding: 5px;
+		background-color: lighten($globalBackground, 5%);
+		max-width: 500px;
+		margin: auto;
+		margin-top: 10px;
+		text-align: left;
+	}
+}

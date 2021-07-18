@@ -1,0 +1,120 @@
+<SettingsMenu>
+	<div class="nav accent-contrast-border">
+		<ul>
+			<li each={ (set, index) in sets }><a class="accent-contrast-border accent-background-hover" onclick={ openset } data-index={ index } data-key={ set.key } title={ __(set.label) }>{ __(set.label) }</a></li>
+		</ul>
+	</div><div class="settings">
+		<SettingsSet each={ set in sets } data-key={ set.key } { ...set }></SettingsSet>
+	</div>
+	<div class="clearfloat"></div>
+
+	<style>
+		:host {
+			display: block;
+			width: 100%;
+			height: 100%;
+		}
+		.nav {
+			width: 300px;
+			height: 100%;
+			overflow: auto;
+			float: left;
+			border-right: 1px solid;
+			color: #ffffff;
+		}
+		.nav > ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+		.nav > ul > li > a {
+			display: block;
+			padding: 20px;
+			border-bottom: 1px solid;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			cursor: pointer;
+		}
+		.settings {
+			float: right;
+			width: calc(100% - 301px);
+			height: 100%;
+			float: right;
+			overflow: auto;
+		}
+		.clearfloat {
+			display: block;
+			clear: both;
+		}
+	</style>
+
+	<script>
+		const riot = require('riot');
+		import SettingsSet from './SettingsSet.riot';
+		riot.register('settingsset', SettingsSet);
+
+		export default {
+			sets: [],
+			currentset: '',
+
+			onBeforeMount(props, state) {
+				this.__ = global.TTVST.i18n.__;
+			},
+
+			onMounted(props, state) {
+				this.resetSets();
+			},
+
+			onUpdated(props, state) {
+				this.resetSets();
+			},
+
+			resetSets() {
+				let setLinks = this.$$('.nav ul li a');
+				for(let i = 0; i < setLinks.length; i++) {
+					if((this.currentset.length == 0 && i == 0) || (this.currentset == setLinks[i].dataset.key)) {
+						setLinks[i].classList.remove('accent-background-hover')
+						setLinks[i].classList.add('accent-background')
+					} else {
+						setLinks[i].classList.remove('accent-background')
+						setLinks[i].classList.add('accent-background-hover')
+					}
+				}
+
+				let sets = this.$$('settingsset');
+				for(let i = 0; i < sets.length; i++) {
+					if(this.currentset.length == 0 && i == 0) {
+						sets[i].style.display = 'initial'
+					} else {
+						sets[i].style.display = 'none';
+					}
+				}
+				if(this.currentset.length > 0) {
+					this.$('settingsset[data-key="'+this.currentset+'"]').style.display = 'initial';
+				}
+			},
+
+			openset(e) {
+				e.preventDefault();
+				let link = null;
+				for(let i = 0; i < e.path.length; i++) {
+					if(e.path[i].tagName === 'A') {
+						link = e.path[i];
+						break;
+					}
+				}
+				if(link === null) return;
+
+				this.currentset = link.dataset.key;
+				this.update(); // this will force inputs to load settings from storage
+			},
+
+			setSettings(config) {
+				this.sets = config;
+				this.currentset = ''; // set might be gone
+				this.update();
+			}
+		}
+	</script>
+</SettingsMenu>
