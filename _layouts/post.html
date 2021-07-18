@@ -1,0 +1,15 @@
+---
+layout: default
+---
+<div class="container">
+	<h1 class="text-head">{{ page.title }}</h1>
+
+	<div class="text-highlight">{{ page.author }} &bull; {{ page.date | date: "%Y-%m-%d" }}</div>
+	<div class="mb-3">
+		{% for category in page.categories %}
+		<span class="badge badge-lighter">{{ category }}</span>
+		{% endfor %}
+	</div>
+
+	{{ content }}
+</div>

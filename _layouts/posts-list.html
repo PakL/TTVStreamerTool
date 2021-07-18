@@ -1,0 +1,42 @@
+---
+layout: default
+---
+<div class="container">
+	<h1 class="text-head">{{ page.title }}</h1>
+	<h3 class="text-head text-muted">Page {{ paginator.page }}</h3>
+	<div class="row">
+		{% for post in site.posts %}
+		<div class="col-12 col-md-6 col-lg-4">
+			<div class="card bg-lighter">
+				<div class="card-body">
+					<h4 class="card-title text-highlight">{{ post.title }}</h4>
+					<div>{% for category in post.categories %}<span class="badge badge-pakl">{{ category }}</span>{% endfor %}</div>
+					<p class="card-text">{{ post.excerpt }}</p>
+					<a href="{{ post.url }}" class="btn btn-highlight">Read</a>
+				</div>
+				<div class="card-footer text-muted">
+					{{ post.author }} &bull; {{ post.date | date: "%Y-%m-%d" }}
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+
+	<nav class="mt-4">
+		<ul class="pagination justify-content-center">
+			{% if paginator.previous_page %}
+				<li class="page-item"><a class="bg-dark page-link" href="{{ paginator.previous_page_path }}">Back</a></li>
+				<li class="page-item"><a class="bg-dark page-link" href="{{ paginator.previous_page_path }}">{{ paginator.previous_page }}</a></li>
+			{% else %}
+				<li class="page-item disabled"><a class="bg-dark page-link" href="#">Back</a></li>
+			{% endif %}
+			<li class="page-item" aria-current="page"><a class="bg-dark page-link" href="#">{{ paginator.page }} <span class="sr-only">(aktuell)</span></a></li>
+			{% if paginator.next_page %}
+				<li class="page-item"><a class="bg-dark page-link" href="{{ paginator.next_page_path }}">{{ paginator.next_page }}</a></li>
+				<li class="page-item"><a class="bg-dark page-link" href="{{ paginator.next_page_path }}">Next</a></li>
+			{% else %}
+				<li class="page-item disabled"><a class="bg-dark page-link" href="#">Next</a></li>
+			{% endif %}
+		</ul>
+	</nav>
+</div>

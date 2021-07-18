@@ -1,150 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>TTVStreamerTool</title>
+---
+title: Home
+layout: default
+---
+<div class="container">
+	<p><img src="/assets/img/original-horizontal.svg" style="width:100%;height:auto;" class="d-inline-block align-top" alt=""></p>
 
-	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-	<script src="docs/scripts/prettify/prettify.js"></script>
-	<script src="docs/scripts/prettify/lang-css.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<!--[if lt IE 9]>
-		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	<link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-	<link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
-	<link type="text/css" rel="stylesheet" href="docs/styles/app.min.css">
-	<style type="text/css">
-		.download-stage {
-			text-align: center;
-			padding: 20px 0;
-		}
-		.download-stage > a {
-			display: inline-block;
-			padding: 10px 20px;
-			color: #ffffff;
-			background: #05b80e;
-			border: 1px solid #0a8d10;
-			font-weight: bold;
-			font-size: 1.5em;
-		}
-		.download-stage > small {
-			color: #999999;
-		}
-	</style>
-</head>
-<body>
-	<div id="stickyNavbarOverlay"></div>
-	<div class="top-navbar">
-		<div class="container">
-			<nav class="navbar" role="navigation" aria-label="main navigation">
-				<div class="navbar-brand">
-					<img src="docs/img/logomark-white.svg" alt="logo">
-					<h1 class="navbar-item">TTVStreamerTool</h1>
-					<a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-						<span aria-hidden="true"></span>
-						<span aria-hidden="true"></span>
-						<span aria-hidden="true"></span>
-					</a>
-				</div>
-					
-				<div class="navbar-menu">
-					<div class="navbar-end">
-						<div class="navbar-item">
-							<a href="https://github.com/PakL/TTVStreamerTool" target="_blank">Github</a>
-						</div>
-						<div class="navbar-item">
-							<a href="https://discord.gg/zZyBxr3" target="_blank">Discord</a>
-						</div>
-						<div class="navbar-item">
-							<a href="https://pakl.dev/" target="_blank">pakl.dev</a>
-						</div>
-						<div class="navbar-item">
-							<a href="https://dieweltzockt.de/" target="_blank">Die Welt Zockt</a>
-						</div>
-					</div>
-				</div>
-				
-			</nav>
-		</div>
-	</div>
-	<div class="container">
-		<div class="columns">
-			<div class="column is-3" id="sidebarNav">
-				<div class="sidebar">
-					<nav>
-						<h2><a href="index.html">Home</a></h2>
-						<h2><a href="bugs.html">Report Bugs</a></h2>
-						<div class="category">
-							<h3>Features</h3>
-							<ul>
-								<li><a href="customization.html">Customization</a></li>
-								<li><a href="overlays.html">Overlays</a></li>
-								<li><a href="addons.html">Addons</a></li>
-							</ul>
-							<h3>Addons</h3>
-							<ul>
-								<li><a href="docs/">TTVST Docs</a></li>
-								<li>tbd.</li>
-							</ul>
-						</div>
-					</nav>
-				</div>
-			</div>
-			<div class="column is-9-desktop">
-				<div class="content" id="main-content-wrapper">
-					<header class="page-title">
-						<h1 style="display:none;">TTVStreamerTool</h1>
-						<img src="https://ttvst.app/docs/img/logo.svg" alt="">
-					</header>
-					<h3> </h3>
-					<section>
-						<article>
-							<p>TTVStreamerTool (TTVST) is an application aimed at Twitch streamer. On the main view you will be 
-								able to read the chat, see the people who are in the chat, the current number of viewers
-								and notifications for follows, subscriptions, bans, timeouts and other stuff. There is
-								also a local http host in there for OBS or Xsplit overlays. You can set up hotkeys to
-								control these.</p>
-							<p class="download-stage">
-								<a href="https://update.ttvst.app/Setup.exe">Download latest</a><br>
-								<small>Windows 8/8.1/10 x64 - v1.11.6</small>
-							</p>
+	<p>TTVStreamerTool (TTVST) is an application aimed at Twitch streamer. Since the first major version TTVStreamerTool
+		has transformed from a chat tool with some HTTP overlays to an automation tool, though you may choose to use it
+		in another way. And that's fine. The goal of this tool is to grow with it's users. The more people use it and
+		have ideas on how to improve it the better. TTVST is build modularly so you only install the modules (called
+		Addons) that you need so you can focus on what is important to you.</p>
 
-							<h3>Platform</h3>
-							<p>
-								The TTVStreamerTool is developed and tested on an Windows 10 x64 system. I guess everything >= Windows 8 should work.<br>
-								Linux or MacOS are <strong>not</strong> supported. (And propably never will be.)
-							</p>
-							
-							<h3>SmartScreen issue</h3>
-							<p>
-								Microsofts SmartScreen for Windows will (most likely) block the execution of this Setup file. This is because I have no interest to invest a lot of money in a code signing certificate. You can still execute the setup by clicking "More info" on the SmartScreen screen.<br>
-								<b>Please make sure that you only execute files from sources that you trust!</b>
-							</p>
-
-							<h3>What it looks like</h3>
-							<p>If you're using TTVST on Windows 10, it will take on the accent color of your system.</p>
-							<img src="docs/img/ttvst_screen.gif" alt="">
-						</article>
-					</section>
-				</div>
-			</div>
-		</div>
+	<div class="text-center my-5">
+		<a class="btn btn-success btn-lg" href="https://update.ttvst.app/v2/Setup-2.0.0.exe">Download latest</a><br>
+		<small class="text-muted">Windows 8/8.1/10 x64 - v2.0.0</small>
 	</div>
 
-<footer class="footer">
-	<div class="content has-text-centered">
-		<p></p>
-		<p class="sidebar-created-by">
-			<a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
-			<a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers</a>
-		</p>
-	</div>
-</footer>
+	<h4>Platform</h4>
+	<p>The TTVStreamerTool is developed and tested on an Windows 10 x64 system. I guess everything >= Windows 8 should
+		work.<br>Linux or MacOS are <strong>not</strong> supported.</p>
 
-<script> prettyPrint(); </script>
-<script src="docs/scripts/app.min.js"></script>
-<script src="docs/scripts/linenumber.js"> </script>
-</body>
-</html>
+	<h4>SmartScreen/Antivirus issue</h4>
+	<p>Microsoft's SmartScreen for Windows will (most likely) block the execution of this Setup file. This is because I
+		have no interest to invest a lot of money in a code signing certificate. You can still execute the setup by
+		clicking "More info" on the SmartScreen screen.<br>
+		Other Antivirus software might detect some parts of TTVST as viruses as well. They are most likely all false
+		positives. I take great care about what I upload and provide to you as download.<br>
+		<strong>Please make sure that you only execute files from sources that you trust!</strong></p>
+
+	<h4>What it looks like</h4>
+	<p class="text-center"><img src="/assets/img/screenshot.png" style="max-width:100%;height:auto;" alt=""></p>
+	<p>Don't worry about the color. TTVST will take on your OS accent color.</p>
+</div>
