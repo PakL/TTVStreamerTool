@@ -1,26 +1,22 @@
-![](https://ttvst.app/docs/img/logo.svg)
+![](https://ttvst.app/assets/img/original-horizontal.svg)
 
-TTVST is an application aimed at Twitch streamer. On the main view you will be able to read the chat, see the people who are in the chat, the current number of viewers and notifications for follows, subscriptions, bans, timeouts and other stuff. There is also a local http host in there for OBS or Xsplit overlays. You can set up hotkeys to control these.
+TTVStreamerTool (TTVST) is an application aimed at Twitch streamer. Since the first major version TTVStreamerTool has transformed from a chat tool with some HTTP overlays to an automation tool, though you may choose to use it in another way. And that's fine. The goal of this tool is to grow with it's users. The more people use it and have ideas on how to improve it the better. TTVST is build modularly so you only install the modules (called Addons) that you need so you can focus on what is important to you.
 
 ------
 
-To make TTVST unique for your streaming needs it's possible to create your own overlays and addons. I will document how to do that in the coming future. To start of, read the [Getting Started Guide](https://ttvst.app/tutorial-Getting%20Started.html).
-
 ### Platform
 
-The TTVStreamerTool is developed and tested on a Windows 10 x64 system. I guess everything >= Windows 8 should work.
+The TTVStreamerTool is developed and tested on an Windows 10 x64 system. I guess everything >= Windows 8 should work.
 
-Linux or MacOS are **not** supported. (And propably never will be.)
+Linux or MacOS are **not** supported.
 
-### Download & Install
+### Download
 
-Download the Setup.exe of the latest release and execute it. The application will install and create a few shortcuts. From then on the application should keep itself updated. Since I don't have the time or money for an code signing certificate the Setup.exe might be blocked from executing. It's up to you to trust this application. Do not install a Setup.exe that was not downloaded from the releases page of this project. Stay safe!
-
-» [Find the latest release](https://github.com/PakL/TTVStreamerTool/releases/)
+» [Download at ttvst.app](https://ttvst.app/)
 
 ### Screenshot
 
-![Cockpit Screenshot](https://ttvst.app/docs/img/ttvst_screen.gif)
+![Screenshot](https://ttvst.app/assets/img/screenshot.png)
 
 ### Report issues
 
