@@ -1,3 +1,9 @@
+{%- if page.description -%}
+	{%- assign desc = page.description -%}
+{%- else -%}
+	{%- assign desc = "TTVStreamerTool (TTVST) is an application aimed at Twitch streamer. Since the first major version TTVStreamerTool has transformed from a chat tool with some HTTP overlays to an automation tool, though you may choose to use it in another way." -%}
+{%- endif -%}
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -5,6 +11,14 @@
 		<title>TTVStreamerTool &bull; {{ page.title }}</title>
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="{{ desc | escape }}">
+
+		<meta property="og:title" content="TTVStreamerTool &bull; {{ page.title }}">
+		<meta property="og:description" content="{{ desc | escape }}">
+		<meta property="og:image" content="https://ttvst.app/assets/img/logomark.png">
+		<meta property="og:image:width" content="300">
+		<meta property="og:image:height" content="283">
+
 
 		<link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
 	</head>
