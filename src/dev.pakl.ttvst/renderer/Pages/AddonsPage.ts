@@ -9,7 +9,7 @@ import { IAddon } from '../../main/Util/AddonsTypes';
 import { IStatusObject } from '../../main/Pages/StartpageTypes';
 
 import * as riot from 'riot';
-import AddonsPageCmp from '../../../../dist/dev.pakl.ttvst/renderer/UI/Addons/AddonsPage';
+import AddonsPageCmp, * as AddonsPageComp from '../../renderer/UI/Addons/AddonsPage';
 
 import _ttvst from '../TTVST';
 declare var TTVST: _ttvst;
@@ -17,7 +17,7 @@ declare var TTVST: _ttvst;
 class AddonsPage extends Page {
 	
 
-	private addonspage: riot.RiotComponent = null;
+	private addonspage: AddonsPageComp.Component = null;
 	private packageLists: Array<string> = [];
 
 	private addons: Array<IAddon> = [];
@@ -63,7 +63,7 @@ class AddonsPage extends Page {
 
 	content(): HTMLElement {
 		if(this.addonspage === null) {
-			let startpageCmpnt = riot.component<null, null>(AddonsPageCmp as any);
+			let startpageCmpnt = riot.component(AddonsPageCmp);
 			this.addonspage = startpageCmpnt(document.createElement('AddonsPage'));
 			this.addonspage.update({ addons: this.addons });
 			this.addonspage.setRepositoryCallback(this.onRepositoryChange);

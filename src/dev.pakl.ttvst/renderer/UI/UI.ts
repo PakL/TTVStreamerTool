@@ -1,11 +1,11 @@
 import { ipcRenderer } from 'electron';
 import * as riot from 'riot';
 
-import App from '../../../../dist/dev.pakl.ttvst/renderer/UI/Main/App';
-import Modal from '../../../../dist/dev.pakl.ttvst/renderer/UI/Main/Modal';
-import SettingsMenu from '../../../../dist/dev.pakl.ttvst/renderer/UI/Settings/SettingsMenu';
-import ActionSelect from '../../../../dist/dev.pakl.ttvst/renderer/UI/Broadcast/ActionSelect';
-import TriggerSelect from '../../../../dist/dev.pakl.ttvst/renderer/UI/Broadcast/TriggerSelect';
+import App, * as AppComp from './Main/App';
+import Modal, * as ModalComp from './Main/Modal';
+import SettingsMenu from './Settings/SettingsMenu';
+import ActionSelect, * as ActionSelectComp from './Broadcast/ActionSelect';
+import TriggerSelect, * as TriggerSelectComp from './Broadcast/TriggerSelect';
 
 import i18n from 'i18n-nodejs';
 
@@ -24,9 +24,9 @@ while(Color.hexToLuma(accentColor) < 0.6) {
 let steps = Math.floor((100 - accentBrightness) / 5);
 let accentColorRGB = Color.hexToRGB(accentColor);
 
-let modalCmpnt: any = null;
-let actionSelectCmpnt: any = null;
-let triggerSelectCmpnt: any = null;
+let modalCmpnt: (el: HTMLElement, props: ModalComp.ModalProps) => ModalComp.Component = null;
+let actionSelectCmpnt: (el: HTMLElement, props: ActionSelectComp.ActionSelectProps) => ActionSelectComp.Component = null;
+let triggerSelectCmpnt: (el: HTMLElement, props: TriggerSelectComp.TriggerSelectProps) => TriggerSelectComp.Component = null;
 
 export interface IModalButton {
 	key: string;
@@ -41,7 +41,7 @@ export default class UI {
 	private _openPage: Page = null;
 
 	private root: HTMLElement = null;
-	private app: riot.RiotComponent<null, null> = null;
+	private app: AppComp.Component = null;
 
 	private components: Array<riot.RiotComponent> = [];
 
@@ -52,12 +52,12 @@ export default class UI {
 			return comp;
 		});
 
-		let appCmpnt = riot.component<null, null>(App);
+		let appCmpnt = riot.component(App);
 		this.app = appCmpnt(document.createElement('App'));
 
-		modalCmpnt = riot.component<null, null>(Modal);
-		actionSelectCmpnt = riot.component<null, null>(ActionSelect);
-		triggerSelectCmpnt = riot.component<null, null>(TriggerSelect);
+		modalCmpnt = riot.component(Modal);
+		actionSelectCmpnt = riot.component(ActionSelect);
+		triggerSelectCmpnt = riot.component(TriggerSelect);
 
 		this.root = document.querySelector('#root');
 		this.root.appendChild(this.app.root);
@@ -130,7 +130,7 @@ export default class UI {
 			}
 
 			let modal = document.createElement('Modal');
-			let modalR: riot.RiotComponent = modalCmpnt(modal, {
+			let modalR = modalCmpnt(modal, {
 				content,
 				title,
 				icon,
@@ -157,12 +157,12 @@ export default class UI {
 
 			let modal = document.createElement('Modal');
 			let response = false;
-			let modalR: riot.RiotComponent = modalCmpnt(modal, {
+			let modalR = modalCmpnt(modal, {
 				content,
 				title,
 				icon,
 				buttons: [
-					{ key: 'ok', title: yesno ? 'Yes' : 'OK', callback: () => { response = true; } },
+					{ key: 'ok', title: yesno ? 'Yes' : 'OK', callback: () => { response = true; return true; } },
 					{ key: 'cancel', title: yesno ? 'No' : 'Cancel' }
 				],
 				onclose: () => {
@@ -177,7 +177,7 @@ export default class UI {
 
 	modal(content: Node | Array<Node>, title: string = '', icon: string, onclose?: () => void, buttons?: Array<IModalButton>, hideOnOob?: boolean): riot.RiotComponent {
 		let modal = document.createElement('Modal');
-		let modalR: riot.RiotComponent = modalCmpnt(modal, { content, title, icon, buttons, onclose, hideOnOob });
+		let modalR = modalCmpnt(modal, { content, title, icon, buttons, onclose, hideOnOob }) as riot.RiotComponent;
 		document.querySelector('body').appendChild(modalR.root);
 		return modalR;
 	}
@@ -185,16 +185,16 @@ export default class UI {
 	selectAction(channel: string = '', parameters: any[] = [], dynamicinput?: Array<{ value: string, param: IBroadcastArgument }>): Promise<{ channel: string, parameter: any[] }|null> {
 		return new Promise((res) => {
 			let select = document.createElement('ActionSelect');
-			let selectR: riot.RiotComponent = actionSelectCmpnt(select, { initchannel: channel, initparams: parameters, dynamicinput });
+			let selectR = actionSelectCmpnt(select, { initchannel: channel, initparams: parameters, dynamicinput });
 
 			let modal = document.createElement('Modal');
 			let response = false;
-			let modalR: riot.RiotComponent = modalCmpnt(modal, {
+			let modalR = modalCmpnt(modal, {
 				content: selectR.root,
 				title: 'Select Action',
 				icon: '',
 				buttons: [
-					{ key: 'ok', title: 'OK', callback: () => { response = true; } },
+					{ key: 'ok', title: 'OK', callback: () => { response = true; return true; } },
 					{ key: 'cancel', title: 'Cancel' }
 				],
 				onclose: () => {
@@ -205,7 +205,7 @@ export default class UI {
 					}
 				},
 				hideOnOob: false
-			});
+			}) as riot.RiotComponent;
 
 			document.querySelector('body').appendChild(modalR.root);
 		});
@@ -214,16 +214,16 @@ export default class UI {
 	selectTrigger(channel: string = ''): Promise<string|null> {
 		return new Promise((res) => {
 			let select = document.createElement('TriggerSelect');
-			let selectR: riot.RiotComponent = triggerSelectCmpnt(select, { initchannel: channel });
+			let selectR = triggerSelectCmpnt(select, { initchannel: channel });
 
 			let modal = document.createElement('Modal');
 			let response = false;
-			let modalR: riot.RiotComponent = modalCmpnt(modal, {
+			let modalR = modalCmpnt(modal, {
 				content: selectR.root,
 				title: 'Select Trigger',
 				icon: '',
 				buttons: [
-					{ key: 'ok', title: 'OK', callback: () => { response = true; } },
+					{ key: 'ok', title: 'OK', callback: () => { response = true; return true; } },
 					{ key: 'cancel', title: 'Cancel' }
 				],
 				onclose: () => {

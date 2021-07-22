@@ -3,7 +3,7 @@ import _ttvst from '../TTVST';
 
 import * as riot from 'riot';
 
-import SettingsMenu from '../../../../dist/dev.pakl.ttvst/renderer/UI/Settings/SettingsMenu';
+import SettingsMenu, * as SettingsMenuComp from '../UI/Settings/SettingsMenu';
 import SettingsConfig from '../UI/Settings/SettingsConfiguration';
 import { ISettingsSetProps } from '../UI/Settings/SettingsConfiguration';
 
@@ -11,7 +11,7 @@ declare var TTVST: _ttvst;
 
 class SettingsPage extends Page {
 
-	settingsCmpnt: riot.RiotComponent = null;
+	settingsCmpnt: SettingsMenuComp.Component = null;
 	settings: Array<ISettingsSetProps> = [];
 
 	constructor() {
@@ -25,7 +25,7 @@ class SettingsPage extends Page {
 	}
 
 	content(): HTMLElement {
-		let settCmpnt = riot.component<null, null>(SettingsMenu);
+		let settCmpnt = riot.component(SettingsMenu);
 		this.settingsCmpnt = settCmpnt(document.createElement('SettingsMenu'));
 
 		this.settingsCmpnt.setSettings(this.settings);

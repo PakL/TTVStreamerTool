@@ -50,3 +50,7 @@ jspm_packages
 /bin
 /.vscode
 /.vs
+/.update
+*.ifp
+/resources/*.exe
+/res/img/*.bmp

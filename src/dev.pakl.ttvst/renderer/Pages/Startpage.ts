@@ -7,7 +7,7 @@ import Broadcast from '../Broadcast';
 
 import * as riot from 'riot';
 
-import StartpageCmp from '../../../../dist/dev.pakl.ttvst/renderer/UI/Startpage/Startpage';
+import StartpageCmp, * as StartpageComp from '../UI/Startpage/Startpage';
 import { IStatusObject } from '../../main/Pages/StartpageTypes';
 
 
@@ -17,7 +17,7 @@ class Startpage extends Page {
 	lastHelixFailedRequests: number = 0;
 	helixFailedRequestsInRow: number = 0;
 
-	startpage: riot.RiotComponent = null;
+	startpage: StartpageComp.Component = null;
 
 	constructor() {
 		super('Startpage');
@@ -94,7 +94,7 @@ class Startpage extends Page {
 
 	content(): HTMLElement {
 		if(this.startpage === null) {
-			let startpageCmpnt = riot.component<null, null>(StartpageCmp);
+			let startpageCmpnt = riot.component(StartpageCmp);
 			this.startpage = startpageCmpnt(document.createElement('Startpage'));
 			this.startpage.setLoginCallback(this.onLogin);
 			this.startpage.setLogoutCallback(this.onLogout);
