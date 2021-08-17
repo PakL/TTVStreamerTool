@@ -10,13 +10,14 @@ declare var TTVST: TTVSTRenderer;
 
 const { Settings, Broadcast } = TTVST;
 const { SettingsMenu } = TTVST.ui;
+import * as SettingsMenuComp from '../../dist/dev.pakl.ttvst/renderer/UI/Settings/SettingsMenu';
 
 
 let folderListInputCmpnt: any = null;
 
 class OverlayPage extends TTVST.ui.Page {
 
-	settingsCmpnt: riot.RiotComponent = null;
+	settingsCmpnt: SettingsMenuComp.Component = null;
 	settings: Array<ISettingsSetProps> = [
 		{
 			label: "Host configuration",
@@ -105,7 +106,7 @@ class OverlayPage extends TTVST.ui.Page {
 	}
 
 	content(): HTMLElement {
-		let settCmpnt = riot.component<null, null>(SettingsMenu as { css: string, exports: any, template: () => any, name: string });
+		let settCmpnt = riot.component(SettingsMenu);
 		this.settingsCmpnt = settCmpnt(document.createElement('SettingsMenu'));
 
 		this.settingsCmpnt.setSettings(this.settings);
