@@ -19,6 +19,7 @@ let splashWin: SplashWindow = null;
 let TTVST: TTVSTMain = null;
 
 const logFormat = winston.format.printf((log) => {
+	if(typeof(log.message) !== 'string') log.message = JSON.stringify(log.message);
 	let msg = `${log.timestamp} [${log.level}] ${log.message}`;
 	if(typeof(log.stack) === 'string') {
 		let rows = log.stack.split('\n');
