@@ -16,7 +16,7 @@
 		<template if={ dynamicinput === null || !$('input[data-dynamic="' + parameter.label + '"]').checked }>
 			<input if={ parameter.type == 'number' } type="number" data-parameter={ parameter.label } id={ 'input_' + key } />
 			<input if={ parameter.type == 'string' } type="text" data-parameter={ parameter.label } id={ 'input_' + key } />
-			<input if={ parameter.type == 'boolean' } type="checkbox" data-parameter={ parameter.label } id={ 'input_' + key } />
+			<input if={ parameter.type == 'boolean' } type="checkbox" class="inputcheckbox" data-parameter={ parameter.label } id={ 'input_' + key } />
 			<div if={ parameter.type == 'file' } class="fileselect">
 				<input type="text" data-parameter={ parameter.label } id={ 'input_' + key } /><button onclick={ selectFile }><i class="ms-Icon ms-Icon--OpenFolderHorizontal"></i></button>
 			</div>
@@ -40,12 +40,16 @@
 	</label>
 
 	<style>
+		div.assoc {
+			clear: both;
+		}
 		div.assoc > .key {
 			display: inline-block;
 			width: 30%;
 		}
 		div.assoc > .spacer {
 			display: inline-block;
+			text-align: center;
 			width: 1%;
 		}
 		div.assoc > .value {
@@ -71,6 +75,9 @@
 		}
 		div.dynamiccheck > input::before {
 			font-size: 1.2em;
+		}
+		input.inputcheckbox {
+			float: left;
 		}
 	</style>
 	<script>
