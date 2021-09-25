@@ -29,8 +29,7 @@
 			},
 
 			onMounted(props, state) {
-				let riotSym = Object.getOwnPropertySymbols(this.$('logincomponent'))[0];
-				this.logincompRiot = this.$('logincomponent')[riotSym];
+				this.logincompRiot = global.TTVST.getRiotComponent(this.$('logincomponent'));
 			},
 
 			setLoginCallback(callback) {

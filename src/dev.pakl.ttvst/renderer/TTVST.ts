@@ -15,6 +15,7 @@ import SettingsPage from './Pages/SettingsPage';
 import ChangelogPage from './Pages/ChangelogPage';
 import AboutPage from './Pages/AboutPage';
 import ErrorsPage from './Pages/ErrorsPage';
+import { RiotComponent } from 'riot';
 
 class TTVST {
 
@@ -63,6 +64,15 @@ class TTVST {
 
 	get Broadcast(): typeof Broadcast {
 		return Broadcast;
+	}
+
+	getRiotComponent(component: HTMLElement): RiotComponent {
+		let syms = Object.getOwnPropertySymbols(component);
+		for(let s of syms) {
+			if(s.description == 'riot-component') {
+				return (component as any)[s] as RiotComponent;
+			}
+		}
 	}
 
 }

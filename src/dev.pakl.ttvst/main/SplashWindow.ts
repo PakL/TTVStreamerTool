@@ -33,7 +33,7 @@ class SplashWindow extends EventEmitter {
 			skipTaskbar: true,
 			webPreferences: {
 				nodeIntegration: true, contextIsolation: false,
-				webviewTag: false, worldSafeExecuteJavaScript: true, enableRemoteModule: false
+				webviewTag: false
 			},
 			show: false
 		});

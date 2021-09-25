@@ -29,8 +29,8 @@ class WindowState {
 	filePath: string;
 
 	constructor(options: IWindowStateOptions) {
-		_app = electron.app || electron.remote.app
-		_screen = electron.screen || electron.remote.screen
+		_app = electron.app
+		_screen = electron.screen
 
 		let pScreen = _screen.getPrimaryDisplay().bounds
 

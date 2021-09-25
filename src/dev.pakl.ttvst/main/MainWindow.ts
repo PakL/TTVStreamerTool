@@ -36,7 +36,7 @@ class MainWindow extends EventEmitter {
 			icon: path.join(__dirname, '../../../res/img/icon.ico'),
 			webPreferences: {
 				nodeIntegration: true, contextIsolation: false,
-				webviewTag: true, worldSafeExecuteJavaScript: true, enableRemoteModule: false
+				webviewTag: true
 			},
 			show: false
 		});
