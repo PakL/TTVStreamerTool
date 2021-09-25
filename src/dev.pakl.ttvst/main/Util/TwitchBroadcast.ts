@@ -278,10 +278,7 @@ class TwitchBroadcast {
 
 		let response = '';
 		try {
-			response = (await this.getStreamAPIProperty(channel, 'title') as string);
-			if(response.length == 0) {
-				response = (await this.getChannelAPIProperty(channel, 'title') as string);
-			}
+			response = (await this.getChannelAPIProperty(channel, 'title') as string);
 		} catch(e) {
 			logger.error(e);
 		}
@@ -296,10 +293,7 @@ class TwitchBroadcast {
 
 		let response = '';
 		try {
-			response = (await this.getStreamAPIProperty(channel, 'game_name') as string);
-			if(response.length == 0) {
-				response = (await this.getChannelAPIProperty(channel, 'game_name') as string);
-			}
+			response = (await this.getChannelAPIProperty(channel, 'game_name') as string);
 		} catch(e) {
 			logger.error(e);
 		}
