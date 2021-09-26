@@ -28,7 +28,7 @@ class Startpage extends Page {
 
 		let loginOnStartup = Settings.getBoolean('ttvst.global.loginonstartup', true);
 		if(loginOnStartup) {
-			let token = Settings.getString('tw_auth_token', '');
+			let token = this.getToken();
 			this.validateAndGetUserInfo(token).catch((e) => {
 				console.error(e);
 			});
@@ -42,8 +42,21 @@ class Startpage extends Page {
 		return 'Home';
 	}
 
+	private getToken(): string {
+		let token = Settings.getString('ttvst.global.twitch_token', '', false, true);
+		if(token.length <= 0) {
+			// check on old token
+			token = Settings.getString('tw_auth_token', '');
+			if(token.length > 0) {
+				Settings.setString('ttvst.global.twitch_token', token, false, true);
+				localStorage.removeItem('tw_auth_token');
+			}
+		}
+		return token;
+	}
+
 	async onLogin() {
-		let token = Settings.getString('tw_auth_token', '');
+		let token = this.getToken();
 		try {
 			if(await this.validateAndGetUserInfo(token)) {
 				return;
@@ -66,7 +79,7 @@ class Startpage extends Page {
 
 	async onLogout() {
 		await ipcRenderer.invoke('cockpit.logout');
-		Settings.setString('tw_auth_token', '');
+		Settings.setString('ttvst.global.twitch_token', '', false, true);
 	}
 
 	async validateAndGetUserInfo(token: string): Promise<boolean> {
@@ -74,7 +87,7 @@ class Startpage extends Page {
 
 		let validation: Helix.IAPIHelixValidation = await ipcRenderer.invoke('cockpit.check-login', token);
 		if(typeof(validation.login) === 'string') {
-			Settings.setString('tw_auth_token', token);
+			Settings.setString('ttvst.global.twitch_token', token, false, true);
 			let users: Helix.IAPIHelixUserList = await ipcRenderer.invoke('cockpit.get-user');
 			if(users.data.length >= 1) {
 				let user = users.data[0];
