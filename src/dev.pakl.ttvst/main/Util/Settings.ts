@@ -1,4 +1,4 @@
-import { app, ipcMain } from 'electron';
+import { app, ipcMain, safeStorage } from 'electron';
 import TTVSTMain from '../TTVSTMain';
 
 const availableLanguages = ['en', 'de']
@@ -7,6 +7,13 @@ declare var TTVST: TTVSTMain;
 
 ipcMain.on('app.getLocale', (event: Electron.IpcMainEvent) => {
 	event.returnValue = app.getLocale();
+});
+
+ipcMain.on('safeStorage.decryptString', (event: Electron.IpcMainEvent, item: string) => {
+	event.returnValue = safeStorage.decryptString(Buffer.from(item, 'base64'));
+});
+ipcMain.on('safeStorage.encryptString', (event: Electron.IpcMainEvent, value: string) => {
+	event.returnValue = safeStorage.encryptString(value).toString('base64');
 });
 
 const createRequestId = () => {
@@ -46,25 +53,25 @@ export function setBoolean(name: string, value: boolean, session: boolean = fals
 	});
 }
 
-export function getString(name: string, defaultValue: string, session: boolean = false): Promise<string> {
+export function getString(name: string, defaultValue: string, session: boolean = false, secure: boolean = false): Promise<string> {
 	if(typeof(TTVST) === 'undefined' || TTVST.mainWindow === null || TTVST.mainWindow.window === null) return Promise.resolve(defaultValue);
 	return new Promise((resolve) => {
 		let rid = createRequestId();
 		ipcMain.once(`Settings.gotString.${name}.${rid}`, (event, value: string) => {
 			resolve(value);
 		});
-		TTVST.mainWindow.ipcSend('Settings.getString', rid, name, defaultValue, session);
+		TTVST.mainWindow.ipcSend('Settings.getString', rid, name, defaultValue, session, secure);
 	});
 }
 
-export function setString(name: string, value: string, session: boolean = false): Promise<string> {
+export function setString(name: string, value: string, session: boolean = false, secure: boolean = false): Promise<string> {
 	if(typeof(TTVST) === 'undefined' || TTVST.mainWindow === null || TTVST.mainWindow.window === null) return Promise.resolve(value);
 	return new Promise((resolve) => {
 		let rid = createRequestId();
 		ipcMain.once(`Settings.sotString.${name}.${rid}`, (event, value: string) => {
 			resolve(value);
 		});
-		TTVST.mainWindow.ipcSend('Settings.setString', rid, name, value, session);
+		TTVST.mainWindow.ipcSend('Settings.setString', rid, name, value, session, secure);
 	});
 }
 

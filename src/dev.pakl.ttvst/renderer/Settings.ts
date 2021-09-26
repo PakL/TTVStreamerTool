@@ -11,11 +11,11 @@ ipcRenderer.on('Settings.getBoolean', (event, rid: string, name: string, default
 ipcRenderer.on('Settings.setBoolean', (event, rid: string, name: string, value: boolean, session: boolean = false) => {
 	ipcRenderer.send(`Settings.sotBoolean.${name}.${rid}`, setBoolean(name, value, session));
 });
-ipcRenderer.on('Settings.getString', (event, rid: string, name: string, defaultValue: string, session: boolean = false) => {
-	ipcRenderer.send(`Settings.gotString.${name}.${rid}`, getString(name, defaultValue, session));
+ipcRenderer.on('Settings.getString', (event, rid: string, name: string, defaultValue: string, session: boolean = false, secure: boolean = false) => {
+	ipcRenderer.send(`Settings.gotString.${name}.${rid}`, getString(name, defaultValue, session, secure));
 });
-ipcRenderer.on('Settings.setString', (event, rid: string, name: string, value: string, session: boolean = false) => {
-	ipcRenderer.send(`Settings.sotString.${name}.${rid}`, setString(name, value, session));
+ipcRenderer.on('Settings.setString', (event, rid: string, name: string, value: string, session: boolean = false, secure: boolean = false) => {
+	ipcRenderer.send(`Settings.sotString.${name}.${rid}`, setString(name, value, session, secure));
 });
 ipcRenderer.on('Settings.getJSON', (event, rid: string, name: string, defaultValue: Object, session: boolean = false) => {
 	ipcRenderer.send(`Settings.gotJSON.${name}.${rid}`, getJSON(name, defaultValue, session));
@@ -75,13 +75,18 @@ export function setBoolean(name: string, value: boolean, session: boolean = fals
  * @param {String} name Name of the localStorage value
  * @param {String} defaultValue The default value you want returned if storage value was not found
  * @param {Boolean} [session=false] use sessionStorage instead
+ * @param {Boolean} [secure=false] content is secured via safeStorage
  * @returns {String}
  */
-export function getString(name: string, defaultValue: string, session: boolean = false): string {
+export function getString(name: string, defaultValue: string, session: boolean = false, secure: boolean = false): string {
 	if(typeof(session) !== 'boolean') session = false;
 	if(name.length <= 0) return defaultValue;
 	let item = window[session ? 'sessionStorage' : 'localStorage'].getItem(name);
 	if(item != null) {
+		try {
+			
+			if(secure) item = ipcRenderer.sendSync('safeStorage.decryptString', item);
+		} catch(e) { return defaultValue; }
 		return item;
 	}
 
@@ -94,9 +99,11 @@ export function getString(name: string, defaultValue: string, session: boolean =
  * @param {String} name Name of the localStorage value
  * @param {String} value The value you want to set
  * @param {Boolean} [session=false] use sessionStorage instead
+ * @param {Boolean} [secure=false] content will be secured via safeStorage
  */
-export function setString(name: string, value: string, session: boolean = false) {
+export function setString(name: string, value: string, session: boolean = false, secure: boolean = false) {
 	if(typeof(session) !== 'boolean') session = false;
+	if(secure) value = ipcRenderer.sendSync('safeStorage.encryptString', value);
 	window[session ? 'sessionStorage' : 'localStorage'].setItem(name, value);
 }
 
