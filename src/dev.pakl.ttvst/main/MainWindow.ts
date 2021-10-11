@@ -1,4 +1,4 @@
-import { BrowserWindow, ipcMain, systemPreferences, dialog, IpcMainEvent, WillNavigateEvent, webContents, Tray, Menu, nativeImage, Notification } from 'electron';
+import { BrowserWindow, ipcMain, systemPreferences, dialog, IpcMainEvent, WillNavigateEvent, webContents, Tray, Menu, nativeImage, Notification, app } from 'electron';
 import { EventEmitter } from 'events';
 import * as url from 'url';
 import * as path from 'path';
@@ -50,6 +50,7 @@ class MainWindow extends EventEmitter {
 		this.window.once('show', this.onShow.bind(this));
 		this.window.on('close', this.onClose.bind(this));
 		this.window.on('closed', this.onClosed.bind(this));
+		app.once('before-quit', this.onBeforeQuit.bind(this));
 
 		this.window.webContents.on('will-navigate', this.onContentWillNavigate.bind(this));
 		
@@ -121,6 +122,10 @@ class MainWindow extends EventEmitter {
 	private onTrayClose() {
 		this.realclose = true;
 		this.window.close();
+	}
+
+	private onBeforeQuit() {
+		this.realclose = true;
 	}
 
 	private onClose(e: Electron.Event) {
