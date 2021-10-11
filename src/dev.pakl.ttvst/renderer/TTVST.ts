@@ -44,6 +44,11 @@ class TTVST {
 		this._ui.addPage(new ErrorsPage(), true);
 		this._ui.addPage(new ChangelogPage(), true);
 		this._ui.addPage(new AboutPage(), true);
+
+		const self = this;
+		ipcRenderer.on('i18n', (event, rid: string, text: string, values?: { [key: string] : string|number }) => {
+			ipcRenderer.send(`i18n.${rid}.${text}`, self.i18n.__(text, values));
+		});
 	}
 
 	get i18n(): i18n {

@@ -346,5 +346,14 @@
 	},
 	"(User who recieved subscription - might be the same as user_login) The unformatted user name": {
 		"de": "(Nutzer, der das Abonnement erhalten hat - kann derselbe sein wie user_login) Der unformatierte Benutzername"
+	},
+	"Open": {
+		"de": "Öffnen"
+	},
+	"Close": {
+		"de": "Schließen"
+	},
+	"The application is still running in the background. Right click on the tray icon to close it.": {
+		"de": "Die Applikation wird weiter im Hintergrund ausgeführt. Rechtsklick auf das Tray-Icon um sie zu schließen."
 	}
 }

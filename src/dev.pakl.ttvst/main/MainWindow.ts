@@ -1,17 +1,22 @@
-import { BrowserWindow, ipcMain, systemPreferences, dialog, IpcMainEvent, WillNavigateEvent, webContents } from 'electron';
+import { BrowserWindow, ipcMain, systemPreferences, dialog, IpcMainEvent, WillNavigateEvent, webContents, Tray, Menu, nativeImage, Notification } from 'electron';
 import { EventEmitter } from 'events';
 import * as url from 'url';
 import * as path from 'path';
 
+import TTVSTMain from './TTVSTMain';
 import { WindowState } from './Util/WindowState';
 import winston from 'winston';
 
+declare var TTVST: TTVSTMain;
 declare var logger: winston.Logger;
 
 class MainWindow extends EventEmitter {
 
 	state: WindowState = null;
 	window: BrowserWindow = null;
+	tray: Tray = null;
+	realclose: boolean = false;
+	trayInfoNotification: boolean = false;
 
 	constructor() {
 		super();
@@ -42,7 +47,8 @@ class MainWindow extends EventEmitter {
 		});
 
 		this.window.once('ready-to-show', this.onReadyToShow.bind(this))
-		this.window.on('show', this.onShow.bind(this));
+		this.window.once('show', this.onShow.bind(this));
+		this.window.on('close', this.onClose.bind(this));
 		this.window.on('closed', this.onClosed.bind(this));
 
 		this.window.webContents.on('will-navigate', this.onContentWillNavigate.bind(this));
@@ -86,12 +92,62 @@ class MainWindow extends EventEmitter {
 		if(process.env.NODE_ENV === 'development') {
 			this.window.webContents.openDevTools();
 		}
+
+		new Promise<void>(async (res) => {
+			let trayIcon = nativeImage.createFromPath(path.join(__dirname, '../../../res/img/icon.ico'));
+			this.tray = new Tray(trayIcon);
+			let trayMenu = Menu.buildFromTemplate([
+				{ label: await TTVST.i18n.__('Open'), type: 'normal', click: this.onTrayOpen.bind(this) },
+				{ label: await TTVST.i18n.__('Close'), type: 'normal', click: this.onTrayClose.bind(this) }
+			]);
+			this.tray.setContextMenu(trayMenu);
+			this.tray.setTitle('TTVStreamerTool');
+			this.tray.setToolTip('TTVStreamerTool');
+			this.tray.on('click', this.onTrayOpen.bind(this));
+			res();
+		});
+
 		this.emit('show');
+	}
+
+	private onTrayOpen() {
+		if(this.window.isVisible()) {
+			this.window.focus();
+		} else {
+			this.window.show();
+		}
+	}
+
+	private onTrayClose() {
+		this.realclose = true;
+		this.window.close();
+	}
+
+	private onClose(e: Electron.Event) {
+		if(!this.realclose) {
+			e.preventDefault();
+			this.window.hide();
+			if(!this.trayInfoNotification) {
+				new Promise<void>(async (res) => {
+					let n = new Notification({
+						title: 'TTVStreamerTool',
+						body: await TTVST.i18n.__('The application is still running in the background. Right click on the tray icon to close it.'),
+						icon: nativeImage.createFromPath(path.join(__dirname, '../../../res/img/icon.ico')),
+						silent: true
+					});
+					n.show();
+					res();
+				});
+				this.trayInfoNotification = true;
+			}
+		}
 	}
 
 	private onClosed() {
 		if(this.window === null) return;
 		this.window = null;
+		this.tray.destroy();
+		this.tray = null;
 	}
 
 	private onRequestAccentColor(_event: IpcMainEvent) {

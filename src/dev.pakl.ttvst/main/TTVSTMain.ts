@@ -11,6 +11,7 @@ import PubSub from './Twitch/PubSub';
 import BroadcastMain from './BroadcastMain';
 import Addons from './Util/Addons';
 import * as Settings from './Util/Settings';
+import * as i18n from './Util/I18n';
 
 import TwitchBroadcast from './Util/TwitchBroadcast';
 
@@ -26,6 +27,7 @@ export default class TTVSTMain {
 	private _startpage: Startpage = null;
 	private _addons: Addons = null;
 
+	private _i18n: { __: typeof i18n.__ } = null;
 
 	private _dateformat: typeof dateFormat;
 	private _dateformatI18n: { [lang: string]: DateFormatI18n };
@@ -45,6 +47,7 @@ export default class TTVSTMain {
 		Settings.getBoolean('helloworld', false);
 		this.initTwitch();
 		this.initApp();
+		this._i18n = i18n;
 	}
 
 	private initTwitch() {
@@ -75,6 +78,10 @@ export default class TTVSTMain {
 		this._pubsub = new PubSub();
 
 		this._ttvbroadcast = new TwitchBroadcast();
+	}
+
+	get i18n(): typeof i18n {
+		return this._i18n;
 	}
 
 	get helix(): APIHelix {
