@@ -57,8 +57,11 @@ label.win10-switch {
 			content: 'An';
 		}
 	}
+	&.inputblock input[type=checkbox] {
+		display: block;
+	}
 }
-settingsinput > label.win10-switch, modal .form > label.win10-switch, modal .form > * > label.win10-switch {
+settingsinput > label.win10-switch.inputblock, modal .form > label.win10-switch.inputblock, modal .form > * > label.win10-switch.inputblock {
 	input[type=checkbox] {
 		&+ span::before {
 			position: absolute;
