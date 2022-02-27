@@ -11,12 +11,12 @@ import fontList from 'font-list';
 
 import TTVSTMain from '../../dist/dev.pakl.ttvst/main/TTVSTMain';
 
-import { ipcMain } from 'electron';
+import { ipcMain, Notification } from 'electron';
 import { setInterval } from 'timers';
 
 declare var logger: winston.Logger;
 declare var TTVST: TTVSTMain;
-const { Settings, BroadcastMain } = TTVST;
+const { Settings, BroadcastMain, iconpath } = TTVST;
 
 let disconnectedButtons = [{ icon: 'PlugConnected', action: 'app.ttvst.overlayhost.listen', title: 'Connect' }];
 let connectedButtons = [{ icon: 'PlugDisconnected', action: 'app.ttvst.overlayhost.close', title: 'Disconnect' }];
@@ -366,6 +366,22 @@ class OverlayHost {
 			fsAllowed = fsAllowed && (Object.keys(this.mimeTypes).indexOf(fsfileEnding) >= 0);
 
 			if(!fsAllowed) {
+				new Promise<void>(async (res) => {
+					let notifFilename = fsFile;
+					if(notifFilename.length > 50) {
+						notifFilename = notifFilename.substring(0, 3) + '…' + notifFilename.substring(notifFilename.length-45);
+					}
+					let n = new Notification({
+						title: 'TTVStreamerTool',
+						body: await TTVST.i18n.__('Access to {{afile}} was denied. Check allowed file sources in the Overlay addon settings.', {afile: notifFilename}),
+						icon: iconpath,
+						silent: false
+					});
+					n.show();
+					res();
+				});
+
+
 				logger.verbose('[Overlay][HTTP] < 403, Content-Length: 0');
 				response.writeHead(403, { 'Content-Length': 0 });
 				response.end();

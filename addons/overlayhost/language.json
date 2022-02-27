@@ -271,5 +271,8 @@
 	},
 	"Allowed file sources": {
 		"de": "Erlaubte Dateiquellen"
+	},
+	"Access to {{afile}} was denied. Check allowed file sources in the Overlay addon settings.": {
+		"de": "Zugriff auf {{afile}} verweigert. Überprüfe erlaubte Dateiquellen in den Overlay-Addon-Einstellungen."
 	}
 }
