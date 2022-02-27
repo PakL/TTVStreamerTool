@@ -7,6 +7,8 @@ require('app-module-path').addPath(path.join(__dirname, '..', 'node_modules'));
 
 import winston from 'winston';
 
+import updateExtract from './updateextract';
+
 import MainWindow from './dev.pakl.ttvst/main/MainWindow';
 import SplashWindow from './dev.pakl.ttvst/main/SplashWindow';
 import * as SassLoader from './dev.pakl.ttvst/main/Util/SassLoader';
@@ -97,6 +99,10 @@ async function main() {
 	logger.verbose('Waiting for app to be ready...');
 	await app.whenReady();
 	
+	if(updateExtract.checkForSFX()) {
+		updateExtract.startExtracting();
+		return;
+	}
 
 	mainWin = new MainWindow();
 	let mainBounds = mainWin.getBounds();
