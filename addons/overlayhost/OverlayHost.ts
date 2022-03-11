@@ -27,7 +27,6 @@ const fsread = util.promisify(fs.read);
 
 class FileHandleHandler {
 
-	static fileStats: { [filepath: string]: fs.Stats } = {};
 	static fileHandles: { [filepath: string]: number } = {};
 	static lastAccess: { [filepath: string]: number } = {};
 
@@ -35,13 +34,8 @@ class FileHandleHandler {
 
 	static async prepareFile(path: string): Promise<fs.Stats|false> {
 		path = path.toLowerCase();
-		if(typeof(FileHandleHandler.fileStats[path]) !== 'undefined') {
-			await FileHandleHandler.getHandle(path);
-			return FileHandleHandler.fileStats[path];
-		}
 		try {
 			let stat = await fsstat(path);
-			FileHandleHandler.fileStats[path] = stat;
 			await FileHandleHandler.getHandle(path);
 			return stat;
 		} catch(e) {
@@ -133,7 +127,6 @@ class FileHandleHandler {
 				}
 				delete FileHandleHandler.lastAccess[keys[i]];
 				delete FileHandleHandler.fileHandles[keys[i]];
-				delete FileHandleHandler.fileStats[keys[i]];
 			}
 		}
 	}
