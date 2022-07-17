@@ -13,7 +13,8 @@
 		},
 		"removeComments": true,
 		"resolveJsonModule": true,
-		"declaration": false
+		"declaration": false,
+		"strictNullChecks": false
 	},
 	"include": [
 		"addons/**/*"

@@ -13,7 +13,8 @@
 		},
 		"removeComments": true,
 		"resolveJsonModule": true,
-		"declaration": true
+		"declaration": true,
+		"strictNullChecks": false
 	},
 	"include": [
 		"src/**/*"
