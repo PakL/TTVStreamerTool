@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  UPDATE: OBS 28 Update
+title:  "[UPDATE]: OBS 28 Update"
 date:   2022-10-13 20:00:00 +0200
 author: PakL
 categories: ['Issues','obsremote']
