@@ -1,5 +1,5 @@
 import got, { Method, Response } from 'got';
-import url from 'url';
+import { URL } from 'url';
 import * as T from './APIHelixTypes';
 import IpcEventEmitter from '../Util/IpcEventEmitter';
 import winston from 'winston';
@@ -160,9 +160,9 @@ export default class TwitchHelix extends IpcEventEmitter {
 
 		let overridehost = 'api.twitch.tv';
 		if(uri.startsWith('https://')) {
-			let parsedurl = url.parse(uri);
+			let parsedurl = new URL(uri);
 			overridehost = parsedurl.hostname;
-			uri = parsedurl.path;
+			uri = parsedurl.pathname;
 
 			if(overridehost === 'id.twitch.tv') {
 				headers['Authorization'] = headers['Authorization'].replace(/^Bearer/, 'OAuth');
@@ -194,7 +194,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 			};
 			if(Object.keys(postdata).length > 0) {
 				requestOptions.method = 'PUT';
-				requestOptions.body = postdata;
+				requestOptions.json = postdata;
 			}
 			if(method.length > 0) requestOptions.method = method.toUpperCase();
 			got(requestURL, requestOptions).then((response: Response<T.IAPIHelixResponse>) => {
@@ -557,4 +557,109 @@ export default class TwitchHelix extends IpcEventEmitter {
 		}
 		return this.requestAPI(uri, opt, true, post, true, 'PATCH');
 	}
+
+	/**
+	 * Gets a list of polls that the broadcaster created.
+	 * Polls are available for 90 days after they’re created.
+	 * 
+	 * @see {@link https://dev.twitch.tv/docs/api/reference#get-polls}
+	 */
+	getPoll(id?: string|string[], first?: number, after?: string): Promise<T.IAPIHelixGetPollsResponse> {
+		let uri = '/helix/polls';
+		let opt: { [key: string]: string|string[] } = {};
+
+		opt.broadcaster_id = this.userobj.id;
+		if((typeof(id) === 'string' || (typeof(id) === 'object' && Array.isArray(id))) && id.length > 0) opt.id = id;
+		if(typeof(first) === 'number') opt.first = first.toString();
+		if(typeof(after) === 'string') opt.after = after;
+
+		return this.requestAPI(uri, opt, true);
+	}
+
+	/**
+	 * Creates a poll that viewers in the broadcaster’s channel can vote on.
+	 * The poll begins as soon as it’s created. You may run only one poll at a time.
+	 * 
+	 * @see {@link https://dev.twitch.tv/docs/api/reference#create-poll}
+	 */
+	createPoll(title: string, choices: string[], duration: number, channel_points_voting_enabled?: boolean, channel_points_per_vote?: number): Promise<T.IAPIHelixCreatePollResponse> {
+		let uri = '/helix/polls';
+		let post: { [key: string]: string|number|boolean|object } = {};
+
+		post.broadcaster_id = this.userobj.id;
+		if(typeof(title) === 'string' && title.length > 0) post.title = title;
+		if(typeof(choices) === 'object' && Array.isArray(choices)) post.choices = choices.map((v) => { return { title: v } });
+		if(typeof(duration) === 'number') post.duration = duration;
+		if(typeof(channel_points_voting_enabled) === 'boolean') post.channel_points_voting_enabled = channel_points_voting_enabled;
+		if(typeof(channel_points_per_vote) === 'number' && typeof(channel_points_voting_enabled) === 'boolean' && channel_points_voting_enabled) post.channel_points_per_vote = channel_points_per_vote;
+
+		if(typeof(post.title) !== 'string' || typeof(post.choices) !== 'object' || typeof(post.duration) !== 'number') {
+			return Promise.reject(new Error('title, choices and duration must not be empty'));
+		}
+		if(!Array.isArray(post.choices) || post.choices.length < 2) return Promise.reject(new Error('choices must have at least 2 entries'));
+		if(post.duration < 15 || post.duration > 1800) return Promise.reject(new Error('duration must be between 15 and 1800'));
+		if(typeof(post.channel_points_per_vote) === 'number') {
+			if(post.channel_points_per_vote < 1) post.channel_points_per_vote = 1;
+			if(post.channel_points_per_vote > 1000000) post.channel_points_per_vote = 1000000;
+		}
+		return this.requestAPI(uri, {}, true, post, true, 'POST');
+	}
+
+	/**
+	 * Ends an active poll. You have the option to end it or end it and archive it.
+	 * 
+	 * @see {@link https://dev.twitch.tv/docs/api/reference#end-poll}
+	 */
+	endPoll(id: string, status: 'TERMINATED'|'ARCHIVED'): Promise<T.IAPIHelixEndPollResponse> {
+		let uri = '/helix/polls';
+		let post: { [key: string]: string|number|boolean|object } = {};
+
+		post.broadcaster_id = this.userobj.id;
+		if(typeof(id) === 'string' && id.length > 0) post.id = id;
+		if(typeof(status) === 'string' && (status === 'TERMINATED' || status === 'ARCHIVED')) post.status = status;
+
+		if(typeof(post.id) !== 'string' || typeof(post.status) !== 'string') {
+			return Promise.reject(new Error('id and status must not be empty'));
+		}
+		return this.requestAPI(uri, {}, true, post, true, 'PATCH');
+	}
+
+	/**
+	 * Sends an announcement to the broadcaster’s chat room.
+	 * 
+	 * @see {@link https://dev.twitch.tv/docs/api/reference#send-chat-announcement}
+	 */
+	sendChatAnnouncement(message: string, color?: 'blue'|'green'|'orange'|'purple'|'primary'): Promise<T.IAPIHelixResponse> {
+		let uri = '/helix/polls';
+		let opt: { [key: string]: string|string[] } = {};
+		let post: { [key: string]: string|number|boolean|object } = {};
+
+		opt.broadcaster_id = this.userobj.id;
+		opt.moderator_id = this.userobj.id;
+		if(typeof(message) === 'string' && message.length > 0) post.message = message;
+		if(typeof(color) === 'string' && ['blue','green','orange','purple','primary'].indexOf(color) >= 0) post.color = color;
+
+		if(typeof(post.message) !== 'string') {
+			return Promise.reject(new Error('message must not be empty'));
+		}
+		return this.requestAPI(uri, opt, true, post, true, 'POST');
+	}
+
+	/**
+	 * Creates an EventSub subscription.
+	 * 
+	 * @see {@link https://dev.twitch.tv/docs/api/reference#create-eventsub-subscription}
+	 */
+	createEventsubSubscription<K extends keyof T.IAPIHelixEventsubSubscriptionTypes>(type: K, version: string, condition: T.IAPIHelixEventsubSubscriptionTypes[K], transport: T.IAPIHelixEventsubSubscriptionTransport): Promise<T.IAPIHelixCreateEventsubSubscriptionResponse<K>> {
+		let uri = '/helix/eventsub/subscriptions';
+		let post: { [key: string]: string|number|boolean|object } = {};
+
+		post.type = type;
+		post.version = version;
+		post.condition = condition;
+		post.transport = transport;
+
+		return this.requestAPI(uri, {}, true, post, true, 'POST');
+	}
+
 }

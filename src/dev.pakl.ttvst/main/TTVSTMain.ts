@@ -8,6 +8,7 @@ import APIHelix from './Twitch/APIHelix';
 import Startpage from './Pages/Startpage';
 import TMI from './Twitch/TMI';
 import PubSub from './Twitch/PubSub';
+import EventSub from './Twitch/EventSub';
 import BroadcastMain from './BroadcastMain';
 import Addons from './Util/Addons';
 import * as Settings from './Util/Settings';
@@ -22,6 +23,7 @@ export default class TTVSTMain {
 	private _helix: APIHelix = null;
 	private _tmi: TMI = null;
 	private _pubsub: PubSub;
+	private _eventsub: EventSub;
 	private _ttvbroadcast: TwitchBroadcast = null;
 
 	private _startpage: Startpage = null;
@@ -55,27 +57,40 @@ export default class TTVSTMain {
 			clientid: '11vhuxdssb9pc3s2uqpa7s3s0252hyk',
 			redirectUri: 'http://localhost:8086/',
 			scope: [
-				'user:read:email',
 				'chat:read',
 				'chat:edit',
+				'channel:moderate',
+
 				'whispers:read',
 				'whispers:edit',
-				'user:edit:broadcast',
-				'channel:read:subscriptions',
-				'channel:read:redemptions',
+
+				'user:read:email',
+
+				'channel:edit:commercial',
+				'channel:manage:broadcast',
+				'channel:manage:polls',
+				'channel:manage:predictions',
+				'channel:manage:raids',
 				'channel:manage:redemptions',
-				'channel:moderate',
+				'channel:read:polls',
+				'channel:read:predictions',
+				'channel:read:redemptions',
+				'channel:read:subscriptions',
+
 				'moderation:read',
-				'user_read',
-				'channel_check_subscription',
-				'channel_editor',
-				'channel_read',
-				'channel_commercial'
+				'moderator:manage:announcements',
+				'moderator:manage:banned_users',
+				'moderator:read:blocked_terms',
+				'moderator:manage:blocked_terms',
+				'moderator:manage:chat_messages',
+				'moderator:read:chat_settings',
+				'moderator:manage:chat_settings'
 			]
 		});
 
 		this._tmi = new TMI();
-		this._pubsub = new PubSub();
+		//this._pubsub = new PubSub();
+		this._eventsub = new EventSub();
 
 		this._ttvbroadcast = new TwitchBroadcast();
 	}
@@ -92,8 +107,8 @@ export default class TTVSTMain {
 		return this._tmi;
 	}
 
-	get pubsub(): PubSub {
-		return this._pubsub;
+	get eventsub(): EventSub {
+		return this._eventsub;
 	}
 
 	private initApp() {

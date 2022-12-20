@@ -2,6 +2,7 @@ import TMI from '../Twitch/TMI';
 import * as T from '../Twitch/TMITypes';
 import APIHelix from '../Twitch/APIHelix';
 import * as H from '../Twitch/APIHelixTypes';
+import * as E from '../Twitch/EventSubTypes';
 
 import TTVSTMain from '../TTVSTMain';
 import Broadcast, { IBroadcastAction, IBroadcastTrigger } from '../BroadcastMain';
@@ -51,6 +52,16 @@ const _trigger: IBroadcastTrigger[] = [{
 		{ label: 'user_name', description: 'By the user formatted user name with uppercase or localization', type: 'string' },
 		{ label: 'recipient_login', description: '(User who recieved subscription - might be the same as user_login) The unformatted user name', type: 'string' },
 		{ label: 'recipient_name', description: 'By the user formatted user name with uppercase or localization', type: 'string' }
+	]
+}, {
+	label: 'Channel follow',
+	description: 'When a user follows your channel',
+	channel: 'app.ttvst.eventsub.channel.follow',
+	addon: 'Twitch',
+	arguments: [
+		{ label: 'user_id', description: 'The user id', type: 'string' },
+		{ label: 'user_login', description: 'The unformatted user name', type: 'string' },
+		{ label: 'user_name', description: 'By the user formatted user name with uppercase or localization', type: 'string' }
 	]
 }];
 
@@ -117,7 +128,8 @@ class TwitchBroadcast {
 
 		this.tmi.on('message', this.onTMIMessage.bind(this));
 		this.tmi.on('usernotice', this.onTMIUsernotice.bind(this));
-		TTVST.pubsub.on('reward-redeemed', this.onPubsubReward.bind(this));
+		TTVST.eventsub.on('channel.channel_points_custom_reward_redemption.add', this.onEventsubReward.bind(this));
+		TTVST.eventsub.on('channel.follow', this.onEventsubFollow.bind(this));
 
 		Broadcast.instance.on('app.ttvst.tmi.sendMessage', this.onTMISendMessage.bind(this));
 		Broadcast.instance.on('app.ttvst.helix.getStream', this.onHelixGetStreamTitle.bind(this));
@@ -129,7 +141,7 @@ class TwitchBroadcast {
 	}
 
 	onTMIMessage(msg: T.TMIMessage) {
-		if(TTVST.helix.userobj === null || typeof(TTVST.helix.userobj.login) !== 'string' || TTVST.helix.userobj.login !== msg.channel) return;
+		if(this.helix.userobj === null || typeof(this.helix.userobj.login) !== 'string' || this.helix.userobj.login !== msg.channel) return;
 		let dispName = msg.user;
 		if(typeof(msg.tags['display-name']) === 'string' && msg.tags['display-name'].length > 0) dispName = msg.tags['display-name'];
 
@@ -152,7 +164,7 @@ class TwitchBroadcast {
 	}
 
 	onTMIUsernotice(channel: string, tags: T.TMITagsUsernotice, message: string) {
-		if(TTVST.helix.userobj === null || typeof(TTVST.helix.userobj.login) !== 'string' || TTVST.helix.userobj.login !== channel) return;
+		if(this.helix.userobj === null || typeof(this.helix.userobj.login) !== 'string' || this.helix.userobj.login !== channel) return;
 
 		if(['sub', 'resub', 'subgift', 'anonsubgift'].indexOf(tags['msg-id']) < 0) return;
 
@@ -175,16 +187,20 @@ class TwitchBroadcast {
 		);
 	}
 
-	onPubsubReward(redemptionid: string, rewardid: string, channelid: string, rewardtitle: string, user: { id: string, login: string, display_name: string }, cost: number, userinput: string) {
-		if(TTVST.helix.userobj === null || typeof(TTVST.helix.userobj.login) !== 'string' || TTVST.helix.userobj.id !== channelid) return;
+	onEventsubReward(payload: E.IEventSubChannelPointsCustomRewardRedemptionAddEventPayload) {
+		if(this.helix.userobj === null || typeof(this.helix.userobj.login) !== 'string' || this.helix.userobj.id !== payload.event.broadcaster_user_id) return;
 
-		let dispName = user.login;
-		if(typeof(user.display_name) === 'string' && user.display_name.length > 0) dispName = user.display_name;
+		let dispName = payload.event.user_login;
+		if(typeof(payload.event.user_name) === 'string' && payload.event.user_name.length > 0) dispName = payload.event.user_name;
 
-		Broadcast.instance.emit('app.ttvst.pubsub.reward', redemptionid, rewardid, rewardtitle, cost, userinput, user.login, dispName);
+		Broadcast.instance.emit('app.ttvst.pubsub.reward', payload.event.id, payload.event.reward.id, payload.event.reward.title, payload.event.reward.cost, payload.event.user_input, payload.event.user_id, dispName);
 	}
 
-	onPubsubSubscribe(channelid: string, type: 'sub'|'resub'|'subgift'|'anonsubgift'|'resubgift'|'anonresubgift', tier: 'Prime'|'1000'|'2000'|'3000', cumulative_months: number, streak_months: number, message: string, user: { id: string, login: string, display_name: string }, recipient: { id: string, login: string, display_name: string }) {
+	onEventsubFollow(payload: E.IEventSubChannelFollowEventPayload) {
+		Broadcast.instance.emit('app.ttvst.eventsub.channel.follow', payload.event.user_id, payload.event.user_login, payload.event.user_name);
+	}
+
+	/*onPubsubSubscribe(channelid: string, type: 'sub'|'resub'|'subgift'|'anonsubgift'|'resubgift'|'anonresubgift', tier: 'Prime'|'1000'|'2000'|'3000', cumulative_months: number, streak_months: number, message: string, user: { id: string, login: string, display_name: string }, recipient: { id: string, login: string, display_name: string }) {
 		if(TTVST.helix.userobj === null || typeof(TTVST.helix.userobj.login) !== 'string' || TTVST.helix.userobj.id !== channelid) return;
 		
 		let dispName = user.login;
@@ -193,10 +209,10 @@ class TwitchBroadcast {
 		if(typeof(recipient.display_name) === 'string' && recipient.display_name.length > 0) rdispName = recipient.display_name;
 
 		Broadcast.instance.emit('app.ttvst.pubsub.subscription', type, tier, cumulative_months, streak_months, message, user.login, dispName, recipient.login, rdispName);
-	}
+	}*/
 
 	onTMISendMessage(message: string) {
-		if(TTVST.helix.userobj === null || typeof(TTVST.helix.userobj.login) !== 'string') return;
+		if(this.helix.userobj === null || typeof(this.helix.userobj.login) !== 'string') return;
 		this.tmi.say(TTVST.helix.userobj.login, message);
 	}
 

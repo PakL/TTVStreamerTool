@@ -1,7 +1,5 @@
 import { EventEmitter } from 'events'
 import { ipcMain, webContents } from 'electron'
-import { resolve } from 'dns';
-import { exec } from 'child_process';
 import winston from 'winston';
 
 declare var logger: winston.Logger;

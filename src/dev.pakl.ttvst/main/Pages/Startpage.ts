@@ -4,6 +4,8 @@ import Broadcast from '../BroadcastMain';
 import Login from '../Util/Login';
 import winston from 'winston';
 
+import * as T from '../Twitch/APIHelixTypes';
+
 declare var logger: winston.Logger;
 declare var TTVST: TTVSTMain;
 
@@ -22,17 +24,18 @@ class Startpage {
 		this.onGetUser = this.onGetUser.bind(this);
 		this.onConnectTMI = this.onConnectTMI.bind(this);
 		this.onDisconnectTMI = this.onDisconnectTMI.bind(this);
-		this.onConnectPubsub = this.onConnectPubsub.bind(this);
-		this.onDisconnectPubsub = this.onDisconnectPubsub.bind(this);
+		this.onConnectEventsub = this.onConnectEventsub.bind(this);
+		this.onDisconnectEventsub = this.onDisconnectEventsub.bind(this);
 
 		this.onTMIReady = this.onTMIReady.bind(this);
 		this.onTMIRegistered = this.onTMIRegistered.bind(this);
 		this.onTMIAuthFail = this.onTMIAuthFail.bind(this);
 		this.onTMIClose = this.onTMIClose.bind(this);
-		this.onPubsubConnecting = this.onPubsubConnecting.bind(this);
-		this.onPubsubConnected = this.onPubsubConnected.bind(this);
-		this.onPubsubListening = this.onPubsubListening.bind(this);
-		this.onPubsubClosed = this.onPubsubClosed.bind(this);
+		this.onEventsubConnecting = this.onEventsubConnecting.bind(this);
+		this.onEventsubConnected = this.onEventsubConnected.bind(this);
+		this.onEventsubWelcome = this.onEventsubWelcome.bind(this);
+		//this.onEventsubListening = this.onEventsubListening.bind(this);
+		this.onEventsubClosed = this.onEventsubClosed.bind(this);
 		
 		this.repeatBroadcast = this.repeatBroadcast.bind(this);
 
@@ -44,7 +47,7 @@ class Startpage {
 
 		this.broadcastStatus({ key: 'app.ttvst.update', icon: 'Starburst', status: 'error', title: 'TTVStreamertool Update', info: 'Checking for updates...', buttons: []});
 		this.broadcastStatus({ key: 'app.ttvst.tmi', icon: 'CannedChat', status: 'error', title: 'Twitch Messaging Interface (TMI)', info: 'Disconnected.', buttons: [{ icon: 'PlugConnected', action: 'cockpit.tmi.connect', title: 'Connect' }]});
-		this.broadcastStatus({ key: 'app.ttvst.pubsub', icon: 'Glimmer', status: 'error', title: 'PubSub (Twitch Events)', info: 'Disconnected.', buttons: [{ icon: 'PlugConnected', action: 'cockpit.pubsub.connect', title: 'Connect' }]});
+		this.broadcastStatus({ key: 'app.ttvst.eventsub', icon: 'Glimmer', status: 'error', title: 'EventSub (Twitch Events)', info: 'Disconnected.', buttons: [{ icon: 'PlugConnected', action: 'cockpit.eventsub.connect', title: 'Connect' }]});
 		Broadcast.instance.on('startpage-ready', this.repeatBroadcast);
 
 		ipcMain.on('cockpit.tmi.connect', this.onConnectTMI);
@@ -54,12 +57,12 @@ class Startpage {
 		TTVST.tmi.on('auth-fail', this.onTMIAuthFail);
 		TTVST.tmi.on('close', this.onTMIClose);
 
-		ipcMain.on('cockpit.pubsub.connect', this.onConnectPubsub);
-		ipcMain.on('cockpit.pubsub.disconnect', this.onDisconnectPubsub);
-		TTVST.pubsub.on('connecting', this.onPubsubConnecting);
-		TTVST.pubsub.on('connected', this.onPubsubConnected);
-		TTVST.pubsub.on('listening', this.onPubsubListening);
-		TTVST.pubsub.on('closed', this.onPubsubClosed);
+		ipcMain.on('cockpit.eventsub.connect', this.onConnectEventsub);
+		ipcMain.on('cockpit.eventsub.disconnect', this.onDisconnectEventsub);
+		TTVST.eventsub.on('connecting', this.onEventsubConnecting);
+		TTVST.eventsub.on('connected', this.onEventsubConnected);
+		TTVST.eventsub.on('welcome', this.onEventsubWelcome)
+		TTVST.eventsub.on('closed', this.onEventsubClosed);
 
 		TTVST.tmi.on('incoming', (msg) => {
 			logger.verbose('[TMI] > ' + msg);
@@ -73,7 +76,9 @@ class Startpage {
 	async onLogin(): Promise<string> {
 		logger.verbose('Login was requested');
 		try {
-			return await Login.instance().login();
+			let login = await Login.instance().login();
+			await TTVST.Settings.setJSON('ttvst.global.scope', TTVST.helix.scope);
+			return login;
 		} catch(e) {
 			if(typeof(e) === 'string') {
 				logger.info(`Login response: ${e}`)
@@ -88,7 +93,7 @@ class Startpage {
 		logger.verbose('Logging out');
 		TTVST.helix.setAuthToken(null);
 		TTVST.tmi.disconnect();
-		TTVST.pubsub.disconnect();
+		TTVST.eventsub.disconnect();
 		return null;
 	}
 
@@ -133,6 +138,7 @@ class Startpage {
 		this.broadcastStatus({ key: 'app.ttvst.tmi', status: 'good', info: 'Connection established and logged in.', buttons: [{ icon: 'PlugDisconnected', action: 'cockpit.tmi.disconnect', title: 'Disconnect' }] });
 		this.lastStatus = 'registered';
 		TTVST.tmi.join(TTVST.helix.userobj.login);
+		TTVST.eventsub.connect();
 	}
 	onTMIAuthFail() {
 		this.broadcastStatus({ key: 'app.ttvst.tmi', status: 'warn', info: 'Connection established but login failed.', buttons: [{ icon: 'PlugDisconnected', action: 'cockpit.tmi.disconnect', title: 'Disconnect' }] });
@@ -146,30 +152,44 @@ class Startpage {
 		}
 	}
 
-	onConnectPubsub() {
-		if(TTVST.helix.token.length > 0 && TTVST.helix.userobj !== null) {
-			TTVST.pubsub.setupTopicsForChannel(TTVST.helix.userobj.id);
-			TTVST.pubsub.setAuthToken(TTVST.helix.token);
-		}
+	onConnectEventsub() {
+		/*if(TTVST.helix.token.length > 0 && TTVST.helix.userobj !== null) {
+			TTVST.eventsub.setupTopicsForChannel(TTVST.helix.userobj.id);
+			TTVST.eventsub.setAuthToken(TTVST.helix.token);
+		}*/
+		TTVST.eventsub.connect();
 	}
-	onDisconnectPubsub() {
-		TTVST.pubsub.disconnect();
+	onDisconnectEventsub() {
+		TTVST.eventsub.disconnect();
 	}
 
-	onPubsubConnecting(){
-		this.broadcastStatus({ key: 'app.ttvst.pubsub', status: 'warn', info: 'Connecting', buttons: [] });
+	onEventsubConnecting(){
+		this.broadcastStatus({ key: 'app.ttvst.eventsub', status: 'warn', info: 'Connecting', buttons: [] });
 	}
-	onPubsubConnected(){
-		this.broadcastStatus({ key: 'app.ttvst.pubsub', status: 'warn', info: 'Connection established', buttons: [{ icon: 'PlugDisconnected', action: 'cockpit.pubsub.disconnect', title: 'Disconnect' }] });
+	onEventsubConnected(){
+		this.broadcastStatus({ key: 'app.ttvst.eventsub', status: 'warn', info: 'Connection established', buttons: [] });
 	}
-	onPubsubListening(){
-		this.broadcastStatus({ key: 'app.ttvst.pubsub', status: 'good', info: 'Connection established and listening.', buttons: [{ icon: 'PlugDisconnected', action: 'cockpit.pubsub.disconnect', title: 'Disconnect' }] });
+	/*onEventsubListening(){
+		this.broadcastStatus({ key: 'app.ttvst.eventsub', status: 'good', info: 'Connection established and listening.', buttons: [{ icon: 'PlugDisconnected', action: 'cockpit.eventsub.disconnect', title: 'Disconnect' }] });
+	}*/
+	async onEventsubWelcome(session_id: string) {
+		this.broadcastStatus({ key: 'app.ttvst.eventsub', status: 'warn', info: 'Subscribing to events', buttons: [] });
+
+		let broadcaster_user_id = TTVST.helix.userid;
+		let transport: T.IAPIHelixEventsubSubscriptionTransport = { method: 'websocket', session_id };
+		await TTVST.helix.createEventsubSubscription('channel.follow', '1', { broadcaster_user_id }, transport);
+		/*await TTVST.helix.createEventsubSubscription('channel.subscribe', '1', { broadcaster_user_id }, transport);
+		await TTVST.helix.createEventsubSubscription('channel.subscription.gift', '1', { broadcaster_user_id }, transport);
+		await TTVST.helix.createEventsubSubscription('channel.subscription.message', '1', { broadcaster_user_id }, transport);*/
+		await TTVST.helix.createEventsubSubscription('channel.channel_points_custom_reward_redemption.add', '1', { broadcaster_user_id }, transport);
+
+		this.broadcastStatus({ key: 'app.ttvst.eventsub', status: 'good', info: 'Connection established and listening.', buttons: [{ icon: 'PlugDisconnected', action: 'cockpit.eventsub.disconnect', title: 'Disconnect' }] });
 	}
-	onPubsubClosed(error: string) {
+	onEventsubClosed(error: string) {
 		if(error.length > 0) {
-			this.broadcastStatus({ key: 'app.ttvst.pubsub', status: 'error', info: 'Connection closed due to an error: {{error}}', infoValues: { error }, buttons: [{ icon: 'PlugConnected', action: 'cockpit.pubsub.connect', title: 'Connect' }] });
+			this.broadcastStatus({ key: 'app.ttvst.eventsub', status: 'error', info: 'Connection closed due to an error: {{error}}', infoValues: { error }, buttons: [{ icon: 'PlugConnected', action: 'cockpit.eventsub.connect', title: 'Connect' }] });
 		} else {
-			this.broadcastStatus({ key: 'app.ttvst.pubsub', status: 'error', info: 'Disconnected.', buttons: [{ icon: 'PlugConnected', action: 'cockpit.pubsub.connect', title: 'Connect' }] });
+			this.broadcastStatus({ key: 'app.ttvst.eventsub', status: 'error', info: 'Disconnected.', buttons: [{ icon: 'PlugConnected', action: 'cockpit.eventsub.connect', title: 'Connect' }] });
 		}
 	}
 
