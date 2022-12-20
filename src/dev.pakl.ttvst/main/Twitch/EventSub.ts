@@ -152,8 +152,10 @@ class EventSub extends EventEmitter {
 	}
 
 	private _onKeepAlive() {
-		clearTimeout(this._keepalivetimeout);
-		this._keepalivetimeout = setTimeout(() => { this.disconnect(true) }, (this._keepalivetimeoutseconds + 2) * 1000);
+		if(this._keepalivetimeout !== null) {
+			clearTimeout(this._keepalivetimeout);
+			this._keepalivetimeout = setTimeout(() => { this.disconnect(true) }, (this._keepalivetimeoutseconds + 2) * 1000);
+		}
 	}
 
 	private _onSessionReconnect(payload: T.IEventSubSessionPayload) {
@@ -181,6 +183,7 @@ class EventSub extends EventEmitter {
 		this._connection = null;
 		this._connected = false;
 		clearTimeout(this._keepalivetimeout);
+		this._keepalivetimeout = null;
 		if(this._autoreconnect) {
 			let jitter = Math.floor(Math.random()*1000);
 			const self = this;

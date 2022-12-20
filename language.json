@@ -361,5 +361,14 @@
 	},
 	"Sorry to interrupt! Twitch has made some changes which forces us to get more permissions from you in order for us to provide you with the full functionality of our application. Please consider logging out and back in to renew your Twitch login with the added permissions.": {
 		"de": "Bitte entschuldige die Unterbrechung! Twitch hat einige Änderungen gemacht, die uns zwingen mehr Berechtigungen von dir einzufordern um dir den gesamten Funktionsumfang unserer Applikation anbieten zu können. Bitte erwäge dich aus- und wieder einzuloggen um deinen Twitch-Login mit den hinzugefügten Berechtigungen zu erneuern."
+	},
+	"Connecting": {
+		"de": "Verbinde"
+	},
+	"Subscribing to events": {
+		"de": "Abboniere Events"
+	},
+	"Connection established and listening.": {
+		"de": "Verbindung hergestellt und empfangsbereit."
 	}
 }

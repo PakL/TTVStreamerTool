@@ -167,7 +167,7 @@ class Startpage {
 		this.broadcastStatus({ key: 'app.ttvst.eventsub', status: 'warn', info: 'Connecting', buttons: [] });
 	}
 	onEventsubConnected(){
-		this.broadcastStatus({ key: 'app.ttvst.eventsub', status: 'warn', info: 'Connection established', buttons: [] });
+		this.broadcastStatus({ key: 'app.ttvst.eventsub', status: 'warn', info: 'Connection established.', buttons: [] });
 	}
 	/*onEventsubListening(){
 		this.broadcastStatus({ key: 'app.ttvst.eventsub', status: 'good', info: 'Connection established and listening.', buttons: [{ icon: 'PlugDisconnected', action: 'cockpit.eventsub.disconnect', title: 'Disconnect' }] });
