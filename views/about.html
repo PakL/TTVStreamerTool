@@ -15,9 +15,16 @@
 						<img src="../res/img/logo-stacked.svg" style="height:200px;width:247px;" alt="">
 					</p>
 					<p>
-						TTVStreamerTool was created by <a onclick="openLinkExternal('https://pakl.dev/')">Pascal Pohl</a><br>
+						TTVStreamerTool was created by <a onclick="openLinkExternal('https://pakl.dev/')">Pascal «PakL» Pohl</a><br>
 						<small>You currently have version <code id="appversion"></code> installed.</small>
 					</p>
+					<table id="versiontable" style="border-collapse:collapse;border:0;margin:auto;text-align:left;display:none;">
+						<tbody>
+							<tr><td style="padding-right:5px;"><small>Electron:</small></td><td><small><code id="electronversion"></code></small></td></tr>
+							<tr><td style="padding-right:5px;"><small>Node:</small></td><td><small><code id="nodeversion"></code></small></td></tr>
+							<tr><td style="padding-right:5px;"><small>Chromium:</small></td><td><small><code id="chromeversion"></code></small></td></tr>
+						</tbody>
+					</table>
 					<p>
 						The TTVStreamer logo was created by <a onclick="openLinkExternal('https://github.com/anharismail')">Anhar Ismail</a>
 					</p>
@@ -45,6 +52,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 		<script>
 			loadTTVSTCSS();
 			getAppVersion();
+
+			var toggleVersions = false;
+			var versiontable = document.querySelector('#versiontable');
+			var appversion = document.querySelector('#appversion');
+			appversion.addEventListener('click', () => {
+				versiontable.style.display = toggleVersions ? 'none' : 'table';
+				toggleVersions = !toggleVersions;
+			});
+			appversion.style.cursor = 'pointer';
 		</script>
 	</body>
 </html>

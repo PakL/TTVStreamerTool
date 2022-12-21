@@ -1,9 +1,9 @@
-const { ipcRenderer, shell } = require('electron');
+const { ipcRenderer } = require('electron');
 
 Object.assign(window, {
 	openLinkExternal: function(url: string) {
 		if(url.startsWith('https://') && document.location.href.startsWith('file://')) {
-			shell.openExternal(url);
+			ipcRenderer.invoke('open-external', url);
 		}
 	},
 	loadTTVSTCSS: function() {
@@ -12,8 +12,13 @@ Object.assign(window, {
 		});
 	},
 	getAppVersion: function() {
-		ipcRenderer.invoke('get-app-version').then((version) => {
-			(document.querySelector('#appversion') as HTMLSpanElement).innerText = version;
+		ipcRenderer.invoke('get-app-version').then((versions) => {
+			let [app, electron, chrome, node] = versions;
+			(document.querySelector('#appversion') as HTMLSpanElement).innerText = app;
+			(document.querySelector('#electronversion') as HTMLSpanElement).innerText = electron;
+			(document.querySelector('#nodeversion') as HTMLSpanElement).innerText = node;
+			(document.querySelector('#chromeversion') as HTMLSpanElement).innerText = chrome;
+			
 		});
 	}
 })

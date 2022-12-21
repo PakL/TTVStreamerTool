@@ -139,8 +139,11 @@ async function main() {
 	})
 
 	ipcMain.handle('render-sass', SassLoader.renderCSS);
+	ipcMain.handle('open-external', async (e, uri: string) => {
+		shell.openExternal(uri);
+	});
 	ipcMain.handle('get-app-version', async () => {
-		return app.getVersion();
+		return [app.getVersion(), process.versions.electron, process.versions.chrome, process.versions.node];
 	});
 	ipcMain.handle('get-error-log', async () => {
 		for(let i = 0; i < logger.transports.length; i++) {
