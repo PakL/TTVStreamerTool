@@ -630,7 +630,7 @@ export default class TwitchHelix extends IpcEventEmitter {
 	 * @see {@link https://dev.twitch.tv/docs/api/reference#send-chat-announcement}
 	 */
 	sendChatAnnouncement(message: string, color?: 'blue'|'green'|'orange'|'purple'|'primary'): Promise<T.IAPIHelixResponse> {
-		let uri = '/helix/polls';
+		let uri = '/helix/chat/announcements';
 		let opt: { [key: string]: string|string[] } = {};
 		let post: { [key: string]: string|number|boolean|object } = {};
 
@@ -639,8 +639,11 @@ export default class TwitchHelix extends IpcEventEmitter {
 		if(typeof(message) === 'string' && message.length > 0) post.message = message;
 		if(typeof(color) === 'string' && ['blue','green','orange','purple','primary'].indexOf(color) >= 0) post.color = color;
 
+
 		if(typeof(post.message) !== 'string') {
 			return Promise.reject(new Error('message must not be empty'));
+		} else if(post.message.length > 500) {
+			post.message = post.message.substring(0, 500);
 		}
 		return this.requestAPI(uri, opt, true, post, true, 'POST');
 	}

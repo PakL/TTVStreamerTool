@@ -180,7 +180,7 @@
 		"de": "Aktion auswählen"
 	},
 	"Action": {
-		"de": "Action"
+		"de": "Aktion"
 	},
 	"Select Trigger": {
 		"de": "Auslöser wählen"
@@ -370,5 +370,17 @@
 	},
 	"Connection established and listening.": {
 		"de": "Verbindung hergestellt und empfangsbereit."
+	},
+	"Send Twitch Chat Announcement": {
+		"de": "Twitch-Chat Ankündigung senden"
+	},
+	"Send a chat announcement to your channel": {
+		"de": "Sende eine Ankündigung an deinen Kanal-Chat"
+	},
+	"Highlight color. Possible values: blue, green, orange, purple, primary (default)": {
+		"de": "Highlight-Farbe. Mögliche Werte: blue, green, orange, purple, primary (Standard)"
+	},
+	"Your Twitch login is out of date. Please renew your login on the start page.": {
+		"de": "Dein Twitch-Login ist veraltet. Bitte erneuer deinen Login auf der Startseite."
 	}
 }

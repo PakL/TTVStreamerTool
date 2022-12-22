@@ -56,7 +56,7 @@ process.on('unhandledRejection', (reason: any, prom: Promise<any>) => {
 	logger.error('Unhandled Promise rejection: ' + reason);
 });
 
-app.setAppUserModelId('dev.pakl.TTVStreamerTool');
+app.setAppUserModelId('TTVStreamerTool');
 if(!app.requestSingleInstanceLock()) {
 	app.quit();
 }

@@ -56,6 +56,7 @@ class MainWindow extends EventEmitter {
 		
 		ipcMain.on('request-accent-color', this.onRequestAccentColor.bind(this));
 		ipcMain.on('request-node-env', this.onRequestNodeEnv.bind(this));
+		ipcMain.on('show-notification', this.onNotification.bind(this));
 
 		ipcMain.handle('dialog.showOpenDialog', this.onShowOpenDialog.bind(this));
 		ipcMain.handle('dialog.showSaveDialog', this.onShowSaveDialog.bind(this));
@@ -126,6 +127,20 @@ class MainWindow extends EventEmitter {
 
 	private onBeforeQuit() {
 		this.realclose = true;
+	}
+
+	private onNotification(_event: IpcMainEvent, message: string, silent: boolean) {
+		let n = new Notification({
+			title: 'TTVStreamerTool',
+			body: message,
+			icon: nativeImage.createFromPath(path.join(__dirname, '../../../res/img/icon.ico')),
+			silent
+		});
+		n.show();
+	}
+
+	public notification(message: string, silent: boolean) {
+		this.onNotification(null, message, silent);
 	}
 
 	private onClose(e: Electron.Event) {

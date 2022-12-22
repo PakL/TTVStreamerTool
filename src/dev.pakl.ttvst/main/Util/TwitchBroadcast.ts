@@ -74,6 +74,15 @@ const _actions: IBroadcastAction[] = [{
 		{ label: 'message', description: 'The message that you want to send', type: 'string' }
 	]
 }, {
+	label: 'Send Twitch Chat Announcement',
+	description: 'Send a chat announcement to your channel',
+	channel: 'app.ttvst.helix.sendAnnouncement',
+	addon: 'Twitch',
+	parameters: [
+		{ label: 'message', description: 'The message that you want to send', type: 'string' },
+		{ label: 'color', description: 'Highlight color. Possible values: blue, green, orange, purple, primary (default)', type: 'string' }
+	]
+}, {
 	label: 'Get channel title',
 	description: 'Loads and returns the current channel title. If no channel is given the channel of the tool\'s user is requested.',
 	channel: 'app.ttvst.helix.getStream',
@@ -132,11 +141,10 @@ class TwitchBroadcast {
 		TTVST.eventsub.on('channel.follow', this.onEventsubFollow.bind(this));
 
 		Broadcast.instance.on('app.ttvst.tmi.sendMessage', this.onTMISendMessage.bind(this));
+		Broadcast.instance.on('app.ttvst.helix.sendAnnouncement', this.onHelixSendAnnouncement.bind(this));
 		Broadcast.instance.on('app.ttvst.helix.getStream', this.onHelixGetStreamTitle.bind(this));
 		Broadcast.instance.on('app.ttvst.helix.getGame', this.onHelixGetStreamGame.bind(this));
-
 		Broadcast.instance.on('app.ttvst.helix.setStreamInfo', this.onHelixSetStreamInfo.bind(this));
-
 		Broadcast.instance.on('app.ttvst.helix.updateRedemption', this.onHelixUpdateRedemption.bind(this));
 	}
 
@@ -214,6 +222,25 @@ class TwitchBroadcast {
 	onTMISendMessage(message: string) {
 		if(this.helix.userobj === null || typeof(this.helix.userobj.login) !== 'string') return;
 		this.tmi.say(TTVST.helix.userobj.login, message);
+	}
+
+	async onHelixSendAnnouncement(message: string, color: 'blue'|'green'|'orange'|'purple'|'primary') {
+		if(this.helix.userobj === null || typeof(this.helix.userobj.login) !== 'string') return;
+		if(typeof(message) !== 'string') return;
+
+		let scopes = await TTVST.Settings.getJSON('ttvst.global.scope', [])
+		if(scopes.indexOf('moderator:manage:announcements') < 0) {
+			TTVST.mainWindow.notification(await TTVST.i18n.__('Your Twitch login is out of date. Please renew your login on the start page.'), false);
+			return;
+		}
+
+		if(typeof(color) !== 'string') color = 'primary';
+		color = color.toLowerCase() as ('blue'|'green'|'orange'|'purple'|'primary');
+		if(['blue', 'green', 'orange', 'purple', 'primary'].indexOf(color) < 0) color = 'primary';
+
+		if(message.length > 0) {
+			this.helix.sendChatAnnouncement(message, color);
+		}
 	}
 
 	async getAPICache(apiRoute: 'getStreams'|'getGames'|'getChannel'|'getUsers'|'searchCategories', cacheTime: number, ...parameters: any[]): Promise<H.IAPIHelixStreams|H.IAPIHelixGames|H.IAPIHelixChannel|H.IAPIHelixUserList|H.IAPIHelixSearchCategories> {
