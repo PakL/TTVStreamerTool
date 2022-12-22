@@ -210,6 +210,103 @@ export interface IAPIHelixRewardRedemptionObject {
 
 export interface IAPIHelixRewardRedemptionStatusUpateResponse { data: Array<IAPIHelixRewardRedemptionObject> }
 
+export interface IAPIHelixPollObject {
+	id: string,
+	broadcaster_id: string,
+	broadcaster_name: string,
+	broadcaster_login: string,
+	title: string,
+	choices: Array<{
+		id: string,
+		title: string,
+		votes: number,
+		channel_points_votes: number,
+		bits_votes?: number
+	}>,
+	bits_voting_enabled?: boolean,
+	bits_per_vote?: number,
+	channel_points_voting_enabled: boolean,
+	channel_points_per_vote: number,
+	status: 'ACTIVE'|'COMPLETED'|'TERMINATED'|'ARCHIVED'|'MODERATED'|'INVALID',
+	duration: number,
+	started_at: string,
+	ended_at: null|string
+}
+
+export interface IAPIHelixGetPollsResponse extends IAPIHelixPagination { data: Array<IAPIHelixPollObject> }
+export interface IAPIHelixCreatePollResponse { data: Array<IAPIHelixPollObject> }
+export interface IAPIHelixEndPollResponse { data: Array<IAPIHelixPollObject> }
+
+export type IAPIHelixEventsubSubscriptionTransport = {
+	method: 'webhook',
+	callback: string,
+	secret: string
+}|{
+	method: 'websocket',
+	session_id: string
+}
+export interface IAPIHelixEventsubSubscriptionTypes {
+	'channel.update': { broadcaster_user_id: string },
+	'channel.follow': { broadcaster_user_id: string },
+	'channel.subscribe': { broadcaster_user_id: string },
+	'channel.subscription.end': { broadcaster_user_id: string },
+	'channel.subscription.gift': { broadcaster_user_id: string },
+	'channel.subscription.message': { broadcaster_user_id: string },
+	'channel.cheer': { broadcaster_user_id: string },
+	'channel.raid': { from_broadcaster_user_id: string }|{ to_broadcaster_user_id: string },
+	'channel.ban': { broadcaster_user_id: string },
+	'channel.unban': { broadcaster_user_id: string },
+	'channel.moderator.add': { broadcaster_user_id: string },
+	'channel.moderator.remove': { broadcaster_user_id: string },
+	'channel.channel_points_custom_reward.add': { broadcaster_user_id: string },
+	'channel.channel_points_custom_reward.update': { broadcaster_user_id: string, reward_id?: string },
+	'channel.channel_points_custom_reward.remove': { broadcaster_user_id: string, reward_id?: string },
+	'channel.channel_points_custom_reward_redemption.add': { broadcaster_user_id: string, reward_id?: string },
+	'channel.channel_points_custom_reward_redemption.update': { broadcaster_user_id: string, reward_id?: string },
+	'channel.poll.begin': { broadcaster_user_id: string },
+	'channel.poll.progress': { broadcaster_user_id: string },
+	'channel.poll.end': { broadcaster_user_id: string },
+	'channel.prediction.begin': { broadcaster_user_id: string },
+	'channel.prediction.progress': { broadcaster_user_id: string },
+	'channel.prediction.lock': { broadcaster_user_id: string },
+	'channel.prediction.end': { broadcaster_user_id: string },
+	'drop.entitlement.grant': { organization_id: string, category_id?: string, campaign_id?: string },
+	'extension.bits_transaction.create': { extension_client_id: string },
+	'channel.goal.begin': { broadcaster_user_id: string },
+	'channel.goal.progress': { broadcaster_user_id: string },
+	'channel.goal.end': { broadcaster_user_id: string },
+	'channel.hype_train.begin': { broadcaster_user_id: string },
+	'channel.hype_train.progress': { broadcaster_user_id: string },
+	'channel.hype_train.end': { broadcaster_user_id: string },
+	'stream.online': { broadcaster_user_id: string },
+	'stream.offline': { broadcaster_user_id: string },
+	'user.authorization.grant': { client_id: string },
+	'user.authorization.revoke': { client_id: string },
+	'user.update': { user_id: string }
+}
+export interface IAPIHelixCreateEventsubSubscriptionResponse<K extends keyof IAPIHelixEventsubSubscriptionTypes> {
+	data: Array<{
+		id: string,
+		status: 'enabled'|'webhook_callback_verification_pending'|'webhook_callback_verification_failed'|'notification_failures_exceeded'|'authorization_revoked'|'user_removed',
+		type: string|K,
+		version: string,
+		condition: object|IAPIHelixEventsubSubscriptionTypes[K],
+		created_at: string,
+		transport: {
+			method: 'webhook',
+			callback: string
+		}|{
+			method: 'websocket',
+			session_id: string,
+			connected_at: string
+		},
+		cost: number
+	}>,
+	total: number,
+	total_cost: number,
+	max_total_cost: number
+}
+
 export interface IAPIHelixValidation {
 	client_id: string;
 	login: string;

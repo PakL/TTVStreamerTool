@@ -3,7 +3,7 @@ import originalFs from 'original-fs';
 import Path from 'path';
 import { app, ipcMain } from 'electron';
 import { spawn, spawnSync } from 'child_process';
-import compareVersions from 'compare-versions';
+import { compare, compareVersions } from 'compare-versions';
 import winston from 'winston';
 import TTVSTMain from '../TTVSTMain';
 import { IAddon, AddonFlag } from './AddonsTypes';
@@ -100,7 +100,7 @@ export default class Addons {
 							typeof(packageJson.toolversion) === 'string' &&
 							(typeof(packageJson.main) === 'string' || typeof(packageJson.renderer) === 'string')
 						) {
-							if(compareVersions.compare(packageJson.toolversion, app.getVersion(), '>=') && !this.addonInstalled(packageJson.addonid)) {
+							if(compare(packageJson.toolversion, app.getVersion(), '>=') && !this.addonInstalled(packageJson.addonid)) {
 								self.installedAddons.push(Object.assign(packageJson, { path, flags: ['compatible'], loaderror: '', updateAvaiable: '' }));
 							} else {
 								self.installedAddons.push(Object.assign(packageJson, { path, flags: [], loaderror: 'Addon is not compatible with the current version of TTVStreamerTool', updateAvaiable: '' }));

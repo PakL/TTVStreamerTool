@@ -10,7 +10,8 @@ import * as riot from 'riot';
 import StartpageCmp, * as StartpageComp from '../UI/Startpage/Startpage';
 import { IStatusObject } from '../../main/Pages/StartpageTypes';
 
-
+import _ttvst from '../TTVST';
+declare var TTVST: _ttvst;
 
 class Startpage extends Page {
 
@@ -84,6 +85,11 @@ class Startpage extends Page {
 
 	async validateAndGetUserInfo(token: string): Promise<boolean> {
 		if(typeof(token) !== 'string' || token.length <= 0) return false;
+
+		let scopes = Settings.getJSON('ttvst.global.scope', [])
+		if(scopes.indexOf('moderator:manage:announcements') < 0) {
+			TTVST.ui.alert(TTVST.i18n.__('Sorry to interrupt! Twitch has made some changes which forces us to get more permissions from you in order for us to provide you with the full functionality of our application. Please consider logging out and back in to renew your Twitch login with the added permissions.'), 'Outdated login token', 'UserWarning');
+		}
 
 		let validation: Helix.IAPIHelixValidation = await ipcRenderer.invoke('cockpit.check-login', token);
 		if(typeof(validation.login) === 'string') {

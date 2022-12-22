@@ -7,13 +7,14 @@ import SettingsMenu from './Settings/SettingsMenu';
 import ActionSelect, * as ActionSelectComp from './Broadcast/ActionSelect';
 import TriggerSelect, * as TriggerSelectComp from './Broadcast/TriggerSelect';
 
-import i18n from 'i18n-nodejs';
 
-import TTVST from '../TTVST';
+import TTVSTRenderer from '../TTVST';
 import * as Color from './ColorFunctions';
 
 import Page from './Page';
 import { IBroadcastArgument } from '../../main/BroadcastMain';
+
+declare var TTVST: TTVSTRenderer;
 
 let accentColor: string = ipcRenderer.sendSync('request-accent-color');
 let accentBrightness = Color.getBrightness(Color.hexToRGB(accentColor));
@@ -116,6 +117,10 @@ export default class UI {
 			}
 		}
 		return null;
+	}
+
+	notification(message: string, silent: boolean): void {
+		ipcRenderer.send('show-notification', TTVST.i18n.__(message), silent);
 	}
 
 	alert(message: string, title: string = '', icon: string = 'WarningSolid'): Promise<void> {
