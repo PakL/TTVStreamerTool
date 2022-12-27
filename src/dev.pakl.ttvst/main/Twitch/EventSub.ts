@@ -59,6 +59,7 @@ declare interface EventSub {
 class EventSub extends EventEmitter {
 
 	private _connection: ws = null;
+	private _connecting: boolean = false;
 	private _connected: boolean = false;
 	private _autoreconnect: boolean = false;
 	private _reconnectTimeout: number = 1000;
@@ -69,6 +70,9 @@ class EventSub extends EventEmitter {
 	private _reconnectUrl: string = null;
 
 	public connect(): Promise<void> {
+		if(this._connecting || this._connected) return Promise.resolve();
+
+		this._connecting = true;
 		const self = this;
 		return new Promise((res, rej) => {
 			self.emit('connecting');
@@ -88,6 +92,7 @@ class EventSub extends EventEmitter {
 				self.emit('connected');
 				self._lastError = '';
 				self._connected = true;
+				self._connecting = false;
 				self._autoreconnect = true;
 				self._reconnectTimeout = 1000;
 				
@@ -102,6 +107,7 @@ class EventSub extends EventEmitter {
 				self.emit('closed', 'Connection error');
 
 				rej(err);
+				self._connecting = false;
 				self._connection = null;
 				self._autoreconnect = true;
 				self._onClose();

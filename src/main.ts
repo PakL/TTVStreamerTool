@@ -35,10 +35,10 @@ const logFormat = winston.format.printf((log) => {
 
 const errorlogFilename = 'error_' + new Date().getTime() + '.log';
 const errorlogPathFile = path.join(app.getPath('logs'), errorlogFilename);
-const errorTransport = new winston.transports.File({ level: 'error', dirname: app.getPath('logs'), filename: errorlogFilename });
+const errorTransport = new winston.transports.File({ level: 'error', dirname: app.getPath('logs'), filename: errorlogFilename, handleExceptions: true });
 const logger = winston.createLogger({
 	transports: [
-		new winston.transports.Console({ level: (process.env.NODE_ENV === 'development' ? 'debug' : 'info') }),
+		new winston.transports.Console({ level: (process.env.NODE_ENV === 'development' ? 'debug' : 'info'), handleExceptions: true }),
 		errorTransport
 	],
 	format: winston.format.combine(
@@ -46,9 +46,7 @@ const logger = winston.createLogger({
 		winston.format.errors({ stack: true }),
 		logFormat
 	),
-	exceptionHandlers: [
-		errorTransport
-	]
+	exitOnError: false
 });
 Object.assign(global, { logger });
 

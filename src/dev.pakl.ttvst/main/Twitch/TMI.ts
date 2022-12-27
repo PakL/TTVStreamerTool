@@ -94,6 +94,7 @@ class TMI extends EventEmitter {
 
 		this.socket.setTimeout(30000);
 		this.socket.setEncoding('utf8');
+		
 		this.socket.once('connect', () => {
 			self.connected = true;
 		})
@@ -107,19 +108,22 @@ class TMI extends EventEmitter {
 			self.emit('ready', self.socket);
 		});
 		this.socket.on('error', function(e){
+			logger.error(e);
 			/**
 			 * Is fired on any connection error
-			 * @event TMI#error
+			 * @event TMI#err
 			 * @param {Error}
 			 */
-			self.emit('error', e);
+			self.emit('err', e);
 		});
+			
 		this.socket.on('timeout', () => {
 			let checkTimeout = setTimeout(() => { self.socket.end(); }, 3000);
 			self.once('pong', () => { clearTimeout(checkTimeout) });
 			self.sendCLRF('PING :tmi.twitch.tv');
 		});
 		this.socket.once('close', function(had_error){
+			logger.verbose('[TMI] Connection was closed');
 			self.connected = false;
 			/**
 			 * Fired when connection is closing
@@ -140,7 +144,7 @@ class TMI extends EventEmitter {
 				self.reconnectWait = (self.reconnectWait == 0 ? 1 : self.reconnectWait*2);
 				if(self.reconnectWait > 5) self.reconnectWait = 5;
 			}
-		})
+		});
 		this.socket.on('data', function(data){
 			self.buffer += data;
 			while(self.buffer.indexOf(self.clrf) >= 0) {
@@ -155,7 +159,7 @@ class TMI extends EventEmitter {
 				self.emit("incoming", message);
 				self.slaughter(message);
 			}
-		})
+		});
 	}
 	
 	disconnect() {
@@ -615,7 +619,7 @@ class TMI extends EventEmitter {
 	 * Send a message to a channel
 	 */
 	say(dest: string, msg: string) {
-		if(dest.substr(0, 1) == '#') dest = dest.substr(1);
+		if(dest.substring(0, 1) == '#') dest = dest.substring(1);
 		this.sendCLRF('PRIVMSG #' + dest.toLowerCase() + ' :' + msg);
 	}
 
@@ -623,9 +627,9 @@ class TMI extends EventEmitter {
 	 * Send a raw command to the server
 	 */
 	sendCLRF(message: string) {
-		if(typeof(this.socket) != 'undefined') {
+		if(typeof(this.socket) != 'undefined' && this.socket.writable) {
 			this.socket.write(message + this.clrf, 'utf8');
-			if(message.substr(0, 5) == 'PASS ') {
+			if(message.substring(0, 5) == 'PASS ') {
 				let pwlength = (message.length-5);
 				message = 'PASS ';
 				for(let i = 0; i < pwlength; i++) message = message + '*';
