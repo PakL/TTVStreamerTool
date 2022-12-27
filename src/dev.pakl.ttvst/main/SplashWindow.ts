@@ -68,20 +68,22 @@ class SplashWindow extends EventEmitter {
 	private async checkForUpdates() {
 		this.window.webContents.send('update-message', 'Checking for updates...');
 		try {
-			let body: string = await got('https://update.ttvst.app/v2/updatescript.ini', { timeout: 5000, encoding: 'utf8', resolveBodyOnly: true });
+			let body: string = await got('https://update.ttvst.app/v2/updateinfo.ini', { timeout: 5000, encoding: 'utf8', resolveBodyOnly: true });
 
 			let releasesBlock = false;
 			let lastversion = '';
 			let rows = body.split("\n");
 			for(let i = 0; i < rows.length; i++) {
 				let row = rows[i].trim();
-				if(!releasesBlock && row.match(/^releases(\s+)?\{$/i)) {
+				let matches: RegExpMatchArray = null;
+				if(!releasesBlock && row.match(/^\[versions\]$/i)) {
 					releasesBlock = true;
 				} else if(releasesBlock) {
-					if(row === '}') {
+					if(row.match(/^\[.*\]$/)) {
 						releasesBlock = false;
-					} else if(row.length > 0) {
-						lastversion = row;
+					} else if(matches = row.match(/^[0-9]+\s*=\s*([0-9\.]+)$/)) {
+						lastversion = matches[1];
+						logger.verbose(lastversion);
 					}
 				}
 			}
