@@ -350,7 +350,7 @@ class TwitchBroadcast {
 		}
 
 		let success: boolean = false;
-		let opt: { title?: string; game_id?: string; } = { title };
+		let opt: { title?: string; game_id?: string; } = {};
 		try {
 			let search = await this.getAPICache('searchCategories', 24 * 60 * 60, game) as H.IAPIHelixSearchCategories;
 			if(search.data.length > 0) {
@@ -362,6 +362,10 @@ class TwitchBroadcast {
 				if(typeof(opt.game_id) !== 'string' || opt.game_id.length <= 0) {
 					opt.game_id = search.data[0].id;
 				}
+			}
+
+			if(typeof(title) === 'string' && title.length > 0) {
+				opt.title = title;
 			}
 
 			if(typeof(opt.title) === 'string' || typeof(opt.game_id) === 'string') {
