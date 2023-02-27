@@ -277,7 +277,7 @@ class TwitchBroadcast {
 		if(channel.length <= 0) channel = TTVST.helix.userobj.login;
 
 		let response: string|number = '';
-		let stream_cache = (await this.getAPICache('getStreams', 30, { user_login: channel }) as H.IAPIHelixStreams);
+		let stream_cache = (await this.getAPICache('getStreams', 10, { user_login: channel }) as H.IAPIHelixStreams);
 		if(stream_cache !== null && stream_cache.data.length > 0) {
 			if(Array.isArray(stream_cache.data[0][property])) {
 				response = (stream_cache.data[0][property] as Array<string>).join(';');
@@ -305,7 +305,7 @@ class TwitchBroadcast {
 		}
 
 		let response: string|number = '';
-		let stream_cache = (await this.getAPICache('getChannel', 30, channel_id) as H.IAPIHelixChannel);
+		let stream_cache = (await this.getAPICache('getChannel', 10, channel_id) as H.IAPIHelixChannel);
 		if(stream_cache !== null && stream_cache.data.length > 0) {
 			response = (stream_cache.data[0][property] as string|number);
 		}
@@ -350,21 +350,17 @@ class TwitchBroadcast {
 		}
 
 		let success: boolean = false;
-		let opt: { title?: string; game_id?: string; } = {};
+		let opt: { title?: string; game_id?: string; } = { title };
 		try {
-			let game_id = '';
-			let game_name = '';
-			let search = await this.getAPICache('searchCategories', -1, { query: game }) as H.IAPIHelixSearchCategories;
+			let search = await this.getAPICache('searchCategories', 24 * 60 * 60, game) as H.IAPIHelixSearchCategories;
 			if(search.data.length > 0) {
 				for(let i = 0; i < search.data.length; i++) {
 					if(search.data[i].name.toLowerCase() === game.toLowerCase()) {
-						game_id = search.data[i].id;
-						game_name = search.data[i].name;
+						opt.game_id = search.data[i].id;
 					}
 				}
-				if(game_id.length <= 0) {
-					game_id = search.data[0].id;
-					game_name = search.data[0].name;
+				if(typeof(opt.game_id) !== 'string' || opt.game_id.length <= 0) {
+					opt.game_id = search.data[0].id;
 				}
 			}
 
