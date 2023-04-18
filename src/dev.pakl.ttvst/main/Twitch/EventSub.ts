@@ -6,7 +6,7 @@ import * as T from './EventSubTypes';
 
 declare var logger: winston.Logger;
 
-const _defaultWebsocketUri = 'wss://eventsub-beta.wss.twitch.tv/ws';
+const _defaultWebsocketUri = 'wss://eventsub.wss.twitch.tv/ws';
 const _maxReconnectTimeout = 120000
 
 declare interface EventSub {
