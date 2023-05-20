@@ -107,8 +107,15 @@ class TMI extends EventEmitter {
 			 */
 			self.emit('ready', self.socket);
 		});
-		this.socket.on('error', function(e){
+		this.socket.on('error', function(e: any){
 			logger.error(e);
+			if(typeof(e.code) === 'string' && e.code == 'ERR_TLS_CERT_ALTNAME_INVALID') {
+				if(typeof(e.cert) === 'object') {
+					if((e.cert.subject.CN as string).endsWith('.twitch.a2z.com')) {
+						self.options.host = e.cert.subject.CN;
+					}
+				}
+			}
 			/**
 			 * Is fired on any connection error
 			 * @event TMI#err
@@ -171,9 +178,10 @@ class TMI extends EventEmitter {
 	}
 	auth(username: string, oauthkey: string) {
 		let self = this;
-		this.once('motd', () => { self.capreq() });
+		//this.once('motd', () => { self.capreq() });
 		this.sendCLRF('PASS oauth:' + oauthkey);
 		this.sendCLRF('NICK ' + username);
+		self.capreq();
 	}
 	capreq() {
 		this.capMembership = false;
